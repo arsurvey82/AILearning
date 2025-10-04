@@ -546,6 +546,389 @@
                 padding: 20px;
             }
         }
+    
+        /* ==================== V3 ENHANCEMENTS ==================== */
+
+        /* AI Sparkle Animation */
+        @keyframes sparkle {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+                filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.6));
+            }
+            25% {
+                transform: scale(1.15) rotate(90deg);
+                opacity: 0.9;
+                filter: drop-shadow(0 0 12px rgba(52, 152, 219, 0.8));
+            }
+            50% {
+                transform: scale(1.25) rotate(180deg);
+                opacity: 0.8;
+                filter: drop-shadow(0 0 16px rgba(52, 152, 219, 1));
+            }
+            75% {
+                transform: scale(1.15) rotate(270deg);
+                opacity: 0.9;
+                filter: drop-shadow(0 0 12px rgba(52, 152, 219, 0.8));
+            }
+        }
+
+        .ai-sparkle {
+            display: inline-block;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        /* Glass Morphism for Visual Demos */
+        .visual-demo {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-demo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Tokenization Animation */
+        .tokenization-demo {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            text-align: center;
+        }
+
+        .token-input {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            animation: fadeIn 1s;
+        }
+
+        .token-arrows {
+            font-size: 2em;
+            color: #3498db;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        .token-output {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .token {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            animation: tokenPop 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .token:nth-child(1) { animation-delay: 0.2s; }
+        .token:nth-child(2) { animation-delay: 0.4s; }
+        .token:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes tokenPop {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Vector Transformation Animation */
+        .vector-demo {
+            background: linear-gradient(135deg, #11998e20 0%, #38ef7d20 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            min-height: 150px;
+        }
+
+        .word-input {
+            font-size: 2em;
+            font-weight: bold;
+            color: #11998e;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .transform-arrow {
+            font-size: 3em;
+            color: #38ef7d;
+            animation: slideRight 2s ease-in-out infinite;
+        }
+
+        @keyframes slideRight {
+            0%, 100% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(20px); opacity: 0.5; }
+        }
+
+        .vector-output {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .vector-numbers {
+            font-family: 'Courier New', monospace;
+            background: rgba(17, 153, 142, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            color: #11998e;
+            font-weight: 600;
+            animation: numberGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes numberGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(17, 153, 142, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(17, 153, 142, 0.6); }
+        }
+
+        /* Embedding Space 3D Visualization */
+        .embedding-demo {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            min-height: 300px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .embedding-space {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3D 20s linear infinite;
+        }
+
+        @keyframes rotate3D {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .vector-point {
+            position: absolute;
+            padding: 10px 20px;
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+            animation: pointPulse 3s ease-in-out infinite;
+        }
+
+        .vector-point[data-word="cat"] {
+            top: 30%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .vector-point[data-word="dog"] {
+            top: 35%;
+            left: 30%;
+            animation-delay: 0.5s;
+        }
+
+        .vector-point[data-word="king"] {
+            top: 60%;
+            left: 50%;
+            animation-delay: 1s;
+        }
+
+        @keyframes pointPulse {
+            0%, 100% {
+                transform: scale(1) translateZ(0);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+            }
+            50% {
+                transform: scale(1.15) translateZ(50px);
+                box-shadow: 0 8px 30px rgba(102, 126, 234, 0.8);
+            }
+        }
+
+        /* Transformer Layers Data Flow */
+        .transformer-demo {
+            background: linear-gradient(135deg, #f093fb20 0%, #f5576c20 100%);
+            padding: 40px 20px;
+        }
+
+        .data-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .layer {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px 60px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.1em;
+            position: relative;
+            animation: layerGlow 2s ease-in-out infinite;
+        }
+
+        .layer:nth-child(even) { animation-delay: 0.5s; }
+
+        @keyframes layerGlow {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(240, 147, 251, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 8px 40px rgba(240, 147, 251, 0.7);
+                transform: scale(1.05);
+            }
+        }
+
+        .flow-arrow {
+            font-size: 2.5em;
+            color: #f5576c;
+            margin: 10px 0;
+            animation: flowDown 1.5s ease-in-out infinite;
+        }
+
+        @keyframes flowDown {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(10px); opacity: 1; }
+        }
+
+        /* Feed Flow Visualization - Right Sidebar */
+        .feed-flow-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 200px;
+            z-index: 1000;
+        }
+
+        .feed-step {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+            transition: all 0.3s;
+            opacity: 0.5;
+        }
+
+        .feed-step.active {
+            opacity: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .feed-icon {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .feed-label {
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .feed-example {
+            font-size: 0.65em;
+            font-family: 'Courier New', monospace;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .feed-connector {
+            text-align: center;
+            color: #3498db;
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        /* New Stage Colors */
+        .flow-stage.text { background: #e3f2fd; color: #2196F3; }
+        .flow-stage.text.active { border-color: #2196F3; }
+
+        .flow-stage.tokenization { background: #e8f5e9; color: #4CAF50; }
+        .flow-stage.tokenization.active { border-color: #4CAF50; }
+
+        .flow-stage.transformer { background: #ffebee; color: #F44336; }
+        .flow-stage.transformer.active { border-color: #F44336; }
+
+        .flow-stage.complete { background: #fce4ec; color: #E91E63; }
+        .flow-stage.complete.active { border-color: #E91E63; }
+
+        .flow-stage.deployment { background: #eceff1; color: #607D8B; }
+        .flow-stage.deployment.active { border-color: #607D8B; }
+
+        /* Stage dots for TOC */
+        .stage-dot.text { background: #2196F3; }
+        .stage-dot.tokenization { background: #4CAF50; }
+        .stage-dot.transformer { background: #F44336; }
+        .stage-dot.complete { background: #E91E63; }
+        .stage-dot.deployment { background: #607D8B; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1200px) {
+            .feed-flow-container {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .visual-demo {
+                padding: 20px 15px;
+            }
+
+            .vector-demo {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .transformer-demo .layer {
+                padding: 15px 30px;
+                font-size: 0.9em;
+            }
+
+            .embedding-space {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1424,6 +1807,17 @@ You're literally making 70 billion numbers smaller!</code></pre>
                 title: "7. From Text to Tokens",
                 content: `
                     <h1>Tokens: Breaking Text Into Chunks</h1>
+                    <div class="visual-demo tokenization-demo">
+                        <h3 style="margin-top: 0;">Watch Tokenization in Action</h3>
+                        <div class="token-input">"The cat sat"</div>
+                        <div class="token-arrows">→</div>
+                        <div class="token-output">
+                            <span class="token">The</span>
+                            <span class="token">cat</span>
+                            <span class="token">sat</span>
+                        </div>
+                    </div>
+
                     
                     <div class="user-question">
                     Now explain those vector numbers, how did they get there? What are tokens and vectors in this context?
@@ -4229,27 +4623,29 @@ RESPONSE: "cat is a small mammal..."</code></pre>
         let totalQuizQuestions = 0;
 
 
-        // Stage mapping
+        // Stage mapping - Restructured learning path
         function getSectionStage(index) {
-            if (index <= 5) return { name: 'Foundations & GGUF', class: 'foundations' };
-            if (index === 6) return { name: 'Tokens', class: 'tokens' };
+            if (index === 6) return { name: 'Text/Words', class: 'text' };
+            if (index === 6) return { name: 'Tokenization', class: 'tokenization' };
             if (index >= 7 && index <= 8) return { name: 'Vectors', class: 'vectors' };
-            if (index === 9) return { name: 'Layers & Transformer', class: 'layers' };
-            if (index >= 10 && index <= 12) return { name: 'Embeddings & Features', class: 'embeddings' };
-            if (index >= 13 && index <= 14) return { name: 'Dimensions & Advanced', class: 'dimensions' };
-            return { name: 'Summary', class: 'summary' };
+            if (index >= 10 && index <= 12 || index === 14) return { name: 'Embeddings', class: 'embeddings' };
+            if (index === 13) return { name: 'Dimensions', class: 'dimensions' };
+            if (index === 9) return { name: 'Transformer', class: 'transformer' };
+            if (index === 15) return { name: 'Complete LLM', class: 'complete' };
+            return { name: 'Deployment', class: 'deployment' };
         }
 
-        // Render learning path flow
+        // Render learning path flow - New order
         function renderLearningPath() {
             const stages = [
-                { name: 'Foundations', class: 'foundations' },
-                { name: 'Tokens', class: 'tokens' },
-                { name: 'Vectors', class: 'vectors' },
-                { name: 'Layers', class: 'layers' },
-                { name: 'Embeddings', class: 'embeddings' },
-                { name: 'Dimensions', class: 'dimensions' },
-                { name: 'Summary', class: 'summary' }
+                { name: 'Text', class: 'text', icon: '📝' },
+                { name: 'Tokenization', class: 'tokenization', icon: '🔤' },
+                { name: 'Vectors', class: 'vectors', icon: '📊' },
+                { name: 'Embeddings', class: 'embeddings', icon: '🔮' },
+                { name: 'Dimensions', class: 'dimensions', icon: '📐' },
+                { name: 'Transformer', class: 'transformer', icon: '⚙️' },
+                { name: 'Complete LLM', class: 'complete', icon: '🤖' },
+                { name: 'Deployment', class: 'deployment', icon: '🚀' }
             ];
 
             const currentStage = getSectionStage(currentSection);
