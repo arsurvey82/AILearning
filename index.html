@@ -84,6 +84,7 @@
             margin-bottom: 20px;
             border-radius: 2px;
             overflow: hidden;
+            z-index: 100;
         }
 
         .progress-fill {
@@ -91,6 +92,226 @@
             background: linear-gradient(90deg, #3498db, #2ecc71);
             transition: width 0.3s;
         }
+
+
+        /* Learning Path Flow */
+        .learning-path-flow {
+            position: sticky;
+            top: 4px;
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 99;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .learning-path-flow h3 {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .flow-stages {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .flow-stage {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.3s;
+            opacity: 0.5;
+            border: 2px solid transparent;
+        }
+
+        .flow-stage.active {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .flow-stage.foundations { background: #e1d4f7; color: #6c3fb5; }
+        .flow-stage.foundations.active { border-color: #6c3fb5; }
+
+        .flow-stage.tokens { background: #d4e4f7; color: #2563eb; }
+        .flow-stage.tokens.active { border-color: #2563eb; }
+
+        .flow-stage.vectors { background: #d4f7e1; color: #059669; }
+        .flow-stage.vectors.active { border-color: #059669; }
+
+        .flow-stage.layers { background: #ffe4cc; color: #ea580c; }
+        .flow-stage.layers.active { border-color: #ea580c; }
+
+        .flow-stage.embeddings { background: #ccf7f3; color: #0d9488; }
+        .flow-stage.embeddings.active { border-color: #0d9488; }
+
+        .flow-stage.dimensions { background: #fce7f3; color: #db2777; }
+        .flow-stage.dimensions.active { border-color: #db2777; }
+
+        .flow-stage.summary { background: #e5e7eb; color: #4b5563; }
+        .flow-stage.summary.active { border-color: #4b5563; }
+
+        .flow-arrow {
+            color: #94a3b8;
+            font-size: 1.2em;
+            margin: 0 5px;
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+            color: #cbd5e1;
+        }
+
+        /* Stage Indicators in TOC */
+        .stage-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .stage-dot.foundations { background: #6c3fb5; }
+        .stage-dot.tokens { background: #2563eb; }
+        .stage-dot.vectors { background: #059669; }
+        .stage-dot.layers { background: #ea580c; }
+        .stage-dot.embeddings { background: #0d9488; }
+        .stage-dot.dimensions { background: #db2777; }
+        .stage-dot.summary { background: #4b5563; }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            color: white;
+        }
+
+        .quiz-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .quiz-question {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .quiz-question h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            border-color: white;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .quiz-option.correct {
+            background: #10b981;
+            border-color: #059669;
+        }
+
+        .quiz-option.incorrect {
+            background: #ef4444;
+            border-color: #dc2626;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #10b981;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #ef4444;
+        }
+
+        .quiz-score {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+
+        .quiz-review-link {
+            color: #fbbf24;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
 
         .section {
             display: none;
@@ -345,6 +566,12 @@
                 <div class="progress-fill" id="progressBar"></div>
             </div>
             
+            <!-- Learning Path Flow -->
+            <div class="learning-path-flow" id="learningPathFlow"></div>
+
+            <!-- Breadcrumb -->
+            <div class="breadcrumb" id="breadcrumb"></div>
+
             <div id="content"></div>
 
             <div class="nav-buttons">
@@ -1553,7 +1780,389 @@ TOTAL: 4096 positions = 4096 dimensions</code></pre>
                 `
             },
             {
-                title: "10. How Vectors Are Learned",
+                title: "10. From Embeddings to Transformer Layers",
+                content: `
+                    <h1>🚀 From Embeddings to Transformer Layers</h1>
+                    
+                    <div class="info-box">
+                    <strong>Great! You understand embeddings.</strong><br>
+                    Now let's see what happens to those 4,096 numbers after the embedding lookup!
+                    </div>
+
+                    <h2>🔄 THE COMPLETE FLOW (Big Picture)</h2>
+
+                    <pre><code>INPUT: "The cat sat on the mat"
+   ↓
+┌─────────────────────────────────────┐
+│ STEP 1: TOKENIZATION               │
+│ "The cat sat" → [1, 2543, 3855]    │
+└─────────────────────────────────────┘
+   ↓
+┌─────────────────────────────────────┐
+│ STEP 2: EMBEDDING LOOKUP            │ ← YOU UNDERSTAND THIS! ✅
+│ Token 1 → [0.234, 0.891, ...]      │
+│ Token 2543 → [0.892, 0.234, ...]   │
+│ Token 3855 → [0.445, -0.678, ...]  │
+└─────────────────────────────────────┘
+   ↓
+┌─────────────────────────────────────┐
+│ STEP 3: TRANSFORMER LAYERS          │ ← WE ARE HERE NOW! 👈
+│ (80 layers of processing)           │
+│ Each layer transforms the vectors   │
+└─────────────────────────────────────┘
+   ↓
+┌─────────────────────────────────────┐
+│ STEP 4: OUTPUT PREDICTION           │
+│ 4096 numbers → Next token           │
+└─────────────────────────────────────┘</code></pre>
+
+                    <h2>📦 STEP 3 ZOOMED IN: What Are Transformer Layers?</h2>
+
+                    <p>After embedding lookup, we have:</p>
+
+                    <pre><code>CURRENT STATE:
+
+"The cat sat"
+   ↓
+3 vectors (one per token), each with 4,096 dimensions
+
+Vector for "The":  [0.234, 0.891, -0.445, ..., 0.567]
+Vector for "cat":  [0.892, 0.234, -0.556, ..., 0.678]
+Vector for "sat":  [0.445, -0.678, 0.123, ..., 0.234]
+
+These vectors now need to be PROCESSED!</code></pre>
+
+                    <h2>🏗️ TRANSFORMER LAYER STRUCTURE</h2>
+
+                    <p>A 70B model has <strong>80 transformer layers</strong> stacked on top of each other.</p>
+
+                    <p>Each layer does the same thing:</p>
+
+                    <pre><code>ONE TRANSFORMER LAYER:
+
+Input: 3 vectors (4096 dimensions each)
+   ↓
+┌────────────────────────────────────┐
+│  PART A: ATTENTION                 │ ← Tokens look at each other
+│  "What context is important?"      │
+└────────────────────────────────────┘
+   ↓
+┌────────────────────────────────────┐
+│  PART B: FEED-FORWARD              │ ← Process each token
+│  "Update my understanding"         │
+└────────────────────────────────────┘
+   ↓
+Output: 3 NEW vectors (still 4096 dimensions each)</code></pre>
+
+                    <p><strong>Then repeat this 80 times!</strong></p>
+
+                    <pre><code>LAYER BY LAYER:
+
+Layer 1:  Understands basic patterns
+Layer 10: Understands grammar
+Layer 30: Understands meaning
+Layer 50: Understands relationships
+Layer 80: Final refined understanding
+
+Each layer makes the vectors "smarter"!</code></pre>
+
+                    <h2>🔍 WHAT HAPPENS IN ONE LAYER: Simple View</h2>
+
+                    <p>Let's trace "cat" through ONE layer:</p>
+
+                    <pre><code>INPUT to Layer 1:
+
+"cat" vector: [0.892, 0.234, -0.556, ..., 0.678]
+                ↑ 4096 numbers
+
+┌─────────────────────────────────────────────────┐
+│              TRANSFORMER LAYER 1                 │
+│                                                  │
+│  STEP A: ATTENTION                              │
+│  - Look at "The" vector                         │
+│  - Look at "sat" vector                         │
+│  - Understand: "cat" is between "The" and "sat" │
+│  - Update "cat" vector with this context        │
+│                                                  │
+│  STEP B: FEED-FORWARD                           │
+│  - Process the updated vector                   │
+│  - Apply learned transformations                │
+│                                                  │
+└─────────────────────────────────────────────────┘
+
+OUTPUT from Layer 1:
+
+"cat" vector: [0.901, 0.245, -0.523, ..., 0.692]
+               ↑ 4096 numbers (slightly different!)
+
+The numbers changed! The vector now contains:
+- Original "cat" meaning
++ Context from surrounding words</code></pre>
+
+                    <h2>🎯 THE KEY INSIGHT: Vectors Keep Evolving</h2>
+
+                    <pre><code>TRACKING "cat" THROUGH ALL LAYERS:
+
+After Embedding:     [0.892, 0.234, -0.556, ...]  "raw cat"
+After Layer 1:       [0.901, 0.245, -0.523, ...]  "cat near The"
+After Layer 10:      [0.887, 0.256, -0.534, ...]  "cat as subject"
+After Layer 30:      [0.895, 0.267, -0.512, ...]  "cat that sat"
+After Layer 80:      [0.903, 0.278, -0.501, ...]  "fully contextualized cat"
+
+Each layer refines the understanding!</code></pre>
+
+                    <h2>📊 WHERE ARE THE WEIGHT MATRICES?</h2>
+
+                    <p>Remember weight matrices? <strong>They live in each transformer layer!</strong></p>
+
+                    <pre><code>ONE TRANSFORMER LAYER HAS MULTIPLE MATRICES:
+
+┌──────────────────────────────────────────┐
+│         TRANSFORMER LAYER                │
+│                                          │
+│  ATTENTION PART:                         │
+│  ├─ Q Matrix (Query):    4096 × 4096    │ ← 16.7M weights
+│  ├─ K Matrix (Key):      4096 × 4096    │ ← 16.7M weights
+│  ├─ V Matrix (Value):    4096 × 4096    │ ← 16.7M weights
+│  └─ O Matrix (Output):   4096 × 4096    │ ← 16.7M weights
+│                                          │
+│  FEED-FORWARD PART:                      │
+│  ├─ Up Matrix:          4096 × 11008    │ ← 45M weights
+│  └─ Down Matrix:        11008 × 4096    │ ← 45M weights
+│                                          │
+│  Total per layer: ~155 million weights  │
+└──────────────────────────────────────────┘
+
+80 layers × 155M = ~12.4 billion weights just in layers!</code></pre>
+
+                    <h2>🔢 HOW MATRICES PROCESS VECTORS</h2>
+
+                    <p>This is where <strong>matrix multiplication</strong> happens:</p>
+
+                    <h3>Simple Example (tiny numbers for clarity):</h3>
+
+                    <pre><code>Input vector:     [0.892, 0.234, -0.556, 0.123]  (4 dims)
+                           ×
+Weight Matrix Q:  [0.5   0.2   -0.3   0.1  ]    (4×4)
+                  [0.1   0.6    0.2  -0.4  ]
+                  [-0.2  0.3    0.5   0.2  ]
+                  [0.4  -0.1    0.1   0.7  ]
+                           =
+Output vector:    [0.345, 0.123, -0.234, 0.456]  (4 dims)
+
+The matrix "transforms" the vector!</code></pre>
+
+                    <h3>In real models:</h3>
+
+                    <pre><code>Input vector:     4096 numbers
+                           ×
+Weight Matrix:    4096 × 4096 = 16.7 million weights
+                           =
+Output vector:    4096 numbers (transformed)</code></pre>
+
+                    <h2>🎨 VISUAL: ONE LAYER PROCESSING</h2>
+
+                    <pre><code>                "The"         "cat"        "sat"
+                  ↓             ↓            ↓
+               [4096]        [4096]       [4096]  ← Input vectors
+                  ↓             ↓            ↓
+         ┌────────────────────────────────────┐
+         │     ATTENTION (Self-Attention)     │
+         │                                    │
+         │  Each vector looks at ALL vectors  │
+         │  and updates itself                │
+         │                                    │
+         │  Q Matrix: [4096×4096]            │
+         │  K Matrix: [4096×4096]            │
+         │  V Matrix: [4096×4096]            │
+         │  O Matrix: [4096×4096]            │
+         └────────────────────────────────────┘
+                  ↓             ↓            ↓
+               [4096]        [4096]       [4096]  ← Updated vectors
+                  ↓             ↓            ↓
+         ┌────────────────────────────────────┐
+         │      FEED-FORWARD                  │
+         │                                    │
+         │  Process each vector individually  │
+         │                                    │
+         │  Up Matrix:   [4096×11008]        │
+         │  Down Matrix: [11008×4096]        │
+         └────────────────────────────────────┘
+                  ↓             ↓            ↓
+               [4096]        [4096]       [4096]  ← Layer output
+                  ↓             ↓            ↓
+              TO NEXT LAYER (repeat 79 more times!)</code></pre>
+
+                    <h2>🧮 WHAT DO THESE MATRICES DO?</h2>
+
+                    <h3>Attention Matrices (Q, K, V, O):</h3>
+
+                    <div class="info-box">
+                    <strong>PURPOSE: Let tokens "talk" to each other</strong>
+
+                    <pre><code>Example:
+"The cat sat on the mat"
+
+When processing "cat":
+- Query (Q): "What am I looking for?"
+- Key (K):   "What information do I have?"
+- Value (V): "What information should I use?"
+- Output (O): "Combine everything together"
+
+Result: "cat" learns it's:
+- After "The" (definite article)
+- Before "sat" (the cat is doing the sitting)
+- Subject of the sentence</code></pre>
+                    </div>
+
+                    <h3>Feed-Forward Matrices:</h3>
+
+                    <div class="success-box">
+                    <strong>PURPOSE: Process and refine each token individually</strong>
+
+                    <pre><code>Example:
+After attention, "cat" knows its context.
+Feed-forward then:
+- Extracts features
+- Applies learned patterns
+- Refines the representation
+
+Think: "Now that I know context, update my understanding"</code></pre>
+                    </div>
+
+                    <h2>📈 COMPLETE EXAMPLE: "The cat sat"</h2>
+
+                    <pre><code>STEP-BY-STEP THROUGH ONE LAYER:
+
+INPUT:
+Token "The":  [0.234, 0.891, -0.445, ..., 0.567]
+Token "cat":  [0.892, 0.234, -0.556, ..., 0.678]
+Token "sat":  [0.445, -0.678, 0.123, ..., 0.234]
+
+ATTENTION:
+- "The" looks at "cat" and "sat"
+- "cat" looks at "The" and "sat"  ← notices it's between them
+- "sat" looks at "The" and "cat"
+
+Each vector updates based on what it sees!
+
+AFTER ATTENTION:
+Token "The":  [0.245, 0.903, -0.432, ..., 0.578]
+Token "cat":  [0.901, 0.245, -0.523, ..., 0.692] ← changed!
+Token "sat":  [0.456, -0.665, 0.134, ..., 0.245]
+
+FEED-FORWARD:
+Each vector goes through Up Matrix → Down Matrix
+
+AFTER FEED-FORWARD (Layer 1 output):
+Token "The":  [0.256, 0.915, -0.421, ..., 0.589]
+Token "cat":  [0.913, 0.256, -0.512, ..., 0.703]
+Token "sat":  [0.467, -0.654, 0.145, ..., 0.256]
+
+These go to Layer 2!</code></pre>
+
+                    <h2>🎯 How All 80 Layers Work Together</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Layer Range</th>
+                                <th>What It Learns</th>
+                                <th>Example for "cat"</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Layers 1-10</strong></td>
+                                <td>Basic patterns, syntax</td>
+                                <td>"cat" is a noun, comes after "The"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layers 11-30</strong></td>
+                                <td>Grammar, structure</td>
+                                <td>"cat" is the subject, "sat" is the verb</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layers 31-50</strong></td>
+                                <td>Meaning, semantics</td>
+                                <td>"cat" is an animal that can sit</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layers 51-70</strong></td>
+                                <td>Relationships, context</td>
+                                <td>"cat" sitting on "mat" is a common scenario</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Layers 71-80</strong></td>
+                                <td>Final refinement</td>
+                                <td>Complete understanding ready for prediction</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>💡 Key Insights</h2>
+
+                    <div class="critical-box">
+                    <strong>Understanding Transformer Layers:</strong><br><br>
+
+                    <strong>1. Vectors are NOT static</strong><br>
+                    They change at every layer, accumulating context and understanding<br><br>
+
+                    <strong>2. Each layer has millions of weights</strong><br>
+                    ~155 million per layer × 80 layers = 12.4 billion weights<br><br>
+
+                    <strong>3. Attention is the secret sauce</strong><br>
+                    It lets tokens understand their relationship to other tokens<br><br>
+
+                    <strong>4. Progressive refinement</strong><br>
+                    Early layers: syntax → Middle layers: meaning → Late layers: context<br><br>
+
+                    <strong>5. Same structure, repeated</strong><br>
+                    Each of the 80 layers has the same structure, but different learned weights
+                    </div>
+
+                    <h2>✅ Check Your Understanding</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Question</th>
+                                <th>Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>After embedding lookup, where do vectors go?</td>
+                                <td>Through transformer layers (80 of them)</td>
+                            </tr>
+                            <tr>
+                                <td>What does each transformer layer do?</td>
+                                <td>Attention (look at context) + Feed-forward (process)</td>
+                            </tr>
+                            <tr>
+                                <td>Do the vectors stay the same through layers?</td>
+                                <td>No! They evolve and refine at each layer</td>
+                            </tr>
+                            <tr>
+                                <td>How many weights in one transformer layer?</td>
+                                <td>~155 million (Q, K, V, O, Up, Down matrices)</td>
+                            </tr>
+                            <tr>
+                                <td>What is attention for?</td>
+                                <td>Letting tokens understand their context from other tokens</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="success-box">
+                    <strong>🎉 You now understand the complete flow!</strong><br><br>
+                    Embeddings → Transformer Layers → Refined Understanding<br><br>
+                    Next, we'll see how these refined vectors become predictions!
+                    </div>
+                `
+            },
+            {
+                title: "11. How Vectors Are Learned",
                 content: `
                     <h1>How Did Those Numbers Get There?</h1>
                     
@@ -3343,13 +3952,477 @@ RESPONSE: "cat is a small mammal..."</code></pre>
             }
         ];
 
+
+        // Quiz data for each section
+        const sectionQuizzes = [
+            { // Section 0: Running LLMs Locally
+                questions: [
+                    {
+                        question: "What file format is commonly used for running LLMs locally?",
+                        options: ["PDF", "GGUF", "MP4", "DOC"],
+                        correct: 1,
+                        explanation: "GGUF (GPT-Generated Unified Format) is the standard format for quantized models used in local LLM deployment."
+                    },
+                    {
+                        question: "Which tool is recommended for beginners to run LLMs with a GUI?",
+                        options: ["Command Prompt", "LM Studio", "Notepad", "PowerPoint"],
+                        correct: 1,
+                        explanation: "LM Studio provides an easy-to-use graphical interface perfect for beginners."
+                    },
+                    {
+                        question: "What is llama.cpp primarily used for?",
+                        options: ["Image editing", "Running LLMs with maximum control", "Creating documents", "Playing games"],
+                        correct: 1,
+                        explanation: "llama.cpp is a C++ library that provides maximum control for running LLMs."
+                    }
+                ]
+            },
+            { // Section 1: LLM Tools
+                questions: [
+                    {
+                        question: "What are tools like LM Studio and Ollama called?",
+                        options: ["Video players", "LLM inference engines", "Text editors", "Web browsers"],
+                        correct: 1,
+                        explanation: "These are LLM inference engines - software that runs language models locally."
+                    },
+                    {
+                        question: "Which inference engine does Ollama use under the hood?",
+                        options: ["PowerPoint", "llama.cpp", "Excel", "Adobe Reader"],
+                        correct: 1,
+                        explanation: "Ollama is built on top of llama.cpp but provides a simpler interface."
+                    }
+                ]
+            },
+            { // Section 2: Enterprise vs Personal
+                questions: [
+                    {
+                        question: "What is the main advantage of quantized models for personal use?",
+                        options: ["Better quality", "Smaller file sizes", "Faster internet", "More colors"],
+                        correct: 1,
+                        explanation: "Quantization reduces file size significantly, making models runnable on consumer hardware."
+                    },
+                    {
+                        question: "Which format do enterprises typically use?",
+                        options: ["Q4_K_M (4-bit quantized)", "FP16 or FP32 (full precision)", "MP3", "JPEG"],
+                        correct: 1,
+                        explanation: "Enterprises use full-precision models (FP16/FP32) for maximum quality."
+                    }
+                ]
+            },
+            { // Section 3: Floating Point
+                questions: [
+                    {
+                        question: "What does FP32 stand for?",
+                        options: ["Fast Processing 32", "32-bit floating point", "File Protocol 32", "Folder Path 32"],
+                        correct: 1,
+                        explanation: "FP32 means 32-bit floating point - a way to store decimal numbers."
+                    },
+                    {
+                        question: "How many bytes does an FP16 number use?",
+                        options: ["1 byte", "2 bytes", "4 bytes", "8 bytes"],
+                        correct: 1,
+                        explanation: "FP16 uses 16 bits = 2 bytes per number."
+                    }
+                ]
+            },
+            { // Section 4: Quantization
+                questions: [
+                    {
+                        question: "What is the primary purpose of quantization?",
+                        options: ["Make models slower", "Reduce memory usage", "Add more features", "Change colors"],
+                        correct: 1,
+                        explanation: "Quantization reduces precision to save memory, making models smaller and faster."
+                    },
+                    {
+                        question: "What does Q4 in Q4_K_M represent?",
+                        options: ["4 layers", "4-bit quantization", "4 gigabytes", "4 questions"],
+                        correct: 1,
+                        explanation: "Q4 means the model uses 4-bit quantization for its weights."
+                    }
+                ]
+            },
+            { // Section 5: What Gets Quantized
+                questions: [
+                    {
+                        question: "What parts of the model get quantized?",
+                        options: ["The file name", "The weights/parameters", "The user interface", "The monitor"],
+                        correct: 1,
+                        explanation: "Quantization affects the billions of weight parameters that make up the model."
+                    },
+                    {
+                        question: "In a 70B parameter model, what does the 70B represent?",
+                        options: ["70 bytes", "70 billion weights", "70 bits", "70 badges"],
+                        correct: 1,
+                        explanation: "70B means 70 billion parameters (weights) in the model."
+                    }
+                ]
+            },
+            { // Section 6: Tokens
+                questions: [
+                    {
+                        question: "What is a token in the context of LLMs?",
+                        options: ["A password", "A piece of text that the model processes", "A coin", "A badge"],
+                        correct: 1,
+                        explanation: "Tokens are chunks of text (words, subwords, or characters) that LLMs process."
+                    },
+                    {
+                        question: "What happens during tokenization?",
+                        options: ["Text is deleted", "Text is broken into tokens and assigned IDs", "Text is printed", "Text is colored"],
+                        correct: 1,
+                        explanation: "Tokenization converts text into tokens, each with a unique numeric ID."
+                    }
+                ]
+            },
+            { // Section 7: Vectors
+                questions: [
+                    {
+                        question: "In AI/ML, what is a vector?",
+                        options: ["An arrow", "A list of numbers", "A type of virus", "A direction"],
+                        correct: 1,
+                        explanation: "In AI, a vector is simply a list of numbers, not a physical arrow."
+                    },
+                    {
+                        question: "What does a 4096-dimensional vector have?",
+                        options: ["4096 arrows", "4096 numbers in the list", "4096 colors", "4096 words"],
+                        correct: 1,
+                        explanation: "A 4096-dimensional vector contains 4096 numbers."
+                    }
+                ]
+            },
+            { // Section 8: Tokens to Vectors
+                questions: [
+                    {
+                        question: "How does a token ID become a vector?",
+                        options: ["It stays as a number", "It looks up its row in the embedding table", "It gets deleted", "It prints out"],
+                        correct: 1,
+                        explanation: "The token ID is used to look up the corresponding vector in the embedding table."
+                    },
+                    {
+                        question: "What is an embedding table?",
+                        options: ["A dining table", "A matrix mapping token IDs to vectors", "A database", "A chart"],
+                        correct: 1,
+                        explanation: "The embedding table is a matrix where each row is a vector for a specific token."
+                    }
+                ]
+            },
+            { // Section 9: Transformer Layers
+                questions: [
+                    {
+                        question: "What do transformer layers do to embeddings?",
+                        options: ["Delete them", "Transform and refine them through neural network layers", "Print them", "Color them"],
+                        correct: 1,
+                        explanation: "Transformer layers progressively transform embeddings to understand context and relationships."
+                    },
+                    {
+                        question: "How many layers does Llama 2 70B have?",
+                        options: ["10 layers", "40 layers", "80 layers", "120 layers"],
+                        correct: 2,
+                        explanation: "Llama 2 70B has 80 transformer layers."
+                    }
+                ]
+            },
+            { // Section 10: How Vectors Are Learned
+                questions: [
+                    {
+                        question: "How are embedding values learned?",
+                        options: ["Manually typed in", "Learned from training data", "Generated randomly", "Copied from internet"],
+                        correct: 1,
+                        explanation: "Embedding values are learned during training by seeing billions of examples."
+                    }
+                ]
+            },
+            { // Section 11: Why Sentences Matter
+                questions: [
+                    {
+                        question: "Why can\'t we train on individual words alone?",
+                        options: ["Too boring", "Words need context to learn meaning", "Not enough memory", "Too fast"],
+                        correct: 1,
+                        explanation: "Words get their meaning from context - how they\'re used with other words in sentences."
+                    }
+                ]
+            },
+            { // Section 12: What 4096 Numbers Represent
+                questions: [
+                    {
+                        question: "What do the 4096 numbers in an embedding represent?",
+                        options: ["Random values", "Learned characteristics and features", "Phone numbers", "Dates"],
+                        correct: 1,
+                        explanation: "Each number represents a learned characteristic or feature about the word."
+                    }
+                ]
+            },
+            { // Section 13: How Features Emerge
+                questions: [
+                    {
+                        question: "How are features in embeddings defined?",
+                        options: ["Programmers manually define them", "They emerge automatically during training", "Users select them", "They are random"],
+                        correct: 1,
+                        explanation: "Features emerge automatically - the model discovers them during training."
+                    }
+                ]
+            },
+            { // Section 14: Dimension vs Matrix
+                questions: [
+                    {
+                        question: "What is dimensionality?",
+                        options: ["The size of the file", "The number of values in a vector", "The number of words", "The file format"],
+                        correct: 1,
+                        explanation: "Dimensionality is the count of numbers in a vector (e.g., 4096-dimensional = 4096 numbers)."
+                    }
+                ]
+            },
+            { // Section 15: What is Embedding
+                questions: [
+                    {
+                        question: "What is an embedding?",
+                        options: ["A type of file", "A numerical representation of text in vector form", "A programming language", "A database"],
+                        correct: 1,
+                        explanation: "An embedding is the numerical representation of text as a vector of numbers."
+                    }
+                ]
+            },
+            { // Section 16: Advanced Concepts
+                questions: [
+                    {
+                        question: "What does attention mechanism in transformers do?",
+                        options: ["Makes the model focus", "Determines which tokens to focus on when processing context", "Deletes data", "Adds colors"],
+                        correct: 1,
+                        explanation: "Attention allows the model to focus on relevant parts of the input when processing."
+                    }
+                ]
+            },
+            { // Section 17: AI Terms
+                questions: [
+                    {
+                        question: "Which category does \'Vector\' belong to?",
+                        options: ["Data Representation", "Data Structure", "Data Content", "Property"],
+                        correct: 1,
+                        explanation: "Vector is a data structure - it\'s the shape/organization of the data (list of numbers)."
+                    }
+                ]
+            },
+            { // Section 18: Summary
+                questions: [
+                    {
+                        question: "What is the complete flow from text to LLM output?",
+                        options: [
+                            "Text → Print → Done",
+                            "Text → Token → Embedding → Transformer Layers → Output",
+                            "Text → Save → Exit",
+                            "Text → Delete → Restart"
+                        ],
+                        correct: 1,
+                        explanation: "The flow is: Text → Tokenization → Embedding Lookup → Transformer Processing → Output Generation."
+                    },
+                    {
+                        question: "What\'s the recommended quantization level for personal use?",
+                        options: ["Q2", "Q4_K_M or Q5_K_M", "FP32", "Q8"],
+                        correct: 1,
+                        explanation: "Q4_K_M or Q5_K_M offers the best balance of quality and size for personal use."
+                    }
+                ]
+            }
+        ];
+
+        // Track quiz scores
+        let totalQuizScore = 0;
+        let totalQuizQuestions = 0;
+
+
+        // Stage mapping
+        function getSectionStage(index) {
+            if (index <= 5) return { name: 'Foundations & GGUF', class: 'foundations' };
+            if (index === 6) return { name: 'Tokens', class: 'tokens' };
+            if (index >= 7 && index <= 8) return { name: 'Vectors', class: 'vectors' };
+            if (index === 9) return { name: 'Layers & Transformer', class: 'layers' };
+            if (index >= 10 && index <= 12) return { name: 'Embeddings & Features', class: 'embeddings' };
+            if (index >= 13 && index <= 14) return { name: 'Dimensions & Advanced', class: 'dimensions' };
+            return { name: 'Summary', class: 'summary' };
+        }
+
+        // Render learning path flow
+        function renderLearningPath() {
+            const stages = [
+                { name: 'Foundations', class: 'foundations' },
+                { name: 'Tokens', class: 'tokens' },
+                { name: 'Vectors', class: 'vectors' },
+                { name: 'Layers', class: 'layers' },
+                { name: 'Embeddings', class: 'embeddings' },
+                { name: 'Dimensions', class: 'dimensions' },
+                { name: 'Summary', class: 'summary' }
+            ];
+
+            const currentStage = getSectionStage(currentSection);
+
+            let html = '<h3>Your Learning Journey</h3><div class="flow-stages">';
+            stages.forEach((stage, index) => {
+                if (index > 0) {
+                    html += '<span class="flow-arrow">→</span>';
+                }
+                const isActive = stage.class === currentStage.class ? 'active' : '';
+                html += `<div class="flow-stage ${stage.class} ${isActive}">${stage.name}</div>`;
+            });
+            html += '</div>';
+
+            document.getElementById('learningPathFlow').innerHTML = html;
+        }
+
+        // Render breadcrumb
+        function renderBreadcrumb() {
+            const stage = getSectionStage(currentSection);
+            const sectionTitle = sections[currentSection].title;
+
+            const html = `
+                <a href="#" onclick="showSection(0); return false;">Home</a>
+                <span class="breadcrumb-separator">›</span>
+                <span style="font-weight: 600;">${stage.name}</span>
+                <span class="breadcrumb-separator">›</span>
+                <span>${sectionTitle}</span>
+            `;
+
+            document.getElementById('breadcrumb').innerHTML = html;
+        }
+
+        // Generate quiz HTML
+        function generateQuiz(sectionIndex) {
+            const quiz = sectionQuizzes[sectionIndex];
+            if (!quiz || !quiz.questions || quiz.questions.length === 0) return '';
+
+            let html = `
+                <div class="quiz-section">
+                    <h3>✏️ Test Your Knowledge</h3>
+            `;
+
+            quiz.questions.forEach((q, qIndex) => {
+                html += `
+                    <div class="quiz-question" id="quiz-${sectionIndex}-${qIndex}">
+                        <h4>Question ${qIndex + 1}: ${q.question}</h4>
+                        <div class="quiz-options">
+                `;
+
+                q.options.forEach((option, oIndex) => {
+                    html += `
+                        <div class="quiz-option" onclick="selectQuizOption(${sectionIndex}, ${qIndex}, ${oIndex})">
+                            ${option}
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                        <div class="quiz-feedback" id="feedback-${sectionIndex}-${qIndex}"></div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    <div class="quiz-score" id="quiz-score-${sectionIndex}">
+                        Score: 0/${quiz.questions.length} | Total Progress: <span id="total-score-display">0/0</span>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // Handle quiz option selection
+        function selectQuizOption(sectionIndex, questionIndex, selectedOption) {
+            const quiz = sectionQuizzes[sectionIndex];
+            const question = quiz.questions[questionIndex];
+            const questionDiv = document.getElementById(`quiz-${sectionIndex}-${questionIndex}`);
+            const feedback = document.getElementById(`feedback-${sectionIndex}-${questionIndex}`);
+            const options = questionDiv.querySelectorAll('.quiz-option');
+
+            // Clear previous selections
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            // Mark selected option
+            options[selectedOption].classList.add('selected');
+
+            // Check if correct
+            const isCorrect = selectedOption === question.correct;
+
+            if (isCorrect) {
+                options[selectedOption].classList.add('correct');
+                feedback.className = 'quiz-feedback correct show';
+                feedback.innerHTML = '✓ Correct! Great job! ' + question.explanation;
+
+                // Update score (only count once per question)
+                if (!questionDiv.dataset.answered) {
+                    totalQuizScore++;
+                    questionDiv.dataset.answered = 'true';
+                }
+            } else {
+                options[selectedOption].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
+                feedback.className = 'quiz-feedback incorrect show';
+                feedback.innerHTML = '✗ Not quite. ' + question.explanation + ' <a class="quiz-review-link" href="#" onclick="scrollToTop(); return false;">Review the section above</a>';
+
+                questionDiv.dataset.answered = 'true';
+            }
+
+            totalQuizQuestions = Math.max(totalQuizQuestions, getSectionQuestionCount(sectionIndex));
+            updateQuizScore(sectionIndex);
+        }
+
+        // Get question count for a section
+        function getSectionQuestionCount(sectionIndex) {
+            let count = 0;
+            for (let i = 0; i <= sectionIndex; i++) {
+                if (sectionQuizzes[i] && sectionQuizzes[i].questions) {
+                    count += sectionQuizzes[i].questions.length;
+                }
+            }
+            return count;
+        }
+
+        // Update quiz score display
+        function updateQuizScore(sectionIndex) {
+            const quiz = sectionQuizzes[sectionIndex];
+            let sectionScore = 0;
+
+            quiz.questions.forEach((q, qIndex) => {
+                const questionDiv = document.getElementById(`quiz-${sectionIndex}-${qIndex}`);
+                if (questionDiv && questionDiv.dataset.answered) {
+                    const feedback = document.getElementById(`feedback-${sectionIndex}-${qIndex}`);
+                    if (feedback.classList.contains('correct')) {
+                        sectionScore++;
+                    }
+                }
+            });
+
+            const scoreDiv = document.getElementById(`quiz-score-${sectionIndex}`);
+            if (scoreDiv) {
+                scoreDiv.innerHTML = `
+                    Score: ${sectionScore}/${quiz.questions.length} |
+                    Total Progress: <span id="total-score-display">${totalQuizScore}/${totalQuizQuestions}</span>
+                `;
+            }
+        }
+
+        function scrollToTop() {
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
         function renderTOC() {
             const toc = document.getElementById('toc');
             sections.forEach((section, index) => {
                 const item = document.createElement('div');
                 item.className = 'toc-item';
                 if (index === 0) item.classList.add('active');
-                item.textContent = section.title;
+
+                // Add stage dot
+                const stage = getSectionStage(index);
+                const dot = document.createElement('span');
+                dot.className = `stage-dot ${stage.class}`;
+                item.appendChild(dot);
+
+                // Add text node
+                const text = document.createTextNode(section.title);
+                item.appendChild(text);
+
                 item.onclick = () => showSection(index);
                 toc.appendChild(item);
             });
