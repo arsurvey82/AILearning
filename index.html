@@ -643,7 +643,7 @@
     <div class="container">
         <!-- LEFT SIDEBAR: Category Navigation -->
         <div class="sidebar-left">
-            <h1>🤖 LLM Learning Guide</h1>
+            <h1>✨ LLM Learning Guide</h1>
             <p class="subtitle">From Zero to Understanding AI</p>
 
             <div id="categoryNav" class="category-nav">
@@ -677,6 +677,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                   backdrop-filter: blur(10px);
+                   padding: 20px;
+                   text-align: center;
+                   margin-top: 40px;
+                   border-top: 2px solid rgba(102, 126, 234, 0.3);
+                   border-radius: 12px;">
+        <p style="margin: 0; color: #666; font-size: 14px;">
+            © 2025 <strong>Arul Selvan</strong> | LLM Learning Guide
+        </p>
+        <p style="margin: 5px 0 0 0; color: #999; font-size: 12px;">
+            Created with ✨ and Claude Code |
+            <a href="https://github.com/arsurvey82/AILearning" target="_blank" style="color: #667eea; text-decoration: none;">View on GitHub</a>
+        </p>
+    </footer>
 
     <script>
         // Section data structure - will be filled in phases 2-9
@@ -2659,6 +2676,506 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         options: ["Less than 5%", "About 10-20%", "30-50%", "Over 80%"],
                         correct: 2,
                         explanation: "The embedding table typically contains 30-50% of all model parameters! For GPT-2, the embedding table has ~39M params out of ~124M total (31%). It's huge!"
+                    }
+                ]
+            },
+
+            // ============================================
+            // PART 5: TRANSFORMER BLOCKS (Sections 11-13)
+            // ============================================
+            {
+                id: 11,
+                title: "Self-Attention Mechanism",
+                category: 5,
+                content: `
+                    <h1>Self-Attention: How AI Sees Connections</h1>
+
+                    <p class="lead">Self-attention is the BREAKTHROUGH that made modern AI possible. It lets the model figure out which words are related to which other words - automatically!</p>
+
+                    <svg class="flow-diagram" width="100%" height="340" viewBox="0 0 850 340">
+                        <!-- Input sentence -->
+                        <g>
+                            <text x="425" y="30" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Input: "The cat sat on the mat"</text>
+                        </g>
+
+                        <!-- Word embeddings -->
+                        <g>
+                            <rect x="100" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="140" y="90" text-anchor="middle" font-size="14" fill="#1565C0">The</text>
+
+                            <rect x="220" y="60" width="80" height="50" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="260" y="90" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">cat</text>
+
+                            <rect x="340" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="380" y="90" text-anchor="middle" font-size="14" fill="#1565C0">sat</text>
+
+                            <rect x="460" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="500" y="90" text-anchor="middle" font-size="14" fill="#1565C0">on</text>
+
+                            <rect x="580" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="620" y="90" text-anchor="middle" font-size="14" fill="#1565C0">the</text>
+
+                            <rect x="700" y="60" width="80" height="50" rx="8" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
+                            <text x="740" y="90" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">mat</text>
+                        </g>
+
+                        <!-- Attention mechanism -->
+                        <text x="425" y="145" text-anchor="middle" font-size="14" fill="#9C27B0" font-weight="bold">Attention: Which words relate to "cat"?</text>
+
+                        <!-- Attention arrows from cat -->
+                        <g>
+                            <!-- Weak attention to "The" -->
+                            <path d="M 260 110 L 140 130" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
+                            <text x="200" y="115" font-size="11" fill="#999">0.1</text>
+
+                            <!-- Strong attention to "sat" -->
+                            <path d="M 270 110 L 370 130" stroke="#FF9800" stroke-width="4" opacity="0.8" marker-end="url(#arrowA2)">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <text x="320" y="115" font-size="12" fill="#FF9800" font-weight="bold">0.8</text>
+
+                            <!-- Medium attention to "on" -->
+                            <path d="M 280 110 L 490 130" stroke="#2196F3" stroke-width="2" opacity="0.6" marker-end="url(#arrowA3)"/>
+                            <text x="385" y="115" font-size="11" fill="#2196F3">0.4</text>
+
+                            <!-- Weak attention to "the" -->
+                            <path d="M 290 110 L 610 130" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
+                            <text x="450" y="115" font-size="11" fill="#999">0.1</text>
+
+                            <!-- Strong attention to "mat" -->
+                            <path d="M 300 110 L 730 130" stroke="#4CAF50" stroke-width="4" opacity="0.8" marker-end="url(#arrowA4)">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                            </path>
+                            <text x="515" y="115" font-size="12" fill="#4CAF50" font-weight="bold">0.7</text>
+                        </g>
+
+                        <!-- Output embeddings -->
+                        <g>
+                            <text x="425" y="180" text-anchor="middle" font-size="13" fill="#666">Updated embedding for "cat" (context-aware!)</text>
+
+                            <rect x="200" y="200" width="450" height="100" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
+                            <text x="425" y="230" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">New "cat" vector combines:</text>
+                            <text x="425" y="255" text-anchor="middle" font-size="12" fill="#7B1FA2">• Original "cat" meaning</text>
+                            <text x="425" y="275" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "sat" (action)</text>
+                            <text x="425" y="295" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "mat" (location)</text>
+                        </g>
+
+                        <defs>
+                            <marker id="arrowA1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#999"/>
+                            </marker>
+                            <marker id="arrowA2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#FF9800"/>
+                            </marker>
+                            <marker id="arrowA3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#2196F3"/>
+                            </marker>
+                            <marker id="arrowA4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4CAF50"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                    <h2>What is Self-Attention?</h2>
+                    <p><strong>Self-attention</strong> lets each word look at all other words in the sentence and decide which ones are important for understanding it:</p>
+
+                    <div class="info-box">
+                        <p><strong>The Problem It Solves:</strong></p>
+                        <p>Without attention, each word's embedding is static - "bank" always has the same vector. But "bank" means different things in different contexts:</p>
+                        <ul>
+                            <li>"I went to the <strong>bank</strong>" (financial institution)</li>
+                            <li>"River <strong>bank</strong>" (side of river)</li>
+                        </ul>
+                        <p>Attention lets the model adjust each word's representation based on context!</p>
+                    </div>
+
+                    <h2>How Self-Attention Works</h2>
+                    <p>For each word, the model computes three vectors: <strong>Query (Q)</strong>, <strong>Key (K)</strong>, and <strong>Value (V)</strong>:</p>
+
+                    <pre><code># For the word "cat" with embedding [0.8, 0.3, -0.5, ...]
+
+Q = Query  = W_Q @ embedding  # "What am I looking for?"
+K = Key    = W_K @ embedding  # "What do I offer?"
+V = Value  = W_V @ embedding  # "What information do I contain?"
+
+# W_Q, W_K, W_V are learned weight matrices</code></pre>
+
+                    <h2>The Attention Calculation</h2>
+                    <p>Three simple steps:</p>
+
+                    <div class="warning-box">
+                        <p><strong>Step 1: Calculate Similarity Scores</strong></p>
+                        <pre><code># How similar is "cat" to each word?
+score_with_sat = Q_cat • K_sat  # Dot product
+score_with_mat = Q_cat • K_mat
+# ... for all words</code></pre>
+
+                        <p><strong>Step 2: Normalize with Softmax</strong></p>
+                        <pre><code># Convert to probabilities (sum = 1.0)
+attention_weights = softmax([scores...])
+# Example: [0.1, 0.8, 0.4, 0.1, 0.7]</code></pre>
+
+                        <p><strong>Step 3: Weighted Sum of Values</strong></p>
+                        <pre><code># Combine information from all words
+output = 0.1*V_The + 0.8*V_sat + 0.4*V_on + 0.1*V_the + 0.7*V_mat
+# Result: context-aware embedding for "cat"!</code></pre>
+                    </div>
+
+                    <h2>Real Example with Numbers</h2>
+                    <pre><code>Input: "cat sat mat"
+Embeddings: Each word → 4D vector
+
+cat = [1, 0, 0, 0]
+sat = [0, 1, 0, 0]
+mat = [0, 0, 1, 0]
+
+# For "cat", calculate attention to all words:
+Scores:  [cat·cat, cat·sat, cat·mat] = [1.0, 0.3, 0.8]
+Softmax: [0.35, 0.15, 0.50]  # Normalized weights
+
+# New context-aware "cat" embedding:
+output = 0.35*[1,0,0,0] + 0.15*[0,1,0,0] + 0.50*[0,0,1,0]
+       = [0.35, 0.15, 0.50, 0]
+
+# Now "cat" embedding includes context from "sat" and "mat"!</code></pre>
+
+                    <h2>Why It's Called "Self"-Attention</h2>
+                    <div class="success-box">
+                        <p><strong>"Self" means the sentence attends to itself!</strong></p>
+                        <ul>
+                            <li>Each word looks at <strong>every other word</strong> in the SAME sentence</li>
+                            <li>No external information needed</li>
+                            <li>The model learns which words relate to which automatically</li>
+                        </ul>
+                    </div>
+
+                    <h2>Attention Weights Visualization</h2>
+                    <p>Researchers often visualize attention as a heatmap:</p>
+
+                    <svg width="100%" height="280" viewBox="0 0 600 280">
+                        <!-- Heatmap grid -->
+                        <text x="300" y="25" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Attention Heatmap: What "cat" attends to</text>
+
+                        <!-- Column headers -->
+                        <text x="180" y="65" text-anchor="middle" font-size="12" fill="#666">The</text>
+                        <text x="250" y="65" text-anchor="middle" font-size="12" fill="#666">cat</text>
+                        <text x="320" y="65" text-anchor="middle" font-size="12" fill="#666">sat</text>
+                        <text x="390" y="65" text-anchor="middle" font-size="12" fill="#666">on</text>
+                        <text x="460" y="65" text-anchor="middle" font-size="12" fill="#666">the</text>
+                        <text x="530" y="65" text-anchor="middle" font-size="12" fill="#666">mat</text>
+
+                        <!-- Row: cat -->
+                        <text x="110" y="105" text-anchor="end" font-size="12" fill="#666" font-weight="bold">cat →</text>
+
+                        <rect x="150" y="80" width="60" height="40" fill="#e0e0e0"/>
+                        <text x="180" y="105" text-anchor="middle" font-size="11" fill="#333">0.1</text>
+
+                        <rect x="220" y="80" width="60" height="40" fill="#FFEB3B"/>
+                        <text x="250" y="105" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">0.5</text>
+
+                        <rect x="290" y="80" width="60" height="40" fill="#FF9800">
+                            <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="320" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">0.8</text>
+
+                        <rect x="360" y="80" width="60" height="40" fill="#FFC107"/>
+                        <text x="390" y="105" text-anchor="middle" font-size="11" fill="#333">0.4</text>
+
+                        <rect x="430" y="80" width="60" height="40" fill="#e0e0e0"/>
+                        <text x="460" y="105" text-anchor="middle" font-size="11" fill="#333">0.1</text>
+
+                        <rect x="500" y="80" width="60" height="40" fill="#4CAF50">
+                            <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="530" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">0.7</text>
+
+                        <!-- Legend -->
+                        <text x="300" y="155" text-anchor="middle" font-size="12" fill="#666">Attention Strength</text>
+                        <rect x="150" y="165" width="80" height="20" fill="#e0e0e0"/>
+                        <text x="190" y="180" text-anchor="middle" font-size="10" fill="#333">Low (0.1)</text>
+
+                        <rect x="260" y="165" width="80" height="20" fill="#FF9800"/>
+                        <text x="300" y="180" text-anchor="middle" font-size="10" fill="#fff">High (0.8)</text>
+
+                        <text x="300" y="215" text-anchor="middle" font-size="12" fill="#9C27B0" font-weight="bold">Interpretation:</text>
+                        <text x="300" y="235" text-anchor="middle" font-size="11" fill="#666">"cat" pays most attention to "sat" (the action)</text>
+                        <text x="300" y="255" text-anchor="middle" font-size="11" fill="#666">and "mat" (the location where sitting happens)</text>
+                    </svg>
+
+                    <h2>Why Self-Attention is Powerful</h2>
+                    <ul>
+                        <li><strong>Parallel processing</strong>: All words computed simultaneously (unlike RNNs)</li>
+                        <li><strong>Long-range dependencies</strong>: Word 1 can directly attend to word 1000</li>
+                        <li><strong>Learned relationships</strong>: Model learns which words relate without rules</li>
+                        <li><strong>Context-aware</strong>: Same word gets different representations in different contexts</li>
+                    </ul>
+
+                    <h2>Computational Cost</h2>
+                    <div class="warning-box">
+                        <p><strong>Trade-off:</strong> Self-attention is powerful but expensive!</p>
+                        <pre><code># For sequence of length N:
+Memory:  O(N²)  # Store all attention scores
+Time:    O(N²)  # Compare every word to every other word
+
+Example:
+100 words   → 10,000 comparisons
+1,000 words → 1,000,000 comparisons!
+
+This is why context windows are limited!</code></pre>
+                    </div>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Self-attention lets each word look at all other words and figure out which ones matter. It creates context-aware embeddings that change based on surrounding words - this is the magic that makes modern AI work!</p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "What problem does self-attention solve?",
+                        options: ["Making models faster", "Creating context-aware word representations", "Reducing model size", "Improving tokenization"],
+                        correct: 1,
+                        explanation: "Self-attention allows each word to look at all other words in the sentence and adjust its representation based on context. This makes 'bank' have different meanings in 'river bank' vs 'financial bank'."
+                    },
+                    {
+                        question: "What are the three vectors computed in self-attention?",
+                        options: ["Input, Output, Hidden", "Query, Key, Value", "Embedding, Position, Context", "Word, Token, Vector"],
+                        correct: 1,
+                        explanation: "Self-attention computes three vectors for each word: Query (what am I looking for?), Key (what do I offer?), and Value (what information do I contain?). These are combined to create context-aware representations."
+                    },
+                    {
+                        question: "Why is self-attention computationally expensive?",
+                        options: ["It uses too many parameters", "It requires O(N²) comparisons for N words", "It needs special hardware", "It processes words sequentially"],
+                        correct: 1,
+                        explanation: "Self-attention has O(N²) complexity because every word must attend to every other word. For 1000 words, that's 1 million comparisons! This is why context windows are limited."
+                    }
+                ]
+            },
+            {
+                id: 12,
+                title: "Transformer Layers",
+                category: 5,
+                content: `
+                    <h1>Transformer Layers: Putting It All Together</h1>
+
+                    <p class="lead">A transformer layer combines self-attention with other components to create a powerful processing block. GPT-4 has 120 of these stacked together!</p>
+
+                    <svg class="flow-diagram" width="100%" height="400" viewBox="0 0 700 400">
+                        <!-- Input -->
+                        <g>
+                            <rect x="250" y="20" width="200" height="40" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="350" y="45" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">Input Embeddings</text>
+                        </g>
+
+                        <!-- Arrow -->
+                        <path d="M 350 60 L 350 90" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Layer Norm 1 -->
+                        <g>
+                            <rect x="250" y="95" width="200" height="35" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="350" y="118" text-anchor="middle" font-size="13" fill="#E65100">Layer Normalization</text>
+                        </g>
+
+                        <path d="M 350 130 L 350 155" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Self-Attention -->
+                        <g>
+                            <rect x="230" y="160" width="240" height="50" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="350" y="185" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">Multi-Head Self-Attention</text>
+                            <text x="350" y="202" text-anchor="middle" font-size="11" fill="#7B1FA2">Q, K, V transformations</text>
+                        </g>
+
+                        <!-- Add & Norm (Residual Connection) -->
+                        <path d="M 470 187 Q 550 187 550 240" stroke="#4CAF50" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowTL2)"/>
+                        <text x="520" y="210" font-size="11" fill="#4CAF50" font-weight="bold">Skip Connection</text>
+
+                        <path d="M 350 210 L 350 235" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Add box -->
+                        <circle cx="350" cy="245" r="20" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="350" y="252" text-anchor="middle" font-size="18" fill="#2E7D32" font-weight="bold">+</text>
+
+                        <path d="M 350 265 L 350 290" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Layer Norm 2 -->
+                        <g>
+                            <rect x="250" y="295" width="200" height="35" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="350" y="318" text-anchor="middle" font-size="13" fill="#E65100">Layer Normalization</text>
+                        </g>
+
+                        <path d="M 350 330 L 350 355" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Feed-Forward Network -->
+                        <g>
+                            <rect x="200" y="360" width="300" height="50" rx="8" fill="#e1f5fe" stroke="#03A9F4" stroke-width="3">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="350" y="382" text-anchor="middle" font-size="14" fill="#0277BD" font-weight="bold">Feed-Forward Network (FFN)</text>
+                            <text x="350" y="400" text-anchor="middle" font-size="11" fill="#0288D1">Linear → ReLU → Linear</text>
+                        </g>
+
+                        <!-- Second skip connection -->
+                        <path d="M 500 387 Q 580 387 580 450" stroke="#4CAF50" stroke-width="3" stroke-dasharray="5,5"/>
+
+                        <path d="M 350 410 L 350 435" stroke="#666" stroke-width="2"/>
+
+                        <!-- Second Add box -->
+                        <circle cx="350" cy="445" r="20" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="350" y="452" text-anchor="middle" font-size="18" fill="#2E7D32" font-weight="bold">+</text>
+
+                        <path d="M 350 465 L 350 485" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Output -->
+                        <g>
+                            <rect x="250" y="490" width="200" height="40" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                            <text x="350" y="515" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">Output → Next Layer</text>
+                        </g>
+
+                        <defs>
+                            <marker id="arrowTL1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                            </marker>
+                            <marker id="arrowTL2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4CAF50"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                    <h2>Components of a Transformer Layer</h2>
+                    <p>Every transformer layer has the same structure:</p>
+
+                    <div class="info-box">
+                        <p><strong>The Recipe:</strong></p>
+                        <ol>
+                            <li><strong>Layer Normalization</strong>: Stabilize values</li>
+                            <li><strong>Multi-Head Self-Attention</strong>: Let words talk to each other</li>
+                            <li><strong>Residual Connection (Add & Norm)</strong>: Preserve original information</li>
+                            <li><strong>Feed-Forward Network</strong>: Process each position independently</li>
+                            <li><strong>Another Residual Connection</strong>: Preserve info again</li>
+                        </ol>
+                    </div>
+
+                    <h2>Layer Normalization</h2>
+                    <p>Normalizes values to have mean=0, std=1. Prevents values from exploding or vanishing:</p>
+
+                    <pre><code># Before: values all over the place
+x = [100, 0.01, -50, 200]
+
+# After normalization:
+x_norm = (x - mean(x)) / std(x)
+# Result: [-0.3, -0.8, -1.2, 2.3]  # More stable!</code></pre>
+
+                    <h2>Residual Connections (Skip Connections)</h2>
+                    <p>The <strong>add</strong> operation bypasses the layer - this is crucial for deep networks:</p>
+
+                    <div class="warning-box">
+                        <p><strong>Why Skip Connections Matter:</strong></p>
+                        <pre><code>output = input + SelfAttention(LayerNorm(input))
+
+# Without skip connection:
+# Information gets lost after 120 layers!
+
+# With skip connection:
+# Original information flows through +
+# Attention adds new context
+# = Best of both worlds!</code></pre>
+                    </div>
+
+                    <h2>Feed-Forward Network (FFN)</h2>
+                    <p>Two linear layers with ReLU activation in between:</p>
+
+                    <pre><code># For each position independently:
+FFN(x) = Linear2(ReLU(Linear1(x)))
+
+# Example dimensions (GPT-2):
+Input:  768 dims
+Linear1: 768 → 3072 (expand 4x!)
+ReLU:   Keep positive, zero negative
+Linear2: 3072 → 768 (compress back)
+Output: 768 dims
+
+# This gives the model extra "thinking space"</code></pre>
+
+                    <h2>Complete Transformer Layer Formula</h2>
+                    <pre><code># Pseudocode for one transformer layer:
+
+def TransformerLayer(x):
+    # Sub-layer 1: Self-Attention with residual
+    x_norm = LayerNorm(x)
+    attn_out = MultiHeadAttention(x_norm, x_norm, x_norm)
+    x = x + attn_out  # Residual connection
+
+    # Sub-layer 2: FFN with residual
+    x_norm = LayerNorm(x)
+    ffn_out = FeedForward(x_norm)
+    x = x + ffn_out   # Residual connection
+
+    return x
+
+# Stack 12, 24, 96, or even 120 of these!</code></pre>
+
+                    <h2>Stacking Layers</h2>
+                    <p>Models stack many identical transformer layers:</p>
+
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Model</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Layers</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Hidden Size</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">GPT-2 Small</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">12</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">768</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">GPT-2 Large</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">36</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">1280</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">GPT-3</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">96</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">12,288</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">GPT-4</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">~120</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">12,288</td>
+                        </tr>
+                    </table>
+
+                    <h2>Why This Architecture Works</h2>
+                    <ul>
+                        <li><strong>Self-Attention</strong>: Captures relationships between words</li>
+                        <li><strong>FFN</strong>: Processes individual positions with extra capacity</li>
+                        <li><strong>Layer Norm</strong>: Keeps values stable</li>
+                        <li><strong>Residual Connections</strong>: Preserves information across 100+ layers</li>
+                        <li><strong>Stacking</strong>: Each layer extracts progressively abstract features</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> A transformer layer = Layer Norm + Self-Attention + Residual + Layer Norm + FFN + Residual. Stack 12-120 of these, and you get a powerful language model that can understand and generate human-like text!</p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "What are the two main sub-components in a transformer layer?",
+                        options: ["Embedding and Output", "Self-Attention and Feed-Forward Network", "Input and Hidden State", "Query and Key"],
+                        correct: 1,
+                        explanation: "Each transformer layer has two main parts: Multi-Head Self-Attention (which lets words interact) and a Feed-Forward Network (which processes each position independently). Both have residual connections and layer normalization."
+                    },
+                    {
+                        question: "Why are residual connections (skip connections) important?",
+                        options: ["They make models faster", "They preserve information across deep networks", "They reduce memory usage", "They improve tokenization"],
+                        correct: 1,
+                        explanation: "Residual connections add the original input to the layer's output (x = x + layer(x)). This preserves information across 100+ layers and prevents vanishing gradients. Without them, deep networks wouldn't work!"
+                    },
+                    {
+                        question: "How many transformer layers does GPT-4 have?",
+                        options: ["12 layers", "36 layers", "96 layers", "~120 layers"],
+                        correct: 3,
+                        explanation: "GPT-4 has approximately 120 transformer layers stacked together! Each layer processes the output from the previous layer, allowing the model to extract increasingly abstract patterns."
                     }
                 ]
             }
