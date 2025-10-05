@@ -3372,15 +3372,46 @@ This is why context windows are limited!</code></pre>
 
                     <p class="lead">Each transformer layer contains MULTIPLE weight matrices (tables of numbers). GPT-4 has 120 layers, each with these same weight matrices!</p>
 
-                    <div class="info-box" style="margin: 20px 0;">
-                        <p><strong>📊 What's Actually Inside ONE Transformer Layer:</strong></p>
-                        <ul>
-                            <li><strong>W_Q, W_K, W_V matrices</strong> - Convert embeddings to Query, Key, Value (3 tables!)</li>
-                            <li><strong>W_O matrix</strong> - Combine attention heads back together</li>
-                            <li><strong>W_1, W_2 matrices</strong> - Feed-forward network (2 huge tables!)</li>
-                            <li><strong>LayerNorm parameters</strong> - Normalization weights</li>
+                    <div class="info-box" style="margin: 20px 0; background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.05) 100%); border-left: 4px solid #9C27B0;">
+                        <p style="font-size: 16px; font-weight: bold; color: #9C27B0; margin-bottom: 15px;">📊 What's Actually Inside ONE Transformer Layer</p>
+
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <p style="font-weight: bold; color: #333; margin-bottom: 10px;">📝 KEY TERMS EXPLAINED:</p>
+                            <ul style="line-height: 2; margin-left: 0; padding-left: 20px;">
+                                <li><strong>W</strong> = <strong>Weight</strong> (a matrix/table of learned numbers)</li>
+                                <li><strong>Q</strong> = <strong>Query</strong> ("What am I looking for?")</li>
+                                <li><strong>K</strong> = <strong>Key</strong> ("What do I have to offer?")</li>
+                                <li><strong>V</strong> = <strong>Value</strong> ("What information do I contain?")</li>
+                                <li><strong>O</strong> = <strong>Output</strong> (combines results)</li>
+                                <li><strong>FFN</strong> = <strong>Feed-Forward Network</strong> (processes each position)</li>
+                            </ul>
+                        </div>
+
+                        <p style="font-weight: bold; margin-bottom: 10px;">🔧 COMPONENTS IN EACH LAYER:</p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Weight_Query (W_Q), Weight_Key (W_K), Weight_Value (W_V)</strong><br>
+                                <span style="color: #666; font-size: 14px;">→ 3 weight matrices that transform embeddings for attention</span><br>
+                                <span style="color: #666; font-size: 14px;">→ Each is 768×768 = ~590,000 numbers!</span>
+                            </li>
+                            <li><strong>Weight_Output (W_O)</strong><br>
+                                <span style="color: #666; font-size: 14px;">→ 1 weight matrix that combines attention heads</span><br>
+                                <span style="color: #666; font-size: 14px;">→ Also 768×768</span>
+                            </li>
+                            <li><strong>Weight_1 (W_1), Weight_2 (W_2)</strong><br>
+                                <span style="color: #666; font-size: 14px;">→ 2 weight matrices for feed-forward network</span><br>
+                                <span style="color: #666; font-size: 14px;">→ W_1: 768×3072 (expands 4x!)</span><br>
+                                <span style="color: #666; font-size: 14px;">→ W_2: 3072×768 (compress back)</span>
+                            </li>
+                            <li><strong>LayerNorm parameters</strong><br>
+                                <span style="color: #666; font-size: 14px;">→ Small sets of numbers that normalize values</span><br>
+                                <span style="color: #666; font-size: 14px;">→ Keeps numbers stable during training</span>
+                            </li>
                         </ul>
-                        <p style="margin-top: 10px;"><strong>Total: ~7 weight matrices per layer × 120 layers = 840 matrices in GPT-4!</strong></p>
+
+                        <div style="background: #FFF9C4; padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FBC02D;">
+                            <p style="margin: 0;"><strong>💡 Total:</strong> ~6 weight matrices per layer × 120 layers = <strong>720+ matrices in GPT-4!</strong></p>
+                            <p style="margin: 8px 0 0 0; font-size: 14px; color: #666;">That's where the billions of parameters come from!</p>
+                        </div>
                     </div>
 
                     <h2 style="margin-top: 30px;">Architecture: Weight Matrices in ONE Layer</h2>
@@ -3465,9 +3496,13 @@ This is why context windows are limited!</code></pre>
                         <text x="475" y="285" text-anchor="middle" font-size="13" fill="#0277BD" font-weight="bold">Self-Attention Computation</text>
                         <text x="475" y="303" text-anchor="middle" font-size="10" fill="#0288D1">Q·K^T → softmax → multiply V</text>
 
-                        <!-- Skip connection (residual) -->
+                        <!-- Skip connection (residual) - with explanation -->
                         <path d="M 600 67 Q 750 67 750 360" stroke="#4CAF50" stroke-width="3" stroke-dasharray="6,4" opacity="0.7"/>
-                        <text x="760" y="200" font-size="11" fill="#4CAF50" font-weight="bold">Skip</text>
+                        <rect x="740" y="170" width="140" height="60" rx="6" fill="#e8f5e9" stroke="#4CAF50" stroke-width="1.5"/>
+                        <text x="810" y="188" text-anchor="middle" font-size="11" fill="#4CAF50" font-weight="bold">Skip Connection</text>
+                        <text x="810" y="203" text-anchor="middle" font-size="9" fill="#2E7D32">(Residual)</text>
+                        <text x="810" y="218" text-anchor="middle" font-size="8" fill="#666">Bypass: Add</text>
+                        <text x="810" y="228" text-anchor="middle" font-size="8" fill="#666">original input</text>
 
                         <path d="M 475 310 L 475 340" stroke="#666" stroke-width="2.5" marker-end="url(#arrowTL1)"/>
 
@@ -3512,9 +3547,13 @@ This is why context windows are limited!</code></pre>
 
                         <path d="M 475 550 L 475 580" stroke="#666" stroke-width="2.5" marker-end="url(#arrowTL1)"/>
 
-                        <!-- Second skip connection -->
+                        <!-- Second skip connection - with explanation -->
                         <path d="M 750 360 L 750 600" stroke="#4CAF50" stroke-width="3" stroke-dasharray="6,4" opacity="0.7"/>
-                        <text x="760" y="480" font-size="11" fill="#4CAF50" font-weight="bold">Skip</text>
+                        <rect x="740" y="450" width="140" height="60" rx="6" fill="#e8f5e9" stroke="#4CAF50" stroke-width="1.5"/>
+                        <text x="810" y="468" text-anchor="middle" font-size="11" fill="#4CAF50" font-weight="bold">Skip Connection #2</text>
+                        <text x="810" y="483" text-anchor="middle" font-size="9" fill="#2E7D32">(Residual)</text>
+                        <text x="810" y="498" text-anchor="middle" font-size="8" fill="#666">Bypass FFN:</text>
+                        <text x="810" y="508" text-anchor="middle" font-size="8" fill="#666">Add to output</text>
 
                         <!-- Second Add -->
                         <circle cx="475" cy="600" r="22" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2.5"/>
@@ -4827,15 +4866,16 @@ Total:  4,000 tokens
             const config = progressConfig[sectionId];
             if (!config) return '';
 
-            // Determine stage progress
+            // Determine stage progress - showing ACTUAL transformation of "cat"
             const stages = [
-                { name: 'Data', range: [1,3] },
-                { name: 'Tokens', range: [4,5] },
-                { name: 'Vectors', range: [6,10] },
-                { name: 'Attention', range: [11,13] },
-                { name: 'Pipeline', range: [14,15] },
-                { name: 'Storage', range: [16,18] },
-                { name: 'Deploy', range: [19,21] }
+                { name: '"cat" (text)', layer: 'Data Layer', range: [1,3] },
+                { name: '["cat"] (token)', layer: 'Token Layer', range: [4,4] },
+                { name: '[8415] (ID)', layer: 'ID Layer', range: [5,5] },
+                { name: '[0.8, 0.3...] (vector)', layer: 'Embedding Layer', range: [6,10] },
+                { name: '[0.7, 0.4...] (context)', layer: 'Attention Layer', range: [11,13] },
+                { name: 'Through 120 layers', layer: 'Transformer Layers', range: [14,15] },
+                { name: 'Compressed model', layer: 'Storage Layer', range: [16,18] },
+                { name: 'Running locally', layer: 'Deployment', range: [19,21] }
             ];
 
             let stagesHtml = stages.map(stage => {
@@ -4844,8 +4884,11 @@ Total:  4,000 tokens
                 const status = isPast ? '✓' : (isCurrent ? '●' : '');
                 const opacity = isPast ? '0.5' : (isCurrent ? '1' : '0.3');
                 const color = isCurrent ? '#667eea' : (isPast ? '#4CAF50' : '#ccc');
+                const showLayer = isCurrent;
 
-                return `<span style="color: ${color}; opacity: ${opacity}; font-weight: ${isCurrent ? 'bold' : 'normal'};">${status} ${stage.name}</span>`;
+                return `<span style="color: ${color}; opacity: ${opacity}; font-weight: ${isCurrent ? 'bold' : 'normal'};">
+                    ${status} ${stage.name}${showLayer ? ` <span style="font-size: 10px; color: #999;">(${stage.layer})</span>` : ''}
+                </span>`;
             }).join(' → ');
 
             return `
