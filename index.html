@@ -4651,6 +4651,197 @@ Total:  4,000 tokens
                     {question: "Why can't models have unlimited context windows?", options: ["Cost too much", "Self-attention is O(N²) - grows quadratically", "Storage limitations", "API restrictions"], correct: 1, explanation: "Self-attention requires every token to attend to every other token, giving O(N²) complexity. Doubling context length quadruples the memory and computation needed! This is why 1M token context is a huge engineering achievement."},
                     {question: "How many tokens is a typical book?", options: ["1,000 tokens", "10,000 tokens", "100,000 tokens", "1,000,000 tokens"], correct: 2, explanation: "A typical book is ~100,000 tokens (about 75,000 words). This means you need a 100K+ context window to fit an entire book, which only recent models like Claude 3 (200K) and Gemini 1.5 (1M) can handle."}
                 ]
+            },
+            {
+                id: 22,
+                title: "What We Learned & What's Next",
+                category: 8,
+                content: `
+                    <h1>🎓 Journey Complete: What We Learned & What's Next</h1>
+                    <p class="lead">Congratulations! You've completed the LLM fundamentals. Let's recap what you've mastered and preview what's coming in Lesson 2.</p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;">
+                        <!-- Left Column: What We Learned -->
+                        <div>
+                            <h2 style="color: #4CAF50;">✅ What We Learned (Lesson 1)</h2>
+
+                            <div class="success-box">
+                                <p><strong>📝 Data Foundations (Sections 1-3)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>Binary data & character encoding</li>
+                                    <li>ASCII, Unicode, UTF-8</li>
+                                    <li>How computers store text</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>🔤 Tokenization (Sections 4-5)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>What tokens are & why we need them</li>
+                                    <li>Subword tokenization (BPE)</li>
+                                    <li>Vocabulary & token IDs</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>📊 Vectors & Embeddings (Sections 6-8)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>Vector mathematics & similarity</li>
+                                    <li>Word embeddings & semantic meaning</li>
+                                    <li>Embedding tables & lookup</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>💾 Model Parameters (Sections 9-10)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>What parameters/weights are</li>
+                                    <li>Model sizes (7B, 13B, 70B)</li>
+                                    <li>Embedding layer structure</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>⚙️ Transformer Architecture (Sections 11-13)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>Self-attention mechanism</li>
+                                    <li>Query, Key, Value matrices</li>
+                                    <li>Feed-forward networks</li>
+                                    <li>Skip connections (residuals)</li>
+                                    <li>Multiple layers (120+ in GPT-3)</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>🤖 Complete Pipeline (Sections 14-15)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>End-to-end text processing</li>
+                                    <li>Output layer & predictions</li>
+                                    <li>Token generation process</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>🔧 Efficiency (Sections 16-18)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>Quantization (FP16, INT8, INT4)</li>
+                                    <li>Model compression techniques</li>
+                                    <li>GGUF file format</li>
+                                </ul>
+                            </div>
+
+                            <div class="success-box">
+                                <p><strong>🚀 Deployment (Sections 19-21)</strong></p>
+                                <ul style="margin: 10px 0;">
+                                    <li>Local vs cloud deployment</li>
+                                    <li>LM Studio, Ollama, llama.cpp</li>
+                                    <li>Context windows & memory</li>
+                                    <li>Hardware requirements</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: What's Next -->
+                        <div>
+                            <h2 style="color: #FF9800;">🚀 What's Next: Lesson 2 Preview</h2>
+
+                            <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
+                                <p><strong>🧠 Neural Networks & Training Foundations</strong></p>
+                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Learn how models actually learn! We'll cover:</p>
+                                <ul style="margin: 10px 0; font-size: 13px;">
+                                    <li><strong>Perceptrons</strong>: The building block of neural networks - how a single neuron makes decisions</li>
+                                    <li><strong>Multi-layer Networks</strong>: Combining neurons to solve complex problems</li>
+                                    <li><strong>Activation Functions</strong>: ReLU, Sigmoid, GELU - how neurons decide when to "fire"</li>
+                                </ul>
+                            </div>
+
+                            <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
+                                <p><strong>📉 Backpropagation & Gradient Descent</strong></p>
+                                <p style="font-size: 13px; color: #555; margin: 10px 0;">The magic behind learning:</p>
+                                <ul style="margin: 10px 0; font-size: 13px;">
+                                    <li><strong>Loss Functions</strong>: How we measure prediction error</li>
+                                    <li><strong>Gradient Descent</strong>: Finding the best parameters by following slopes</li>
+                                    <li><strong>Backpropagation</strong>: Computing gradients through layers</li>
+                                    <li><strong>Learning Rate</strong>: The step size for parameter updates</li>
+                                </ul>
+                            </div>
+
+                            <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
+                                <p><strong>🎯 Training & Optimization</strong></p>
+                                <p style="font-size: 13px; color: #555; margin: 10px 0;">How models improve over time:</p>
+                                <ul style="margin: 10px 0; font-size: 13px;">
+                                    <li><strong>Epochs & Batches</strong>: Training iterations and mini-batches</li>
+                                    <li><strong>Optimizers</strong>: Adam, SGD, AdamW - smarter ways to update weights</li>
+                                    <li><strong>Regularization</strong>: Dropout, weight decay - preventing overfitting</li>
+                                    <li><strong>Learning Rate Schedules</strong>: Warmup, decay, cosine annealing</li>
+                                </ul>
+                            </div>
+
+                            <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
+                                <p><strong>🔬 Advanced Transformer Concepts</strong></p>
+                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Deeper into transformers:</p>
+                                <ul style="margin: 10px 0; font-size: 13px;">
+                                    <li><strong>Multi-Head Attention</strong>: Why we use 12-96 attention heads</li>
+                                    <li><strong>Positional Encodings</strong>: How models understand word order</li>
+                                    <li><strong>Layer Normalization</strong>: Stabilizing training</li>
+                                    <li><strong>Attention Masks</strong>: Causal vs bidirectional attention</li>
+                                </ul>
+                            </div>
+
+                            <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
+                                <p><strong>🎨 Fine-tuning & Customization</strong></p>
+                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Making models your own:</p>
+                                <ul style="margin: 10px 0; font-size: 13px;">
+                                    <li><strong>Transfer Learning</strong>: Using pre-trained models</li>
+                                    <li><strong>Fine-tuning</strong>: Adapting models to your task</li>
+                                    <li><strong>LoRA & QLoRA</strong>: Efficient fine-tuning methods</li>
+                                    <li><strong>RLHF</strong>: Reinforcement Learning from Human Feedback</li>
+                                    <li><strong>Prompt Engineering</strong>: System prompts, few-shot learning</li>
+                                </ul>
+                            </div>
+
+                            <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
+                                <p><strong>⚡ Advanced Architectures</strong></p>
+                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Beyond basic transformers:</p>
+                                <ul style="margin: 10px 0; font-size: 13px;">
+                                    <li><strong>Vision Transformers (ViT)</strong>: Transformers for images</li>
+                                    <li><strong>Multi-modal Models</strong>: Text + images (GPT-4V, Gemini)</li>
+                                    <li><strong>Mixture of Experts (MoE)</strong>: Sparse activation for efficiency</li>
+                                    <li><strong>State Space Models</strong>: Mamba, alternatives to attention</li>
+                                </ul>
+                            </div>
+
+                            <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(103,58,183,0.1) 100%); border-left: 4px solid #2196F3;">
+                                <p><strong>📚 Coming Soon: Lesson 2</strong></p>
+                                <p style="font-size: 13px; margin: 5px 0;">You now understand <em>how LLMs work</em>. Next, you'll learn <em>how they learn</em>!</p>
+                                <p style="font-size: 13px; margin: 5px 0;">From perceptrons to production-ready fine-tuned models, Lesson 2 will take you from understanding to mastery.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-box" style="margin-top: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white; margin: 0 0 15px 0;">🎉 Congratulations on Completing Lesson 1!</h3>
+                        <p style="margin: 5px 0;">You've built a solid foundation in LLM internals - from binary data to production deployment.</p>
+                        <p style="margin: 5px 0;">You now understand:</p>
+                        <ul style="margin: 10px 0;">
+                            <li>✅ How text becomes tokens, then vectors, then predictions</li>
+                            <li>✅ Why transformers use self-attention and feed-forward networks</li>
+                            <li>✅ How 70 billion parameters fit in 4GB files (quantization)</li>
+                            <li>✅ How to run models locally on your own hardware</li>
+                        </ul>
+                        <p style="margin: 15px 0 5px 0; font-weight: bold;">Ready for the next level? Lesson 2 will teach you how models actually learn!</p>
+                    </div>
+
+                    <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,240,240,0.9) 100%); border-radius: 16px; backdrop-filter: blur(10px);">
+                        <p style="font-size: 14px; color: #666; margin: 10px 0;">Created by Arul R</p>
+                        <p style="font-size: 13px; color: #999; margin: 5px 0;">From fundamentals to fine-tuning - making AI accessible to everyone</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What is the main focus of Lesson 1?", options: ["How to train models", "How LLMs work internally", "How to fine-tune models", "How to write code"], correct: 1, explanation: "Lesson 1 focuses on understanding how LLMs work - from data encoding to transformer architecture to deployment. We covered the complete pipeline without diving into training (that's Lesson 2!)."},
+                    {question: "Which topic will be covered in Lesson 2?", options: ["Tokenization", "Backpropagation", "GGUF format", "Context windows"], correct: 1, explanation: "Lesson 2 will cover training fundamentals including backpropagation, gradient descent, loss functions, and optimization. These topics explain HOW models learn, whereas Lesson 1 explained how they work."},
+                    {question: "What's the complete journey we learned in Lesson 1?", options: ["Code → AI → Output", "Data → Tokens → Vectors → Attention → Predictions", "Input → GPU → Response", "Text → Model → Result"], correct: 1, explanation: "The complete journey is: Text data → Tokenization → Token IDs → Embedding vectors → Transformer layers (attention + FFN) → Output predictions. This is the core LLM pipeline!"}
+                ]
             }
 
         ];
@@ -4725,7 +4916,7 @@ Total:  4,000 tokens
                 name: "Deployment",
                 icon: "🚀",
                 why: "Now that you understand how it works, learn how to actually use it.",
-                sections: [19, 20, 21],
+                sections: [19, 20, 21, 22],
                 color: "#607D8B",
                 colorDark: "#455A64"
             }
@@ -4739,7 +4930,7 @@ Total:  4,000 tokens
             { icon: "🔮", label: "Embed", sections: [9, 10] },
             { icon: "⚙️", label: "Transform", sections: [11, 12, 13] },
             { icon: "🎯", label: "Generate", sections: [14, 15] },
-            { icon: "🚀", label: "Deploy", sections: [16, 17, 18, 19, 20, 21] }
+            { icon: "🚀", label: "Deploy", sections: [16, 17, 18, 19, 20, 21, 22] }
         ];
 
         // Current section index
@@ -4859,6 +5050,31 @@ Total:  4,000 tokens
             21: { stage: 'Context Windows', input: 'Input text', output: 'Max tokens (4K-1M)', next: 'Complete!' }
         };
 
+        // History facts for "Did You Know" boxes
+        const historyFacts = {
+            1: { term: 'Binary Data', year: '1948', fact: 'Claude Shannon published "A Mathematical Theory of Communication", establishing binary as the foundation of digital information. Every piece of data today - text, images, AI models - ultimately becomes 1s and 0s!' },
+            2: { term: 'Character Encoding', year: '1963', fact: 'ASCII (American Standard Code for Information Interchange) was created, assigning numbers 0-127 to characters. The letter "A" = 65 is still true today, 60+ years later!' },
+            3: { term: 'Embeddings', year: '1986', fact: 'The concept of distributed representations emerged with Rumelhart & McClelland\'s work, but modern word embeddings exploded with Word2Vec in 2013!' },
+            4: { term: 'Tokenization', year: '2018', fact: 'Byte Pair Encoding (BPE) tokenization became mainstream with GPT-1. Before this, AI struggled with rare words - BPE solved it by breaking words into subword units!' },
+            5: { term: 'Vocabulary', year: '1950s', fact: 'Early NLP systems had vocabularies of just hundreds of words. Modern LLMs have 50,000-100,000 tokens, covering nearly every word and subword combination!' },
+            6: { term: 'Vectors', year: '1800s', fact: 'Vectors originated in mathematics (linear algebra) centuries ago, but using them to represent meaning in AI is surprisingly recent - mainly since 2013!' },
+            7: { term: 'Word Embeddings', year: '2013', fact: 'Tomas Mikolov at Google created Word2Vec, showing that "king - man + woman ≈ queen" in vector space. This revolutionized how AI understands language!' },
+            8: { term: 'Dimensions', year: '2017', fact: 'The original Transformer paper used 512 dimensions. Modern models use 768 (GPT-2), 1024 (GPT-3 small), up to 12,288 (GPT-4)! More dimensions = more nuanced understanding.' },
+            9: { term: 'Parameters', year: '2018-2024', fact: 'GPT-1 had 117M parameters (2018). GPT-2: 1.5B (2019). GPT-3: 175B (2020). GPT-4: estimated 1.76 TRILLION (2023)! The exponential growth is staggering.' },
+            10: { term: 'Embedding Table', year: '2013+', fact: 'The embedding table is often 30-50% of a model\'s total parameters! In GPT-2 (124M params), 39M are just the embedding table - the model\'s learned dictionary.' },
+            11: { term: 'Self-Attention', year: '2017', fact: 'The paper "Attention is All You Need" (Vaswani et al., 2017) introduced self-attention, replacing RNNs and LSTMs. It\'s the #1 most cited AI paper of all time!' },
+            12: { term: 'Transformer', year: '2017', fact: 'The Transformer architecture was invented at Google Brain. The name "Transformer" was chosen because it "transforms" representations - not related to robots!' },
+            13: { term: 'Multi-Head Attention', year: '2017', fact: 'The original Transformer used 8 attention heads. GPT-3 uses 96 heads! Each head can specialize - some learn syntax, others semantics, others long-range dependencies.' },
+            14: { term: 'Forward Pass', year: '1940s+', fact: 'The forward pass concept dates to the first neural networks (1940s), but modern forward passes through 120+ layers would have been impossible to compute until recently!' },
+            15: { term: 'Next Token Prediction', year: '1948+', fact: 'Language modeling (predicting next word) was studied by Claude Shannon in 1948! He manually computed probabilities. Today\'s LLMs do this billions of times per second.' },
+            16: { term: 'Floating Point', year: '1985', fact: 'The IEEE 754 floating point standard (1985) defined FP32. FP16 came later for GPUs (2002). BF16 (Brain Float 16) was invented by Google specifically for AI in 2018!' },
+            17: { term: 'Quantization', year: '2015+', fact: 'Model quantization became critical as models grew huge. INT8 quantization (2015+) made it possible to run billion-parameter models on consumer hardware!' },
+            18: { term: 'GGUF Format', year: '2023', fact: 'GGUF (GPT-Generated Unified Format) was created by Georgi Gerganov in 2023. It\'s now the standard for running LLMs locally - downloaded millions of times!' },
+            19: { term: 'Local Inference', year: '2023', fact: 'Running GPT-level models on laptops became possible only in 2023 with quantization + GGUF! Before this, you needed cloud GPUs or massive servers.' },
+            20: { term: 'LM Studio', year: '2023', fact: 'LM Studio launched in 2023, making local AI accessible to everyone. You can now run models that would have cost $50,000 in cloud fees just a year ago!' },
+            21: { term: 'Context Window', year: '2017-2024', fact: 'Original Transformers: 512 tokens (2017). GPT-3: 4K (2020). GPT-4: 32K-128K (2023). Claude 3: 200K (2024). Gemini 1.5: 1 MILLION tokens (2024)! The race continues.' }
+        };
+
         // Function to generate progress tracker
         function generateProgressTracker(sectionId) {
             if (sectionId === 0) return ''; // No tracker for overview
@@ -4926,6 +5142,26 @@ Total:  4,000 tokens
                         <strong>Next:</strong> ${config.next}
                     </div>
                 </div>
+
+                ${historyFacts[sectionId] ? `
+                <div style="background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%);
+                            border-left: 4px solid #FF9800;
+                            border-radius: 8px;
+                            padding: 15px 20px;
+                            margin-bottom: 30px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 20px; margin-right: 10px;">💡</span>
+                        <span style="font-size: 14px; font-weight: bold; color: #E65100;">DID YOU KNOW?</span>
+                        <span style="margin-left: auto; font-size: 12px; color: #F57C00; font-weight: bold; background: rgba(255,152,0,0.2); padding: 4px 10px; border-radius: 12px;">
+                            ${historyFacts[sectionId].term} • ${historyFacts[sectionId].year}
+                        </span>
+                    </div>
+                    <p style="margin: 0; font-size: 13px; line-height: 1.7; color: #555;">
+                        ${historyFacts[sectionId].fact}
+                    </p>
+                </div>
+                ` : ''}
             `;
         }
 
