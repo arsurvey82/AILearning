@@ -1913,6 +1913,33 @@ Each number is 32-bit float → 154 MB just for embeddings!</code></pre>
                         </g>
                     </svg>
 
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.2) 100%); border-left: 4px solid #9C27B0; margin: 30px 0;">
+                        <p style="font-size: 16px; font-weight: bold; color: #6A1B9A;">⚠️ IMPORTANT: Representation vs Storage Format</p>
+
+                        <p style="margin-top: 10px;"><strong>What you're learning here:</strong></p>
+                        <ul>
+                            <li>How data is <strong>REPRESENTED</strong>: Tokens → Embeddings → Vectors</li>
+                            <li>How data is <strong>PROCESSED</strong>: Through transformer layers</li>
+                        </ul>
+
+                        <p style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                            <strong>🔥 But the actual STORAGE format is different!</strong>
+                        </p>
+
+                        <p style="margin-top: 10px;">When models are saved to disk, these vectors and parameters are stored in special formats:</p>
+                        <ul style="margin-top: 5px;">
+                            <li><strong>Transformer blocks</strong> - Organized layer structure</li>
+                            <li><strong>GGUF files</strong> - Quantized for efficiency (we'll learn in Part 7!)</li>
+                            <li><strong>LoRA adapters</strong> - Fine-tuning modifications</li>
+                            <li><strong>SafeTensors</strong> - Secure PyTorch format</li>
+                        </ul>
+
+                        <p style="margin-top: 15px; background: #FFF9C4; padding: 10px; border-radius: 8px; border-left: 4px solid #FBC02D;">
+                            <strong>📍 Remember:</strong> We're learning the <em>logical flow</em> (how data moves through the model).
+                            The <em>physical storage</em> (how it's saved on disk) comes later in <strong>Part 7: Efficiency & Storage!</strong>
+                        </p>
+                    </div>
+
                     <div class="success-box">
                         <p><strong>Key Takeaway:</strong> Embeddings are learned vectors that capture meaning. The AI starts with random numbers and gradually adjusts them to represent relationships between words!</p>
                     </div>
@@ -2770,72 +2797,87 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <p style="margin-top: 10px;"><strong>Same word, DIFFERENT vectors based on context!</strong></p>
                     </div>
 
-                    <svg class="flow-diagram" width="100%" height="340" viewBox="0 0 850 340">
+                    <svg class="flow-diagram" width="100%" height="380" viewBox="0 0 850 380">
+                        <!-- LEGEND BOX -->
+                        <g>
+                            <rect x="50" y="10" width="350" height="35" rx="6" fill="#f5f5f5" stroke="#999" stroke-width="1.5"/>
+                            <rect x="60" y="18" width="25" height="18" fill="#e0e0e0" stroke="#999"/>
+                            <text x="92" y="31" font-size="12" fill="#666">From Section 10 (Embeddings)</text>
+                            <rect x="240" y="18" width="25" height="18" fill="none" stroke="#FF9800" stroke-width="3"/>
+                            <text x="272" y="31" font-size="12" fill="#FF9800" font-weight="bold">NEW: Attention!</text>
+                        </g>
+
                         <!-- Input sentence -->
                         <g>
-                            <text x="425" y="30" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Input: "The cat sat on the mat"</text>
+                            <text x="425" y="70" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Input: "The cat sat on the mat"</text>
                         </g>
 
-                        <!-- Word embeddings -->
+                        <!-- Word embeddings - GRAY (from Section 10) -->
                         <g>
-                            <rect x="100" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
-                            <text x="140" y="90" text-anchor="middle" font-size="14" fill="#1565C0">The</text>
+                            <rect x="100" y="100" width="80" height="50" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <text x="140" y="120" text-anchor="middle" font-size="10" fill="#666">Section 10</text>
+                            <text x="140" y="135" text-anchor="middle" font-size="14" fill="#555">The</text>
 
-                            <rect x="220" y="60" width="80" height="50" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
-                            <text x="260" y="90" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">cat</text>
+                            <rect x="220" y="100" width="80" height="50" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <text x="260" y="120" text-anchor="middle" font-size="10" fill="#666">Section 10</text>
+                            <text x="260" y="135" text-anchor="middle" font-size="14" fill="#555" font-weight="bold">cat</text>
 
-                            <rect x="340" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
-                            <text x="380" y="90" text-anchor="middle" font-size="14" fill="#1565C0">sat</text>
+                            <rect x="340" y="100" width="80" height="50" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <text x="380" y="120" text-anchor="middle" font-size="10" fill="#666">Section 10</text>
+                            <text x="380" y="135" text-anchor="middle" font-size="14" fill="#555">sat</text>
 
-                            <rect x="460" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
-                            <text x="500" y="90" text-anchor="middle" font-size="14" fill="#1565C0">on</text>
+                            <rect x="460" y="100" width="80" height="50" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <text x="500" y="120" text-anchor="middle" font-size="10" fill="#666">Section 10</text>
+                            <text x="500" y="135" text-anchor="middle" font-size="14" fill="#555">on</text>
 
-                            <rect x="580" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
-                            <text x="620" y="90" text-anchor="middle" font-size="14" fill="#1565C0">the</text>
+                            <rect x="580" y="100" width="80" height="50" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <text x="620" y="120" text-anchor="middle" font-size="10" fill="#666">Section 10</text>
+                            <text x="620" y="135" text-anchor="middle" font-size="14" fill="#555">the</text>
 
-                            <rect x="700" y="60" width="80" height="50" rx="8" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
-                            <text x="740" y="90" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">mat</text>
+                            <rect x="700" y="100" width="80" height="50" rx="8" fill="#e0e0e0" stroke="#999" stroke-width="2"/>
+                            <text x="740" y="120" text-anchor="middle" font-size="10" fill="#666">Section 10</text>
+                            <text x="740" y="135" text-anchor="middle" font-size="14" fill="#555" font-weight="bold">mat</text>
                         </g>
 
-                        <!-- Attention mechanism -->
-                        <text x="425" y="145" text-anchor="middle" font-size="14" fill="#9C27B0" font-weight="bold">Attention: Which words relate to "cat"?</text>
+                        <!-- Attention mechanism - NEW! -->
+                        <text x="425" y="185" text-anchor="middle" font-size="14" fill="#FF9800" font-weight="bold">✨ NEW: Attention - Which words relate to "cat"?</text>
 
-                        <!-- Attention arrows from cat -->
+                        <!-- Attention arrows from cat - COLORED (NEW) -->
                         <g>
                             <!-- Weak attention to "The" -->
-                            <path d="M 260 110 L 140 130" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
-                            <text x="200" y="115" font-size="11" fill="#999">0.1</text>
+                            <path d="M 260 150 L 140 170" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
+                            <text x="200" y="155" font-size="11" fill="#999">0.1</text>
 
-                            <!-- Strong attention to "sat" -->
-                            <path d="M 270 110 L 370 130" stroke="#FF9800" stroke-width="4" opacity="0.8" marker-end="url(#arrowA2)">
+                            <!-- Strong attention to "sat" - ORANGE (NEW!) -->
+                            <path d="M 270 150 L 370 170" stroke="#FF9800" stroke-width="4" opacity="0.8" marker-end="url(#arrowA2)">
                                 <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
                             </path>
-                            <text x="320" y="115" font-size="12" fill="#FF9800" font-weight="bold">0.8</text>
+                            <text x="320" y="155" font-size="12" fill="#FF9800" font-weight="bold">0.8</text>
 
-                            <!-- Medium attention to "on" -->
-                            <path d="M 280 110 L 490 130" stroke="#2196F3" stroke-width="2" opacity="0.6" marker-end="url(#arrowA3)"/>
-                            <text x="385" y="115" font-size="11" fill="#2196F3">0.4</text>
+                            <!-- Medium attention to "on" - BLUE (NEW!) -->
+                            <path d="M 280 150 L 490 170" stroke="#2196F3" stroke-width="2" opacity="0.6" marker-end="url(#arrowA3)"/>
+                            <text x="385" y="155" font-size="11" fill="#2196F3">0.4</text>
 
                             <!-- Weak attention to "the" -->
-                            <path d="M 290 110 L 610 130" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
-                            <text x="450" y="115" font-size="11" fill="#999">0.1</text>
+                            <path d="M 290 150 L 610 170" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
+                            <text x="450" y="155" font-size="11" fill="#999">0.1</text>
 
-                            <!-- Strong attention to "mat" -->
-                            <path d="M 300 110 L 730 130" stroke="#4CAF50" stroke-width="4" opacity="0.8" marker-end="url(#arrowA4)">
+                            <!-- Strong attention to "mat" - GREEN (NEW!) -->
+                            <path d="M 300 150 L 730 170" stroke="#4CAF50" stroke-width="4" opacity="0.8" marker-end="url(#arrowA4)">
                                 <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
                             </path>
-                            <text x="515" y="115" font-size="12" fill="#4CAF50" font-weight="bold">0.7</text>
+                            <text x="515" y="155" font-size="12" fill="#4CAF50" font-weight="bold">0.7</text>
                         </g>
 
-                        <!-- Output embeddings -->
+                        <!-- Output embeddings - NEW RESULT! -->
                         <g>
-                            <text x="425" y="180" text-anchor="middle" font-size="13" fill="#666">Updated embedding for "cat" (context-aware!)</text>
+                            <text x="425" y="220" text-anchor="middle" font-size="13" fill="#9C27B0" font-weight="bold">✨ Output: Updated "cat" embedding (context-aware!)</text>
 
-                            <rect x="200" y="200" width="450" height="100" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
-                            <text x="425" y="230" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">New "cat" vector combines:</text>
-                            <text x="425" y="255" text-anchor="middle" font-size="12" fill="#7B1FA2">• Original "cat" meaning</text>
-                            <text x="425" y="275" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "sat" (action)</text>
-                            <text x="425" y="295" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "mat" (location)</text>
+                            <rect x="200" y="240" width="450" height="100" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
+                            <text x="425" y="270" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">New "cat" vector combines:</text>
+                            <text x="425" y="295" text-anchor="middle" font-size="12" fill="#7B1FA2">• Original "cat" meaning</text>
+                            <text x="425" y="315" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "sat" (action)</text>
+                            <text x="425" y="335" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "mat" (location)</text>
                         </g>
 
                         <defs>
@@ -3503,6 +3545,30 @@ Ignore all tokens after 90% threshold</code></pre>
                     <div class="success-box">
                         <p><strong>Key Takeaway:</strong> Models predict probabilities for every possible next word. Temperature controls randomness, top-k/top-p filter unlikely options. This is how you control AI creativity vs accuracy!</p>
                     </div>
+
+                    <h2 style="margin-top: 40px;">Changing Gears: From HOW to WHERE 🔄</h2>
+                    <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.2) 100%); border-left: 4px solid #2196F3;">
+                        <p><strong>✅ You Now Understand HOW Models Work:</strong></p>
+                        <ul>
+                            <li>Text → Tokens → Embeddings → Attention → Predictions ✓</li>
+                            <li>How the forward pass transforms data ✓</li>
+                            <li>How sampling controls output ✓</li>
+                        </ul>
+
+                        <p style="margin-top: 15px;"><strong>🔄 Next: Understanding WHERE & HOW It's All STORED</strong></p>
+                        <p>A 7B model has 7 BILLION numbers (parameters). But how are they stored?</p>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>What format?</strong> FP32? FP16? Something else?</li>
+                            <li><strong>How much space?</strong> 28 GB? 14 GB? 4 GB?</li>
+                            <li><strong>Speed vs size trade-offs?</strong> How to optimize?</li>
+                        </ul>
+
+                        <p style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                            <strong>💡 Coming Up:</strong> Floating point formats, quantization, GGUF files, and how to actually RUN these models on your computer!
+                        </p>
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Next Section:</strong> Floating point numbers - the foundation of model storage!</p>
                 `,
                 quiz: [
                     {question: "What does temperature control?", options: ["Model size", "Randomness of predictions", "Training speed", "Context window"], correct: 1, explanation: "Temperature controls randomness: Low temperature (0.1) makes output deterministic and boring. High temperature (1.5) makes it creative but risky. Medium (0.7) balances both."},
