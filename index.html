@@ -1053,14 +1053,28 @@ Embedding:  [-0.5, 0.1, 0.9, -0.3, ..., 0.6]  ← Very different!</code></pre>
                         <p><strong>Key Takeaway:</strong> Character codes (99, 97, 116) are just labels. AI needs rich numerical representations (embeddings) that capture meaning, relationships, and context. That's what we'll build toward!</p>
                     </div>
 
-                    <h2>Ready for the Journey?</h2>
-                    <p>You now understand:</p>
+                    <h2>The Path Forward</h2>
+                    <p>We know the GOAL: rich embeddings like [0.2, 0.8, -0.3...] that capture meaning.</p>
+
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,152,0,0.2) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>🔄 But First, A Problem:</strong></p>
+                        <p>We can't convert raw text directly to embeddings. Why?</p>
+                        <ul>
+                            <li>"The cat sat" = 11 characters (including spaces) - too many!</li>
+                            <li>Individual letters have no meaning</li>
+                            <li>We need <strong>meaningful chunks</strong> first</li>
+                        </ul>
+                        <p><strong>Solution:</strong> <span style="color: #FF9800; font-weight: bold;">TOKENIZATION</span> - breaking text into smart pieces!</p>
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Journey So Far:</strong></p>
                     <ul>
                         <li>✓ How computers store data as binary</li>
                         <li>✓ How text becomes character codes</li>
                         <li>✓ Why simple codes aren't enough for AI</li>
                     </ul>
-                    <p><strong>Next up:</strong> Learn how tokenization breaks text into pieces AI can process!</p>
+
+                    <p><strong>Next:</strong> Tokenization - from "The cat" → ["The", "cat"] (smarter chunks!)</p>
                 `,
                 quiz: [
                     {
@@ -1461,6 +1475,21 @@ enc = tiktoken.get_encoding("cl100k_base")  # GPT-4 tokenizer
 text = "The cat sat"
 tokens = enc.encode(text)
 print(tokens)  # [791, 8415, 7731]</code></pre>
+
+                    <h2 style="margin-top: 40px;">What's Next?</h2>
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,152,0,0.2) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>⚠️ We Have Numbers... But They're Still Just Labels!</strong></p>
+                        <p>We've converted "The cat" → [791, 8415]</p>
+                        <p><strong>The Problem:</strong></p>
+                        <ul>
+                            <li>Token ID 8415 is just an arbitrary label for "cat"</li>
+                            <li>8415 tells us NOTHING about what "cat" means</li>
+                            <li>We can't do math with meaning using these IDs</li>
+                        </ul>
+                        <p><strong>What We Need:</strong> Convert each token ID into a <strong>vector</strong> (list of many numbers) that captures actual meaning!</p>
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Coming Next:</strong> Vectors - from single number (8415) → rich representation ([0.8, 0.3, -0.5, ...]) !</p>
                 `,
                 quiz: [
                     {
@@ -2657,6 +2686,31 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                     <div class="success-box">
                         <p><strong>Key Takeaway:</strong> The Embedding Table is the AI's learned dictionary - it instantly converts token IDs to meaningful vectors. It's often the largest single parameter group, storing the model's knowledge of language!</p>
                     </div>
+
+                    <h2 style="margin-top: 40px;">Houston, We Have a Problem! 🔴</h2>
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(244,67,54,0.1) 0%, rgba(244,67,54,0.2) 100%); border-left: 4px solid #F44336;">
+                        <p><strong>⚠️ Static Embeddings Problem:</strong></p>
+
+                        <p style="font-size: 16px; margin: 15px 0;"><strong>Token 8415 ("cat") ALWAYS gives us [0.8, 0.3, -0.5, 0.1, ...]</strong></p>
+
+                        <p><strong>But this is WRONG! Context matters:</strong></p>
+                        <pre><code>"The <span style="background: #ffeb3b; color: #000;">cat</span> sat on the mat"     ← "cat" is sitting
+"The <span style="background: #ffeb3b; color: #000;">cat</span> jumped"              ← "cat" is jumping
+"River <span style="background: #ffeb3b; color: #000;">bank</span>"                  ← "bank" = edge of river
+"Money <span style="background: #ffeb3b; color: #000;">bank</span>"                  ← "bank" = financial institution</code></pre>
+
+                        <p style="margin-top: 15px;"><strong>Same word, DIFFERENT meanings - but our embedding table gives the SAME vector!</strong></p>
+
+                        <p style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                            <strong>💡 What We Need:</strong> A way to make embeddings <strong>context-aware</strong> - so "cat" has a different representation depending on surrounding words!
+                        </p>
+
+                        <p style="margin-top: 15px; font-size: 18px; color: #4CAF50; font-weight: bold;">
+                            ✨ Solution: SELF-ATTENTION - The breakthrough that made modern AI possible!
+                        </p>
+                    </div>
+
+                    <p style="margin-top: 20px;"><strong>Next Section:</strong> How self-attention lets each word "look at" other words and adjust its meaning based on context!</p>
                 `,
                 quiz: [
                     {
@@ -2688,9 +2742,33 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                 title: "Self-Attention Mechanism",
                 category: 5,
                 content: `
+                    <div class="info-box" style="background: linear-gradient(135deg, rgba(158,158,158,0.1) 0%, rgba(158,158,158,0.2) 100%); border-left: 4px solid #9E9E9E; margin-bottom: 30px;">
+                        <p><strong>📍 Where We Left Off (Section 10):</strong></p>
+                        <p>✅ We have the Embedding Table: Token 8415 ("cat") → [0.8, 0.3, -0.5, 0.1, ...]</p>
+                        <p style="margin-top: 10px;"><strong>🔴 The Problem:</strong> This vector is <strong>STATIC</strong></p>
+                        <ul style="margin-top: 5px;">
+                            <li>"The cat <strong>sat</strong>" → [0.8, 0.3, -0.5...] (static!)</li>
+                            <li>"The cat <strong>jumped</strong>" → [0.8, 0.3, -0.5...] (same vector!)</li>
+                            <li>"River <strong>bank</strong>" vs "Money <strong>bank</strong>" → same embedding!</li>
+                        </ul>
+                        <p style="margin-top: 10px; color: #F44336; font-weight: bold;">We need context-aware representations!</p>
+                    </div>
+
                     <h1>Self-Attention: How AI Sees Connections</h1>
 
-                    <p class="lead">Self-attention is the BREAKTHROUGH that made modern AI possible. It lets the model figure out which words are related to which other words - automatically!</p>
+                    <p class="lead">Self-attention is the BREAKTHROUGH that solves the static embedding problem! It lets each word "look at" all other words and adjust its meaning based on context - automatically!</p>
+
+                    <div class="success-box" style="margin: 20px 0;">
+                        <p><strong>✨ What Self-Attention Does:</strong></p>
+                        <p>Takes those static embeddings from Section 10 and makes them <strong>dynamic</strong>!</p>
+                        <ul>
+                            <li>"cat" near "sat" → emphasizes sitting action</li>
+                            <li>"cat" near "jumped" → emphasizes jumping action</li>
+                            <li>"bank" near "river" → financial meaning reduced</li>
+                            <li>"bank" near "money" → river meaning reduced</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Same word, DIFFERENT vectors based on context!</strong></p>
+                    </div>
 
                     <svg class="flow-diagram" width="100%" height="340" viewBox="0 0 850 340">
                         <!-- Input sentence -->
