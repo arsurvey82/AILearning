@@ -2871,6 +2871,19 @@ TOTAL: ~124,000,000 parameters!</code></pre>
                         </defs>
                     </svg>
 
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>⚠️ IMPORTANT: Table vs Vectors</strong></p>
+                        <ul style="margin: 10px 0; font-size: 14px;">
+                            <li><strong>Embedding TABLE</strong> (singular) = ONE big storage container
+                                <br><span style="color: #666; font-size: 12px;">→ The entire 50,000 × 768 grid of numbers (like a library)</span>
+                            </li>
+                            <li><strong>Embedding VECTORS</strong> (plural) = MULTIPLE results retrieved from it
+                                <br><span style="color: #666; font-size: 12px;">→ Individual rows taken OUT of the table (like books from the library)</span>
+                            </li>
+                        </ul>
+                        <p style="margin: 10px 0; font-size: 13px;">Think: 1 TABLE contains 50,000 VECTORS (one per token). You look up token IDs in the TABLE to get VECTORS out!</p>
+                    </div>
+
                     <h2>What Is an Embedding Table?</h2>
                     <p>An <strong>Embedding Table</strong> (also called Embedding Matrix) is a 2D grid of numbers:</p>
 
@@ -3090,276 +3103,240 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
             // ============================================
             {
                 id: 11,
-                title: "Self-Attention Mechanism",
+                title: "The Transformer - Putting It All Together",
                 category: 5,
                 content: `
-                    <div class="info-box" style="background: linear-gradient(135deg, rgba(158,158,158,0.1) 0%, rgba(158,158,158,0.2) 100%); border-left: 4px solid #9E9E9E; margin-bottom: 30px;">
-                        <p><strong>📍 Where We Left Off (Section 10):</strong></p>
-                        <p>✅ We have the Embedding Table: Token 8415 ("cat") → [0.8, 0.3, -0.5, 0.1, ...]</p>
-                        <p style="margin-top: 10px;"><strong>🔴 The Problem:</strong> This vector is <strong>STATIC</strong></p>
-                        <ul style="margin-top: 5px;">
-                            <li>"The cat <strong>sat</strong>" → [0.8, 0.3, -0.5...] (static!)</li>
-                            <li>"The cat <strong>jumped</strong>" → [0.8, 0.3, -0.5...] (same vector!)</li>
-                            <li>"River <strong>bank</strong>" vs "Money <strong>bank</strong>" → same embedding!</li>
+                    <h1>🏗️ The Transformer: The Architecture That Changed Everything</h1>
+
+                    <p class="lead">You've learned tokens, IDs, embeddings, vectors, and dimensions. Now let's see how they ALL fit together in the TRANSFORMER - the breakthrough architecture from 2017 that powers GPT, Claude, and every modern AI!</p>
+
+                    <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(103,58,183,0.1) 100%); border-left: 4px solid #2196F3; margin: 20px 0;">
+                        <p><strong>📚 Everything You've Learned So Far:</strong></p>
+                        <ul style="font-size: 14px; margin: 10px 0;">
+                            <li>✅ <strong>Text → Tokens</strong> (Section 4-5): "The cat sat" → ["The", " cat", " sat"]</li>
+                            <li>✅ <strong>Tokens → IDs</strong> (Section 5): ["The", " cat", " sat"] → [791, 8415, 7731]</li>
+                            <li>✅ <strong>IDs → Embedding Table Lookup</strong> (Section 10): 8415 → [0.8, 0.3, -0.5, ...] (768 numbers)</li>
+                            <li>✅ <strong>Vectors with Dimensions</strong> (Section 6-9): Each token = 768-dimensional vector</li>
                         </ul>
-                        <p style="margin-top: 10px; color: #F44336; font-weight: bold;">We need context-aware representations!</p>
+                        <p style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 6px;">
+                            <strong>🔴 THE PROBLEM:</strong> These embedding vectors are <strong>STATIC</strong> - "cat" always gets [0.8, 0.3, ...] regardless of context!
+                        </p>
                     </div>
 
-                    <h1>Self-Attention: How AI Sees Connections</h1>
-
-                    <p class="lead">Self-attention is the BREAKTHROUGH that solves the static embedding problem! It lets each word "look at" all other words and adjust its meaning based on context - automatically!</p>
-
-                    <div class="success-box" style="margin: 20px 0;">
-                        <p><strong>✨ What Self-Attention Does:</strong></p>
-                        <p>Takes those static embeddings from Section 10 and makes them <strong>dynamic</strong>!</p>
-                        <ul>
-                            <li>"cat" near "sat" → emphasizes sitting action</li>
-                            <li>"cat" near "jumped" → emphasizes jumping action</li>
-                            <li>"bank" near "river" → financial meaning reduced</li>
-                            <li>"bank" near "money" → river meaning reduced</li>
+                    <h2>🎯 What Is a Transformer?</h2>
+                    <div class="success-box">
+                        <p><strong>A transformer is a processing factory with 120 identical floors (layers), where:</strong></p>
+                        <ul style="margin: 10px 0;">
+                            <li>📥 <strong>Input:</strong> Static embedding vectors [0.8, 0.3, ...] from Section 10</li>
+                            <li>🏭 <strong>Processing:</strong> Each of 120 layers adds more context and understanding</li>
+                            <li>📤 <strong>Output:</strong> Context-aware vectors ready for predictions</li>
                         </ul>
-                        <p style="margin-top: 10px;"><strong>Same word, DIFFERENT vectors based on context!</strong></p>
+                        <p style="margin-top: 10px;"><strong>Key Innovation:</strong> Each layer has 2 components that work together!</p>
                     </div>
 
-                    <svg class="flow-diagram" width="100%" height="350" viewBox="0 0 700 350">
+                    <h2>📜 History: 2017 - "Attention Is All You Need"</h2>
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>💡 The Paper That Started It All</strong></p>
+                        <p style="margin: 10px 0;">In 2017, Google researchers published "Attention Is All You Need" - introducing the <strong>Transformer architecture</strong>.</p>
+                        <ul style="margin: 10px 0;">
+                            <li><strong>Before 2017:</strong> RNNs, LSTMs - processed text sequentially (slow!)</li>
+                            <li><strong>After 2017:</strong> Transformers - process ALL tokens in parallel (fast!)</li>
+                            <li><strong>Result:</strong> GPT (2018), BERT (2018), GPT-2 (2019), GPT-3 (2020), ChatGPT (2022)...</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #E65100;">Most cited AI paper in history - the foundation of modern AI!</p>
+                    </div>
+
+                    <h2>🔧 Components in EACH Transformer Layer</h2>
+
+                    <svg class="flow-diagram" width="100%" height="500" viewBox="0 0 800 500">
                         <!-- Title -->
-                        <text x="350" y="25" text-anchor="middle" font-size="15" fill="#333" font-weight="bold">How Attention Makes "cat" Context-Aware</text>
-                        <text x="350" y="45" text-anchor="middle" font-size="12" fill="#999">(From static embedding → dynamic, context-aware)</text>
+                        <text x="400" y="25" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">ONE Transformer Layer (120 of these stacked!)</text>
 
-                        <!-- Input embeddings (static from Section 10) -->
-                        <text x="350" y="75" text-anchor="middle" font-size="11" fill="#999" font-style="italic">Static embeddings from Embedding Table ↓</text>
+                        <!-- Input: Embedding Vectors from Section 10 -->
+                        <rect x="250" y="50" width="300" height="70" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="3"/>
+                        <text x="400" y="75" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="bold">INPUT: Embedding Vectors from Section 10</text>
+                        <text x="400" y="95" text-anchor="middle" font-size="12" fill="#558B2F" font-family="monospace">["cat"=[0.8,0.3,...], "sat"=[0.2,0.9,...], ...]</text>
+                        <text x="400" y="112" text-anchor="middle" font-size="11" fill="#666">Static vectors (768 dimensions each)</text>
 
-                        <g>
-                            <rect x="60" y="90" width="70" height="45" rx="6" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
-                            <text x="95" y="117" text-anchor="middle" font-size="14" fill="#888">The</text>
+                        <!-- Arrow down -->
+                        <path d="M 400 120 L 400 155" stroke="#666" stroke-width="3" marker-end="url(#arrow11a)"/>
 
-                            <rect x="155" y="90" width="70" height="45" rx="6" fill="#fff3e0" stroke="#FF9800" stroke-width="2.5"/>
-                            <text x="190" y="117" text-anchor="middle" font-size="16" fill="#E65100" font-weight="bold">cat</text>
+                        <!-- Component 1: Self-Attention Block -->
+                        <rect x="200" y="155" width="400" height="110" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="3"/>
+                        <text x="400" y="180" text-anchor="middle" font-size="15" fill="#E65100" font-weight="bold">COMPONENT 1: Self-Attention Block</text>
+                        <text x="400" y="200" text-anchor="middle" font-size="13" fill="#666">"Let each token look at other tokens"</text>
 
-                            <rect x="250" y="90" width="70" height="45" rx="6" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
-                            <text x="285" y="117" text-anchor="middle" font-size="14" fill="#888">sat</text>
+                        <text x="220" y="225" font-size="12" fill="#333">• Uses Q/K/V matrices (768×768 each)</text>
+                        <text x="220" y="245" font-size="12" fill="#333">• Makes vectors context-aware</text>
+                        <text x="220" y="265" text-anchor="start" font-size="12" fill="#E65100" font-weight="bold">Output: [0.7, 0.4, ...] ← "cat" now knows about "sat"!</text>
 
-                            <rect x="345" y="90" width="70" height="45" rx="6" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
-                            <text x="380" y="117" text-anchor="middle" font-size="14" fill="#888">on</text>
+                        <!-- Arrow down -->
+                        <path d="M 400 265 L 400 295" stroke="#666" stroke-width="3" marker-end="url(#arrow11b)"/>
 
-                            <rect x="440" y="90" width="70" height="45" rx="6" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
-                            <text x="475" y="117" text-anchor="middle" font-size="14" fill="#888">the</text>
+                        <!-- Component 2: Feed-Forward Network -->
+                        <rect x="200" y="295" width="400" height="110" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="3"/>
+                        <text x="400" y="320" text-anchor="middle" font-size="15" fill="#1565C0" font-weight="bold">COMPONENT 2: Feed-Forward Network (FFN)</text>
+                        <text x="400" y="340" text-anchor="middle" font-size="13" fill="#666">"Process each token independently"</text>
 
-                            <rect x="535" y="90" width="70" height="45" rx="6" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
-                            <text x="570" y="117" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">mat</text>
-                        </g>
+                        <text x="220" y="365" font-size="12" fill="#333">• Expands: 768 dims → 3072 dims (4x larger!)</text>
+                        <text x="220" y="385" text-anchor="start" font-size="12" fill="#333">• Compresses back: 3072 dims → 768 dims</text>
+                        <text x="220" y="405" text-anchor="start" font-size="12" fill="#1565C0" font-weight="bold">Output: Enhanced context-aware vectors</text>
 
-                        <!-- Attention arrows (only KEY connections) -->
-                        <text x="350" y="160" text-anchor="middle" font-size="13" fill="#9C27B0" font-weight="bold">✨ Attention: "cat" looks at other words</text>
+                        <!-- Arrow down -->
+                        <path d="M 400 405 L 400 435" stroke="#666" stroke-width="3" marker-end="url(#arrow11c)"/>
 
-                        <!-- Just show 2 main attention arrows for clarity -->
-                        <g>
-                            <!-- Strong attention to "sat" -->
-                            <path d="M 190 135 Q 240 165 285 135" stroke="#FF9800" stroke-width="4" fill="none" opacity="0.8" marker-end="url(#arrowClean1)">
-                                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-                            </path>
-                            <text x="240" y="153" text-anchor="middle" font-size="12" fill="#FF9800" font-weight="bold" style="background: white;">0.8 strong</text>
-
-                            <!-- Strong attention to "mat" -->
-                            <path d="M 190 125 Q 350 170 570 135" stroke="#4CAF50" stroke-width="4" fill="none" opacity="0.8" marker-end="url(#arrowClean2)">
-                                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-                            </path>
-                            <text x="380" y="175" text-anchor="middle" font-size="12" fill="#4CAF50" font-weight="bold">0.7 strong</text>
-                        </g>
-
-                        <!-- Vertical arrow down -->
-                        <path d="M 350 195 L 350 220" stroke="#666" stroke-width="2.5" marker-end="url(#arrowClean3)"/>
-
-                        <!-- Output: Context-aware embedding -->
-                        <rect x="100" y="230" width="500" height="100" rx="10" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
-                        <text x="350" y="255" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">✅ New Context-Aware "cat" Embedding</text>
-                        <text x="350" y="280" text-anchor="middle" font-size="12" fill="#7B1FA2">Original "cat" meaning + context from "sat" & "mat"</text>
-                        <text x="350" y="300" text-anchor="middle" font-size="11" fill="#9C27B0" font-style="italic">Now "cat" knows it's sitting on something!</text>
-                        <text x="350" y="318" text-anchor="middle" font-size="10" fill="#999">[0.8, 0.3, -0.5, ...] → [0.7, 0.4, -0.2, ...] (updated!)</text>
+                        <!-- Output of ONE layer -->
+                        <rect x="250" y="435" width="300" height="50" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
+                        <text x="400" y="460" text-anchor="middle" font-size="13" fill="#6A1B9A" font-weight="bold">OUTPUT: Context-Aware Vectors (768 dims)</text>
+                        <text x="400" y="477" text-anchor="middle" font-size="11" fill="#666">→ Goes to next layer (Layer 2, 3, ... up to 120!)</text>
 
                         <defs>
-                            <marker id="arrowClean1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                                <polygon points="0 0, 8 3, 0 6" fill="#FF9800"/>
+                            <marker id="arrow11a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
                             </marker>
-                            <marker id="arrowClean2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                                <polygon points="0 0, 8 3, 0 6" fill="#4CAF50"/>
+                            <marker id="arrow11b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
                             </marker>
-                            <marker id="arrowClean3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                                <polygon points="0 0, 8 3, 0 6" fill="#666"/>
+                            <marker id="arrow11c" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
                             </marker>
                         </defs>
                     </svg>
 
-                    <h2>What is Self-Attention?</h2>
-                    <p><strong>Self-attention</strong> lets each word look at all other words in the sentence and decide which ones are important for understanding it:</p>
+                    <h2>📊 The Complete Flow: How Everything Fits</h2>
 
-                    <div class="info-box">
-                        <p><strong>The Problem It Solves:</strong></p>
-                        <p>Without attention, each word's embedding is static - "bank" always has the same vector. But "bank" means different things in different contexts:</p>
-                        <ul>
-                            <li>"I went to the <strong>bank</strong>" (financial institution)</li>
-                            <li>"River <strong>bank</strong>" (side of river)</li>
-                        </ul>
-                        <p>Attention lets the model adjust each word's representation based on context!</p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="https://miro.medium.com/v2/resize:fit:1400/1*BHzGVskWGS_3jEcYYi6miQ.gif"
+                             alt="Transformer Architecture Animation"
+                             style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                        <p style="font-size: 12px; color: #666; margin-top: 10px;">Tokens flowing through Transformer layers</p>
                     </div>
 
-                    <h2>How Self-Attention Works</h2>
-                    <p>For each word, the model computes three vectors: <strong>Query (Q)</strong>, <strong>Key (K)</strong>, and <strong>Value (V)</strong>:</p>
+                    <svg class="flow-diagram" width="100%" height="700" viewBox="0 0 900 700">
+                        <!-- Title -->
+                        <text x="450" y="30" text-anchor="middle" font-size="18" fill="#333" font-weight="bold">Complete Transformer: All Your Learning Connected!</text>
 
-                    <pre><code># For the word "cat" with embedding [0.8, 0.3, -0.5, ...]
+                        <!-- Step 1: Text Input -->
+                        <rect x="350" y="50" width="200" height="50" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="450" y="80" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">1. Text: "The cat sat"</text>
+                        <path d="M 450 100 L 450 125" stroke="#666" stroke-width="2" marker-end="url(#arrow11d)"/>
 
-Q = Query  = W_Q @ embedding  # "What am I looking for?"
-K = Key    = W_K @ embedding  # "What do I offer?"
-V = Value  = W_V @ embedding  # "What information do I contain?"
+                        <!-- Step 2: Tokenization -->
+                        <rect x="350" y="125" width="200" height="50" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                        <text x="450" y="155" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">2. Tokens: ["The"," cat"," sat"]</text>
+                        <path d="M 450 175 L 450 200" stroke="#666" stroke-width="2" marker-end="url(#arrow11d)"/>
 
-# W_Q, W_K, W_V are learned weight matrices</code></pre>
+                        <!-- Step 3: Token IDs -->
+                        <rect x="350" y="200" width="200" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                        <text x="450" y="230" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">3. IDs: [791, 8415, 7731]</text>
+                        <path d="M 450 250 L 450 275" stroke="#666" stroke-width="2" marker-end="url(#arrow11d)"/>
 
-                    <h2>The Attention Calculation</h2>
-                    <p>Three simple steps:</p>
+                        <!-- Step 4: Embedding Table Lookup -->
+                        <rect x="300" y="275" width="300" height="70" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2"/>
+                        <text x="450" y="300" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">4. Embedding Table Lookup</text>
+                        <text x="450" y="320" text-anchor="middle" font-size="12" fill="#666">8415 → [0.8, 0.3, -0.5, ..., 0.1]</text>
+                        <text x="450" y="337" text-anchor="middle" font-size="11" fill="#666">(Static vectors, 768 dimensions)</text>
+                        <path d="M 450 345 L 450 375" stroke="#666" stroke-width="3" marker-end="url(#arrow11d)"/>
 
-                    <div class="warning-box">
-                        <p><strong>Step 1: Calculate Similarity Scores</strong></p>
-                        <pre><code># How similar is "cat" to each word?
-score_with_sat = Q_cat • K_sat  # Dot product
-score_with_mat = Q_cat • K_mat
-# ... for all words</code></pre>
+                        <!-- The Transformer Layers -->
+                        <rect x="250" y="375" width="400" height="250" rx="12" fill="rgba(244,67,54,0.05)" stroke="#F44336" stroke-width="3"/>
+                        <text x="450" y="400" text-anchor="middle" font-size="16" fill="#C62828" font-weight="bold">🏭 TRANSFORMER (120 LAYERS)</text>
 
-                        <p><strong>Step 2: Normalize with Softmax</strong></p>
-                        <pre><code># Convert to probabilities (sum = 1.0)
-attention_weights = softmax([scores...])
-# Example: [0.1, 0.8, 0.4, 0.1, 0.7]</code></pre>
+                        <!-- Layer 1 -->
+                        <rect x="270" y="415" width="360" height="60" rx="6" fill="white" stroke="#FF9800" stroke-width="2"/>
+                        <text x="290" y="435" font-size="12" fill="#333" font-weight="bold">Layer 1:</text>
+                        <text x="290" y="452" font-size="11" fill="#666">Attention → FFN</text>
+                        <text x="290" y="467" font-size="11" fill="#4CAF50">[0.8,0.3,...] → [0.75,0.35,...]</text>
 
-                        <p><strong>Step 3: Weighted Sum of Values</strong></p>
-                        <pre><code># Combine information from all words
-output = 0.1*V_The + 0.8*V_sat + 0.4*V_on + 0.1*V_the + 0.7*V_mat
-# Result: context-aware embedding for "cat"!</code></pre>
-                    </div>
+                        <!-- Layer 2 -->
+                        <rect x="270" y="485" width="360" height="60" rx="6" fill="white" stroke="#FF9800" stroke-width="2"/>
+                        <text x="290" y="505" font-size="12" fill="#333" font-weight="bold">Layer 2:</text>
+                        <text x="290" y="522" font-size="11" fill="#666">Attention → FFN</text>
+                        <text x="290" y="537" font-size="11" fill="#4CAF50">[0.75,0.35,...] → [0.70,0.40,...]</text>
 
-                    <h2>Real Example with Numbers</h2>
-                    <pre><code>Input: "cat sat mat"
-Embeddings: Each word → 4D vector
+                        <!-- Dots -->
+                        <text x="450" y="565" text-anchor="middle" font-size="20" fill="#666">...</text>
 
-cat = [1, 0, 0, 0]
-sat = [0, 1, 0, 0]
-mat = [0, 0, 1, 0]
+                        <!-- Layer 120 -->
+                        <rect x="270" y="575" width="360" height="40" rx="6" fill="white" stroke="#FF9800" stroke-width="2"/>
+                        <text x="290" y="598" font-size="12" fill="#333" font-weight="bold">Layer 120: Final context-aware vectors!</text>
 
-# For "cat", calculate attention to all words:
-Scores:  [cat·cat, cat·sat, cat·mat] = [1.0, 0.3, 0.8]
-Softmax: [0.35, 0.15, 0.50]  # Normalized weights
+                        <path d="M 450 625 L 450 650" stroke="#666" stroke-width="3" marker-end="url(#arrow11d)"/>
 
-# New context-aware "cat" embedding:
-output = 0.35*[1,0,0,0] + 0.15*[0,1,0,0] + 0.50*[0,0,1,0]
-       = [0.35, 0.15, 0.50, 0]
+                        <!-- Output Layer -->
+                        <rect x="300" y="650" width="300" height="40" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="3"/>
+                        <text x="450" y="675" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">5. Output: Predictions for next token</text>
 
-# Now "cat" embedding includes context from "sat" and "mat"!</code></pre>
-
-                    <h2>Why It's Called "Self"-Attention</h2>
-                    <div class="success-box">
-                        <p><strong>"Self" means the sentence attends to itself!</strong></p>
-                        <ul>
-                            <li>Each word looks at <strong>every other word</strong> in the SAME sentence</li>
-                            <li>No external information needed</li>
-                            <li>The model learns which words relate to which automatically</li>
-                        </ul>
-                    </div>
-
-                    <h2>Attention Weights Visualization</h2>
-                    <p>Researchers often visualize attention as a heatmap:</p>
-
-                    <svg width="100%" height="280" viewBox="0 0 600 280">
-                        <!-- Heatmap grid -->
-                        <text x="300" y="25" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Attention Heatmap: What "cat" attends to</text>
-
-                        <!-- Column headers -->
-                        <text x="180" y="65" text-anchor="middle" font-size="12" fill="#666">The</text>
-                        <text x="250" y="65" text-anchor="middle" font-size="12" fill="#666">cat</text>
-                        <text x="320" y="65" text-anchor="middle" font-size="12" fill="#666">sat</text>
-                        <text x="390" y="65" text-anchor="middle" font-size="12" fill="#666">on</text>
-                        <text x="460" y="65" text-anchor="middle" font-size="12" fill="#666">the</text>
-                        <text x="530" y="65" text-anchor="middle" font-size="12" fill="#666">mat</text>
-
-                        <!-- Row: cat -->
-                        <text x="110" y="105" text-anchor="end" font-size="12" fill="#666" font-weight="bold">cat →</text>
-
-                        <rect x="150" y="80" width="60" height="40" fill="#e0e0e0"/>
-                        <text x="180" y="105" text-anchor="middle" font-size="11" fill="#333">0.1</text>
-
-                        <rect x="220" y="80" width="60" height="40" fill="#FFEB3B"/>
-                        <text x="250" y="105" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">0.5</text>
-
-                        <rect x="290" y="80" width="60" height="40" fill="#FF9800">
-                            <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
-                        </rect>
-                        <text x="320" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">0.8</text>
-
-                        <rect x="360" y="80" width="60" height="40" fill="#FFC107"/>
-                        <text x="390" y="105" text-anchor="middle" font-size="11" fill="#333">0.4</text>
-
-                        <rect x="430" y="80" width="60" height="40" fill="#e0e0e0"/>
-                        <text x="460" y="105" text-anchor="middle" font-size="11" fill="#333">0.1</text>
-
-                        <rect x="500" y="80" width="60" height="40" fill="#4CAF50">
-                            <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-                        </rect>
-                        <text x="530" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">0.7</text>
-
-                        <!-- Legend -->
-                        <text x="300" y="155" text-anchor="middle" font-size="12" fill="#666">Attention Strength</text>
-                        <rect x="150" y="165" width="80" height="20" fill="#e0e0e0"/>
-                        <text x="190" y="180" text-anchor="middle" font-size="10" fill="#333">Low (0.1)</text>
-
-                        <rect x="260" y="165" width="80" height="20" fill="#FF9800"/>
-                        <text x="300" y="180" text-anchor="middle" font-size="10" fill="#fff">High (0.8)</text>
-
-                        <text x="300" y="215" text-anchor="middle" font-size="12" fill="#9C27B0" font-weight="bold">Interpretation:</text>
-                        <text x="300" y="235" text-anchor="middle" font-size="11" fill="#666">"cat" pays most attention to "sat" (the action)</text>
-                        <text x="300" y="255" text-anchor="middle" font-size="11" fill="#666">and "mat" (the location where sitting happens)</text>
+                        <defs>
+                            <marker id="arrow11d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                            </marker>
+                        </defs>
                     </svg>
 
-                    <h2>Why Self-Attention is Powerful</h2>
-                    <ul>
-                        <li><strong>Parallel processing</strong>: All words computed simultaneously (unlike RNNs)</li>
-                        <li><strong>Long-range dependencies</strong>: Word 1 can directly attend to word 1000</li>
-                        <li><strong>Learned relationships</strong>: Model learns which words relate without rules</li>
-                        <li><strong>Context-aware</strong>: Same word gets different representations in different contexts</li>
-                    </ul>
+                    <h2>🔢 By The Numbers: GPT-3 Transformer</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px; text-align: left;">Component</th>
+                            <th style="padding: 12px; text-align: right;">Count</th>
+                            <th style="padding: 12px; text-align: left;">Purpose</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Transformer Layers</td>
+                            <td style="padding: 10px; text-align: right; font-family: monospace;">120</td>
+                            <td style="padding: 10px;">Each adds more context understanding</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Attention Blocks</td>
+                            <td style="padding: 10px; text-align: right; font-family: monospace;">120</td>
+                            <td style="padding: 10px;">One per layer - makes vectors context-aware</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Feed-Forward Blocks</td>
+                            <td style="padding: 10px; text-align: right; font-family: monospace;">120</td>
+                            <td style="padding: 10px;">One per layer - processes context</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Embedding Table</td>
+                            <td style="padding: 10px; text-align: right; font-family: monospace;">1</td>
+                            <td style="padding: 10px;">Converts token IDs to vectors (Section 10)</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px; font-weight: bold;">Total Parameters</td>
+                            <td style="padding: 10px; text-align: right; font-family: monospace; font-weight: bold;">175 Billion</td>
+                            <td style="padding: 10px; font-weight: bold;">All learned numbers across all components!</td>
+                        </tr>
+                    </table>
 
-                    <h2>Computational Cost</h2>
-                    <div class="warning-box">
-                        <p><strong>Trade-off:</strong> Self-attention is powerful but expensive!</p>
-                        <pre><code># For sequence of length N:
-Memory:  O(N²)  # Store all attention scores
-Time:    O(N²)  # Compare every word to every other word
-
-Example:
-100 words   → 10,000 comparisons
-1,000 words → 1,000,000 comparisons!
-
-This is why context windows are limited!</code></pre>
-                    </div>
-
-                    <div class="success-box">
-                        <p><strong>Key Takeaway:</strong> Self-attention lets each word look at all other words and figure out which ones matter. It creates context-aware embeddings that change based on surrounding words - this is the magic that makes modern AI work!</p>
+                    <div class="success-box" style="margin-top: 30px;">
+                        <p><strong>🎉 Key Takeaway: The Transformer Connects Everything!</strong></p>
+                        <ul style="margin: 10px 0;">
+                            <li>✅ <strong>Tokens, IDs, Embeddings, Vectors, Dimensions</strong> - all flow through the transformer!</li>
+                            <li>✅ <strong>120 layers</strong> - each has Attention + Feed-Forward components</li>
+                            <li>✅ <strong>Static → Context-Aware</strong> - transforms [0.8, 0.3, ...] into meaningful representations</li>
+                            <li>✅ <strong>2017 innovation</strong> - "Attention Is All You Need" changed AI forever!</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Next sections</strong>: Deep dive into HOW Attention and Feed-Forward actually work!</p>
                     </div>
                 `,
                 quiz: [
                     {
-                        question: "What problem does self-attention solve?",
-                        options: ["Making models faster", "Creating context-aware word representations", "Reducing model size", "Improving tokenization"],
+                        question: "When was the Transformer architecture introduced?",
+                        options: ["2015", "2017", "2020", "2022"],
                         correct: 1,
-                        explanation: "Self-attention allows each word to look at all other words in the sentence and adjust its representation based on context. This makes 'bank' have different meanings in 'river bank' vs 'financial bank'."
+                        explanation: "The Transformer was introduced in 2017 in the paper 'Attention Is All You Need' by Google researchers. This became the most cited AI paper in history and the foundation for GPT, BERT, and all modern LLMs."
                     },
                     {
-                        question: "What are the three vectors computed in self-attention?",
-                        options: ["Input, Output, Hidden", "Query, Key, Value", "Embedding, Position, Context", "Word, Token, Vector"],
+                        question: "What are the TWO main components in each Transformer layer?",
+                        options: ["Encoder and Decoder", "Self-Attention and Feed-Forward", "Embedding and Output", "Tokenizer and Predictor"],
                         correct: 1,
-                        explanation: "Self-attention computes three vectors for each word: Query (what am I looking for?), Key (what do I offer?), and Value (what information do I contain?). These are combined to create context-aware representations."
+                        explanation: "Each Transformer layer has TWO components: (1) Self-Attention Block - makes vectors context-aware, and (2) Feed-Forward Network - processes the context. These two work together, and are repeated 120 times in GPT-3!"
                     },
                     {
-                        question: "Why is self-attention computationally expensive?",
-                        options: ["It uses too many parameters", "It requires O(N²) comparisons for N words", "It needs special hardware", "It processes words sequentially"],
+                        question: "How do transformers transform static embeddings?",
+                        options: ["Make them smaller", "Add context from surrounding tokens across 120 layers", "Convert them to text", "Remove unnecessary information"],
                         correct: 1,
-                        explanation: "Self-attention has O(N²) complexity because every word must attend to every other word. For 1000 words, that's 1 million comparisons! This is why context windows are limited."
+                        explanation: "Transformers take static embedding vectors [0.8, 0.3, ...] from the Embedding Table and pass them through 120 layers. Each layer adds more context understanding, transforming them into context-aware representations that know about surrounding words!"
                     }
                 ]
             },
