@@ -3203,13 +3203,161 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         </defs>
                     </svg>
 
-                    <h2>📊 The Complete Flow: How Everything Fits</h2>
+                    <h2>📊 Your Learning Journey: How EVERYTHING Fits Together</h2>
+
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(139,195,74,0.1) 100%); border-left: 4px solid #4CAF50; margin: 20px 0;">
+                        <p style="font-weight: bold; color: #2E7D32; font-size: 16px;">🎯 Watch this animated flow showing your complete learning journey!</p>
+                        <p style="color: #555; margin: 10px 0;">This animation loops through everything you've learned - watch how each concept connects to the next!</p>
+                    </div>
+
+                    <svg class="flow-diagram" width="100%" height="800" viewBox="0 0 1000 800" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 20px;">
+                        <defs>
+                            <!-- Arrow markers -->
+                            <marker id="arrowEvol" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                                <polygon points="0 0, 10 5, 0 10" fill="#4CAF50"/>
+                            </marker>
+
+                            <!-- Glow filter for active elements -->
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <!-- Title -->
+                        <text x="500" y="40" text-anchor="middle" font-size="24" fill="white" font-weight="bold">Your Complete Learning Evolution</text>
+                        <text x="500" y="65" text-anchor="middle" font-size="14" fill="#E0E0E0">From Text to AI Predictions - Watch How It All Connects!</text>
+
+                        <!-- Stage 1: Text (Section 1-3) -->
+                        <g opacity="0">
+                            <rect x="50" y="100" width="200" height="60" rx="10" fill="white" stroke="#4CAF50" stroke-width="3"/>
+                            <text x="150" y="125" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">📝 SECTION 1-3: Text</text>
+                            <text x="150" y="145" text-anchor="middle" font-size="13" fill="#333">"The cat sat"</text>
+                            <animate attributeName="opacity" values="0;1;1;1;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Arrow 1 -->
+                        <path d="M 250 130 L 330 130" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;1;1;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- Stage 2: Tokens (Section 4-5) -->
+                        <g opacity="0">
+                            <rect x="330" y="100" width="220" height="60" rx="10" fill="white" stroke="#FF9800" stroke-width="3"/>
+                            <text x="440" y="125" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">🔤 SECTION 4-5: Tokens</text>
+                            <text x="440" y="145" text-anchor="middle" font-size="12" fill="#333">["The", " cat", " sat"]</text>
+                            <animate attributeName="opacity" values="0;0;1;1;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Arrow 2 -->
+                        <path d="M 550 130 L 630 130" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;1;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- Stage 3: Token IDs (Section 5) -->
+                        <g opacity="0">
+                            <rect x="630" y="100" width="220" height="60" rx="10" fill="white" stroke="#2196F3" stroke-width="3"/>
+                            <text x="740" y="125" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">🔢 SECTION 5: Token IDs</text>
+                            <text x="740" y="145" text-anchor="middle" font-size="13" fill="#333">[791, 8415, 7731]</text>
+                            <animate attributeName="opacity" values="0;0;0;1;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Arrow down to transformer -->
+                        <path d="M 740 160 L 740 220" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- TRANSFORMER BOX (contains everything below) -->
+                        <rect x="30" y="220" width="940" height="530" rx="15" fill="rgba(255,255,255,0.95)" stroke="#F44336" stroke-width="5" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="255" text-anchor="middle" font-size="20" fill="#C62828" font-weight="bold" opacity="0">
+                            🏗️ THE TRANSFORMER (Everything Inside Here!)
+                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Stage 4: Embedding Table + Vectors (Section 6-10) -->
+                        <g opacity="0">
+                            <rect x="80" y="280" width="840" height="80" rx="10" fill="#F3E5F5" stroke="#9C27B0" stroke-width="3"/>
+                            <text x="500" y="305" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">📊 SECTION 6-10: Embedding Table → Vectors (768 dimensions)</text>
+                            <text x="500" y="328" text-anchor="middle" font-size="12" fill="#7B1FA2">IDs [8415] → Lookup Table → Vectors [0.8, 0.3, -0.5, ..., 0.1]</text>
+                            <text x="500" y="348" text-anchor="middle" font-size="11" fill="#9C27B0" font-style="italic">⚡ INSTANT lookup: Row 8415 = "cat" vector (768 numbers)</text>
+                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Arrow to Layer 1 -->
+                        <path d="M 500 360 L 500 400" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- Stage 5: Layer 1 (Attention + FFN with Parameters) -->
+                        <g opacity="0">
+                            <rect x="80" y="400" width="840" height="110" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="3"/>
+                            <text x="500" y="425" text-anchor="middle" font-size="15" fill="#E65100" font-weight="bold">⚙️ LAYER 1: Attention Block + Feed-Forward (uses Parameters/Weights)</text>
+
+                            <!-- Attention block -->
+                            <rect x="100" y="440" width="380" height="55" rx="6" fill="white" stroke="#FF9800" stroke-width="2"/>
+                            <text x="290" y="460" text-anchor="middle" font-size="12" fill="#333">Attention: Q/K/V matrices</text>
+                            <text x="290" y="478" text-anchor="middle" font-size="11" fill="#666">[0.8,0.3,...] → context-aware</text>
+
+                            <!-- FFN block -->
+                            <rect x="520" y="440" width="380" height="55" rx="6" fill="white" stroke="#2196F3" stroke-width="2"/>
+                            <text x="710" y="460" text-anchor="middle" font-size="12" fill="#333">Feed-Forward: W₁, W₂</text>
+                            <text x="710" y="478" text-anchor="middle" font-size="11" fill="#666">768→3072→768 dims</text>
+
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Arrow to Layer 2 -->
+                        <path d="M 500 510 L 500 545" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- Stage 6: Layer 2-120 (Multiple Blocks) -->
+                        <g opacity="0">
+                            <rect x="80" y="545" width="840" height="90" rx="10" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
+                            <text x="500" y="570" text-anchor="middle" font-size="15" fill="#1565C0" font-weight="bold">⚙️ LAYERS 2-120: Same Structure (Attention + FFN each)</text>
+                            <text x="500" y="595" text-anchor="middle" font-size="13" fill="#1976D2">Each layer adds MORE context understanding...</text>
+                            <text x="500" y="618" text-anchor="middle" font-size="12" fill="#42A5F5">💡 120 layers × 2 blocks = 240 processing steps!</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;1;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Arrow to output -->
+                        <path d="M 500 635 L 500 675" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;0" dur="16s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- Stage 7: Output Layer -->
+                        <g opacity="0">
+                            <rect x="200" y="675" width="600" height="60" rx="10" fill="#E8F5E9" stroke="#4CAF50" stroke-width="4"/>
+                            <text x="500" y="700" text-anchor="middle" font-size="15" fill="#2E7D32" font-weight="bold">📤 OUTPUT LAYER: Predictions</text>
+                            <text x="500" y="722" text-anchor="middle" font-size="12" fill="#558B2F">Final vectors → Probabilities for next token</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;0" dur="16s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Loop indicator -->
+                        <text x="500" y="770" text-anchor="middle" font-size="13" fill="white" font-style="italic" opacity="0">
+                            🔄 Animation loops - watch the complete journey again!
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;1;0" dur="16s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Section numbers on right side -->
+                        <g opacity="0.7">
+                            <text x="920" y="130" text-anchor="start" font-size="11" fill="white">Sec 1-3</text>
+                            <text x="920" y="290" text-anchor="start" font-size="11" fill="white">Sec 6-10</text>
+                            <text x="920" y="450" text-anchor="start" font-size="11" fill="white">Layer 1</text>
+                            <text x="920" y="590" text-anchor="start" font-size="11" fill="white">Layer 2-120</text>
+                        </g>
+                    </svg>
 
                     <div style="text-align: center; margin: 30px 0;">
                         <img src="https://miro.medium.com/v2/resize:fit:1400/1*BHzGVskWGS_3jEcYYi6miQ.gif"
                              alt="Transformer Architecture Animation"
                              style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                        <p style="font-size: 12px; color: #666; margin-top: 10px;">Tokens flowing through Transformer layers</p>
+                        <p style="font-size: 12px; color: #666; margin-top: 10px;">Additional: Tokens flowing through Transformer layers</p>
                     </div>
 
                     <svg class="flow-diagram" width="100%" height="700" viewBox="0 0 900 700">
