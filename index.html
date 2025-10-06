@@ -3231,7 +3231,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <text x="400" y="180" text-anchor="middle" font-size="15" fill="#E65100" font-weight="bold">COMPONENT 1: Self-Attention Block</text>
                         <text x="400" y="200" text-anchor="middle" font-size="13" fill="#666">"Let each token look at other tokens"</text>
 
-                        <text x="220" y="225" font-size="12" fill="#333">• Uses Q/K/V matrices (768×768 each)</text>
+                        <text x="220" y="225" font-size="12" fill="#333">• Uses special matrices <tspan fill="#2196F3" font-weight="bold">(Q/K/V - explained in Section 12!)</tspan></text>
                         <text x="220" y="245" font-size="12" fill="#333">• Makes vectors context-aware</text>
                         <text x="220" y="265" text-anchor="start" font-size="12" fill="#E65100" font-weight="bold">Output: [0.7, 0.4, ...] ← "cat" now knows about "sat"!</text>
 
@@ -3439,7 +3439,21 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                             <li>✅ <strong>Static → Context-Aware</strong> - transforms [0.8, 0.3, ...] into meaningful representations</li>
                             <li>✅ <strong>2017 innovation</strong> - "Attention Is All You Need" changed AI forever!</li>
                         </ul>
-                        <p style="margin-top: 15px;"><strong>Next sections</strong>: Deep dive into HOW Attention and Feed-Forward actually work!</p>
+                        <p style="margin-top: 15px; padding: 15px; background: rgba(33,150,243,0.1); border-radius: 8px; border-left: 4px solid #2196F3;">
+                            <strong>🔜 What's Next:</strong><br>
+                            <strong>Section 12:</strong> What are Q, K, V matrices? How do they create attention?<br>
+                            <strong>Section 13:</strong> Multi-Head Attention - running 8-16 attention mechanisms in parallel!
+                        </p>
+                    </div>
+
+                    <div class="warning-box" style="margin-top: 25px; background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>💭 Quick Review - Do You Remember?</strong></p>
+                        <ul style="margin: 10px 0;">
+                            <li>Section 10: Embedding Table gives us <strong>static</strong> vectors [0.8, 0.3, ...]</li>
+                            <li>Section 11 (NOW): Transformer takes those <strong>static</strong> vectors...</li>
+                            <li>Section 12 (NEXT): ...and Attention makes them <strong>context-aware</strong>!</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #E65100;">The journey: Static → 120 layers of processing → Context-aware predictions!</p>
                     </div>
                 `,
                 quiz: [
@@ -3468,7 +3482,12 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                 title: "Transformer Layers",
                 category: 5,
                 content: `
-                    <h1>Transformer Layers: The Actual Structure</h1>
+                    <h1>Transformer Layers: Self-Attention Explained</h1>
+
+                    <div class="warning-box" style="margin: 20px 0; background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>🔙 Coming from Section 11?</strong></p>
+                        <p>You learned that transformers have <strong>layers</strong> that process embeddings. Now let's see WHAT'S INSIDE each layer - specifically the <strong>Self-Attention mechanism</strong> that makes "cat" understand it's with "The"!</p>
+                    </div>
 
                     <p class="lead">Each transformer layer contains MULTIPLE weight matrices (tables of numbers). GPT-4 has 120 layers, each with these same weight matrices!</p>
 
@@ -3672,6 +3691,54 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         </defs>
                     </svg>
 
+                    <h2 style="margin-top: 40px;">🔍 How Self-Attention Actually Works</h2>
+                    <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.05) 100%); border-left: 4px solid #2196F3;">
+                        <p style="font-size: 16px; font-weight: bold; color: #1565C0; margin-bottom: 15px;">The Magic Formula: Q·K^T → softmax → multiply V</p>
+
+                        <p><strong>Step 1: Create Q, K, V from input embeddings</strong></p>
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code>Input: "The" = [0.8, 0.3, 0.1, ...]  (768 dimensions)
+
+# Multiply by weight matrices to get Q, K, V:
+Query (Q)  = Input × W_Q  →  [0.2, 0.9, 0.4, ...]  (What am I looking for?)
+Key (K)    = Input × W_K  →  [0.7, 0.1, 0.6, ...]  (What do I have to offer?)
+Value (V)  = Input × W_V  →  [0.5, 0.8, 0.2, ...]  (What information do I contain?)</code></pre>
+
+                        <p style="margin-top: 15px;"><strong>Step 2: Calculate attention scores (Q·K^T)</strong></p>
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code># For sentence "The cat sat":
+# Each word's Query looks at every word's Key
+
+Attention scores = Q × K^T  (dot product)
+
+"cat" Query · "The" Key = 0.2×0.7 + 0.9×0.1 + ... = 2.3
+"cat" Query · "cat" Key = 0.2×0.8 + 0.9×0.2 + ... = 4.1  ← High! (self-attention)
+"cat" Query · "sat" Key = 0.2×0.5 + 0.9×0.3 + ... = 1.8
+
+# Higher score = more relevant!</code></pre>
+
+                        <p style="margin-top: 15px;"><strong>Step 3: Softmax to get attention weights</strong></p>
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code># Convert scores to probabilities (sum to 100%)
+Raw scores: [2.3, 4.1, 1.8]
+After softmax: [0.25, 0.60, 0.15]  ← "cat" pays 60% attention to itself!
+
+# This means "cat" will look at:
+# - 25% at "The"
+# - 60% at "cat" (itself)
+# - 15% at "sat"</code></pre>
+
+                        <p style="margin-top: 15px;"><strong>Step 4: Multiply by Values (weighted sum)</strong></p>
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code># Take weighted combination of all Value vectors
+Output = 0.25 × V("The") + 0.60 × V("cat") + 0.15 × V("sat")
+
+# "cat" vector is now CONTEXT-AWARE!
+# It knows: "I'm 'cat', preceded by 'The', followed by 'sat'"
+# The output vector captures this relationship!</code></pre>
+
+                        <div style="background: #FFF9C4; padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FBC02D;">
+                            <p style="margin: 0; font-weight: bold; color: #E65100;">💡 The Result:</p>
+                            <p style="margin: 8px 0 0 0;">Each word's vector is updated to include context from other words it "pays attention to". This is how "cat" knows it's THE cat (not A cat), and that it SAT (past tense action)!</p>
+                        </div>
+                    </div>
+
                     <h2>Components of a Transformer Layer</h2>
                     <p>Every transformer layer has the same structure:</p>
 
@@ -3788,6 +3855,19 @@ def TransformerLayer(x):
                     <div class="success-box">
                         <p><strong>Key Takeaway:</strong> A transformer layer = Layer Norm + Self-Attention + Residual + Layer Norm + FFN + Residual. Stack 12-120 of these, and you get a powerful language model that can understand and generate human-like text!</p>
                     </div>
+
+                    <div style="margin-top: 25px; padding: 15px; background: rgba(33,150,243,0.1); border-radius: 8px; border-left: 4px solid #2196F3;">
+                        <p><strong>🔜 What's Next - Multi-Head Attention:</strong></p>
+                        <p>You just learned how ONE attention mechanism works (Q·K^T → softmax → ×V). But GPT-2 doesn't use just one - it uses <strong>12 attention heads in parallel</strong>!</p>
+                        <p style="margin-top: 10px;">Think of it like having 12 different experts looking at the same sentence:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>Head 1: Focuses on grammar relationships</li>
+                            <li>Head 2: Focuses on word meanings</li>
+                            <li>Head 3: Focuses on long-distance dependencies</li>
+                            <li>...and so on!</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #1565C0;">Next: Learn how multi-head attention combines multiple perspectives!</p>
+                    </div>
                 `,
                 quiz: [
                     {
@@ -3816,6 +3896,19 @@ def TransformerLayer(x):
                 category: 5,
                 content: `
                     <h1>Multi-Head Attention: Parallel Processing Power</h1>
+
+                    <div class="warning-box" style="margin: 20px 0; background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>🔙 Quick Recap from Section 12:</strong></p>
+                        <p>You learned how <strong>ONE</strong> self-attention head works:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>Create Q, K, V from input embeddings</li>
+                            <li>Calculate attention scores (Q·K^T)</li>
+                            <li>Apply softmax to get weights</li>
+                            <li>Multiply by Values to get context-aware output</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #E65100;">Now: What if we run MULTIPLE attention mechanisms in parallel? 🚀</p>
+                    </div>
+
                     <p class="lead">Instead of one attention mechanism, use many in parallel! Each "head" learns different patterns - grammar, facts, relationships, etc.</p>
 
                     <svg class="flow-diagram" width="100%" height="300" viewBox="0 0 800 300">
@@ -3858,8 +3951,42 @@ def TransformerLayer(x):
                             <li><strong>Head 1</strong>: Subject-verb relationships</li>
                             <li><strong>Head 2</strong>: Adjective-noun pairs</li>
                             <li><strong>Head 3</strong>: Long-distance dependencies</li>
-                            <li><strong>Head 4-8</strong>: Other linguistic patterns</li>
+                            <li><strong>Head 4-12</strong>: Other linguistic patterns</li>
                         </ul>
+                    </div>
+
+                    <h2>Concrete Example: "The fluffy cat sat on the mat"</h2>
+                    <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.05) 100%); border-left: 4px solid #2196F3;">
+                        <p style="font-weight: bold; margin-bottom: 10px;">How different heads might process the word "cat":</p>
+
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                            <p style="font-weight: bold; color: #1565C0;">Head 1 (Grammar Head):</p>
+                            <pre style="margin-top: 5px;"><code>"cat" → pays attention to "sat" (verb)
+Result: Understands "cat" is the subject performing the action</code></pre>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                            <p style="font-weight: bold; color: #1565C0;">Head 2 (Modifier Head):</p>
+                            <pre style="margin-top: 5px;"><code>"cat" → pays attention to "fluffy" (adjective)
+Result: Understands this is a fluffy cat, not just any cat</code></pre>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                            <p style="font-weight: bold; color: #1565C0;">Head 3 (Determiner Head):</p>
+                            <pre style="margin-top: 5px;"><code>"cat" → pays attention to "The"
+Result: Understands it's THE cat (definite), not A cat</code></pre>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                            <p style="font-weight: bold; color: #1565C0;">Head 4 (Long-range Head):</p>
+                            <pre style="margin-top: 5px;"><code>"cat" → pays attention to "mat" (destination)
+Result: Understands the spatial relationship (cat → mat)</code></pre>
+                        </div>
+
+                        <div style="background: #FFF9C4; padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FBC02D;">
+                            <p style="margin: 0; font-weight: bold; color: #E65100;">💡 Combined Power:</p>
+                            <p style="margin: 8px 0 0 0;">All 12 heads run in parallel and their outputs are concatenated. The word "cat" now has a rich, multi-dimensional understanding: it's THE fluffy cat that SAT on the mat!</p>
+                        </div>
                     </div>
 
                     <pre><code># GPT-2 Configuration:
