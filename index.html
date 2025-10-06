@@ -21,11 +21,25 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-blue: #2c5282;
+            --primary-dark: #1a365d;
+            --accent-teal: #2c7a7b;
+            --accent-sage: #38a169;
+            --neutral-50: #f7fafc;
+            --neutral-100: #edf2f7;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e0;
+            --neutral-600: #4a5568;
+            --neutral-700: #2d3748;
+            --neutral-800: #1a202c;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
             min-height: 100vh;
-            color: #333;
+            color: var(--neutral-700);
             line-height: 1.6;
         }
 
@@ -55,7 +69,7 @@
 
         .sidebar-left h1 {
             font-size: 24px;
-            color: #667eea;
+            color: var(--primary-blue);
             margin-bottom: 8px;
             text-align: center;
         }
@@ -186,7 +200,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, var(--accent-teal) 0%, var(--accent-sage) 100%);
             transition: width 0.5s ease;
             border-radius: 6px;
         }
@@ -211,20 +225,20 @@
         .stage-badge {
             display: inline-block;
             padding: 8px 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
             color: white;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 24px;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.3);
         }
 
         #content h2 {
-            color: #2c3e50;
+            color: var(--neutral-800);
             font-size: 32px;
             margin-bottom: 16px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid var(--accent-teal);
             padding-bottom: 12px;
         }
 
@@ -483,11 +497,11 @@
 
         .sidebar-right h3 {
             font-size: 18px;
-            color: #667eea;
+            color: var(--primary-blue);
             margin-bottom: 20px;
             text-align: center;
             padding-bottom: 12px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid var(--neutral-200);
         }
 
         .feed-flow {
@@ -499,10 +513,43 @@
         .feed-step {
             position: relative;
             padding: 16px;
-            background: #f9f9f9;
+            background: var(--neutral-100);
             border-radius: 12px;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .feed-step:hover {
+            background: var(--neutral-50);
+            border-color: var(--accent-teal);
+            transform: translateX(-4px);
+            box-shadow: 0 4px 12px rgba(44, 122, 123, 0.2);
+        }
+
+        .feed-step[data-tooltip]::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 110%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--neutral-800);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+            white-space: normal;
+            width: max-content;
+        }
+
+        .feed-step:hover::before {
+            opacity: 1;
         }
 
         .feed-step::after {
@@ -520,21 +567,21 @@
         }
 
         .feed-step.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-sage) 100%);
             color: white;
-            border-color: #667eea;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+            border-color: var(--accent-teal);
+            box-shadow: 0 4px 16px rgba(44, 122, 123, 0.3);
             transform: scale(1.05);
         }
 
         .feed-step.active::after {
-            color: #667eea;
+            color: var(--accent-teal);
             font-weight: bold;
         }
 
         .feed-step.completed {
-            background: #e8f5e9;
-            border-color: #4CAF50;
+            background: #f0fff4;
+            border-color: var(--accent-sage);
         }
 
         .feed-step-icon {
@@ -5049,6 +5096,19 @@ Total:  4,000 tokens
                 } else if (isCompleted) {
                     stepDiv.classList.add('completed');
                 }
+
+                // Create tooltip text
+                const tooltipText = `Click to jump to ${step.label}. Covers sections ${step.sections[0]}-${step.sections[step.sections.length - 1]}.`;
+                stepDiv.setAttribute('data-tooltip', tooltipText);
+
+                // Add click handler
+                stepDiv.onclick = () => {
+                    const firstSection = step.sections[0];
+                    const sectionIndex = sections.findIndex(s => s.id === firstSection);
+                    if (sectionIndex !== -1) {
+                        showSection(sectionIndex);
+                    }
+                };
 
                 stepDiv.innerHTML = `
                     <div class="feed-step-icon">${step.icon}</div>
