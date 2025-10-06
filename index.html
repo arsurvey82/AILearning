@@ -3225,43 +3225,44 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <text x="500" y="35" text-anchor="middle" font-size="26" fill="white" font-weight="bold">The Transformer Journey</text>
 
                         <!-- Changing labels -->
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700" opacity="0">
+                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
+                            <animate attributeName="opacity" values="0;1;1;0;0;0;0;0;0;0" dur="25s" repeatCount="indefinite"/>
                             Starting with text...
-                            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.15;0.2" dur="50s" repeatCount="indefinite"/>
                         </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700" opacity="0">
+                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
+                            <animate attributeName="opacity" values="0;0;0;1;1;0;0;0;0;0" dur="25s" repeatCount="indefinite"/>
                             Breaking into tokens...
-                            <animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.2;0.25;0.3;0.35;0.4" dur="50s" repeatCount="indefinite"/>
                         </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700" opacity="0">
+                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;0;0;0" dur="25s" repeatCount="indefinite"/>
                             Converting to numbers...
-                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;0" keyTimes="0;0.4;0.45;0.5;0.55;0.6" dur="50s" repeatCount="indefinite"/>
                         </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700" opacity="0">
+                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" dur="25s" repeatCount="indefinite"/>
                             Looking up vectors with meaning...
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" keyTimes="0;0.6;0.65;0.7;0.75;0.8" dur="50s" repeatCount="indefinite"/>
                         </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700" opacity="0">
+                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1" dur="25s" repeatCount="indefinite"/>
                             Processing through transformer...
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1;1" keyTimes="0;0.8;0.85;0.9;0.95;0.96;0.97;0.98;0.99;1;1;1" dur="50s" repeatCount="indefinite"/>
                         </text>
 
                         <!-- CENTRAL STAGE - One area where everything morphs -->
                         <rect x="100" y="120" width="800" height="450" rx="16" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
 
                         <!-- Stage 1: TEXT -->
-                        <g opacity="0">
+                        <g>
+                            <animate attributeName="opacity" values="0;1;1;1;0;0;0;0;0;0" dur="25s" repeatCount="indefinite"/>
                             <text x="500" y="320" text-anchor="middle" font-size="56" fill="white" font-weight="bold" filter="url(#glow)">
                                 "The cat sat"
                             </text>
                             <text x="500" y="380" text-anchor="middle" font-size="18" fill="#B0BEC5">
                                 Raw text input
                             </text>
-                            <animate attributeName="opacity" values="0;1;1;1;0.8;0" keyTimes="0;0.05;0.1;0.15;0.18;0.2" dur="50s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Stage 2: TOKENS (morphs from text) -->
-                        <g opacity="0">
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;1;1;1;0;0;0;0" dur="25s" repeatCount="indefinite"/>
                             <rect x="180" y="260" width="200" height="80" rx="12" fill="#FF9800" stroke="white" stroke-width="3"/>
                             <text x="280" y="310" text-anchor="middle" font-size="24" fill="white" font-weight="bold">"The"</text>
 
@@ -3274,11 +3275,11 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                             <text x="500" y="380" text-anchor="middle" font-size="18" fill="#B0BEC5">
                                 3 separate tokens
                             </text>
-                            <animate attributeName="opacity" values="0;0;0.5;1;1;1;0.8;0" keyTimes="0;0.2;0.25;0.3;0.35;0.38;0.39;0.4" dur="50s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Stage 3: TOKEN IDs (morphs from tokens) -->
-                        <g opacity="0">
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0;0" dur="25s" repeatCount="indefinite"/>
                             <rect x="180" y="260" width="200" height="80" rx="12" fill="#2196F3" stroke="white" stroke-width="4"/>
                             <text x="280" y="315" text-anchor="middle" font-size="32" fill="white" font-weight="bold">791</text>
 
@@ -3291,11 +3292,11 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                             <text x="500" y="380" text-anchor="middle" font-size="18" fill="#B0BEC5">
                                 Token IDs (just numbers)
                             </text>
-                            <animate attributeName="opacity" values="0;0;0;0.5;1;1;1;0.8;0" keyTimes="0;0.4;0.45;0.5;0.55;0.58;0.59;0.6" dur="50s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Stage 4: VECTORS (morphs from IDs) -->
-                        <g opacity="0">
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" dur="25s" repeatCount="indefinite"/>
                             <rect x="130" y="180" width="740" height="280" rx="16" fill="rgba(76,175,80,0.25)" stroke="#4CAF50" stroke-width="5" filter="url(#glow)"/>
 
                             <text x="500" y="225" text-anchor="middle" font-size="22" fill="white" font-weight="bold">Embedding Table → Vectors</text>
@@ -3319,11 +3320,11 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                             <text x="500" y="450" text-anchor="middle" font-size="12" fill="#B0BEC5" font-style="italic">
                                 "cat" = animal, furry, sits, purrs...
                             </text>
-                            <animate attributeName="opacity" values="0;0;0;0;0.5;1;1;1;1;0.8;0" keyTimes="0;0.6;0.65;0.7;0.75;0.76;0.77;0.78;0.79;0.8" dur="50s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Stage 5: TRANSFORMER (morphs from vectors) -->
-                        <g opacity="0">
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1" dur="25s" repeatCount="indefinite"/>
                             <rect x="120" y="150" width="760" height="400" rx="16" fill="rgba(255,87,34,0.2)" stroke="#FF5722" stroke-width="5" filter="url(#glow)"/>
 
                             <text x="500" y="195" text-anchor="middle" font-size="24" fill="white" font-weight="bold">🏭 TRANSFORMER ENGINE</text>
@@ -3344,14 +3345,12 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
 
                             <rect x="150" y="465" width="700" height="55" rx="10" fill="#E8F5E9" stroke="#4CAF50" stroke-width="4"/>
                             <text x="500" y="497" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">Layer 120 → Next Token Predictions!</text>
-
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0.5;1;1;1;1;0.9;0.9" keyTimes="0;0.8;0.82;0.84;0.86;0.88;0.90;0.92;0.94;0.96;0.98;0.99;1;1" dur="50s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Final message (stays visible at end) -->
-                        <text x="500" y="600" text-anchor="middle" font-size="16" fill="white" font-style="italic" opacity="0">
+                        <text x="500" y="600" text-anchor="middle" font-size="16" fill="white" font-style="italic">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1" dur="25s" repeatCount="indefinite"/>
                             ✨ This is how transformers understand language! ✨
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;1;1;1" keyTimes="0;0.85;0.88;0.9;0.92;0.94;0.96;0.97;0.98;0.99;1;1;1" dur="50s" repeatCount="indefinite"/>
                         </text>
                     </svg>
 
