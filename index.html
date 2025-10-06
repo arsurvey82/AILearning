@@ -33,7 +33,7 @@
             display: grid;
             grid-template-columns: 280px 1fr 280px;
             gap: 20px;
-            max-width: 1600px;
+            max-width: 95%;
             margin: 0 auto;
             padding: 20px;
             min-height: 100vh;
@@ -709,7 +709,7 @@
                     <h1 style="text-align: center; margin-bottom: 20px;">🎓 Welcome to the LLM Learning Guide</h1>
 
                     <!-- Introduction Section -->
-                    <div style="max-width: 900px; margin: 0 auto 60px;">
+                    <div style="margin: 0 auto 60px;">
 
                         <div style="background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%); padding: 30px; border-radius: 16px; margin-bottom: 30px; border: 2px solid rgba(102,126,234,0.3);">
                             <h2 style="margin-top: 0; color: #667eea;">📚 What is This Guide?</h2>
@@ -833,7 +833,7 @@
                     <hr style="border: none; border-top: 2px solid rgba(102,126,234,0.2); margin: 60px auto; max-width: 800px;">
 
                     <h1 style="text-align: center; margin-bottom: 10px; margin-top: 60px;">🗺️ The Complete LLM Journey</h1>
-                    <p class="lead" style="text-align: center; max-width: 800px; margin: 0 auto 40px;">From raw text to AI predictions - here's the ENTIRE pipeline you'll master in this guide!</p>
+                    <p class="lead" style="text-align: center; margin: 0 auto 40px;">From raw text to AI predictions - here's the ENTIRE pipeline you'll master in this guide!</p>
 
                     <style>
                         .glass-card {
@@ -891,7 +891,7 @@
                         }
                     </style>
 
-                    <div style="max-width: 900px; margin: 0 auto;">
+                    <div style="margin: 0 auto;">
 
                         <!-- Stage 1: Raw Data -->
                         <div class="glass-card" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.05) 100%);">
@@ -5211,10 +5211,11 @@ Total:  4,000 tokens
             const badge = document.getElementById('stageBadge');
             badge.textContent = `Section ${section.id} of ${sections.length}`;
 
-            // Update content with progress tracker
+            // Update content with progress tracker and quiz
             const content = document.getElementById('content');
             const tracker = generateProgressTracker(section.id);
-            content.innerHTML = tracker + section.content;
+            const quizHTML = section.quiz ? generateQuiz(section.quiz) : '';
+            content.innerHTML = tracker + section.content + quizHTML;
 
             // Update navigation buttons
             document.getElementById('prevBtn').disabled = index === 0;
