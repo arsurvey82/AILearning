@@ -3210,112 +3210,228 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <p style="color: #555; margin: 10px 0;">Like building an engine from parts - watch how text becomes vectors, then parameters, then a complete transformer!</p>
                     </div>
 
-                    <svg class="flow-diagram" width="100%" height="700" viewBox="0 0 1000 700" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 20px;">
+                    <svg class="flow-diagram" width="100%" height="750" viewBox="0 0 1000 750" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 20px;">
                         <defs>
                             <!-- Arrow markers -->
                             <marker id="arrowEvol" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
                                 <polygon points="0 0, 10 5, 0 10" fill="#4CAF50"/>
                             </marker>
+                            <!-- Glow effect -->
+                            <filter id="glowGreen">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                            <filter id="glowPurple">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
                         </defs>
 
                         <!-- Title -->
-                        <text x="500" y="40" text-anchor="middle" font-size="24" fill="white" font-weight="bold">Inside The Transformer</text>
-                        <text x="500" y="65" text-anchor="middle" font-size="14" fill="#E0E0E0">How Your Learning Flows Through Each Layer!</text>
+                        <text x="500" y="35" text-anchor="middle" font-size="26" fill="white" font-weight="bold">Building The Transformer Engine</text>
+                        <text x="500" y="60" text-anchor="middle" font-size="13" fill="#E0E0E0">Watch how we build it from parts, step by step!</text>
 
-                        <!-- TRANSFORMER BOX (contains everything) -->
-                        <rect x="30" y="100" width="940" height="560" rx="15" fill="rgba(255,255,255,0.95)" stroke="#F44336" stroke-width="5" opacity="0">
-                            <animate attributeName="opacity" values="0;1;1;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <!-- NARRATION OVERLAYS (appear at different times) -->
+
+                        <!-- Narration 1: Start with text -->
+                        <rect x="100" y="90" width="800" height="50" rx="8" fill="rgba(255,255,255,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;1;1;1;0;0;0;0;0;0;0" dur="40s" repeatCount="indefinite"/>
                         </rect>
-                        <text x="500" y="135" text-anchor="middle" font-size="20" fill="#C62828" font-weight="bold" opacity="0">
-                            🏗️ THE TRANSFORMER (120 Layers Inside!)
-                            <animate attributeName="opacity" values="0;1;1;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <text x="500" y="120" text-anchor="middle" font-size="16" fill="#333" font-weight="bold" opacity="0">
+                            👀 SEE THIS TEXT? "The cat sat"
+                            <animate attributeName="opacity" values="0;1;1;1;0;0;0;0;0;0;0" dur="40s" repeatCount="indefinite"/>
                         </text>
 
-                        <!-- Stage 1: Token IDs Enter -->
+                        <!-- Narration 2: Becomes tokens -->
+                        <rect x="100" y="90" width="800" height="50" rx="8" fill="rgba(255,255,255,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;1;1;1;0;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="120" text-anchor="middle" font-size="16" fill="#FF9800" font-weight="bold" opacity="0">
+                            ➡️ NOW it becomes TOKENS → ["The", " cat", " sat"]
+                            <animate attributeName="opacity" values="0;0;0;1;1;1;0;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Narration 3: Just numbers -->
+                        <rect x="100" y="90" width="800" height="50" rx="8" fill="rgba(255,255,255,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="120" text-anchor="middle" font-size="16" fill="#2196F3" font-weight="bold" opacity="0">
+                            🔢 These convert to NUMBERS (IDs) → [791, 8415, 7731]
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Narration 4: VECTORS! -->
+                        <rect x="50" y="90" width="900" height="50" rx="8" fill="rgba(76,175,80,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;1;0" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="120" text-anchor="middle" font-size="18" fill="white" font-weight="bold" opacity="0">
+                            ✨ BUT WAIT! They become VECTORS - 768 numbers EACH!
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;1;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Narration 5: Meaning -->
+                        <rect x="50" y="90" width="900" height="50" rx="8" fill="rgba(156,39,176,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="115" text-anchor="middle" font-size="16" fill="white" font-weight="bold" opacity="0">
+                            💡 These hold MEANING! cat=animal, sits=action
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
+                        </text>
+                        <text x="500" y="132" text-anchor="middle" font-size="13" fill="white" opacity="0">
+                            Not random! Learned from billions of examples!
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1;0;0;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Narration 6: Embedding Table -->
+                        <rect x="50" y="160" width="900" height="400" rx="12" fill="rgba(63,81,181,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="200" text-anchor="middle" font-size="18" fill="white" font-weight="bold" opacity="0">
+                            📊 SEE THE EMBEDDING TABLE?
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+                        <text x="500" y="225" text-anchor="middle" font-size="14" fill="#E0E0E0" opacity="0">
+                            It's a GIANT MATRIX → 50,000 rows × 768 columns
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Visual Matrix Representation -->
                         <g opacity="0">
-                            <rect x="300" y="155" width="400" height="40" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
-                            <text x="500" y="180" text-anchor="middle" font-size="13" fill="#1565C0" font-weight="bold">📥 INPUT: Token IDs [791, 8415, 7731]</text>
-                            <animate attributeName="opacity" values="0;1;1;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                            <rect x="150" y="260" width="700" height="240" rx="8" fill="rgba(255,255,255,0.15)" stroke="#4CAF50" stroke-width="3"/>
+                            <text x="500" y="285" text-anchor="middle" font-size="12" fill="white">[ Row 791:  [0.8, 0.3, -0.5, ..., 0.1] ] ← "The"</text>
+                            <text x="500" y="320" text-anchor="middle" font-size="12" fill="white" filter="url(#glowGreen)">[ Row 8415: [0.7, 0.9, 0.2, ..., -0.3] ] ← "cat" 🔍 THIS ONE!</text>
+                            <text x="500" y="355" text-anchor="middle" font-size="12" fill="white">[ Row 7731: [0.1, -0.6, 0.4, ..., 0.8] ] ← "sat"</text>
+                            <text x="500" y="390" text-anchor="middle" font-size="11" fill="#E0E0E0">...</text>
+                            <text x="500" y="425" text-anchor="middle" font-size="12" fill="white">[ Row 49999: [...] ]</text>
+                            <text x="500" y="460" text-anchor="middle" font-size="13" fill="#4CAF50" font-weight="bold">Each row is a VECTOR (768 numbers)</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0" dur="40s" repeatCount="indefinite"/>
+                        </g>
+
+                        <!-- Narration 7: Parameters -->
+                        <rect x="50" y="90" width="900" height="50" rx="8" fill="rgba(156,39,176,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="115" text-anchor="middle" font-size="18" fill="white" font-weight="bold" opacity="0">
+                            ⚙️ These are PARAMETERS (Weights!)
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+                        <text x="500" y="132" text-anchor="middle" font-size="13" fill="white" opacity="0">
+                            38 MILLION learned numbers just in this table!
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Narration 8: Engine Building Start -->
+                        <rect x="50" y="90" width="900" height="50" rx="8" fill="rgba(255,87,34,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="120" text-anchor="middle" font-size="20" fill="white" font-weight="bold" opacity="0">
+                            🏗️ NOW WE BUILD THE ENGINE!
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- TRANSFORMER BOX (Engine container - appears during engine building) -->
+                        <rect x="30" y="160" width="940" height="560" rx="15" fill="rgba(255,255,255,0.95)" stroke="#F44336" stroke-width="5" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="195" text-anchor="middle" font-size="20" fill="#C62828" font-weight="bold" opacity="0">
+                            🏭 THE TRANSFORMER ENGINE (120 Layers!)
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
+                        <!-- Engine Part 1: Token IDs Enter (appears with engine building) -->
+                        <g opacity="0">
+                            <rect x="300" y="215" width="400" height="40" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
+                            <text x="500" y="240" text-anchor="middle" font-size="13" fill="#1565C0" font-weight="bold">📥 INPUT: Token IDs [791, 8415, 7731]</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Arrow down -->
-                        <path d="M 500 195 L 500 220" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
-                            <animate attributeName="opacity" values="0;0;1;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <path d="M 500 255 L 500 280" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
                         </path>
 
-                        <!-- Stage 2: Embedding Table (with Parameters) -->
+                        <!-- Engine Part 2: Embedding ENGINE BLOCK -->
                         <g opacity="0">
-                            <rect x="80" y="220" width="840" height="90" rx="10" fill="#F3E5F5" stroke="#9C27B0" stroke-width="3"/>
-                            <text x="500" y="245" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">📊 EMBEDDING TABLE (Parameters/Weights!)</text>
-                            <text x="500" y="268" text-anchor="middle" font-size="12" fill="#7B1FA2">IDs → Lookup (50,000×768 table) → Vectors [0.8, 0.3, ...]</text>
-                            <text x="500" y="288" text-anchor="middle" font-size="11" fill="#9C27B0" font-style="italic">Creates: 3 vectors × 768 dimensions = "cat", "The", "sat"</text>
-                            <text x="500" y="302" text-anchor="middle" font-size="10" fill="#7B1FA2">💡 38M parameters just in this table!</text>
-                            <animate attributeName="opacity" values="0;0;1;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                            <rect x="80" y="280" width="840" height="90" rx="10" fill="#F3E5F5" stroke="#9C27B0" stroke-width="3" filter="url(#glowPurple)"/>
+                            <text x="500" y="305" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">🔩 ENGINE BLOCK: Embedding Table</text>
+                            <text x="500" y="328" text-anchor="middle" font-size="12" fill="#7B1FA2">IDs → Lookup (50,000×768) → Vectors [0.8, 0.3, ...]</text>
+                            <text x="500" y="348" text-anchor="middle" font-size="11" fill="#9C27B0" font-style="italic">Creates: 3 vectors × 768 dimensions</text>
+                            <text x="500" y="362" text-anchor="middle" font-size="10" fill="#7B1FA2">⚙️ 38M parameters (weights)</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1" dur="40s" repeatCount="indefinite"/>
                         </g>
 
+                        <!-- Narration 9: PISTONS (Attention) -->
+                        <rect x="50" y="90" width="900" height="50" rx="8" fill="rgba(255,152,0,0.95)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="500" y="120" text-anchor="middle" font-size="18" fill="white" font-weight="bold" opacity="0">
+                            🔧 PISTONS = Attention Blocks!
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
+                        </text>
+
                         <!-- Arrow to Layer 1 -->
-                        <path d="M 500 310 L 500 345" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
-                            <animate attributeName="opacity" values="0;0;0;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <path d="M 500 370 L 500 405" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </path>
 
-                        <!-- Stage 3: Layer 1 (with Parameters shown) -->
+                        <!-- Engine Part 3: PISTONS (Attention) -->
                         <g opacity="0">
-                            <rect x="80" y="345" width="840" height="95" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="3"/>
-                            <text x="500" y="368" text-anchor="middle" font-size="15" fill="#E65100" font-weight="bold">⚙️ LAYER 1 (uses more Parameters!)</text>
+                            <rect x="80" y="405" width="840" height="95" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="3"/>
+                            <text x="500" y="428" text-anchor="middle" font-size="15" fill="#E65100" font-weight="bold">🔧 PISTONS: Attention (makes vectors context-aware!)</text>
 
-                            <!-- Attention block -->
-                            <rect x="100" y="380" width="380" height="50" rx="6" fill="white" stroke="#FF9800" stroke-width="2"/>
-                            <text x="290" y="398" text-anchor="middle" font-size="12" fill="#333">Attention: W_Q, W_K, W_V</text>
-                            <text x="290" y="415" text-anchor="middle" font-size="10" fill="#666">Context-aware vectors</text>
+                            <!-- Attention block with glow -->
+                            <rect x="100" y="440" width="380" height="50" rx="6" fill="white" stroke="#FF9800" stroke-width="2" filter="url(#glowGreen)"/>
+                            <text x="290" y="458" text-anchor="middle" font-size="12" fill="#333">W_Q, W_K, W_V matrices</text>
+                            <text x="290" y="475" text-anchor="middle" font-size="10" fill="#666">"cat" ← looks at "The"</text>
 
                             <!-- FFN block -->
-                            <rect x="520" y="380" width="380" height="50" rx="6" fill="white" stroke="#2196F3" stroke-width="2"/>
-                            <text x="710" y="398" text-anchor="middle" font-size="12" fill="#333">Feed-Forward: W_1, W_2</text>
-                            <text x="710" y="415" text-anchor="middle" font-size="10" fill="#666">768→3072→768</text>
+                            <rect x="520" y="440" width="380" height="50" rx="6" fill="white" stroke="#2196F3" stroke-width="2"/>
+                            <text x="710" y="458" text-anchor="middle" font-size="12" fill="#333">⛽ FUEL: Feed-Forward</text>
+                            <text x="710" y="475" text-anchor="middle" font-size="10" fill="#666">768→3072→768</text>
 
-                            <animate attributeName="opacity" values="0;0;0;1;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Output of Layer 1 -->
-                        <rect x="150" y="445" width="700" height="30" rx="6" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" opacity="0">
-                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <rect x="150" y="505" width="700" height="30" rx="6" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </rect>
-                        <text x="500" y="463" text-anchor="middle" font-size="11" fill="#2E7D32" opacity="0">
-                            ✅ Layer 1 Output → becomes Layer 2 Input (same 768 dims, MORE context!)
-                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <text x="500" y="523" text-anchor="middle" font-size="11" fill="#2E7D32" opacity="0">
+                            ✅ Layer 1 Output → Layer 2 Input (MORE context!)
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </text>
 
                         <!-- Arrow to Layer 2 -->
-                        <path d="M 500 475 L 500 505" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
-                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <path d="M 500 535 L 500 565" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </path>
 
-                        <!-- Stage 4: Layers 2-120 -->
+                        <!-- Engine Part 4: COMPLETE ENGINE (120 layers) -->
                         <g opacity="0">
-                            <rect x="80" y="505" width="840" height="80" rx="10" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
-                            <text x="500" y="530" text-anchor="middle" font-size="15" fill="#1565C0" font-weight="bold">⚙️ LAYERS 2-120: Each Built The Same Way!</text>
-                            <text x="500" y="553" text-anchor="middle" font-size="12" fill="#1976D2">Each: (Attention + FFN) with own parameters</text>
-                            <text x="500" y="572" text-anchor="middle" font-size="11" fill="#42A5F5">Output of Layer N → Input of Layer N+1</text>
-                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                            <rect x="80" y="565" width="840" height="80" rx="10" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
+                            <text x="500" y="590" text-anchor="middle" font-size="15" fill="#1565C0" font-weight="bold">🏭 COMPLETE ENGINE: 120 Identical Layers!</text>
+                            <text x="500" y="613" text-anchor="middle" font-size="12" fill="#1976D2">Each: (Pistons + Fuel) with own parameters</text>
+                            <text x="500" y="632" text-anchor="middle" font-size="11" fill="#42A5F5">Layer N output → Layer N+1 input</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </g>
 
                         <!-- Arrow to output -->
-                        <path d="M 500 585 L 500 615" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                        <path d="M 500 645 L 500 675" stroke="#4CAF50" stroke-width="4" marker-end="url(#arrowEvol)" opacity="0">
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </path>
 
-                        <!-- Stage 5: Output Layer -->
+                        <!-- Engine Output -->
                         <g opacity="0">
-                            <rect x="150" y="615" width="700" height="35" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="4"/>
-                            <text x="500" y="637" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">📤 OUTPUT: Layer 120 → Predictions</text>
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;1;1;1;0" dur="30s" repeatCount="indefinite"/>
+                            <rect x="150" y="675" width="700" height="35" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="4"/>
+                            <text x="500" y="697" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">🎯 ENGINE OUTPUT: Next Token Predictions!</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1" dur="40s" repeatCount="indefinite"/>
                         </g>
-
-                        <!-- Loop indicator -->
-                        <text x="500" y="665" text-anchor="middle" font-size="13" fill="white" font-style="italic" opacity="0">
-                            🔄 Watch how Token IDs → Embeddings → Layer 1 → Layer 2-120 → Output!
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" dur="30s" repeatCount="indefinite"/>
-                        </text>
                     </svg>
 
                     <div style="text-align: center; margin: 30px 0;">
