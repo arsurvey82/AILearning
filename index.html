@@ -140,7 +140,7 @@
         }
 
         .category-icon {
-            font-size: 18px;
+            
             margin-right: 8px;
         }
 
@@ -151,7 +151,7 @@
         }
 
         .category-toggle {
-            font-size: 12px;
+            
             transition: transform 0.3s ease;
         }
 
@@ -230,7 +230,7 @@
 
         #progressText {
             text-align: center;
-            font-size: 13px;
+            
             color: #666;
             font-weight: 600;
         }
@@ -250,7 +250,7 @@
             background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
             color: white;
             border-radius: 20px;
-            font-size: 14px;
+            
             font-weight: 600;
             margin-bottom: 24px;
             box-shadow: 0 4px 12px rgba(44, 82, 130, 0.3);
@@ -448,6 +448,23 @@
             margin: 24px auto;
             max-width: 100%;
             height: auto;
+        }
+
+        /* Table typography */
+        #content table {
+            font-size: var(--text-base);
+            line-height: var(--leading-normal);
+        }
+
+        #content table th {
+            font-size: var(--text-base);
+            line-height: var(--leading-snug);
+            font-weight: 600;
+        }
+
+        #content table td {
+            font-size: var(--text-base);
+            line-height: var(--leading-normal);
         }
 
         .quiz-container {
@@ -653,7 +670,7 @@
             left: 50%;
             transform: translateX(-50%);
             color: #ccc;
-            font-size: 20px;
+            
         }
 
         .feed-step:last-child::after {
@@ -679,7 +696,7 @@
         }
 
         .feed-step-icon {
-            font-size: 24px;
+            
             margin-bottom: 8px;
             text-align: center;
         }
@@ -746,20 +763,20 @@
             }
 
             #content h2 {
-                font-size: 24px;
+                
             }
 
             #content h3 {
-                font-size: 20px;
+                
             }
 
             #content p, #content li {
-                font-size: 15px;
+                
             }
 
             .btn {
                 padding: 10px 20px;
-                font-size: 14px;
+                
             }
         }
 
@@ -831,10 +848,10 @@
                    margin-top: 40px;
                    border-top: 2px solid rgba(102, 126, 234, 0.3);
                    border-radius: 12px;">
-        <p style="margin: 0; color: #666; font-size: 14px;">
+        <p style="margin: 0; color: #666; ">
             © 2025 <strong>Arul R</strong> | LLM Learning Guide
         </p>
-        <p style="margin: 5px 0 0 0; color: #999; font-size: 12px;">
+        <p style="margin: 5px 0 0 0; color: #999; ">
             Created with ✨ and Claude Code |
             <a href="https://github.com/arsurvey82/AILearning" target="_blank" style="color: #667eea; text-decoration: none;">View on GitHub</a>
         </p>
@@ -858,11 +875,11 @@
 
                         <div style="background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%); padding: 30px; border-radius: 16px; margin-bottom: 30px; border: 2px solid rgba(102,126,234,0.3);">
                             <h2 style="margin-top: 0; color: #667eea;">📚 What is This Guide?</h2>
-                            <p style="font-size: 16px; line-height: 1.8;">
+                            <p style=" ">
                                 This is a <strong>complete, interactive guide</strong> to understanding how Large Language Models (LLMs) work - from the ground up.
                                 No PhD required! We break down complex concepts into simple, visual explanations with real examples.
                             </p>
-                            <p style="font-size: 16px; line-height: 1.8;">
+                            <p style=" ">
                                 You'll follow the actual journey of text through an AI model: <code>"The cat sat"</code> → tokens → vectors → attention → transformers → prediction!
                             </p>
                         </div>
@@ -872,7 +889,7 @@
                             <!-- Who it's for -->
                             <div style="background: linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0.05) 100%); padding: 25px; border-radius: 12px; border: 1px solid rgba(76,175,80,0.3);">
                                 <h3 style="margin-top: 0; color: #4CAF50;">👥 Who Is This For?</h3>
-                                <ul style="line-height: 1.8; padding-left: 20px;">
+                                <ul style=" padding-left: 20px;">
                                     <li><strong>Developers</strong> - Learn how AI models actually work</li>
                                     <li><strong>Students</strong> - Understand LLMs for courses/research</li>
                                     <li><strong>AI Enthusiasts</strong> - Deep-dive into the technology</li>
@@ -885,7 +902,7 @@
                             <div style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,152,0,0.05) 100%); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,152,0,0.3);">
                                 <h3 style="margin-top: 0; color: #FF9800;">⏱️ Time & Prerequisites</h3>
                                 <p><strong>Total Time:</strong> 2-4 hours</p>
-                                <ul style="line-height: 1.8; padding-left: 20px;">
+                                <ul style=" padding-left: 20px;">
                                     <li>📖 <strong>Quick read:</strong> 1-2 hours (skip quizzes)</li>
                                     <li>🎯 <strong>Deep learning:</strong> 3-4 hours (with quizzes)</li>
                                     <li>🔖 <strong>Reference:</strong> Bookmark & revisit sections</li>
@@ -902,7 +919,7 @@
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                                 <div>
                                     <p><strong>📊 Foundations:</strong></p>
-                                    <ul style="line-height: 1.6; margin-top: 5px;">
+                                    <ul style=" margin-top: 5px;">
                                         <li>How computers store text as numbers</li>
                                         <li>Tokenization & vocabulary</li>
                                         <li>Vectors and embeddings</li>
@@ -910,7 +927,7 @@
                                 </div>
                                 <div>
                                     <p><strong>🧠 Core Concepts:</strong></p>
-                                    <ul style="line-height: 1.6; margin-top: 5px;">
+                                    <ul style=" margin-top: 5px;">
                                         <li>Self-attention mechanism</li>
                                         <li>Transformer architecture</li>
                                         <li>How predictions are made</li>
@@ -918,7 +935,7 @@
                                 </div>
                                 <div>
                                     <p><strong>💾 Practical Skills:</strong></p>
-                                    <ul style="line-height: 1.6; margin-top: 5px;">
+                                    <ul style=" margin-top: 5px;">
                                         <li>Model compression (quantization)</li>
                                         <li>Running models locally</li>
                                         <li>Understanding file formats (GGUF)</li>
@@ -926,7 +943,7 @@
                                 </div>
                                 <div>
                                     <p><strong>🚀 Deployment:</strong></p>
-                                    <ul style="line-height: 1.6; margin-top: 5px;">
+                                    <ul style=" margin-top: 5px;">
                                         <li>LM Studio vs cloud APIs</li>
                                         <li>Context windows & memory</li>
                                         <li>Cost optimization strategies</li>
@@ -941,7 +958,7 @@
 
                             <div style="margin-bottom: 20px;">
                                 <p style="font-weight: bold; color: #4CAF50; margin-bottom: 8px;">✅ RECOMMENDED: Linear Path (Beginner-Friendly)</p>
-                                <p style="margin-left: 20px; line-height: 1.8;">
+                                <p style="margin-left: 20px; ">
                                     📚 Start at Section 1 → Follow in order → Complete all 21 sections<br>
                                     <em style="color: #666;">Best for: First-time learners, comprehensive understanding</em>
                                 </p>
@@ -949,7 +966,7 @@
 
                             <div style="margin-bottom: 20px;">
                                 <p style="font-weight: bold; color: #FF9800; margin-bottom: 8px;">⚡ Quick Overview Path (Experienced)</p>
-                                <p style="margin-left: 20px; line-height: 1.8;">
+                                <p style="margin-left: 20px; ">
                                     🗺️ Section 0 (Overview) → 11 (Attention) → 12 (Transformers) → 14 (Pipeline) → 18 (GGUF)<br>
                                     <em style="color: #666;">Best for: Developers who know basics, want key concepts</em>
                                 </p>
@@ -957,7 +974,7 @@
 
                             <div style="margin-bottom: 20px;">
                                 <p style="font-weight: bold; color: #9C27B0; margin-bottom: 8px;">🎯 Practical Focus Path (Deployment)</p>
-                                <p style="margin-left: 20px; line-height: 1.8;">
+                                <p style="margin-left: 20px; ">
                                     📚 Sections 1-5 (Basics) → 16-21 (Efficiency & Deployment)<br>
                                     <em style="color: #666;">Best for: Running models locally, understanding formats</em>
                                 </p>
@@ -965,7 +982,7 @@
 
                             <div>
                                 <p style="font-weight: bold; color: #2196F3; margin-bottom: 8px;">🔍 Skip-Around Path (Reference)</p>
-                                <p style="margin-left: 20px; line-height: 1.8;">
+                                <p style="margin-left: 20px; ">
                                     📍 Use the journey map below → Jump to topics you need<br>
                                     <em style="color: #666;">Best for: Quick answers, specific topics, refresher</em>
                                 </p>
@@ -998,7 +1015,7 @@
                         }
                         .flow-arrow {
                             text-align: center;
-                            font-size: 28px;
+                            
                             color: #667eea;
                             margin: 10px 0;
                             font-weight: bold;
@@ -1017,21 +1034,21 @@
                             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
                         }
                         .stage-title {
-                            font-size: 20px;
+                            
                             font-weight: bold;
                             color: #333;
                             margin-bottom: 8px;
                         }
                         .stage-description {
                             color: #666;
-                            font-size: 14px;
-                            line-height: 1.6;
+                            
+                            
                         }
                         .stage-sections {
                             margin-top: 10px;
                             padding-top: 10px;
                             border-top: 1px solid rgba(0,0,0,0.05);
-                            font-size: 12px;
+                            
                             color: #999;
                         }
                     </style>
@@ -1134,21 +1151,21 @@
                             </div>
                         </div>
 
-                        <div class="flow-arrow" style="font-size: 36px; margin: 20px 0;">🎉</div>
+                        <div class="flow-arrow" style=" margin: 20px 0;">🎉</div>
 
                         <!-- Final Result -->
                         <div class="glass-card" style="background: linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%); border: 2px solid rgba(102,126,234,0.4);">
                             <div style="text-align: center;">
-                                <div style="font-size: 24px; font-weight: bold; color: #667eea; margin-bottom: 10px;">🎯 You Now Understand LLMs!</div>
-                                <div style="font-size: 16px; color: #666;">From raw text to AI predictions - the complete pipeline!</div>
+                                <div style=" font-weight: bold; color: #667eea; margin-bottom: 10px;">🎯 You Now Understand LLMs!</div>
+                                <div style=" color: #666;">From raw text to AI predictions - the complete pipeline!</div>
                             </div>
                         </div>
 
                     </div>
 
                     <div class="info-box" style="margin-top: 40px; background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);">
-                        <p style="font-size: 16px; font-weight: bold; color: #667eea; margin-bottom: 10px;">💡 How to Use This Guide:</p>
-                        <ul style="line-height: 1.8;">
+                        <p style=" font-weight: bold; color: #667eea; margin-bottom: 10px;">💡 How to Use This Guide:</p>
+                        <ul style="">
                             <li><strong>Follow in order</strong> - Each section builds on the previous one</li>
                             <li><strong>Visual learner?</strong> - Every section has animated diagrams</li>
                             <li><strong>Test yourself</strong> - Complete the quiz after each section</li>
@@ -1157,7 +1174,7 @@
                     </div>
 
                     <div style="text-align: center; margin-top: 40px;">
-                        <button onclick="showSection(1)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 40px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s;">
+                        <button onclick="showSection(1)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 40px; border-radius: 25px;  font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s;">
                             Start Learning! →
                         </button>
                     </div>
@@ -2383,7 +2400,7 @@ Each number is 32-bit float → 154 MB just for embeddings!</code></pre>
                     </svg>
 
                     <div class="warning-box" style="background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.2) 100%); border-left: 4px solid #9C27B0; margin: 30px 0;">
-                        <p style="font-size: 16px; font-weight: bold; color: #6A1B9A;">⚠️ IMPORTANT: Representation vs Storage Format</p>
+                        <p style=" font-weight: bold; color: #6A1B9A;">⚠️ IMPORTANT: Representation vs Storage Format</p>
 
                         <p style="margin-top: 10px;"><strong>What you're learning here:</strong></p>
                         <ul>
@@ -3018,15 +3035,15 @@ TOTAL: ~124,000,000 parameters!</code></pre>
 
                     <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%); border-left: 4px solid #FF9800;">
                         <p><strong>⚠️ IMPORTANT: Table vs Vectors</strong></p>
-                        <ul style="margin: 10px 0; font-size: 14px;">
+                        <ul style="margin: 10px 0; ">
                             <li><strong>Embedding TABLE</strong> (singular) = ONE big storage container
-                                <br><span style="color: #666; font-size: 12px;">→ The entire 50,000 × 768 grid of numbers (like a library)</span>
+                                <br><span style="color: #666; ">→ The entire 50,000 × 768 grid of numbers (like a library)</span>
                             </li>
                             <li><strong>Embedding VECTORS</strong> (plural) = MULTIPLE results retrieved from it
-                                <br><span style="color: #666; font-size: 12px;">→ Individual rows taken OUT of the table (like books from the library)</span>
+                                <br><span style="color: #666; ">→ Individual rows taken OUT of the table (like books from the library)</span>
                             </li>
                         </ul>
-                        <p style="margin: 10px 0; font-size: 13px;">Think: 1 TABLE contains 50,000 VECTORS (one per token). You look up token IDs in the TABLE to get VECTORS out!</p>
+                        <p style="margin: 10px 0; ">Think: 1 TABLE contains 50,000 VECTORS (one per token). You look up token IDs in the TABLE to get VECTORS out!</p>
                     </div>
 
                     <h2>What Is an Embedding Table?</h2>
@@ -3200,7 +3217,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                     <div class="warning-box" style="background: linear-gradient(135deg, rgba(244,67,54,0.1) 0%, rgba(244,67,54,0.2) 100%); border-left: 4px solid #F44336;">
                         <p><strong>⚠️ Static Embeddings Problem:</strong></p>
 
-                        <p style="font-size: 16px; margin: 15px 0;"><strong>Token 8415 ("cat") ALWAYS gives us [0.8, 0.3, -0.5, 0.1, ...]</strong></p>
+                        <p style=" margin: 15px 0;"><strong>Token 8415 ("cat") ALWAYS gives us [0.8, 0.3, -0.5, 0.1, ...]</strong></p>
 
                         <p><strong>But this is WRONG! Context matters:</strong></p>
                         <pre><code>"The <span style="background: #ffeb3b; color: #000;">cat</span> sat on the mat"     ← "cat" is sitting
@@ -3214,7 +3231,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                             <strong>💡 What We Need:</strong> A way to make embeddings <strong>context-aware</strong> - so "cat" has a different representation depending on surrounding words!
                         </p>
 
-                        <p style="margin-top: 15px; font-size: 18px; color: #4CAF50; font-weight: bold;">
+                        <p style="margin-top: 15px;  color: #4CAF50; font-weight: bold;">
                             ✨ Solution: SELF-ATTENTION - The breakthrough that made modern AI possible!
                         </p>
                     </div>
@@ -3257,7 +3274,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
 
                     <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(103,58,183,0.1) 100%); border-left: 4px solid #2196F3; margin: 20px 0;">
                         <p><strong>📚 Everything You've Learned So Far:</strong></p>
-                        <ul style="font-size: 14px; margin: 10px 0;">
+                        <ul style=" margin: 10px 0;">
                             <li>✅ <strong>Text → Tokens</strong> (Section 4-5): "The cat sat" → ["The", " cat", " sat"]</li>
                             <li>✅ <strong>Tokens → IDs</strong> (Section 5): ["The", " cat", " sat"] → [791, 8415, 7731]</li>
                             <li>✅ <strong>IDs → Embedding Table Lookup</strong> (Section 10): 8415 → [0.8, 0.3, -0.5, ...] (768 numbers)</li>
@@ -3294,7 +3311,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                     <h2>📊 Your Learning Journey: How EVERYTHING Fits Together</h2>
 
                     <div class="warning-box" style="background: linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(139,195,74,0.1) 100%); border-left: 4px solid #4CAF50; margin: 20px 0;">
-                        <p style="font-weight: bold; color: #2E7D32; font-size: 16px;">🎯 Watch: Building The Transformer Engine Step-by-Step!</p>
+                        <p style="font-weight: bold; color: #2E7D32; ">🎯 Watch: Building The Transformer Engine Step-by-Step!</p>
                         <p style="color: #555; margin: 10px 0;">Like building an engine from parts - watch how text becomes vectors, then parameters, then a complete transformer!</p>
                     </div>
 
@@ -3416,7 +3433,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <img src="https://miro.medium.com/v2/resize:fit:1400/1*BHzGVskWGS_3jEcYYi6miQ.gif"
                              alt="Transformer Architecture Animation"
                              style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                        <p style="font-size: 12px; color: #666; margin-top: 10px;">Additional: Tokens flowing through Transformer layers</p>
+                        <p style=" color: #666; margin-top: 10px;">Additional: Tokens flowing through Transformer layers</p>
                     </div>
 
 
@@ -3515,11 +3532,11 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                     <p class="lead">Each transformer layer contains MULTIPLE weight matrices (tables of numbers). GPT-4 has 120 layers, each with these same weight matrices!</p>
 
                     <div class="info-box" style="margin: 20px 0; background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.05) 100%); border-left: 4px solid #9C27B0;">
-                        <p style="font-size: 16px; font-weight: bold; color: #9C27B0; margin-bottom: 15px;">📊 What's Actually Inside ONE Transformer Layer</p>
+                        <p style=" font-weight: bold; color: #9C27B0; margin-bottom: 15px;">📊 What's Actually Inside ONE Transformer Layer</p>
 
                         <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                             <p style="font-weight: bold; color: #333; margin-bottom: 10px;">📝 KEY TERMS EXPLAINED:</p>
-                            <ul style="line-height: 2; margin-left: 0; padding-left: 20px;">
+                            <ul style=" margin-left: 0; padding-left: 20px;">
                                 <li><strong>W</strong> = <strong>Weight</strong> (a matrix/table of learned numbers)</li>
                                 <li><strong>Q</strong> = <strong>Query</strong> ("What am I looking for?")</li>
                                 <li><strong>K</strong> = <strong>Key</strong> ("What do I have to offer?")</li>
@@ -3530,29 +3547,29 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         </div>
 
                         <p style="font-weight: bold; margin-bottom: 10px;">🔧 COMPONENTS IN EACH LAYER:</p>
-                        <ul style="line-height: 1.8;">
+                        <ul style="">
                             <li><strong>Weight_Query (W_Q), Weight_Key (W_K), Weight_Value (W_V)</strong><br>
-                                <span style="color: #666; font-size: 14px;">→ 3 weight matrices that transform embeddings for attention</span><br>
-                                <span style="color: #666; font-size: 14px;">→ Each is 768×768 = ~590,000 numbers!</span>
+                                <span style="color: #666; ">→ 3 weight matrices that transform embeddings for attention</span><br>
+                                <span style="color: #666; ">→ Each is 768×768 = ~590,000 numbers!</span>
                             </li>
                             <li><strong>Weight_Output (W_O)</strong><br>
-                                <span style="color: #666; font-size: 14px;">→ 1 weight matrix that combines attention heads</span><br>
-                                <span style="color: #666; font-size: 14px;">→ Also 768×768</span>
+                                <span style="color: #666; ">→ 1 weight matrix that combines attention heads</span><br>
+                                <span style="color: #666; ">→ Also 768×768</span>
                             </li>
                             <li><strong>Weight_1 (W_1), Weight_2 (W_2)</strong><br>
-                                <span style="color: #666; font-size: 14px;">→ 2 weight matrices for feed-forward network</span><br>
-                                <span style="color: #666; font-size: 14px;">→ W_1: 768×3072 (expands 4x!)</span><br>
-                                <span style="color: #666; font-size: 14px;">→ W_2: 3072×768 (compress back)</span>
+                                <span style="color: #666; ">→ 2 weight matrices for feed-forward network</span><br>
+                                <span style="color: #666; ">→ W_1: 768×3072 (expands 4x!)</span><br>
+                                <span style="color: #666; ">→ W_2: 3072×768 (compress back)</span>
                             </li>
                             <li><strong>LayerNorm parameters</strong><br>
-                                <span style="color: #666; font-size: 14px;">→ Small sets of numbers that normalize values</span><br>
-                                <span style="color: #666; font-size: 14px;">→ Keeps numbers stable during training</span>
+                                <span style="color: #666; ">→ Small sets of numbers that normalize values</span><br>
+                                <span style="color: #666; ">→ Keeps numbers stable during training</span>
                             </li>
                         </ul>
 
                         <div style="background: #FFF9C4; padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FBC02D;">
                             <p style="margin: 0;"><strong>💡 Total:</strong> ~6 weight matrices per layer × 120 layers = <strong>720+ matrices in GPT-4!</strong></p>
-                            <p style="margin: 8px 0 0 0; font-size: 14px; color: #666;">That's where the billions of parameters come from!</p>
+                            <p style="margin: 8px 0 0 0;  color: #666;">That's where the billions of parameters come from!</p>
                         </div>
                     </div>
 
@@ -3716,7 +3733,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
 
                     <h2 style="margin-top: 40px;">🔍 How Self-Attention Actually Works</h2>
                     <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.05) 100%); border-left: 4px solid #2196F3;">
-                        <p style="font-size: 16px; font-weight: bold; color: #1565C0; margin-bottom: 15px;">The Magic Formula: Q·K^T → softmax → multiply V</p>
+                        <p style=" font-weight: bold; color: #1565C0; margin-bottom: 15px;">The Magic Formula: Q·K^T → softmax → multiply V</p>
 
                         <p><strong>Step 1: Create Q, K, V from input embeddings</strong></p>
                         <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code>Input: "The" = [0.8, 0.3, 0.1, ...]  (768 dimensions)
@@ -4997,8 +5014,8 @@ Total:  4,000 tokens
 
                             <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
                                 <p><strong>🧠 Neural Networks & Training Foundations</strong></p>
-                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Learn how models actually learn! We'll cover:</p>
-                                <ul style="margin: 10px 0; font-size: 13px;">
+                                <p style=" color: #555; margin: 10px 0;">Learn how models actually learn! We'll cover:</p>
+                                <ul style="margin: 10px 0; ">
                                     <li><strong>Perceptrons</strong>: The building block of neural networks - how a single neuron makes decisions</li>
                                     <li><strong>Multi-layer Networks</strong>: Combining neurons to solve complex problems</li>
                                     <li><strong>Activation Functions</strong>: ReLU, Sigmoid, GELU - how neurons decide when to "fire"</li>
@@ -5007,8 +5024,8 @@ Total:  4,000 tokens
 
                             <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
                                 <p><strong>📉 Backpropagation & Gradient Descent</strong></p>
-                                <p style="font-size: 13px; color: #555; margin: 10px 0;">The magic behind learning:</p>
-                                <ul style="margin: 10px 0; font-size: 13px;">
+                                <p style=" color: #555; margin: 10px 0;">The magic behind learning:</p>
+                                <ul style="margin: 10px 0; ">
                                     <li><strong>Loss Functions</strong>: How we measure prediction error</li>
                                     <li><strong>Gradient Descent</strong>: Finding the best parameters by following slopes</li>
                                     <li><strong>Backpropagation</strong>: Computing gradients through layers</li>
@@ -5018,8 +5035,8 @@ Total:  4,000 tokens
 
                             <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
                                 <p><strong>🎯 Training & Optimization</strong></p>
-                                <p style="font-size: 13px; color: #555; margin: 10px 0;">How models improve over time:</p>
-                                <ul style="margin: 10px 0; font-size: 13px;">
+                                <p style=" color: #555; margin: 10px 0;">How models improve over time:</p>
+                                <ul style="margin: 10px 0; ">
                                     <li><strong>Epochs & Batches</strong>: Training iterations and mini-batches</li>
                                     <li><strong>Optimizers</strong>: Adam, SGD, AdamW - smarter ways to update weights</li>
                                     <li><strong>Regularization</strong>: Dropout, weight decay - preventing overfitting</li>
@@ -5029,8 +5046,8 @@ Total:  4,000 tokens
 
                             <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
                                 <p><strong>🔬 Advanced Transformer Concepts</strong></p>
-                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Deeper into transformers:</p>
-                                <ul style="margin: 10px 0; font-size: 13px;">
+                                <p style=" color: #555; margin: 10px 0;">Deeper into transformers:</p>
+                                <ul style="margin: 10px 0; ">
                                     <li><strong>Multi-Head Attention</strong>: Why we use 12-96 attention heads</li>
                                     <li><strong>Positional Encodings</strong>: How models understand word order</li>
                                     <li><strong>Layer Normalization</strong>: Stabilizing training</li>
@@ -5040,8 +5057,8 @@ Total:  4,000 tokens
 
                             <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
                                 <p><strong>🎨 Fine-tuning & Customization</strong></p>
-                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Making models your own:</p>
-                                <ul style="margin: 10px 0; font-size: 13px;">
+                                <p style=" color: #555; margin: 10px 0;">Making models your own:</p>
+                                <ul style="margin: 10px 0; ">
                                     <li><strong>Transfer Learning</strong>: Using pre-trained models</li>
                                     <li><strong>Fine-tuning</strong>: Adapting models to your task</li>
                                     <li><strong>LoRA & QLoRA</strong>: Efficient fine-tuning methods</li>
@@ -5052,8 +5069,8 @@ Total:  4,000 tokens
 
                             <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,152,0,0.1) 0%, rgba(255,193,7,0.1) 100%);">
                                 <p><strong>⚡ Advanced Architectures</strong></p>
-                                <p style="font-size: 13px; color: #555; margin: 10px 0;">Beyond basic transformers:</p>
-                                <ul style="margin: 10px 0; font-size: 13px;">
+                                <p style=" color: #555; margin: 10px 0;">Beyond basic transformers:</p>
+                                <ul style="margin: 10px 0; ">
                                     <li><strong>Vision Transformers (ViT)</strong>: Transformers for images</li>
                                     <li><strong>Multi-modal Models</strong>: Text + images (GPT-4V, Gemini)</li>
                                     <li><strong>Mixture of Experts (MoE)</strong>: Sparse activation for efficiency</li>
@@ -5063,8 +5080,8 @@ Total:  4,000 tokens
 
                             <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(103,58,183,0.1) 100%); border-left: 4px solid #2196F3;">
                                 <p><strong>📚 Coming Soon: Lesson 2</strong></p>
-                                <p style="font-size: 13px; margin: 5px 0;">You now understand <em>how LLMs work</em>. Next, you'll learn <em>how they learn</em>!</p>
-                                <p style="font-size: 13px; margin: 5px 0;">From perceptrons to production-ready fine-tuned models, Lesson 2 will take you from understanding to mastery.</p>
+                                <p style=" margin: 5px 0;">You now understand <em>how LLMs work</em>. Next, you'll learn <em>how they learn</em>!</p>
+                                <p style=" margin: 5px 0;">From perceptrons to production-ready fine-tuned models, Lesson 2 will take you from understanding to mastery.</p>
                             </div>
                         </div>
                     </div>
@@ -5083,8 +5100,8 @@ Total:  4,000 tokens
                     </div>
 
                     <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,240,240,0.9) 100%); border-radius: 16px; backdrop-filter: blur(10px);">
-                        <p style="font-size: 14px; color: #666; margin: 10px 0;">Created by Arul R</p>
-                        <p style="font-size: 13px; color: #999; margin: 5px 0;">From fundamentals to fine-tuning - making AI accessible to everyone</p>
+                        <p style=" color: #666; margin: 10px 0;">Created by Arul R</p>
+                        <p style=" color: #999; margin: 5px 0;">From fundamentals to fine-tuning - making AI accessible to everyone</p>
                     </div>
                 `,
                 quiz: [
@@ -5366,7 +5383,7 @@ Total:  4,000 tokens
                 const showLayer = isCurrent;
 
                 return `<span style="color: ${color}; opacity: ${opacity}; font-weight: ${isCurrent ? 'bold' : 'normal'};">
-                    ${status} ${stage.name}${showLayer ? ` <span style="font-size: 10px; color: #999;">(${stage.layer})</span>` : ''}
+                    ${status} ${stage.name}${showLayer ? ` <span style=" color: #999;">(${stage.layer})</span>` : ''}
                 </span>`;
             }).join(' → ');
 
@@ -5377,31 +5394,31 @@ Total:  4,000 tokens
                             padding: 20px;
                             margin-bottom: 30px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <div style="font-size: 13px; color: #667eea; font-weight: bold;">
+                        <div style=" color: #667eea; font-weight: bold;">
                             📍 YOUR PROGRESS: "The cat sat" → AI Prediction
                         </div>
-                        <div style="font-size: 12px; color: #999;">Section ${sectionId} of 21</div>
+                        <div style=" color: #999;">Section ${sectionId} of 21</div>
                     </div>
 
-                    <div style="font-size: 13px; margin-bottom: 15px; font-family: monospace;">
+                    <div style=" margin-bottom: 15px; font-family: monospace;">
                         ${stagesHtml}
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center;">
                         <div style="background: rgba(255,255,255,0.5); padding: 12px; border-radius: 8px; border: 1px solid #e0e0e0;">
-                            <div style="font-size: 11px; color: #999; margin-bottom: 4px;">INPUT (from previous):</div>
-                            <div style="font-size: 13px; color: #333; font-family: monospace;">${config.input}</div>
+                            <div style=" color: #999; margin-bottom: 4px;">INPUT (from previous):</div>
+                            <div style=" color: #333; font-family: monospace;">${config.input}</div>
                         </div>
 
-                        <div style="font-size: 24px; color: #667eea;">→</div>
+                        <div style=" color: #667eea;">→</div>
 
                         <div style="background: rgba(102,126,234,0.1); padding: 12px; border-radius: 8px; border: 2px solid #667eea;">
-                            <div style="font-size: 11px; color: #667eea; margin-bottom: 4px; font-weight: bold;">OUTPUT (this section):</div>
-                            <div style="font-size: 13px; color: #333; font-family: monospace;">${config.output}</div>
+                            <div style=" color: #667eea; margin-bottom: 4px; font-weight: bold;">OUTPUT (this section):</div>
+                            <div style=" color: #333; font-family: monospace;">${config.output}</div>
                         </div>
                     </div>
 
-                    <div style="margin-top: 12px; font-size: 12px; color: #666; text-align: right;">
+                    <div style="margin-top: 12px;  color: #666; text-align: right;">
                         <strong>Next:</strong> ${config.next}
                     </div>
                 </div>
@@ -5414,13 +5431,13 @@ Total:  4,000 tokens
                             margin-bottom: 30px;
                             box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                     <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 20px; margin-right: 10px;">💡</span>
-                        <span style="font-size: 14px; font-weight: bold; color: #E65100;">DID YOU KNOW?</span>
-                        <span style="margin-left: auto; font-size: 12px; color: #F57C00; font-weight: bold; background: rgba(255,152,0,0.2); padding: 4px 10px; border-radius: 12px;">
+                        <span style=" margin-right: 10px;">💡</span>
+                        <span style=" font-weight: bold; color: #E65100;">DID YOU KNOW?</span>
+                        <span style="margin-left: auto;  color: #F57C00; font-weight: bold; background: rgba(255,152,0,0.2); padding: 4px 10px; border-radius: 12px;">
                             ${historyFacts[sectionId].term} • ${historyFacts[sectionId].year}
                         </span>
                     </div>
-                    <p style="margin: 0; font-size: 13px; line-height: 1.7; color: #555;">
+                    <p style="margin: 0;   color: #555;">
                         ${historyFacts[sectionId].fact}
                     </p>
                 </div>
