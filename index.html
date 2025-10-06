@@ -3211,34 +3211,6 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <p style="margin-top: 10px; font-weight: bold; color: #E65100;">Most cited AI paper in history - the foundation of modern AI!</p>
                     </div>
 
-                    <h2>🔧 What's Inside Each Transformer Layer?</h2>
-
-                    <div class="info-box" style="background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.05) 100%); border-left: 4px solid #9C27B0;">
-                        <p style="font-size: 16px; font-weight: bold; color: #9C27B0; margin-bottom: 15px;">Each layer has 2 main components:</p>
-
-                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                            <p style="font-weight: bold; color: #E65100; font-size: 15px;">1️⃣ Self-Attention Block</p>
-                            <p style="margin: 8px 0; color: #666;">Lets each word "look at" other words in the sentence</p>
-                            <p style="margin: 8px 0; color: #333;">📥 Input: Static vectors [0.8, 0.3, ...]</p>
-                            <p style="margin: 8px 0; color: #333;">📤 Output: Context-aware vectors ← "cat" now knows about "The" and "sat"!</p>
-                            <p style="margin-top: 10px; padding: 8px; background: #E3F2FD; border-radius: 6px; border-left: 3px solid #2196F3; color: #1565C0; font-weight: bold;">
-                                → Section 12 explains HOW this works (Q, K, V matrices)
-                            </p>
-                        </div>
-
-                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
-                            <p style="font-weight: bold; color: #1565C0; font-size: 15px;">2️⃣ Feed-Forward Network (FFN)</p>
-                            <p style="margin: 8px 0; color: #666;">Processes each position independently</p>
-                            <p style="margin: 8px 0; color: #333;">🔧 Process: 768 dims → expand to 3072 dims → compress back to 768 dims</p>
-                            <p style="margin: 8px 0; color: #333;">💡 Gives model extra "thinking space" for each word</p>
-                        </div>
-
-                        <div style="background: #FFF9C4; padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FBC02D;">
-                            <p style="margin: 0; font-weight: bold; color: #E65100;">🔁 Then repeat 120 times!</p>
-                            <p style="margin: 8px 0 0 0;">Each layer adds more context understanding. By layer 120, the model has a rich, deep understanding of the text.</p>
-                        </div>
-                    </div>
-
                     <h2>📊 Your Learning Journey: How EVERYTHING Fits Together</h2>
 
                     <div class="warning-box" style="background: linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(139,195,74,0.1) 100%); border-left: 4px solid #4CAF50; margin: 20px 0;">
