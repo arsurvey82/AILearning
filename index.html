@@ -3211,62 +3211,33 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <p style="margin-top: 10px; font-weight: bold; color: #E65100;">Most cited AI paper in history - the foundation of modern AI!</p>
                     </div>
 
-                    <h2>🔧 Components in EACH Transformer Layer</h2>
+                    <h2>🔧 What's Inside Each Transformer Layer?</h2>
 
-                    <svg class="flow-diagram" width="100%" height="500" viewBox="0 0 800 500">
-                        <!-- Title -->
-                        <text x="400" y="25" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">ONE Transformer Layer (120 of these stacked!)</text>
+                    <div class="info-box" style="background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.05) 100%); border-left: 4px solid #9C27B0;">
+                        <p style="font-size: 16px; font-weight: bold; color: #9C27B0; margin-bottom: 15px;">Each layer has 2 main components:</p>
 
-                        <!-- Input: Embedding Vectors from Section 10 -->
-                        <rect x="250" y="50" width="300" height="70" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="3"/>
-                        <text x="400" y="75" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="bold">INPUT: Embedding Vectors from Section 10</text>
-                        <text x="400" y="95" text-anchor="middle" font-size="12" fill="#558B2F" font-family="monospace">["cat"=[0.8,0.3,...], "sat"=[0.2,0.9,...], ...]</text>
-                        <text x="400" y="112" text-anchor="middle" font-size="11" fill="#666">Static vectors (768 dimensions each)</text>
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <p style="font-weight: bold; color: #E65100; font-size: 15px;">1️⃣ Self-Attention Block</p>
+                            <p style="margin: 8px 0; color: #666;">Lets each word "look at" other words in the sentence</p>
+                            <p style="margin: 8px 0; color: #333;">📥 Input: Static vectors [0.8, 0.3, ...]</p>
+                            <p style="margin: 8px 0; color: #333;">📤 Output: Context-aware vectors ← "cat" now knows about "The" and "sat"!</p>
+                            <p style="margin-top: 10px; padding: 8px; background: #E3F2FD; border-radius: 6px; border-left: 3px solid #2196F3; color: #1565C0; font-weight: bold;">
+                                → Section 12 explains HOW this works (Q, K, V matrices)
+                            </p>
+                        </div>
 
-                        <!-- Arrow down -->
-                        <path d="M 400 120 L 400 155" stroke="#666" stroke-width="3" marker-end="url(#arrow11a)"/>
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
+                            <p style="font-weight: bold; color: #1565C0; font-size: 15px;">2️⃣ Feed-Forward Network (FFN)</p>
+                            <p style="margin: 8px 0; color: #666;">Processes each position independently</p>
+                            <p style="margin: 8px 0; color: #333;">🔧 Process: 768 dims → expand to 3072 dims → compress back to 768 dims</p>
+                            <p style="margin: 8px 0; color: #333;">💡 Gives model extra "thinking space" for each word</p>
+                        </div>
 
-                        <!-- Component 1: Self-Attention Block -->
-                        <rect x="200" y="155" width="400" height="110" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="3"/>
-                        <text x="400" y="180" text-anchor="middle" font-size="15" fill="#E65100" font-weight="bold">COMPONENT 1: Self-Attention Block</text>
-                        <text x="400" y="200" text-anchor="middle" font-size="13" fill="#666">"Let each token look at other tokens"</text>
-
-                        <text x="220" y="225" font-size="12" fill="#333">• Uses special matrices <tspan fill="#2196F3" font-weight="bold">(Q/K/V - explained in Section 12!)</tspan></text>
-                        <text x="220" y="245" font-size="12" fill="#333">• Makes vectors context-aware</text>
-                        <text x="220" y="265" text-anchor="start" font-size="12" fill="#E65100" font-weight="bold">Output: [0.7, 0.4, ...] ← "cat" now knows about "sat"!</text>
-
-                        <!-- Arrow down -->
-                        <path d="M 400 265 L 400 295" stroke="#666" stroke-width="3" marker-end="url(#arrow11b)"/>
-
-                        <!-- Component 2: Feed-Forward Network -->
-                        <rect x="200" y="295" width="400" height="110" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="3"/>
-                        <text x="400" y="320" text-anchor="middle" font-size="15" fill="#1565C0" font-weight="bold">COMPONENT 2: Feed-Forward Network (FFN)</text>
-                        <text x="400" y="340" text-anchor="middle" font-size="13" fill="#666">"Process each token independently"</text>
-
-                        <text x="220" y="365" font-size="12" fill="#333">• Expands: 768 dims → 3072 dims (4x larger!)</text>
-                        <text x="220" y="385" text-anchor="start" font-size="12" fill="#333">• Compresses back: 3072 dims → 768 dims</text>
-                        <text x="220" y="405" text-anchor="start" font-size="12" fill="#1565C0" font-weight="bold">Output: Enhanced context-aware vectors</text>
-
-                        <!-- Arrow down -->
-                        <path d="M 400 405 L 400 435" stroke="#666" stroke-width="3" marker-end="url(#arrow11c)"/>
-
-                        <!-- Output of ONE layer -->
-                        <rect x="250" y="435" width="300" height="50" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
-                        <text x="400" y="460" text-anchor="middle" font-size="13" fill="#6A1B9A" font-weight="bold">OUTPUT: Context-Aware Vectors (768 dims)</text>
-                        <text x="400" y="477" text-anchor="middle" font-size="11" fill="#666">→ Goes to next layer (Layer 2, 3, ... up to 120!)</text>
-
-                        <defs>
-                            <marker id="arrow11a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
-                            </marker>
-                            <marker id="arrow11b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
-                            </marker>
-                            <marker id="arrow11c" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
-                            </marker>
-                        </defs>
-                    </svg>
+                        <div style="background: #FFF9C4; padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FBC02D;">
+                            <p style="margin: 0; font-weight: bold; color: #E65100;">🔁 Then repeat 120 times!</p>
+                            <p style="margin: 8px 0 0 0;">Each layer adds more context understanding. By layer 120, the model has a rich, deep understanding of the text.</p>
+                        </div>
+                    </div>
 
                     <h2>📊 Your Learning Journey: How EVERYTHING Fits Together</h2>
 
