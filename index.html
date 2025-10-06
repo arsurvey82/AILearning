@@ -3210,7 +3210,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <p style="color: #555; margin: 10px 0;">Like building an engine from parts - watch how text becomes vectors, then parameters, then a complete transformer!</p>
                     </div>
 
-                    <svg class="flow-diagram" width="100%" height="650" viewBox="0 0 1000 650" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 20px;">
+                    <svg class="flow-diagram" width="100%" height="700" viewBox="0 0 1000 700" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 20px;">
                         <defs>
                             <filter id="glow">
                                 <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
@@ -3219,139 +3219,109 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                                     <feMergeNode in="SourceGraphic"/>
                                 </feMerge>
                             </filter>
+                            <marker id="arrowBuild" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+                                <polygon points="0 0, 10 5, 0 10" fill="#FFD700"/>
+                            </marker>
                         </defs>
 
                         <!-- Title -->
-                        <text x="500" y="35" text-anchor="middle" font-size="26" fill="white" font-weight="bold">The Transformer Journey</text>
+                        <text x="500" y="35" text-anchor="middle" font-size="26" fill="white" font-weight="bold">Building The Transformer: Layer by Layer</text>
+                        <text x="500" y="60" text-anchor="middle" font-size="13" fill="#FFD700">Watch how everything stacks together!</text>
 
-                        <!-- Changing labels -->
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
-                            <animate attributeName="opacity" values="0;1;1;0;0;0;0;0;0;0" dur="25s" repeatCount="indefinite"/>
-                            Starting with text...
-                        </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
-                            <animate attributeName="opacity" values="0;0;0;1;1;0;0;0;0;0" dur="25s" repeatCount="indefinite"/>
-                            Breaking into tokens...
-                        </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
-                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;0;0;0" dur="25s" repeatCount="indefinite"/>
-                            Converting to numbers...
-                        </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" dur="25s" repeatCount="indefinite"/>
-                            Looking up vectors with meaning...
-                        </text>
-                        <text x="500" y="80" text-anchor="middle" font-size="14" fill="#FFD700">
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1" dur="25s" repeatCount="indefinite"/>
-                            Processing through transformer...
-                        </text>
-
-                        <!-- CENTRAL STAGE - One area where everything morphs -->
-                        <rect x="100" y="120" width="800" height="450" rx="16" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-
-                        <!-- Stage 1: TEXT -->
+                        <!-- Layer 1: TEXT (appears first, STAYS) -->
                         <g>
-                            <animate attributeName="opacity" values="0;1;1;1;0;0;0;0;0;0" dur="25s" repeatCount="indefinite"/>
-                            <text x="500" y="320" text-anchor="middle" font-size="56" fill="white" font-weight="bold" filter="url(#glow)">
-                                "The cat sat"
-                            </text>
-                            <text x="500" y="380" text-anchor="middle" font-size="18" fill="#B0BEC5">
-                                Raw text input
+                            <animate attributeName="opacity" values="0;1;1;1;1;1;1;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <rect x="350" y="100" width="300" height="50" rx="8" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="2"/>
+                            <text x="500" y="130" text-anchor="middle" font-size="18" fill="white" font-weight="bold">"The cat sat"</text>
+                            <text x="50" y="130" text-anchor="start" font-size="12" fill="#FFD700" font-weight="bold">
+                                <animate attributeName="opacity" values="0;1;1;0;0;0;0;0;0;0" dur="30s" repeatCount="indefinite"/>
+                                STEP 1: Text
                             </text>
                         </g>
 
-                        <!-- Stage 2: TOKENS (morphs from text) -->
+                        <!-- Arrow 1 -->
                         <g>
-                            <animate attributeName="opacity" values="0;0;0;1;1;1;0;0;0;0" dur="25s" repeatCount="indefinite"/>
-                            <rect x="180" y="260" width="200" height="80" rx="12" fill="#FF9800" stroke="white" stroke-width="3"/>
-                            <text x="280" y="310" text-anchor="middle" font-size="24" fill="white" font-weight="bold">"The"</text>
+                            <animate attributeName="opacity" values="0;0;1;1;1;1;1;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <path d="M 500 150 L 500 180" stroke="#FFD700" stroke-width="3" marker-end="url(#arrowBuild)"/>
+                        </g>
 
-                            <rect x="400" y="260" width="200" height="80" rx="12" fill="#FF9800" stroke="white" stroke-width="3"/>
-                            <text x="500" y="310" text-anchor="middle" font-size="24" fill="white" font-weight="bold">"cat"</text>
-
-                            <rect x="620" y="260" width="200" height="80" rx="12" fill="#FF9800" stroke="white" stroke-width="3"/>
-                            <text x="720" y="310" text-anchor="middle" font-size="24" fill="white" font-weight="bold">"sat"</text>
-
-                            <text x="500" y="380" text-anchor="middle" font-size="18" fill="#B0BEC5">
-                                3 separate tokens
+                        <!-- Layer 2: TOKENS (appears, STAYS) -->
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;1;1;1;1;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <rect x="150" y="185" width="700" height="70" rx="10" fill="rgba(255,152,0,0.2)" stroke="#FF9800" stroke-width="3"/>
+                            <rect x="180" y="200" width="180" height="40" rx="6" fill="#FF9800"/>
+                            <text x="270" y="225" text-anchor="middle" font-size="14" fill="white" font-weight="bold">"The"</text>
+                            <rect x="410" y="200" width="180" height="40" rx="6" fill="#FF9800"/>
+                            <text x="500" y="225" text-anchor="middle" font-size="14" fill="white" font-weight="bold">"cat"</text>
+                            <rect x="640" y="200" width="180" height="40" rx="6" fill="#FF9800"/>
+                            <text x="730" y="225" text-anchor="middle" font-size="14" fill="white" font-weight="bold">"sat"</text>
+                            <text x="50" y="225" text-anchor="start" font-size="12" fill="#FFD700" font-weight="bold">
+                                <animate attributeName="opacity" values="0;0;0;1;1;0;0;0;0;0" dur="30s" repeatCount="indefinite"/>
+                                STEP 2: Tokens
                             </text>
                         </g>
 
-                        <!-- Stage 3: TOKEN IDs (morphs from tokens) -->
+                        <!-- Arrow 2 -->
                         <g>
-                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0;0" dur="25s" repeatCount="indefinite"/>
-                            <rect x="180" y="260" width="200" height="80" rx="12" fill="#2196F3" stroke="white" stroke-width="4"/>
-                            <text x="280" y="315" text-anchor="middle" font-size="32" fill="white" font-weight="bold">791</text>
+                            <animate attributeName="opacity" values="0;0;0;0;1;1;1;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <path d="M 500 255 L 500 285" stroke="#FFD700" stroke-width="3" marker-end="url(#arrowBuild)"/>
+                        </g>
 
-                            <rect x="400" y="260" width="200" height="80" rx="12" fill="#2196F3" stroke="white" stroke-width="4"/>
-                            <text x="500" y="315" text-anchor="middle" font-size="32" fill="white" font-weight="bold">8415</text>
-
-                            <rect x="620" y="260" width="200" height="80" rx="12" fill="#2196F3" stroke="white" stroke-width="4"/>
-                            <text x="720" y="315" text-anchor="middle" font-size="32" fill="white" font-weight="bold">7731</text>
-
-                            <text x="500" y="380" text-anchor="middle" font-size="18" fill="#B0BEC5">
-                                Token IDs (just numbers)
+                        <!-- Layer 3: TOKEN IDs (appears, STAYS) -->
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <rect x="150" y="290" width="700" height="70" rx="10" fill="rgba(33,150,243,0.2)" stroke="#2196F3" stroke-width="3"/>
+                            <rect x="180" y="305" width="180" height="40" rx="6" fill="#2196F3"/>
+                            <text x="270" y="330" text-anchor="middle" font-size="16" fill="white" font-weight="bold">791</text>
+                            <rect x="410" y="305" width="180" height="40" rx="6" fill="#2196F3"/>
+                            <text x="500" y="330" text-anchor="middle" font-size="16" fill="white" font-weight="bold">8415</text>
+                            <rect x="640" y="305" width="180" height="40" rx="6" fill="#2196F3"/>
+                            <text x="730" y="330" text-anchor="middle" font-size="16" fill="white" font-weight="bold">7731</text>
+                            <text x="50" y="330" text-anchor="start" font-size="12" fill="#FFD700" font-weight="bold">
+                                <animate attributeName="opacity" values="0;0;0;0;0;1;1;0;0;0" dur="30s" repeatCount="indefinite"/>
+                                STEP 3: IDs
                             </text>
                         </g>
 
-                        <!-- Stage 4: VECTORS (morphs from IDs) -->
+                        <!-- Arrow 3 -->
                         <g>
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" dur="25s" repeatCount="indefinite"/>
-                            <rect x="130" y="180" width="740" height="280" rx="16" fill="rgba(76,175,80,0.25)" stroke="#4CAF50" stroke-width="5" filter="url(#glow)"/>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;1;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <path d="M 500 360 L 500 390" stroke="#FFD700" stroke-width="3" marker-end="url(#arrowBuild)"/>
+                        </g>
 
-                            <text x="500" y="225" text-anchor="middle" font-size="22" fill="white" font-weight="bold">Embedding Table → Vectors</text>
-
-                            <text x="500" y="270" text-anchor="middle" font-size="15" fill="#E0E0E0" font-family="monospace">
-                                [0.82, 0.31, -0.54, 0.12, ..., 0.09]  ← "The"
-                            </text>
-                            <text x="500" y="310" text-anchor="middle" font-size="16" fill="#4CAF50" font-family="monospace" font-weight="bold">
-                                [0.71, 0.88, 0.23, -0.15, ..., -0.31]  ← "cat"
-                            </text>
-                            <text x="500" y="350" text-anchor="middle" font-size="15" fill="#E0E0E0" font-family="monospace">
-                                [0.14, -0.62, 0.43, 0.77, ..., 0.81]  ← "sat"
-                            </text>
-
-                            <text x="500" y="395" text-anchor="middle" font-size="14" fill="#FFD700">
-                                Each = 768 numbers with MEANING
-                            </text>
-                            <text x="500" y="425" text-anchor="middle" font-size="13" fill="#FFD700">
-                                38M parameters (learned weights)
-                            </text>
-                            <text x="500" y="450" text-anchor="middle" font-size="12" fill="#B0BEC5" font-style="italic">
-                                "cat" = animal, furry, sits, purrs...
+                        <!-- Layer 4: VECTORS (appears, STAYS) -->
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;1" dur="30s" repeatCount="indefinite"/>
+                            <rect x="100" y="395" width="800" height="120" rx="10" fill="rgba(76,175,80,0.2)" stroke="#4CAF50" stroke-width="4" filter="url(#glow)"/>
+                            <text x="500" y="420" text-anchor="middle" font-size="16" fill="white" font-weight="bold">Embedding Table Lookup → Vectors (768 dims each)</text>
+                            <text x="500" y="450" text-anchor="middle" font-size="12" fill="#E0E0E0" font-family="monospace">[0.82, 0.31, -0.54, ..., 0.09] ← "The"</text>
+                            <text x="500" y="475" text-anchor="middle" font-size="12" fill="#4CAF50" font-family="monospace" font-weight="bold">[0.71, 0.88, 0.23, ..., -0.31] ← "cat"</text>
+                            <text x="500" y="500" text-anchor="middle" font-size="12" fill="#E0E0E0" font-family="monospace">[0.14, -0.62, 0.43, ..., 0.81] ← "sat"</text>
+                            <text x="50" y="450" text-anchor="start" font-size="12" fill="#FFD700" font-weight="bold">
+                                <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0" dur="30s" repeatCount="indefinite"/>
+                                STEP 4: Vectors
                             </text>
                         </g>
 
-                        <!-- Stage 5: TRANSFORMER (morphs from vectors) -->
+                        <!-- Arrow 4 -->
                         <g>
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1" dur="25s" repeatCount="indefinite"/>
-                            <rect x="120" y="150" width="760" height="400" rx="16" fill="rgba(255,87,34,0.2)" stroke="#FF5722" stroke-width="5" filter="url(#glow)"/>
-
-                            <text x="500" y="195" text-anchor="middle" font-size="24" fill="white" font-weight="bold">🏭 TRANSFORMER ENGINE</text>
-                            <text x="500" y="222" text-anchor="middle" font-size="13" fill="#FFD700">120 layers processing vectors</text>
-
-                            <!-- Layer visualization -->
-                            <rect x="150" y="245" width="700" height="55" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="3"/>
-                            <text x="500" y="277" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">Layer 1: Attention + Feed-Forward</text>
-
-                            <text x="500" y="320" text-anchor="middle" font-size="20" fill="#E0E0E0">↓</text>
-
-                            <rect x="150" y="335" width="700" height="55" rx="10" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
-                            <text x="500" y="367" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">Layer 2: Attention + Feed-Forward</text>
-
-                            <text x="500" y="410" text-anchor="middle" font-size="18" fill="white" font-weight="bold">... 118 more layers ...</text>
-
-                            <text x="500" y="450" text-anchor="middle" font-size="20" fill="#E0E0E0">↓</text>
-
-                            <rect x="150" y="465" width="700" height="55" rx="10" fill="#E8F5E9" stroke="#4CAF50" stroke-width="4"/>
-                            <text x="500" y="497" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">Layer 120 → Next Token Predictions!</text>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;1;1" dur="30s" repeatCount="indefinite"/>
+                            <path d="M 500 515 L 500 545" stroke="#FFD700" stroke-width="3" marker-end="url(#arrowBuild)"/>
                         </g>
 
-                        <!-- Final message (stays visible at end) -->
-                        <text x="500" y="600" text-anchor="middle" font-size="16" fill="white" font-style="italic">
-                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1" dur="25s" repeatCount="indefinite"/>
-                            ✨ This is how transformers understand language! ✨
-                        </text>
+                        <!-- Layer 5: TRANSFORMER (appears last, STAYS) -->
+                        <g>
+                            <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1" dur="30s" repeatCount="indefinite"/>
+                            <rect x="80" y="550" width="840" height="120" rx="10" fill="rgba(255,87,34,0.25)" stroke="#FF5722" stroke-width="5" filter="url(#glow)"/>
+                            <text x="500" y="575" text-anchor="middle" font-size="18" fill="white" font-weight="bold">🏭 TRANSFORMER: 120 Layers Processing</text>
+                            <text x="500" y="605" text-anchor="middle" font-size="13" fill="#FFD700">Layer 1 (Attention + FFN) → Layer 2 → ... → Layer 120</text>
+                            <text x="500" y="630" text-anchor="middle" font-size="14" fill="#4CAF50" font-weight="bold">→ Context-aware vectors → Next token predictions!</text>
+                            <text x="500" y="655" text-anchor="middle" font-size="11" fill="#B0BEC5" font-style="italic">All parts working together to understand language</text>
+                            <text x="50" y="600" text-anchor="start" font-size="12" fill="#FFD700" font-weight="bold">
+                                <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1" dur="30s" repeatCount="indefinite"/>
+                                STEP 5: Engine!
+                            </text>
+                        </g>
                     </svg>
 
                     <div style="text-align: center; margin: 30px 0;">
