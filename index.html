@@ -1811,7 +1811,7 @@ Tokens: ["I", " don", "'t", " understand", " token", "ization"]
                     </ul>
 
                     <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
-                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p><strong>💼 Why This Matters for Business:</strong></p>
                         <p>Understanding tokenization helps you evaluate AI vendor claims. When a vendor says "We support 32K tokens," that means:</p>
                         <ul style="margin-top: 8px;">
                             <li>32,000 tokens ≈ 24,000 words ≈ 48 pages of text</li>
@@ -1999,7 +1999,7 @@ Result: [791, 8415, 7731]</code></pre>
                     </ol>
 
                     <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
-                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p><strong>💼 Why This Matters for Business:</strong></p>
                         <p>Token limits directly impact cost and capability:</p>
                         <ul style="margin-top: 8px;">
                             <li>GPT-3.5: 4K tokens ($0.002/1K tokens)</li>
@@ -2706,7 +2706,7 @@ Word embedding can capture:
                     </div>
 
                     <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
-                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p><strong>💼 Why This Matters for Business:</strong></p>
                         <p>Dimensions directly affect infrastructure costs and performance:</p>
                         <ul style="margin-top: 8px;">
                             <li>GPT-2 (768D): ~$500 GPU, 4GB VRAM, fast inference</li>
@@ -3607,7 +3607,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                     </table>
 
                     <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
-                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p><strong>💼 Why This Matters for Business:</strong></p>
                         <p>Understanding transformer architecture explains model capabilities and limitations:</p>
                         <ul style="margin-top: 8px;">
                             <li><strong>Layer count matters:</strong> 12 layers = basic, 120 layers = advanced reasoning</li>
@@ -3758,7 +3758,7 @@ Output = Input + Layer(Input)  ← Original preserved!</code></pre>
                     </div>
 
                     <div class="info-box" style="margin-top: 20px; background: rgba(33,150,243,0.1); border-left: 4px solid #2196F3;">
-                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p><strong>💼 Why This Matters for Business:</strong></p>
                         <p style="margin-top: 8px;">Skip connections were a <strong>breakthrough that enabled modern AI</strong>:</p>
                         <ul style="margin-top: 8px;">
                             <li><strong>Before (2015)</strong>: Networks limited to ~20 layers → couldn't learn complex patterns</li>
@@ -3928,17 +3928,22 @@ Output = Input + Layer(Input)  ← Original preserved!</code></pre>
                     </svg>
 
                     <div class="info-box" style="margin-top: 30px; background: linear-gradient(135deg, rgba(76,175,80,0.15) 0%, rgba(76,175,80,0.05) 100%); border-left: 4px solid #4CAF50;">
-                        <p><strong>🛣️ What is that "Skip Connection" arch?</strong></p>
-                        <p style="margin-top: 10px;">Think of it like <strong>making coffee with cream</strong>:</p>
-                        <ul style="margin-top: 8px;">
-                            <li><strong>Black coffee</strong> → Original input "cat" (the green arch keeps this)</li>
-                            <li><strong>Add cream</strong> → Attention processing adds context (middle path)</li>
-                            <li><strong>Final drink</strong> → Coffee + cream mixed together (the green + circle)</li>
-                        </ul>
+                        <p><strong>🛣️ Why is it called "Skip Connection"?</strong></p>
+                        <p style="margin-top: 10px;">The green arch shows data <strong>"skipping over"</strong> the processing layers by taking a shortcut path!</p>
+
+                        <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 6px; margin-top: 12px;">
+                            <p style="margin: 0; font-weight: bold; color: #1565C0;">Think of a highway with two routes:</p>
+                            <ul style="margin-top: 8px;">
+                                <li><strong>Main road</strong> → Goes through the city (attention processing) - slow but adds information</li>
+                                <li><strong>Bypass highway</strong> → Skips the city entirely (green arch) - fast, preserves original</li>
+                                <li><strong>Merge point</strong> → Both routes join together (the green + circle)</li>
+                            </ul>
+                        </div>
+
                         <p style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.6); border-radius: 6px;">
-                            <strong>Formula:</strong> <code style="background: transparent; color: #2E7D32; font-weight: bold;">Output = Original "cat" + Attention(cat)</code>
+                            <strong>Formula:</strong> <code style="background: transparent; color: #2E7D32; font-weight: bold;">Output = Original "cat" (skip path) + Processed "cat" (main path)</code>
                         </p>
-                        <p style="margin-top: 10px; font-weight: bold; color: #2E7D32;">Why? After 120 layers, without this shortcut, "cat" gets completely transformed. The skip connection keeps the original "cat" while attention adds meaning like "THE cat" and "cat SAT".</p>
+                        <p style="margin-top: 10px; font-weight: bold; color: #2E7D32;">The original "cat" literally SKIPS the processing layer and meets up at the end! This is why it's called a "skip" connection - not because we're skipping something we need, but because the data takes a shortcut bypass path.</p>
                     </div>
 
                     <h2 style="margin-top: 40px;">🔍 How Self-Attention Actually Works</h2>
@@ -4682,7 +4687,7 @@ weights = [0.1234, -0.5678, 0.9012, ...]
                     </div>
 
                     <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
-                        <p><strong>💼 Why Executives Care - Build vs Buy Decision:</strong></p>
+                        <p><strong>💼 Why This Matters (Build vs Buy):</strong></p>
                         <p>Quantization is why you can run powerful AI locally instead of paying API fees:</p>
                         <ul style="margin-top: 8px;">
                             <li>Full Llama 2 70B: 140GB, needs $50K server</li>
