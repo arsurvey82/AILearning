@@ -799,12 +799,60 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #764ba2;
         }
+
+        /* Skip Link for Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 10px;
+            z-index: 10000;
+            padding: 12px 20px;
+            background: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .skip-link:focus {
+            top: 10px;
+        }
+
+        /* Global Focus Indicators for Keyboard Navigation */
+        *:focus {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        button:focus,
+        a:focus,
+        .btn:focus {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Make sure interactive elements are keyboard accessible */
+        button,
+        a {
+            cursor: pointer;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
+    <!-- Skip to Main Content Link -->
+    <a href="#content" class="skip-link">Skip to main content</a>
+
     <div class="container">
         <!-- LEFT SIDEBAR: Category Navigation -->
-        <div class="sidebar-left">
+        <nav class="sidebar-left" aria-label="Course sections and navigation">
             <h1>✨ LLM Learning Guide</h1>
             <p class="subtitle">From Zero to Understanding AI</p>
 
@@ -818,10 +866,10 @@
                 </div>
                 <p id="progressText">Progress: 0%</p>
             </div>
-        </div>
+        </nav>
 
         <!-- MAIN CONTENT -->
-        <div class="main-content">
+        <main class="main-content" aria-label="Lesson content">
             <div id="stageBadge" class="stage-badge"></div>
             <div id="content"></div>
 
@@ -829,15 +877,15 @@
                 <button id="prevBtn" class="btn">← Previous</button>
                 <button id="nextBtn" class="btn">Next →</button>
             </div>
-        </div>
+        </main>
 
         <!-- RIGHT SIDEBAR: Feed Flow -->
-        <div class="sidebar-right">
+        <aside class="sidebar-right" aria-label="Progress tracker and data flow pipeline">
             <h3>🔄 Data Flow Pipeline</h3>
             <div id="feedFlow" class="feed-flow">
                 <!-- Will be populated by JavaScript -->
             </div>
-        </div>
+        </aside>
     </div>
 
     <!-- Footer -->
