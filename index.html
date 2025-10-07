@@ -719,7 +719,8 @@
         }
 
         /* Mobile Responsive */
-        @media (max-width: 1200px) {
+        /* Tablet & Below - Collapse to Single Column */
+        @media (max-width: 1400px) {
             .container {
                 grid-template-columns: 1fr;
             }
@@ -752,31 +753,61 @@
             }
         }
 
+        /* Mobile Typography Scaling */
         @media (max-width: 768px) {
+            :root {
+                --text-4xl: 36px;  /* H1: down from 57px */
+                --text-3xl: 28px;  /* H2: down from 43px */
+                --text-2xl: 24px;  /* H3: down from 32px */
+                --text-xl: 21px;   /* H4: down from 24px */
+                --text-lg: 19px;   /* Lead: down from 21px */
+            }
+
             .container {
                 padding: 12px;
                 gap: 12px;
             }
 
             .main-content {
-                padding: 24px 20px;
-            }
-
-            #content h2 {
-                
-            }
-
-            #content h3 {
-                
-            }
-
-            #content p, #content li {
-                
+                padding: 24px 16px;
             }
 
             .btn {
-                padding: 10px 20px;
-                
+                padding: 12px 24px;
+                font-size: var(--text-sm);
+            }
+
+            .section-link {
+                padding: 12px 14px;
+                font-size: var(--text-sm);
+                min-height: 48px; /* Better touch targets */
+            }
+        }
+
+        /* Small Phones - Further Adjustments */
+        @media (max-width: 480px) {
+            :root {
+                --text-4xl: 32px;  /* H1: further reduced */
+                --text-3xl: 24px;  /* H2: further reduced */
+                --text-2xl: 21px;  /* H3: further reduced */
+                --text-base: 16px; /* Body: slightly smaller */
+            }
+
+            .main-content {
+                padding: 20px 12px;
+            }
+
+            .sidebar-left h1 {
+                font-size: 21px;
+            }
+
+            .feed-flow {
+                gap: 8px;
+            }
+
+            .feed-step {
+                min-width: 100px;
+                padding: 12px;
             }
         }
 
