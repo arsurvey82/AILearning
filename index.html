@@ -3880,16 +3880,16 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
 
                     <div class="info-box" style="margin-top: 30px; background: linear-gradient(135deg, rgba(76,175,80,0.15) 0%, rgba(76,175,80,0.05) 100%); border-left: 4px solid #4CAF50;">
                         <p><strong>🛣️ What is that "Skip Connection" arch?</strong></p>
-                        <p style="margin-top: 10px;">Think of it like <strong>Google Docs auto-save</strong> while you're editing:</p>
+                        <p style="margin-top: 10px;">Think of it like <strong>making coffee with cream</strong>:</p>
                         <ul style="margin-top: 8px;">
-                            <li><strong>Original document</strong> → Keeps a backup (the green arch)</li>
-                            <li><strong>Your edits</strong> → Go through the attention layer (middle path)</li>
-                            <li><strong>Final save</strong> → Combines backup + edits (the green + circle)</li>
+                            <li><strong>Black coffee</strong> → Original input "cat" (the green arch keeps this)</li>
+                            <li><strong>Add cream</strong> → Attention processing adds context (middle path)</li>
+                            <li><strong>Final drink</strong> → Coffee + cream mixed together (the green + circle)</li>
                         </ul>
                         <p style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.6); border-radius: 6px;">
-                            <strong>Formula:</strong> <code style="background: transparent; color: #2E7D32; font-weight: bold;">Output = Original Input + Attention(Input)</code>
+                            <strong>Formula:</strong> <code style="background: transparent; color: #2E7D32; font-weight: bold;">Output = Original "cat" + Attention(cat)</code>
                         </p>
-                        <p style="margin-top: 10px; font-weight: bold; color: #2E7D32;">Why? Without skip connections, after 120 layers, the original word "cat" would be completely lost! This preserves "cat" while adding context.</p>
+                        <p style="margin-top: 10px; font-weight: bold; color: #2E7D32;">Why? After 120 layers, without this shortcut, "cat" gets completely transformed. The skip connection keeps the original "cat" while attention adds meaning like "THE cat" and "cat SAT".</p>
                     </div>
 
                     <h2 style="margin-top: 40px;">🔍 How Self-Attention Actually Works</h2>
