@@ -3720,7 +3720,56 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         </div>
                     </div>
 
-                    <h2 style="margin-top: 30px;">Architecture: Weight Matrices in ONE Layer</h2>
+                    <h2 style="margin-top: 40px;">⚠️ The Problem with Deep Networks</h2>
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(244,67,54,0.1) 0%, rgba(244,67,54,0.05) 100%); border-left: 4px solid #f44336;">
+                        <p><strong>🚨 Imagine playing "Telephone" with 120 people:</strong></p>
+                        <p style="margin-top: 10px;">You whisper "The cat sat on the mat" to person 1...</p>
+                        <ul style="margin-top: 8px;">
+                            <li>Person 10: "The cat sat on the mat" ✓</li>
+                            <li>Person 50: "A cat was sitting somewhere" (losing details!)</li>
+                            <li>Person 100: "Something about animals?" (original message lost!)</li>
+                            <li>Person 120: "???" (completely garbled!)</li>
+                        </ul>
+                        <p style="margin-top: 12px; font-weight: bold; color: #c62828;">This is exactly what happens in deep neural networks without skip connections!</p>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 20px; background: #fff3e0; border-left: 4px solid #FF9800;">
+                        <p><strong>Why Information Gets Lost:</strong></p>
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 6px; color: #2d2d2d;"><code>Layer 1:   "cat" = [0.8, 0.3, 0.1, ...] ← Original
+Layer 10:  [0.6, 0.5, 0.2, ...] ← Slightly changed
+Layer 50:  [0.3, 0.7, 0.9, ...] ← Very different!
+Layer 100: [0.1, 0.2, 0.1, ...] ← Original "cat" is gone!
+Layer 120: [0.0, 0.1, 0.0, ...] ← Completely lost!</code></pre>
+                        <p style="margin-top: 10px;">Each layer transforms the vector. After 120 transformations, the original word is unrecognizable!</p>
+                    </div>
+
+                    <h2 style="margin-top: 35px;">✅ The Solution: Skip Connections (Residual Connections)</h2>
+                    <div class="success-box" style="background: linear-gradient(135deg, rgba(76,175,80,0.15) 0%, rgba(76,175,80,0.05) 100%); border-left: 4px solid #4CAF50;">
+                        <p><strong>💡 Breakthrough Discovery (2015 - ResNet Paper):</strong></p>
+                        <p style="margin-top: 10px;">Instead of completely transforming the input, <strong>keep the original and ADD changes</strong>:</p>
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 6px; margin-top: 10px; color: #2d2d2d;"><code>❌ WITHOUT Skip Connection:
+Output = Layer(Input)  ← Original is lost!
+
+✅ WITH Skip Connection:
+Output = Input + Layer(Input)  ← Original preserved!</code></pre>
+                        <p style="margin-top: 12px; padding: 10px; background: #e8f5e9; border-radius: 6px;">
+                            <strong>🎯 Result:</strong> Now you can stack 120+ layers and the original "cat" vector still flows through, while each layer adds contextual information on top!
+                        </p>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 20px; background: rgba(33,150,243,0.1); border-left: 4px solid #2196F3;">
+                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p style="margin-top: 8px;">Skip connections were a <strong>breakthrough that enabled modern AI</strong>:</p>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Before (2015)</strong>: Networks limited to ~20 layers → couldn't learn complex patterns</li>
+                            <li><strong>After ResNet</strong>: 152+ layers possible → ImageNet error dropped from 7% to 3.5%!</li>
+                            <li><strong>Today</strong>: GPT-4 uses 120 layers because skip connections prevent information loss</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #1565C0;">Without this invention, ChatGPT wouldn't exist!</p>
+                    </div>
+
+                    <h2 style="margin-top: 35px;">Architecture: Weight Matrices in ONE Layer</h2>
+                    <p style="color: #666; margin-bottom: 15px;">👇 Notice the green arch labeled "Skip Connection" - that's the breakthrough keeping the original input alive!</p>
                     <svg class="flow-diagram" width="100%" height="700" viewBox="0 0 950 700">
                         <!-- Title -->
                         <text x="475" y="25" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">Single Transformer Layer (Layer 1 of 120 in GPT-4)</text>
