@@ -1810,6 +1810,17 @@ Tokens: ["I", " don", "'t", " understand", " token", "ization"]
                         <li><strong>Consistency</strong>: Same word always tokenizes the same way</li>
                     </ul>
 
+                    <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
+                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p>Understanding tokenization helps you evaluate AI vendor claims. When a vendor says "We support 32K tokens," that means:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>32,000 tokens ≈ 24,000 words ≈ 48 pages of text</li>
+                            <li>More tokens = higher API costs (you pay per token)</li>
+                            <li>Context window limits affect how much your AI "remembers"</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold;">Know what you're buying!</p>
+                    </div>
+
                     <h2>Different Tokenizers</h2>
                     <p>Different AI models use different tokenizers:</p>
 
@@ -1986,6 +1997,17 @@ Result: [791, 8415, 7731]</code></pre>
                         <li><strong>Indexed</strong>: Can be used to lookup embeddings</li>
                         <li><strong>Math-friendly</strong>: Numbers work in neural networks</li>
                     </ol>
+
+                    <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
+                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p>Token limits directly impact cost and capability:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>GPT-3.5: 4K tokens ($0.002/1K tokens)</li>
+                            <li>GPT-4: 8K-128K tokens ($0.03/1K tokens - 15x more expensive!)</li>
+                            <li>Claude 3: 200K tokens ($0.008/1K tokens)</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold;">Choosing the right context window = significant cost savings at scale.</p>
+                    </div>
 
                     <h2>Vocabulary Size Tradeoff</h2>
                     <pre><code># Smaller Vocabulary (30k tokens)
@@ -2683,6 +2705,18 @@ Word embedding can capture:
                         </ul>
                     </div>
 
+                    <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
+                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p>Dimensions directly affect infrastructure costs and performance:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>GPT-2 (768D): ~$500 GPU, 4GB VRAM, fast inference</li>
+                            <li>GPT-3 (12,288D): ~$10K GPU cluster, 80GB VRAM, slower</li>
+                            <li>Running 768D locally: Feasible on laptops</li>
+                            <li>Running 12,288D: Requires cloud infrastructure ($$$)</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold;">Balance quality needs with infrastructure reality.</p>
+                    </div>
+
                     <h2>Memory Impact</h2>
                     <p>Let's calculate memory for embeddings:</p>
 
@@ -3326,6 +3360,17 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         </p>
                     </div>
 
+                    <div class="warning-box" style="margin: 32px 0; background: rgba(255,152,0,0.1); border-left: 4px solid #FF9800;">
+                        <p><strong>🌉 Bridging to Transformers:</strong></p>
+                        <p>You've learned that the Embedding Table gives us <strong>static vectors</strong>. But here's the problem:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>"bank" in "river bank" → always [0.5, 0.2, ...]</li>
+                            <li>"bank" in "money bank" → same vector [0.5, 0.2, ...]</li>
+                            <li>But they mean completely different things!</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #E65100;">This is why we need Transformers - to make vectors context-aware!</p>
+                    </div>
+
                     <p style="margin-top: 20px;"><strong>Next Section:</strong> How self-attention lets each word "look at" other words and adjust its meaning based on context!</p>
                 `,
                 quiz: [
@@ -3393,7 +3438,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <ul style="margin: 10px 0;">
                             <li><strong>Before 2017:</strong> RNNs, LSTMs - processed text sequentially (slow!)</li>
                             <li><strong>After 2017:</strong> Transformers - process ALL tokens in parallel (fast!)</li>
-                            <li><strong>Result:</strong> GPT (2018), BERT (2018), GPT-2 (2019), GPT-3 (2020), ChatGPT (2022)...</li>
+                            <li><strong>Result:</strong> GPT (2018), <a href="https://arxiv.org/abs/1810.04805" target="_blank" style="color: #2196F3; text-decoration: underline;">BERT</a> (2018), GPT-2 (2019), <a href="https://arxiv.org/abs/2005.14165" target="_blank" style="color: #2196F3; text-decoration: underline;">GPT-3</a> (2020), ChatGPT (2022)...</li>
                         </ul>
                         <p style="margin-top: 10px; font-weight: bold; color: #E65100;">Most cited AI paper in history - the foundation of modern AI!</p>
                     </div>
@@ -3560,6 +3605,18 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                             <td style="padding: 10px; font-weight: bold;">All learned numbers across all components!</td>
                         </tr>
                     </table>
+
+                    <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
+                        <p><strong>💼 Why Executives Care:</strong></p>
+                        <p>Understanding transformer architecture explains model capabilities and limitations:</p>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Layer count matters:</strong> 12 layers = basic, 120 layers = advanced reasoning</li>
+                            <li><strong>Training costs scale exponentially:</strong> GPT-3 (120 layers) cost $4.6M to train</li>
+                            <li><strong>Inference costs:</strong> More layers = slower responses = higher compute costs</li>
+                            <li><strong>Quality tradeoff:</strong> Smaller models (12 layers) run faster but less capable</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold;">Match model size to your use case - not everything needs GPT-4!</p>
+                    </div>
 
                     <div class="success-box" style="margin-top: 30px;">
                         <p><strong>🎉 Key Takeaway: The Transformer Connects Everything!</strong></p>
@@ -3822,6 +3879,24 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                     </svg>
 
                     <h2 style="margin-top: 40px;">🔍 How Self-Attention Actually Works</h2>
+
+                    <div class="warning-box" style="background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,152,0,0.1) 100%); border-left: 4px solid #FF9800;">
+                        <p><strong>🎧 Think of Self-Attention Like the Cocktail Party Effect!</strong></p>
+                        <p>Imagine you're at a noisy party with many conversations happening:</p>
+                        <ul style="margin-top: 10px;">
+                            <li>You hear your name across the room - suddenly you <strong>focus</strong> on that conversation</li>
+                            <li>You <strong>tune out</strong> background noise and irrelevant chatter</li>
+                            <li>You <strong>highlight</strong> what matters based on context</li>
+                        </ul>
+                        <p style="margin-top: 10px;">Self-attention works the same way! Reading "The bank was slippery," the model:</p>
+                        <ul style="margin-top: 8px;">
+                            <li><strong>Highlights</strong> "slippery" and connects it to "bank"</li>
+                            <li><strong>Realizes</strong> it's a river bank, not a money bank</li>
+                            <li><strong>Tunes out</strong> irrelevant meanings of "bank"</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold; color: #E65100;">This is how words "pay attention" to each other to understand context!</p>
+                    </div>
+
                     <div class="info-box" style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.05) 100%); border-left: 4px solid #2196F3;">
                         <p style=" font-weight: bold; color: #1565C0; margin-bottom: 15px;">The Magic Formula: Q·K^T → softmax → multiply V</p>
 
@@ -4541,6 +4616,22 @@ weights = [0.1234, -0.5678, 0.9012, ...]
 
                     <div class="success-box">
                         <p><strong>Key Takeaway:</strong> Quantization reduces model size by 4-8x with minimal quality loss. Q4_K_M is the sweet spot for most users - 1/4 the size, 95% quality!</p>
+                    </div>
+
+                    <div class="info-box" style="background: #fff3e0; border-left: 4px solid #FF9800; margin: 24px 0;">
+                        <p><strong>💼 Why Executives Care - Build vs Buy Decision:</strong></p>
+                        <p>Quantization is why you can run powerful AI locally instead of paying API fees:</p>
+                        <ul style="margin-top: 8px;">
+                            <li>Full Llama 2 70B: 140GB, needs $50K server</li>
+                            <li>Quantized Q4: 40GB, runs on $2K laptop</li>
+                            <li>API (OpenAI): $0.06 per 1K tokens, scales with usage</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Cost Analysis (1M tokens/month):</strong></p>
+                        <ul>
+                            <li>OpenAI API: $60/month recurring forever</li>
+                            <li>Local quantized: $2K one-time, $0/month after</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-weight: bold;">ROI breakeven: 33 months. Plus data privacy & offline access!</p>
                     </div>
                 `,
                 quiz: [
@@ -5425,14 +5516,14 @@ Total:  4,000 tokens
             1: { term: 'Binary Data', year: '1948', fact: 'Claude Shannon published "A Mathematical Theory of Communication", establishing binary as the foundation of digital information. Every piece of data today - text, images, AI models - ultimately becomes 1s and 0s!' },
             2: { term: 'Character Encoding', year: '1963', fact: 'ASCII (American Standard Code for Information Interchange) was created, assigning numbers 0-127 to characters. The letter "A" = 65 is still true today, 60+ years later!' },
             3: { term: 'Embeddings', year: '1986', fact: 'The concept of distributed representations emerged with Rumelhart & McClelland\'s work, but modern word embeddings exploded with Word2Vec in 2013!' },
-            4: { term: 'Tokenization', year: '2018', fact: 'Byte Pair Encoding (BPE) tokenization became mainstream with GPT-1. Before this, AI struggled with rare words - BPE solved it by breaking words into subword units!' },
+            4: { term: 'Tokenization', year: '2018', fact: '<a href="https://arxiv.org/abs/1508.07909" target="_blank" style="color: #2196F3; text-decoration: underline;">Byte Pair Encoding (BPE)</a> tokenization became mainstream with GPT-1. Before this, AI struggled with rare words - BPE solved it by breaking words into subword units!' },
             5: { term: 'Vocabulary', year: '1950s', fact: 'Early NLP systems had vocabularies of just hundreds of words. Modern LLMs have 50,000-100,000 tokens, covering nearly every word and subword combination!' },
             6: { term: 'Vectors', year: '1800s', fact: 'Vectors originated in mathematics (linear algebra) centuries ago, but using them to represent meaning in AI is surprisingly recent - mainly since 2013!' },
-            7: { term: 'Word Embeddings', year: '2013', fact: 'Tomas Mikolov at Google created Word2Vec, showing that "king - man + woman ≈ queen" in vector space. This revolutionized how AI understands language!' },
+            7: { term: 'Word Embeddings', year: '2013', fact: 'Tomas Mikolov at Google created <a href="https://arxiv.org/abs/1301.3781" target="_blank" style="color: #2196F3; text-decoration: underline;">Word2Vec</a>, showing that "king - man + woman ≈ queen" in vector space. This revolutionized how AI understands language!' },
             8: { term: 'Dimensions', year: '2017', fact: 'The original Transformer paper used 512 dimensions. Modern models use 768 (GPT-2), 1024 (GPT-3 small), up to 12,288 (GPT-4)! More dimensions = more nuanced understanding.' },
             9: { term: 'Parameters', year: '2018-2024', fact: 'GPT-1 had 117M parameters (2018). GPT-2: 1.5B (2019). GPT-3: 175B (2020). GPT-4: estimated 1.76 TRILLION (2023)! The exponential growth is staggering.' },
             10: { term: 'Embedding Table', year: '2013+', fact: 'The embedding table is often 30-50% of a model\'s total parameters! In GPT-2 (124M params), 39M are just the embedding table - the model\'s learned dictionary.' },
-            11: { term: 'Self-Attention', year: '2017', fact: 'The paper "Attention is All You Need" (Vaswani et al., 2017) introduced self-attention, replacing RNNs and LSTMs. It\'s the #1 most cited AI paper of all time!' },
+            11: { term: 'Self-Attention', year: '2017', fact: 'The paper <a href="https://arxiv.org/abs/1706.03762" target="_blank" style="color: #2196F3; text-decoration: underline;">"Attention is All You Need"</a> (Vaswani et al., 2017) introduced self-attention, replacing RNNs and LSTMs. It\'s the #1 most cited AI paper of all time!' },
             12: { term: 'Transformer', year: '2017', fact: 'The Transformer architecture was invented at Google Brain. The name "Transformer" was chosen because it "transforms" representations - not related to robots!' },
             13: { term: 'Multi-Head Attention', year: '2017', fact: 'The original Transformer used 8 attention heads. GPT-3 uses 96 heads! Each head can specialize - some learn syntax, others semantics, others long-range dependencies.' },
             14: { term: 'Forward Pass', year: '1940s+', fact: 'The forward pass concept dates to the first neural networks (1940s), but modern forward passes through 120+ layers would have been impossible to compute until recently!' },
