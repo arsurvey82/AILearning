@@ -3901,7 +3901,7 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         <p style="font-weight: bold; color: #1565C0; margin-bottom: 15px;">The Magic Formula: Q·K^T → softmax → multiply V</p>
 
                         <p><strong>Step 1: Create Q, K, V from input embeddings</strong></p>
-                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code>Input: "The" = [0.8, 0.3, 0.1, ...]  (768 dimensions)
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; color: #2d2d2d;"><code>Input: "The" = [0.8, 0.3, 0.1, ...]  (768 dimensions)
 
 # Multiply by weight matrices to get Q, K, V:
 Query (Q)  = Input × W_Q  →  [0.2, 0.9, 0.4, ...]  (What am I looking for?)
@@ -3909,7 +3909,7 @@ Key (K)    = Input × W_K  →  [0.7, 0.1, 0.6, ...]  (What do I have to offer?)
 Value (V)  = Input × W_V  →  [0.5, 0.8, 0.2, ...]  (What information do I contain?)</code></pre>
 
                         <p style="margin-top: 15px;"><strong>Step 2: Calculate attention scores (Q·K^T)</strong></p>
-                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code># For sentence "The cat sat":
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; color: #2d2d2d;"><code># For sentence "The cat sat":
 # Each word's Query looks at every word's Key
 
 Attention scores = Q × K^T  (dot product)
@@ -3921,7 +3921,7 @@ Attention scores = Q × K^T  (dot product)
 # Higher score = more relevant!</code></pre>
 
                         <p style="margin-top: 15px;"><strong>Step 3: Softmax to get attention weights</strong></p>
-                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code># Convert scores to probabilities (sum to 100%)
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; color: #2d2d2d;"><code># Convert scores to probabilities (sum to 100%)
 Raw scores: [2.3, 4.1, 1.8]
 After softmax: [0.25, 0.60, 0.15]  ← "cat" pays 60% attention to itself!
 
@@ -3931,7 +3931,7 @@ After softmax: [0.25, 0.60, 0.15]  ← "cat" pays 60% attention to itself!
 # - 15% at "sat"</code></pre>
 
                         <p style="margin-top: 15px;"><strong>Step 4: Multiply by Values (weighted sum)</strong></p>
-                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px;"><code># Take weighted combination of all Value vectors
+                        <pre style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; color: #2d2d2d;"><code># Take weighted combination of all Value vectors
 Output = 0.25 × V("The") + 0.60 × V("cat") + 0.15 × V("sat")
 
 # "cat" vector is now CONTEXT-AWARE!
