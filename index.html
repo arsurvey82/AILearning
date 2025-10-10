@@ -69,6 +69,17 @@
             100% { background-position: 0% 50%; }
         }
 
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         .container {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
@@ -5748,11 +5759,50 @@ Total:  4,000 tokens
         }
 
         // Function to show section
+        // Bookmark functionality using localStorage
+        function generateBookmarkButton() {
+            const bookmarks = JSON.parse(localStorage.getItem('llm-guide-bookmarks') || '[]');
+            const isBookmarked = bookmarks.includes(currentSection);
+
+            return `
+                <div style="text-align: right; margin: -10px 0 20px 0;">
+                    <button onclick="toggleBookmark()" id="bookmarkBtn" style="
+                        background: ${isBookmarked ? '#3b82f6' : 'rgba(255,255,255,0.9)'};
+                        color: ${isBookmarked ? 'white' : '#3b82f6'};
+                        border: 2px solid #3b82f6;
+                        padding: 8px 16px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-size: 13px;
+                        font-weight: 600;
+                        transition: all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        ${isBookmarked ? '★ Bookmarked' : '☆ Bookmark'}
+                    </button>
+                </div>
+            `;
+        }
+
+        function toggleBookmark() {
+            let bookmarks = JSON.parse(localStorage.getItem('llm-guide-bookmarks') || '[]');
+            if (bookmarks.includes(currentSection)) {
+                bookmarks = bookmarks.filter(b => b !== currentSection);
+            } else {
+                bookmarks.push(currentSection);
+            }
+            localStorage.setItem('llm-guide-bookmarks', JSON.stringify(bookmarks));
+            showSection(currentSection);
+        }
+
         function showSection(index) {
             if (index < 0 || index >= sections.length) return;
 
             currentSection = index;
             const section = sections[index];
+
+            // Auto-save progress to localStorage
+            localStorage.setItem('llm-guide-current-section', index);
+            localStorage.setItem('llm-guide-last-visit', new Date().toISOString());
 
             // Update stage badge
             const badge = document.getElementById('stageBadge');
@@ -5761,8 +5811,9 @@ Total:  4,000 tokens
             // Update content with progress tracker and quiz
             const content = document.getElementById('content');
             const tracker = generateProgressTracker(section.id);
+            const bookmarkBtn = generateBookmarkButton();
             const quizHTML = section.quiz ? generateQuiz(section.quiz) : '';
-            content.innerHTML = tracker + section.content + quizHTML;
+            content.innerHTML = tracker + bookmarkBtn + section.content + quizHTML;
 
             // Update navigation buttons
             document.getElementById('prevBtn').disabled = index === 0;
@@ -5877,13 +5928,90 @@ Total:  4,000 tokens
             }
         }
 
+        // Resume from saved progress
+        function resumeProgress() {
+            const savedSection = localStorage.getItem('llm-guide-current-section');
+            if (savedSection !== null) {
+                showSection(parseInt(savedSection));
+                document.getElementById('resumeBanner').remove();
+            }
+        }
+
+        // Start fresh (clear progress)
+        function startFresh() {
+            document.getElementById('resumeBanner').remove();
+            showSection(0);
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             // Only initialize if sections exist
             if (sections.length > 0) {
                 renderCategoryNav();
-                renderFeedFlow(sections[0].id);
-                showSection(0);
+
+                // Check for saved progress
+                const savedSection = localStorage.getItem('llm-guide-current-section');
+                const lastVisit = localStorage.getItem('llm-guide-last-visit');
+
+                if (savedSection !== null && parseInt(savedSection) !== 0) {
+                    // Show resume banner
+                    const sectionIndex = parseInt(savedSection);
+                    const sectionTitle = sections[sectionIndex].title || `Section ${sectionIndex}`;
+                    const visitDate = lastVisit ? new Date(lastVisit).toLocaleDateString() : 'recently';
+
+                    const resumeBanner = document.createElement('div');
+                    resumeBanner.id = 'resumeBanner';
+                    resumeBanner.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: rgba(59, 130, 246, 0.95);
+                        backdrop-filter: blur(16px);
+                        color: white;
+                        padding: 16px 20px;
+                        border-radius: 12px;
+                        box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
+                        z-index: 10000;
+                        max-width: 350px;
+                        animation: slideIn 0.3s ease;
+                    `;
+                    resumeBanner.innerHTML = `
+                        <div style="font-weight: 600; margin-bottom: 8px;">📚 Welcome back!</div>
+                        <div style="font-size: 13px; margin-bottom: 12px; opacity: 0.9;">
+                            Continue from <strong>"${sectionTitle}"</strong><br>
+                            <span style="font-size: 11px; opacity: 0.7;">Last visited: ${visitDate}</span>
+                        </div>
+                        <button onclick="resumeProgress()" style="
+                            background: white;
+                            color: #3b82f6;
+                            border: none;
+                            padding: 8px 16px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 13px;
+                            margin-right: 8px;
+                        ">Resume</button>
+                        <button onclick="startFresh()" style="
+                            background: transparent;
+                            color: white;
+                            border: 1px solid rgba(255,255,255,0.5);
+                            padding: 8px 16px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 13px;
+                        ">Start Fresh</button>
+                    `;
+                    document.body.appendChild(resumeBanner);
+
+                    // Start fresh by default, wait for user choice
+                    renderFeedFlow(sections[0].id);
+                    showSection(0);
+                } else {
+                    renderFeedFlow(sections[0].id);
+                    showSection(0);
+                }
             } else {
                 // Show placeholder content
                 document.getElementById('content').innerHTML = `
