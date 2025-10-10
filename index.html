@@ -6005,10 +6005,11 @@ Total:  4,000 tokens
                     `;
                     document.body.appendChild(resumeBanner);
 
-                    // Start fresh by default, wait for user choice
-                    renderFeedFlow(sections[0].id);
-                    showSection(0);
+                    // Load the saved section (banner shows on top)
+                    renderFeedFlow(sections[sectionIndex].id);
+                    showSection(sectionIndex);
                 } else {
+                    // No saved progress, start from beginning
                     renderFeedFlow(sections[0].id);
                     showSection(0);
                 }
