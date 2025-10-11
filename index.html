@@ -5422,6 +5422,209 @@ Total:  4,000 tokens
                     {question: "Which topic will be covered in Lesson 2?", options: ["Tokenization", "Backpropagation", "GGUF format", "Context windows"], correct: 1, explanation: "Lesson 2 will cover training fundamentals including backpropagation, gradient descent, loss functions, and optimization. These topics explain HOW models learn, whereas Lesson 1 explained how they work."},
                     {question: "What's the complete journey we learned in Lesson 1?", options: ["Code → AI → Output", "Data → Tokens → Vectors → Attention → Predictions", "Input → GPU → Response", "Text → Model → Result"], correct: 1, explanation: "The complete journey is: Text data → Tokenization → Token IDs → Embedding vectors → Transformer layers (attention + FFN) → Output predictions. This is the core LLM pipeline!"}
                 ]
+            },
+
+            // ============================================
+            // INTERACTIVE PLAYGROUND
+            // ============================================
+            {
+                id: 24,
+                title: "🎮 Interactive Playground",
+                category: 9,
+                content: `
+                    <h1>🎮 Interactive LLM Playground</h1>
+                    <p class="lead">Type any text and watch it transform through each stage of the LLM pipeline!</p>
+
+                    <div style="background: rgba(255,255,255,0.9); padding: 30px; border-radius: 16px; margin: 30px 0; border: 2px solid #3b82f6;">
+                        <h3 style="margin-top: 0; color: #1e40af;">Try It Yourself</h3>
+                        <input type="text" id="playgroundInput" placeholder="Type something like: The cat sat on the mat"
+                            style="width: 100%; padding: 15px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; margin-bottom: 20px;"
+                            oninput="runPlayground()" />
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <button onclick="runPlayground()" style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
+                                ▶ Process Text
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Tokenization -->
+                    <div id="step1" style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #3b82f6; display: none;">
+                        <h3 style="color: #1e40af; margin-top: 0;">Step 1: Tokenization</h3>
+                        <p>Breaking text into tokens (subword pieces)</p>
+                        <div id="tokens" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px;"></div>
+                    </div>
+
+                    <!-- Step 2: Token IDs -->
+                    <div id="step2" style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #3b82f6; display: none;">
+                        <h3 style="color: #1e40af; margin-top: 0;">Step 2: Token IDs</h3>
+                        <p>Converting tokens to unique numbers from vocabulary</p>
+                        <div id="tokenIds" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px;"></div>
+                    </div>
+
+                    <!-- Step 3: Embeddings -->
+                    <div id="step3" style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #3b82f6; display: none;">
+                        <h3 style="color: #1e40af; margin-top: 0;">Step 3: Embedding Vectors</h3>
+                        <p>Each token becomes a vector (simplified to 3 dimensions for visualization)</p>
+                        <div id="embeddings" style="margin-top: 15px;"></div>
+                    </div>
+
+                    <!-- Step 4: Attention -->
+                    <div id="step4" style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #3b82f6; display: none;">
+                        <h3 style="color: #1e40af; margin-top: 0;">Step 4: Self-Attention</h3>
+                        <p>Which tokens pay attention to each other?</p>
+                        <div id="attention" style="margin-top: 15px;"></div>
+                    </div>
+
+                    <!-- Step 5: Output -->
+                    <div id="step5" style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #10b981; display: none;">
+                        <h3 style="color: #059669; margin-top: 0;">Step 5: Prediction</h3>
+                        <p>Most likely next token based on context</p>
+                        <div id="prediction" style="font-size: 20px; font-weight: bold; color: #059669; margin-top: 15px;"></div>
+                    </div>
+
+                    <script>
+                        // Simple tokenizer simulation (BPE-like)
+                        function simpleTokenize(text) {
+                            // Split on spaces and common punctuation
+                            return text.toLowerCase()
+                                .replace(/([.,!?;:])/g, ' $1')
+                                .split(/\\s+/)
+                                .filter(t => t.length > 0);
+                        }
+
+                        // Simple vocab mapping
+                        const vocab = {
+                            'the': 791, 'cat': 8415, 'sat': 7731, 'on': 319, 'mat': 2603,
+                            'a': 64, 'dog': 9703, 'walked': 6807, 'in': 287, 'park': 3952,
+                            'hello': 31373, 'world': 995, 'how': 703, 'are': 389, 'you': 345,
+                            'is': 318, 'that': 326, '.': 13, ',': 11, '!': 0, '?': 30
+                        };
+
+                        // Generate random embedding vector (simplified 3D)
+                        function getEmbedding(tokenId) {
+                            const seed = tokenId * 12345;
+                            return [
+                                ((seed % 100) / 50) - 1,
+                                (((seed * 7) % 100) / 50) - 1,
+                                (((seed * 13) % 100) / 50) - 1
+                            ];
+                        }
+
+                        // Calculate attention (simplified)
+                        function calculateAttention(tokens) {
+                            const n = tokens.length;
+                            const attention = [];
+
+                            for (let i = 0; i < n; i++) {
+                                const row = [];
+                                for (let j = 0; j < n; j++) {
+                                    if (i === j) {
+                                        row.push(0.5); // Self-attention
+                                    } else if (Math.abs(i - j) === 1) {
+                                        row.push(0.3); // Adjacent tokens
+                                    } else {
+                                        row.push(0.1); // Distant tokens
+                                    }
+                                }
+                                attention.push(row);
+                            }
+                            return attention;
+                        }
+
+                        // Predict next token (simplified)
+                        function predictNext(tokens) {
+                            const lastToken = tokens[tokens.length - 1].toLowerCase();
+                            const predictions = {
+                                'cat': 'sat', 'dog': 'walked', 'the': 'cat',
+                                'sat': 'on', 'on': 'the', 'mat': '.',
+                                'hello': 'world', 'how': 'are', 'are': 'you'
+                            };
+                            return predictions[lastToken] || '...';
+                        }
+
+                        function runPlayground() {
+                            const input = document.getElementById('playgroundInput').value;
+                            if (!input.trim()) return;
+
+                            const tokens = simpleTokenize(input);
+
+                            // Step 1: Show tokens
+                            const tokensDiv = document.getElementById('tokens');
+                            tokensDiv.innerHTML = tokens.map(t =>
+                                \`<div style="background: #dbeafe; color: #1e40af; padding: 8px 16px; border-radius: 6px; font-family: monospace; font-weight: 600;">\${t}</div>\`
+                            ).join('');
+                            document.getElementById('step1').style.display = 'block';
+
+                            // Step 2: Show token IDs
+                            setTimeout(() => {
+                                const tokenIdsDiv = document.getElementById('tokenIds');
+                                tokenIdsDiv.innerHTML = tokens.map(t => {
+                                    const id = vocab[t] || Math.floor(Math.random() * 50000);
+                                    return \`<div style="background: #dbeafe; color: #1e40af; padding: 8px 16px; border-radius: 6px; font-family: monospace;">
+                                        <div style="font-size: 12px; opacity: 0.7;">\${t}</div>
+                                        <div style="font-weight: 600;">ID: \${id}</div>
+                                    </div>\`;
+                                }).join('');
+                                document.getElementById('step2').style.display = 'block';
+                            }, 500);
+
+                            // Step 3: Show embeddings
+                            setTimeout(() => {
+                                const embeddingsDiv = document.getElementById('embeddings');
+                                embeddingsDiv.innerHTML = tokens.map(t => {
+                                    const id = vocab[t] || Math.floor(Math.random() * 50000);
+                                    const emb = getEmbedding(id);
+                                    return \`<div style="background: #f0f9ff; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #bfdbfe;">
+                                        <div style="font-weight: 600; color: #1e40af; margin-bottom: 6px;">\${t} → Vector:</div>
+                                        <div style="font-family: monospace; font-size: 13px; color: #475569;">[\${emb.map(v => v.toFixed(2)).join(', ')}, ...]</div>
+                                    </div>\`;
+                                }).join('');
+                                document.getElementById('step3').style.display = 'block';
+                            }, 1000);
+
+                            // Step 4: Show attention
+                            setTimeout(() => {
+                                const attention = calculateAttention(tokens);
+                                let attentionHTML = '<table style="border-collapse: collapse; margin-top: 10px;">';
+                                attentionHTML += '<tr><td></td>' + tokens.map(t => \`<td style="padding: 4px 8px; font-weight: 600; font-size: 12px;">\${t}</td>\`).join('') + '</tr>';
+
+                                attention.forEach((row, i) => {
+                                    attentionHTML += \`<tr><td style="padding: 4px 8px; font-weight: 600; font-size: 12px;">\${tokens[i]}</td>\`;
+                                    row.forEach(score => {
+                                        const opacity = score;
+                                        const bg = \`rgba(59, 130, 246, \${opacity})\`;
+                                        attentionHTML += \`<td style="padding: 12px; background: \${bg}; border: 1px solid #e2e8f0; color: \${score > 0.3 ? 'white' : '#1e293b'}; text-align: center; font-size: 11px;">\${(score * 100).toFixed(0)}%</td>\`;
+                                    });
+                                    attentionHTML += '</tr>';
+                                });
+                                attentionHTML += '</table>';
+
+                                document.getElementById('attention').innerHTML = attentionHTML;
+                                document.getElementById('step4').style.display = 'block';
+                            }, 1500);
+
+                            // Step 5: Show prediction
+                            setTimeout(() => {
+                                const next = predictNext(tokens);
+                                document.getElementById('prediction').innerHTML = \`
+                                    Next predicted token: <span style="background: #d1fae5; color: #059669; padding: 8px 20px; border-radius: 8px; display: inline-block; margin-top: 10px;">"\${next}"</span>
+                                \`;
+                                document.getElementById('step5').style.display = 'block';
+                            }, 2000);
+                        }
+
+                        // Auto-run with example
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const input = document.getElementById('playgroundInput');
+                            if (input) {
+                                input.value = 'The cat sat on the mat';
+                                runPlayground();
+                            }
+                        });
+                    </script>
+                `,
+                quiz: []
             }
 
         ];
