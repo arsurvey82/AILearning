@@ -1213,6 +1213,26 @@ Embedding:  [-0.5, 0.1, 0.9, -0.3, ..., 0.6]  ← Very different!</code></pre>
                         <li>✓ Why simple codes aren't enough for AI</li>
                     </ul>
                     <p><strong>Next up:</strong> Learn how tokenization breaks text into pieces AI can process!</p>
+
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                                backdrop-filter: blur(10px);
+                                padding: 20px;
+                                margin: 30px 0;
+                                border-radius: 12px;
+                                border-left: 4px solid #667eea;">
+                        <h3 style="margin-top: 0; color: #667eea;">🔗 Bridge to Next Section</h3>
+                        <p><strong>You just learned the problem:</strong> Character codes like ASCII (99, 97, 116 for "cat") are just arbitrary labels. They don't capture that "cat" and "dog" are both animals, while "cat" and "car" are completely different concepts.</p>
+
+                        <p><strong>So how does tokenization help?</strong> Instead of processing individual characters (<code>c</code>, <code>a</code>, <code>t</code>), tokenization creates meaningful chunks like <code>"cat"</code> as a single unit. This is the first step toward giving AI the ability to understand meaning:</p>
+
+                        <ul style="margin-left: 20px;">
+                            <li>✓ <strong>Characters</strong> ("c", "a", "t") → No meaning individually</li>
+                            <li>✓ <strong>Tokens</strong> ("cat") → Meaningful word that can later be mapped to rich vectors</li>
+                            <li>✓ <strong>Result</strong> → Fewer, more meaningful pieces for AI to process</li>
+                        </ul>
+
+                        <p>Think of it like this: Would you rather read a book letter-by-letter or word-by-word? Tokenization gives AI the "words" to work with, making the next steps (embeddings, attention) possible!</p>
+                    </div>
                 `,
                 quiz: [
                     {
@@ -1659,6 +1679,27 @@ print(tokens)  # [791, 8415, 7731]</code></pre>
                 title: "What are Vectors?",
                 category: 3,
                 content: `
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                                backdrop-filter: blur(10px);
+                                padding: 20px;
+                                margin: 0 0 30px 0;
+                                border-radius: 12px;
+                                border-left: 4px solid #667eea;">
+                        <h3 style="margin-top: 0; color: #667eea;">🔗 Bridge from Tokenization</h3>
+                        <p><strong>Great progress!</strong> You now understand tokenization:</p>
+                        <ul style="margin-left: 20px;">
+                            <li>✓ Text gets split into <strong>tokens</strong> (meaningful chunks like "cat", "running")</li>
+                            <li>✓ Each token gets a <strong>token ID</strong> from a vocabulary (e.g., "cat" → 8415)</li>
+                            <li>✓ These IDs are consistent (same word = same ID every time)</li>
+                        </ul>
+
+                        <p><strong>But wait... we still have the same problem!</strong> Token ID 8415 is just a number, like a locker number. It doesn't tell us that "cat" and "dog" are similar (both animals), or that "cat" is very different from "car".</p>
+
+                        <p><strong>This is where vectors come in!</strong> We need to convert these simple IDs into rich numerical representations that capture meaning, relationships, and context. Instead of one number (8415), we'll use <strong>lists of numbers</strong> (vectors) that encode semantic information.</p>
+
+                        <p style="margin: 0;">The journey continues: Token IDs → <strong>Vectors</strong> → Embeddings → AI understanding! ✨</p>
+                    </div>
+
                     <h1>What are Vectors?</h1>
 
                     <p class="lead">You've learned that tokens get IDs. But numbers like "8415" still don't capture meaning. Enter <strong>vectors</strong> - lists of numbers that CAN represent meaning!</p>
@@ -2308,6 +2349,30 @@ Just for the embedding table!</code></pre>
                 title: "What are Parameters/Weights?",
                 category: 4,
                 content: `
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                                backdrop-filter: blur(10px);
+                                padding: 20px;
+                                margin: 0 0 30px 0;
+                                border-radius: 12px;
+                                border-left: 4px solid #667eea;">
+                        <h3 style="margin-top: 0; color: #667eea;">🔗 From Vectors to Parameters</h3>
+                        <p><strong>Quick recap of where we are:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>✓ <strong>Tokens</strong> → Words broken into chunks ("cat")</li>
+                            <li>✓ <strong>Token IDs</strong> → Unique numbers for each token (8415)</li>
+                            <li>✓ <strong>Vectors</strong> → Lists of numbers that CAN capture meaning [0.8, 0.3, -0.5, ...]</li>
+                            <li>✓ <strong>Dimensions</strong> → Size of vectors (GPT-4 uses 4096 numbers per word!)</li>
+                        </ul>
+
+                        <p><strong>But where do those 4096 numbers come from?</strong> How does the AI "know" that "cat" should be represented as [0.8, 0.3, -0.5, 0.1, ...]?</p>
+
+                        <p><strong>Answer: Parameters!</strong> Parameters (also called weights) are the <strong>learned values</strong> stored in the model. They're like the AI's "memory" or "knowledge" - billions of numbers learned from massive amounts of text data.</p>
+
+                        <p>Think of it this way: When you learned math, you memorized multiplication tables (3×4=12). Similarly, AI models "memorize" that "cat" should map to specific vector values through training on billions of examples.</p>
+
+                        <p style="margin: 0;"><strong>Next up:</strong> Understand what parameters are and why "GPT-4 has 1.76 trillion parameters" actually means! 🧠</p>
+                    </div>
+
                     <h1>What are Parameters/Weights?</h1>
 
                     <p class="lead">You've heard "GPT-4 has 1.76 trillion parameters!" But what ARE parameters? They're the <strong>learned numbers</strong> that make AI work - and they're everywhere!</p>
@@ -2840,6 +2905,34 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                 title: "Self-Attention Mechanism",
                 category: 5,
                 content: `
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                                backdrop-filter: blur(10px);
+                                padding: 20px;
+                                margin: 0 0 30px 0;
+                                border-radius: 12px;
+                                border-left: 4px solid #667eea;">
+                        <h3 style="margin-top: 0; color: #667eea;">🔗 From Static Embeddings to Dynamic Understanding</h3>
+                        <p><strong>Amazing progress!</strong> You've learned how AI represents text:</p>
+                        <ul style="margin-left: 20px;">
+                            <li>✓ <strong>Tokenization</strong> → Break text into meaningful chunks</li>
+                            <li>✓ <strong>Token IDs</strong> → Each token gets a unique number</li>
+                            <li>✓ <strong>Embeddings</strong> → IDs lookup rich 4096-dimensional vectors</li>
+                            <li>✓ <strong>Embedding Table</strong> → Massive 50K×4096 lookup table storing all embeddings</li>
+                        </ul>
+
+                        <p><strong>But there's a critical limitation!</strong> These embeddings are <strong>static</strong> - the word "bank" always gets the same vector, whether you mean:</p>
+                        <ul style="margin-left: 20px;">
+                            <li>💰 "I went to the <strong>bank</strong> to deposit money" (financial institution)</li>
+                            <li>🏞️ "The river <strong>bank</strong> was muddy" (riverside)</li>
+                        </ul>
+
+                        <p><strong>How does AI distinguish between these meanings?</strong> Enter <strong>self-attention</strong> - the mechanism that makes embeddings <strong>context-aware</strong>!</p>
+
+                        <p><strong>Attention lets each word "look at" surrounding words:</strong> When processing "bank" in "deposit money", attention makes it focus on "deposit" and "money", updating its meaning to be financial. In "river bank", it focuses on "river", updating to mean riverside.</p>
+
+                        <p style="margin: 0;"><strong>This is the breakthrough</strong> that made ChatGPT, GPT-4, and all modern LLMs possible! Let's see how it works... 🚀</p>
+                    </div>
+
                     <h1>Self-Attention: How AI Sees Connections</h1>
 
                     <p class="lead">Self-attention is the BREAKTHROUGH that made modern AI possible. It lets the model figure out which words are related to which other words - automatically!</p>
