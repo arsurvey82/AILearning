@@ -643,7 +643,7 @@
     <div class="container">
         <!-- LEFT SIDEBAR: Category Navigation -->
         <div class="sidebar-left">
-            <h1>🤖 LLM Learning Guide</h1>
+            <h1>✨ LLM Learning Guide</h1>
             <p class="subtitle">From Zero to Understanding AI</p>
 
             <div id="categoryNav" class="category-nav">
@@ -678,10 +678,26 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                   backdrop-filter: blur(10px);
+                   padding: 20px;
+                   text-align: center;
+                   margin-top: 40px;
+                   border-top: 2px solid rgba(102, 126, 234, 0.3);
+                   border-radius: 12px;">
+        <p style="margin: 0; color: #666; font-size: 14px;">
+            © 2025 <strong>Arul Selvan</strong> | LLM Learning Guide
+        </p>
+        <p style="margin: 5px 0 0 0; color: #999; font-size: 12px;">
+            Created with ✨ and Claude Code |
+            <a href="https://github.com/arsurvey82/AILearning" target="_blank" style="color: #667eea; text-decoration: none;">View on GitHub</a>
+        </p>
+    </footer>
+
     <script>
         // Section data structure - will be filled in phases 2-9
         const sections = [
-            // ============================================
             // SECTION 0: WELCOME & OVERVIEW
             // ============================================
             {
@@ -831,6 +847,8 @@
                 `,
                 quiz: []
             },
+
+            // PART 1: DATA FOUNDATIONS
 
             // PART 1: DATA FOUNDATIONS
             {
@@ -1394,7 +1412,7 @@ LLaMA:
                         </ul>
                         <p>More tokens = higher cost and potentially hitting limits!</p>
                     </div>
-                `,
+`,
                 quiz: [
                     {
                         question: "What is the main advantage of tokenization over character-level processing?",
@@ -1633,7 +1651,8 @@ print(tokens)  # [791, 8415, 7731]</code></pre>
                 ]
             },
 
-                        // PART 3: VECTORS & EMBEDDINGS (Sections 6-8)
+            // ============================================
+            // PART 3: VECTORS & EMBEDDINGS (Sections 6-8)
             // ============================================
             {
                 id: 6,
@@ -2811,8 +2830,1425 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
                         explanation: "The embedding table typically contains 30-50% of all model parameters! For GPT-2, the embedding table has ~39M params out of ~124M total (31%). It's huge!"
                     }
                 ]
-            }
+            },
 
+            // ============================================
+            // PART 5: TRANSFORMER BLOCKS (Sections 11-13)
+            // ============================================
+            {
+                id: 11,
+                title: "Self-Attention Mechanism",
+                category: 5,
+                content: `
+                    <h1>Self-Attention: How AI Sees Connections</h1>
+
+                    <p class="lead">Self-attention is the BREAKTHROUGH that made modern AI possible. It lets the model figure out which words are related to which other words - automatically!</p>
+
+                    <svg class="flow-diagram" width="100%" height="340" viewBox="0 0 850 340">
+                        <!-- Input sentence -->
+                        <g>
+                            <text x="425" y="30" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Input: "The cat sat on the mat"</text>
+                        </g>
+
+                        <!-- Word embeddings -->
+                        <g>
+                            <rect x="100" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="140" y="90" text-anchor="middle" font-size="14" fill="#1565C0">The</text>
+
+                            <rect x="220" y="60" width="80" height="50" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="260" y="90" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">cat</text>
+
+                            <rect x="340" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="380" y="90" text-anchor="middle" font-size="14" fill="#1565C0">sat</text>
+
+                            <rect x="460" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="500" y="90" text-anchor="middle" font-size="14" fill="#1565C0">on</text>
+
+                            <rect x="580" y="60" width="80" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="620" y="90" text-anchor="middle" font-size="14" fill="#1565C0">the</text>
+
+                            <rect x="700" y="60" width="80" height="50" rx="8" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
+                            <text x="740" y="90" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">mat</text>
+                        </g>
+
+                        <!-- Attention mechanism -->
+                        <text x="425" y="145" text-anchor="middle" font-size="14" fill="#9C27B0" font-weight="bold">Attention: Which words relate to "cat"?</text>
+
+                        <!-- Attention arrows from cat -->
+                        <g>
+                            <!-- Weak attention to "The" -->
+                            <path d="M 260 110 L 140 130" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
+                            <text x="200" y="115" font-size="11" fill="#999">0.1</text>
+
+                            <!-- Strong attention to "sat" -->
+                            <path d="M 270 110 L 370 130" stroke="#FF9800" stroke-width="4" opacity="0.8" marker-end="url(#arrowA2)">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <text x="320" y="115" font-size="12" fill="#FF9800" font-weight="bold">0.8</text>
+
+                            <!-- Medium attention to "on" -->
+                            <path d="M 280 110 L 490 130" stroke="#2196F3" stroke-width="2" opacity="0.6" marker-end="url(#arrowA3)"/>
+                            <text x="385" y="115" font-size="11" fill="#2196F3">0.4</text>
+
+                            <!-- Weak attention to "the" -->
+                            <path d="M 290 110 L 610 130" stroke="#999" stroke-width="1" opacity="0.3" marker-end="url(#arrowA1)"/>
+                            <text x="450" y="115" font-size="11" fill="#999">0.1</text>
+
+                            <!-- Strong attention to "mat" -->
+                            <path d="M 300 110 L 730 130" stroke="#4CAF50" stroke-width="4" opacity="0.8" marker-end="url(#arrowA4)">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                            </path>
+                            <text x="515" y="115" font-size="12" fill="#4CAF50" font-weight="bold">0.7</text>
+                        </g>
+
+                        <!-- Output embeddings -->
+                        <g>
+                            <text x="425" y="180" text-anchor="middle" font-size="13" fill="#666">Updated embedding for "cat" (context-aware!)</text>
+
+                            <rect x="200" y="200" width="450" height="100" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
+                            <text x="425" y="230" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">New "cat" vector combines:</text>
+                            <text x="425" y="255" text-anchor="middle" font-size="12" fill="#7B1FA2">• Original "cat" meaning</text>
+                            <text x="425" y="275" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "sat" (action)</text>
+                            <text x="425" y="295" text-anchor="middle" font-size="12" fill="#7B1FA2">• Strong connection to "mat" (location)</text>
+                        </g>
+
+                        <defs>
+                            <marker id="arrowA1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#999"/>
+                            </marker>
+                            <marker id="arrowA2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#FF9800"/>
+                            </marker>
+                            <marker id="arrowA3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#2196F3"/>
+                            </marker>
+                            <marker id="arrowA4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4CAF50"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                    <h2>What is Self-Attention?</h2>
+                    <p><strong>Self-attention</strong> lets each word look at all other words in the sentence and decide which ones are important for understanding it:</p>
+
+                    <div class="info-box">
+                        <p><strong>The Problem It Solves:</strong></p>
+                        <p>Without attention, each word's embedding is static - "bank" always has the same vector. But "bank" means different things in different contexts:</p>
+                        <ul>
+                            <li>"I went to the <strong>bank</strong>" (financial institution)</li>
+                            <li>"River <strong>bank</strong>" (side of river)</li>
+                        </ul>
+                        <p>Attention lets the model adjust each word's representation based on context!</p>
+                    </div>
+
+                    <h2>How Self-Attention Works</h2>
+                    <p>For each word, the model computes three vectors: <strong>Query (Q)</strong>, <strong>Key (K)</strong>, and <strong>Value (V)</strong>:</p>
+
+                    <pre><code># For the word "cat" with embedding [0.8, 0.3, -0.5, ...]
+
+Q = Query  = W_Q @ embedding  # "What am I looking for?"
+K = Key    = W_K @ embedding  # "What do I offer?"
+V = Value  = W_V @ embedding  # "What information do I contain?"
+
+# W_Q, W_K, W_V are learned weight matrices</code></pre>
+
+                    <h2>The Attention Calculation</h2>
+                    <p>Three simple steps:</p>
+
+                    <div class="warning-box">
+                        <p><strong>Step 1: Calculate Similarity Scores</strong></p>
+                        <pre><code># How similar is "cat" to each word?
+score_with_sat = Q_cat • K_sat  # Dot product
+score_with_mat = Q_cat • K_mat
+# ... for all words</code></pre>
+
+                        <p><strong>Step 2: Normalize with Softmax</strong></p>
+                        <pre><code># Convert to probabilities (sum = 1.0)
+attention_weights = softmax([scores...])
+# Example: [0.1, 0.8, 0.4, 0.1, 0.7]</code></pre>
+
+                        <p><strong>Step 3: Weighted Sum of Values</strong></p>
+                        <pre><code># Combine information from all words
+output = 0.1*V_The + 0.8*V_sat + 0.4*V_on + 0.1*V_the + 0.7*V_mat
+# Result: context-aware embedding for "cat"!</code></pre>
+                    </div>
+
+                    <h2>Real Example with Numbers</h2>
+                    <pre><code>Input: "cat sat mat"
+Embeddings: Each word → 4D vector
+
+cat = [1, 0, 0, 0]
+sat = [0, 1, 0, 0]
+mat = [0, 0, 1, 0]
+
+# For "cat", calculate attention to all words:
+Scores:  [cat·cat, cat·sat, cat·mat] = [1.0, 0.3, 0.8]
+Softmax: [0.35, 0.15, 0.50]  # Normalized weights
+
+# New context-aware "cat" embedding:
+output = 0.35*[1,0,0,0] + 0.15*[0,1,0,0] + 0.50*[0,0,1,0]
+       = [0.35, 0.15, 0.50, 0]
+
+# Now "cat" embedding includes context from "sat" and "mat"!</code></pre>
+
+                    <h2>Why It's Called "Self"-Attention</h2>
+                    <div class="success-box">
+                        <p><strong>"Self" means the sentence attends to itself!</strong></p>
+                        <ul>
+                            <li>Each word looks at <strong>every other word</strong> in the SAME sentence</li>
+                            <li>No external information needed</li>
+                            <li>The model learns which words relate to which automatically</li>
+                        </ul>
+                    </div>
+
+                    <h2>Attention Weights Visualization</h2>
+                    <p>Researchers often visualize attention as a heatmap:</p>
+
+                    <svg width="100%" height="280" viewBox="0 0 600 280">
+                        <!-- Heatmap grid -->
+                        <text x="300" y="25" text-anchor="middle" font-size="14" fill="#666" font-weight="bold">Attention Heatmap: What "cat" attends to</text>
+
+                        <!-- Column headers -->
+                        <text x="180" y="65" text-anchor="middle" font-size="12" fill="#666">The</text>
+                        <text x="250" y="65" text-anchor="middle" font-size="12" fill="#666">cat</text>
+                        <text x="320" y="65" text-anchor="middle" font-size="12" fill="#666">sat</text>
+                        <text x="390" y="65" text-anchor="middle" font-size="12" fill="#666">on</text>
+                        <text x="460" y="65" text-anchor="middle" font-size="12" fill="#666">the</text>
+                        <text x="530" y="65" text-anchor="middle" font-size="12" fill="#666">mat</text>
+
+                        <!-- Row: cat -->
+                        <text x="110" y="105" text-anchor="end" font-size="12" fill="#666" font-weight="bold">cat →</text>
+
+                        <rect x="150" y="80" width="60" height="40" fill="#e0e0e0"/>
+                        <text x="180" y="105" text-anchor="middle" font-size="11" fill="#333">0.1</text>
+
+                        <rect x="220" y="80" width="60" height="40" fill="#FFEB3B"/>
+                        <text x="250" y="105" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">0.5</text>
+
+                        <rect x="290" y="80" width="60" height="40" fill="#FF9800">
+                            <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="320" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">0.8</text>
+
+                        <rect x="360" y="80" width="60" height="40" fill="#FFC107"/>
+                        <text x="390" y="105" text-anchor="middle" font-size="11" fill="#333">0.4</text>
+
+                        <rect x="430" y="80" width="60" height="40" fill="#e0e0e0"/>
+                        <text x="460" y="105" text-anchor="middle" font-size="11" fill="#333">0.1</text>
+
+                        <rect x="500" y="80" width="60" height="40" fill="#4CAF50">
+                            <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="530" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">0.7</text>
+
+                        <!-- Legend -->
+                        <text x="300" y="155" text-anchor="middle" font-size="12" fill="#666">Attention Strength</text>
+                        <rect x="150" y="165" width="80" height="20" fill="#e0e0e0"/>
+                        <text x="190" y="180" text-anchor="middle" font-size="10" fill="#333">Low (0.1)</text>
+
+                        <rect x="260" y="165" width="80" height="20" fill="#FF9800"/>
+                        <text x="300" y="180" text-anchor="middle" font-size="10" fill="#fff">High (0.8)</text>
+
+                        <text x="300" y="215" text-anchor="middle" font-size="12" fill="#9C27B0" font-weight="bold">Interpretation:</text>
+                        <text x="300" y="235" text-anchor="middle" font-size="11" fill="#666">"cat" pays most attention to "sat" (the action)</text>
+                        <text x="300" y="255" text-anchor="middle" font-size="11" fill="#666">and "mat" (the location where sitting happens)</text>
+                    </svg>
+
+                    <h2>Why Self-Attention is Powerful</h2>
+                    <ul>
+                        <li><strong>Parallel processing</strong>: All words computed simultaneously (unlike RNNs)</li>
+                        <li><strong>Long-range dependencies</strong>: Word 1 can directly attend to word 1000</li>
+                        <li><strong>Learned relationships</strong>: Model learns which words relate without rules</li>
+                        <li><strong>Context-aware</strong>: Same word gets different representations in different contexts</li>
+                    </ul>
+
+                    <h2>Computational Cost</h2>
+                    <div class="warning-box">
+                        <p><strong>Trade-off:</strong> Self-attention is powerful but expensive!</p>
+                        <pre><code># For sequence of length N:
+Memory:  O(N²)  # Store all attention scores
+Time:    O(N²)  # Compare every word to every other word
+
+Example:
+100 words   → 10,000 comparisons
+1,000 words → 1,000,000 comparisons!
+
+This is why context windows are limited!</code></pre>
+                    </div>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Self-attention lets each word look at all other words and figure out which ones matter. It creates context-aware embeddings that change based on surrounding words - this is the magic that makes modern AI work!</p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "What problem does self-attention solve?",
+                        options: ["Making models faster", "Creating context-aware word representations", "Reducing model size", "Improving tokenization"],
+                        correct: 1,
+                        explanation: "Self-attention allows each word to look at all other words in the sentence and adjust its representation based on context. This makes 'bank' have different meanings in 'river bank' vs 'financial bank'."
+                    },
+                    {
+                        question: "What are the three vectors computed in self-attention?",
+                        options: ["Input, Output, Hidden", "Query, Key, Value", "Embedding, Position, Context", "Word, Token, Vector"],
+                        correct: 1,
+                        explanation: "Self-attention computes three vectors for each word: Query (what am I looking for?), Key (what do I offer?), and Value (what information do I contain?). These are combined to create context-aware representations."
+                    },
+                    {
+                        question: "Why is self-attention computationally expensive?",
+                        options: ["It uses too many parameters", "It requires O(N²) comparisons for N words", "It needs special hardware", "It processes words sequentially"],
+                        correct: 1,
+                        explanation: "Self-attention has O(N²) complexity because every word must attend to every other word. For 1000 words, that's 1 million comparisons! This is why context windows are limited."
+                    }
+                ]
+            },
+            {
+                id: 12,
+                title: "Transformer Layers",
+                category: 5,
+                content: `
+                    <h1>Transformer Layers: Putting It All Together</h1>
+
+                    <p class="lead">A transformer layer combines self-attention with other components to create a powerful processing block. GPT-4 has 120 of these stacked together!</p>
+
+                    <svg class="flow-diagram" width="100%" height="400" viewBox="0 0 700 400">
+                        <!-- Input -->
+                        <g>
+                            <rect x="250" y="20" width="200" height="40" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                            <text x="350" y="45" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">Input Embeddings</text>
+                        </g>
+
+                        <!-- Arrow -->
+                        <path d="M 350 60 L 350 90" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Layer Norm 1 -->
+                        <g>
+                            <rect x="250" y="95" width="200" height="35" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="350" y="118" text-anchor="middle" font-size="13" fill="#E65100">Layer Normalization</text>
+                        </g>
+
+                        <path d="M 350 130 L 350 155" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Self-Attention -->
+                        <g>
+                            <rect x="230" y="160" width="240" height="50" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="350" y="185" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">Multi-Head Self-Attention</text>
+                            <text x="350" y="202" text-anchor="middle" font-size="11" fill="#7B1FA2">Q, K, V transformations</text>
+                        </g>
+
+                        <!-- Add & Norm (Residual Connection) -->
+                        <path d="M 470 187 Q 550 187 550 240" stroke="#4CAF50" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowTL2)"/>
+                        <text x="520" y="210" font-size="11" fill="#4CAF50" font-weight="bold">Skip Connection</text>
+
+                        <path d="M 350 210 L 350 235" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Add box -->
+                        <circle cx="350" cy="245" r="20" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="350" y="252" text-anchor="middle" font-size="18" fill="#2E7D32" font-weight="bold">+</text>
+
+                        <path d="M 350 265 L 350 290" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Layer Norm 2 -->
+                        <g>
+                            <rect x="250" y="295" width="200" height="35" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="350" y="318" text-anchor="middle" font-size="13" fill="#E65100">Layer Normalization</text>
+                        </g>
+
+                        <path d="M 350 330 L 350 355" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Feed-Forward Network -->
+                        <g>
+                            <rect x="200" y="360" width="300" height="50" rx="8" fill="#e1f5fe" stroke="#03A9F4" stroke-width="3">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="350" y="382" text-anchor="middle" font-size="14" fill="#0277BD" font-weight="bold">Feed-Forward Network (FFN)</text>
+                            <text x="350" y="400" text-anchor="middle" font-size="11" fill="#0288D1">Linear → ReLU → Linear</text>
+                        </g>
+
+                        <!-- Second skip connection -->
+                        <path d="M 500 387 Q 580 387 580 450" stroke="#4CAF50" stroke-width="3" stroke-dasharray="5,5"/>
+
+                        <path d="M 350 410 L 350 435" stroke="#666" stroke-width="2"/>
+
+                        <!-- Second Add box -->
+                        <circle cx="350" cy="445" r="20" fill="#c8e6c9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="350" y="452" text-anchor="middle" font-size="18" fill="#2E7D32" font-weight="bold">+</text>
+
+                        <path d="M 350 465 L 350 485" stroke="#666" stroke-width="2" marker-end="url(#arrowTL1)"/>
+
+                        <!-- Output -->
+                        <g>
+                            <rect x="250" y="490" width="200" height="40" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                            <text x="350" y="515" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">Output → Next Layer</text>
+                        </g>
+
+                        <defs>
+                            <marker id="arrowTL1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                            </marker>
+                            <marker id="arrowTL2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4CAF50"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                    <h2>Components of a Transformer Layer</h2>
+                    <p>Every transformer layer has the same structure:</p>
+
+                    <div class="info-box">
+                        <p><strong>The Recipe:</strong></p>
+                        <ol>
+                            <li><strong>Layer Normalization</strong>: Stabilize values</li>
+                            <li><strong>Multi-Head Self-Attention</strong>: Let words talk to each other</li>
+                            <li><strong>Residual Connection (Add & Norm)</strong>: Preserve original information</li>
+                            <li><strong>Feed-Forward Network</strong>: Process each position independently</li>
+                            <li><strong>Another Residual Connection</strong>: Preserve info again</li>
+                        </ol>
+                    </div>
+
+                    <h2>Layer Normalization</h2>
+                    <p>Normalizes values to have mean=0, std=1. Prevents values from exploding or vanishing:</p>
+
+                    <pre><code># Before: values all over the place
+x = [100, 0.01, -50, 200]
+
+# After normalization:
+x_norm = (x - mean(x)) / std(x)
+# Result: [-0.3, -0.8, -1.2, 2.3]  # More stable!</code></pre>
+
+                    <h2>Residual Connections (Skip Connections)</h2>
+                    <p>The <strong>add</strong> operation bypasses the layer - this is crucial for deep networks:</p>
+
+                    <div class="warning-box">
+                        <p><strong>Why Skip Connections Matter:</strong></p>
+                        <pre><code>output = input + SelfAttention(LayerNorm(input))
+
+# Without skip connection:
+# Information gets lost after 120 layers!
+
+# With skip connection:
+# Original information flows through +
+# Attention adds new context
+# = Best of both worlds!</code></pre>
+                    </div>
+
+                    <h2>Feed-Forward Network (FFN)</h2>
+                    <p>Two linear layers with ReLU activation in between:</p>
+
+                    <pre><code># For each position independently:
+FFN(x) = Linear2(ReLU(Linear1(x)))
+
+# Example dimensions (GPT-2):
+Input:  768 dims
+Linear1: 768 → 3072 (expand 4x!)
+ReLU:   Keep positive, zero negative
+Linear2: 3072 → 768 (compress back)
+Output: 768 dims
+
+# This gives the model extra "thinking space"</code></pre>
+
+                    <h2>Complete Transformer Layer Formula</h2>
+                    <pre><code># Pseudocode for one transformer layer:
+
+def TransformerLayer(x):
+    # Sub-layer 1: Self-Attention with residual
+    x_norm = LayerNorm(x)
+    attn_out = MultiHeadAttention(x_norm, x_norm, x_norm)
+    x = x + attn_out  # Residual connection
+
+    # Sub-layer 2: FFN with residual
+    x_norm = LayerNorm(x)
+    ffn_out = FeedForward(x_norm)
+    x = x + ffn_out   # Residual connection
+
+    return x
+
+# Stack 12, 24, 96, or even 120 of these!</code></pre>
+
+                    <h2>Stacking Layers</h2>
+                    <p>Models stack many identical transformer layers:</p>
+
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Model</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Layers</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Hidden Size</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">GPT-2 Small</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">12</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">768</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">GPT-2 Large</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">36</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">1280</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">GPT-3</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">96</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace;">12,288</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">GPT-4</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">~120</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">12,288</td>
+                        </tr>
+                    </table>
+
+                    <h2>Why This Architecture Works</h2>
+                    <ul>
+                        <li><strong>Self-Attention</strong>: Captures relationships between words</li>
+                        <li><strong>FFN</strong>: Processes individual positions with extra capacity</li>
+                        <li><strong>Layer Norm</strong>: Keeps values stable</li>
+                        <li><strong>Residual Connections</strong>: Preserves information across 100+ layers</li>
+                        <li><strong>Stacking</strong>: Each layer extracts progressively abstract features</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> A transformer layer = Layer Norm + Self-Attention + Residual + Layer Norm + FFN + Residual. Stack 12-120 of these, and you get a powerful language model that can understand and generate human-like text!</p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "What are the two main sub-components in a transformer layer?",
+                        options: ["Embedding and Output", "Self-Attention and Feed-Forward Network", "Input and Hidden State", "Query and Key"],
+                        correct: 1,
+                        explanation: "Each transformer layer has two main parts: Multi-Head Self-Attention (which lets words interact) and a Feed-Forward Network (which processes each position independently). Both have residual connections and layer normalization."
+                    },
+                    {
+                        question: "Why are residual connections (skip connections) important?",
+                        options: ["They make models faster", "They preserve information across deep networks", "They reduce memory usage", "They improve tokenization"],
+                        correct: 1,
+                        explanation: "Residual connections add the original input to the layer's output (x = x + layer(x)). This preserves information across 100+ layers and prevents vanishing gradients. Without them, deep networks wouldn't work!"
+                    },
+                    {
+                        question: "How many transformer layers does GPT-4 have?",
+                        options: ["12 layers", "36 layers", "96 layers", "~120 layers"],
+                        correct: 3,
+                        explanation: "GPT-4 has approximately 120 transformer layers stacked together! Each layer processes the output from the previous layer, allowing the model to extract increasingly abstract patterns."
+                    }
+                ]
+            },
+            {
+                id: 13,
+                title: "Multi-Head Attention",
+                category: 5,
+                content: `
+                    <h1>Multi-Head Attention: Parallel Processing Power</h1>
+                    <p class="lead">Instead of one attention mechanism, use many in parallel! Each "head" learns different patterns - grammar, facts, relationships, etc.</p>
+
+                    <svg class="flow-diagram" width="100%" height="300" viewBox="0 0 800 300">
+                        <rect x="300" y="30" width="200" height="50" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                        <text x="400" y="60" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">Input Embedding</text>
+
+                        <!-- 8 parallel heads -->
+                        <g>
+                            <rect x="100" y="120" width="80" height="60" rx="5" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2">
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="140" y="155" text-anchor="middle" font-size="12" fill="#6A1B9A">Head 1</text>
+
+                            <rect x="200" y="120" width="80" height="60" rx="5" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2">
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.25s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="240" y="155" text-anchor="middle" font-size="12" fill="#6A1B9A">Head 2</text>
+
+                            <rect x="300" y="120" width="80" height="60" rx="5" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2">
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="340" y="155" text-anchor="middle" font-size="12" fill="#6A1B9A">Head 3</text>
+
+                            <rect x="520" y="120" width="80" height="60" rx="5" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2">
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.75s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="560" y="155" text-anchor="middle" font-size="12" fill="#6A1B9A">Head 8</text>
+
+                            <text x="450" y="155" text-anchor="middle" font-size="20" fill="#999">...</text>
+                        </g>
+
+                        <rect x="300" y="220" width="200" height="50" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="400" y="250" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">Concatenate & Project</text>
+                    </svg>
+
+                    <h2>Why Multiple Heads?</h2>
+                    <div class="info-box">
+                        <p><strong>Each head learns different patterns:</strong></p>
+                        <ul>
+                            <li><strong>Head 1</strong>: Subject-verb relationships</li>
+                            <li><strong>Head 2</strong>: Adjective-noun pairs</li>
+                            <li><strong>Head 3</strong>: Long-distance dependencies</li>
+                            <li><strong>Head 4-8</strong>: Other linguistic patterns</li>
+                        </ul>
+                    </div>
+
+                    <pre><code># GPT-2 Configuration:
+Hidden size: 768
+Number of heads: 12
+Head dimension: 768 / 12 = 64 dimensions per head
+
+# Each head operates on 64-dim space
+# All heads process in parallel
+# Results concatenated: 12 × 64 = 768 dims back!</code></pre>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Multi-head attention runs 8-16 attention mechanisms in parallel, each learning different patterns. This dramatically increases the model's ability to understand complex language!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "Why use multiple attention heads?", options: ["Faster processing", "Each head learns different patterns", "Reduces memory", "Simpler architecture"], correct: 1, explanation: "Multiple heads let the model attend to different types of patterns simultaneously - one head might focus on grammar, another on semantics, another on long-range dependencies."},
+                    {question: "How many attention heads does GPT-2 have?", options: ["4 heads", "8 heads", "12 heads", "16 heads"], correct: 2, explanation: "GPT-2 uses 12 attention heads. Each head operates on 64 dimensions (768 total / 12 heads = 64 per head)."},
+                    {question: "If a model has 768 hidden dimensions and 12 heads, what's each head's dimension?", options: ["32 dims", "64 dims", "128 dims", "768 dims"], correct: 1, explanation: "768 / 12 = 64 dimensions per head. Each head processes a smaller subspace, then results are concatenated back to 768 dimensions."}
+                ]
+            },
+            {
+                id: 14,
+                title: "Forward Pass - End to End",
+                category: 6,
+                content: `
+                    <h1>Forward Pass: The Complete Journey</h1>
+                    <p class="lead">Let's follow "The cat" through an entire model, from text input to predicted next word!</p>
+
+                    <svg class="flow-diagram" width="100%" height="500" viewBox="0 0 600 500">
+                        <rect x="200" y="20" width="200" height="40" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                        <text x="300" y="45" text-anchor="middle" font-size="14" fill="#1565C0">"The cat"</text>
+
+                        <path d="M 300 60 L 300 85" stroke="#666" stroke-width="2"/>
+
+                        <rect x="200" y="90" width="200" height="35" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                        <text x="300" y="112" text-anchor="middle" font-size="13" fill="#E65100">Tokenize → [1234, 5678]</text>
+
+                        <path d="M 300 125 L 300 150" stroke="#666" stroke-width="2"/>
+
+                        <rect x="180" y="155" width="240" height="35" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2"/>
+                        <text x="300" y="177" text-anchor="middle" font-size="13" fill="#6A1B9A">Embedding Table Lookup</text>
+
+                        <path d="M 300 190 L 300 215" stroke="#666" stroke-width="2"/>
+
+                        <rect x="150" y="220" width="300" height="120" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="3">
+                            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="300" y="245" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">12 Transformer Layers</text>
+                        <text x="300" y="265" text-anchor="middle" font-size="12" fill="#388E3C">Layer 1: Self-Attention + FFN</text>
+                        <text x="300" y="285" text-anchor="middle" font-size="12" fill="#388E3C">Layer 2: Self-Attention + FFN</text>
+                        <text x="300" y="305" text-anchor="middle" font-size="12" fill="#388E3C">...</text>
+                        <text x="300" y="325" text-anchor="middle" font-size="12" fill="#388E3C">Layer 12: Self-Attention + FFN</text>
+
+                        <path d="M 300 340 L 300 365" stroke="#666" stroke-width="2"/>
+
+                        <rect x="200" y="370" width="200" height="35" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                        <text x="300" y="392" text-anchor="middle" font-size="13" fill="#E65100">Final Layer Norm</text>
+
+                        <path d="M 300 405 L 300 430" stroke="#666" stroke-width="2"/>
+
+                        <rect x="150" y="435" width="300" height="50" rx="8" fill="#e1f5fe" stroke="#03A9F4" stroke-width="2"/>
+                        <text x="300" y="455" text-anchor="middle" font-size="13" fill="#0277BD">Output Projection</text>
+                        <text x="300" y="475" text-anchor="middle" font-size="12" fill="#0288D1">50,000 logits (one per token)</text>
+                    </svg>
+
+                    <h2>Step-by-Step Breakdown</h2>
+                    <pre><code>Input: "The cat"
+
+1. Tokenization: [1234, 5678]
+
+2. Embedding Lookup:
+   Token 1234 → [0.8, 0.3, ..., 0.1]  (768 dims)
+   Token 5678 → [0.2, 0.9, ..., 0.5]  (768 dims)
+
+3. Add Position Embeddings:
+   Position 0 + Token embedding
+   Position 1 + Token embedding
+
+4. Process through 12 Transformer Layers:
+   Layer 1 output → Layer 2 input → ... → Layer 12 output
+
+5. Final vector for last token: [0.4, 0.7, ..., 0.2]
+
+6. Project to vocabulary size:
+   768 dims → 50,000 logits
+
+7. Get probabilities:
+   softmax([logit_0, logit_1, ..., logit_49999])
+
+Result: Probability for each possible next word!</code></pre>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> The forward pass transforms text → tokens → embeddings → 12 layers of processing → output probabilities. This happens for EVERY word the model generates!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What happens first in the forward pass?", options: ["Embedding lookup", "Tokenization", "Self-attention", "Output projection"], correct: 1, explanation: "Tokenization is always first! Text must be split into tokens before we can look up embeddings or process through transformer layers."},
+                    {question: "How many values does the output layer produce for GPT-2?", options: ["768 values", "12,000 values", "50,257 values", "1 value"], correct: 2, explanation: "The output layer produces one logit for EVERY token in the vocabulary. GPT-2 has 50,257 tokens, so it outputs 50,257 values (one probability per possible next word)."},
+                    {question: "What is a forward pass?", options: ["Training the model", "One complete journey from input to output", "Updating parameters", "Calculating loss"], correct: 1, explanation: "A forward pass is the complete journey from input text through all model layers to the final output. During inference, this is how we generate predictions. During training, we also do a backward pass to update weights."}
+                ]
+            },
+            {
+                id: 15,
+                title: "Next Token Prediction",
+                category: 6,
+                content: `
+                    <h1>Next Token Prediction: How AI Generates Text</h1>
+                    <p class="lead">Models predict one word at a time. Understanding sampling strategies (temperature, top-k, top-p) is key to controlling AI output!</p>
+
+                    <svg class="flow-diagram" width="100%" height="300" viewBox="0 0 700 300">
+                        <rect x="200" y="20" width="300" height="40" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+                        <text x="350" y="45" text-anchor="middle" font-size="14" fill="#1565C0">Logits from model</text>
+                        <text x="350" y="53" text-anchor="middle" font-size="10" fill="#666">[2.1, 3.5, -1.2, 4.8, ...]</text>
+
+                        <path d="M 350 60 L 350 90" stroke="#666" stroke-width="2"/>
+
+                        <rect x="250" y="95" width="200" height="40" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                        <text x="350" y="120" text-anchor="middle" font-size="13" fill="#E65100">Softmax → Probabilities</text>
+
+                        <path d="M 350 135 L 350 165" stroke="#666" stroke-width="2"/>
+
+                        <g>
+                            <rect x="50" y="170" width="150" height="100" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                            <text x="125" y="195" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="bold">Top Predictions</text>
+                            <text x="125" y="215" text-anchor="middle" font-size="11" fill="#388E3C">"sat": 45%</text>
+                            <text x="125" y="235" text-anchor="middle" font-size="11" fill="#388E3C">"jumped": 23%</text>
+                            <text x="125" y="255" text-anchor="middle" font-size="11" fill="#388E3C">"ran": 15%</text>
+                        </g>
+
+                        <g>
+                            <rect x="250" y="170" width="200" height="100" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2">
+                                <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                            </rect>
+                            <text x="350" y="195" text-anchor="middle" font-size="13" fill="#6A1B9A" font-weight="bold">Sampling Strategy</text>
+                            <text x="350" y="215" text-anchor="middle" font-size="11" fill="#7B1FA2">Temperature = 0.7</text>
+                            <text x="350" y="235" text-anchor="middle" font-size="11" fill="#7B1FA2">Top-k = 50</text>
+                            <text x="350" y="255" text-anchor="middle" font-size="11" fill="#7B1FA2">Top-p = 0.9</text>
+                        </g>
+
+                        <g>
+                            <rect x="500" y="170" width="150" height="100" rx="8" fill="#e1f5fe" stroke="#03A9F4" stroke-width="2"/>
+                            <text x="575" y="195" text-anchor="middle" font-size="13" fill="#0277BD" font-weight="bold">Selected Token</text>
+                            <text x="575" y="230" text-anchor="middle" font-size="20" fill="#0288D1" font-weight="bold">"sat"</text>
+                        </g>
+                    </svg>
+
+                    <h2>From Logits to Text</h2>
+                    <pre><code># Model output (logits):
+the:     2.1
+cat:     1.8
+sat:     4.8  ← Highest!
+jumped:  3.2
+...
+
+# Apply softmax to get probabilities:
+the:     8%
+cat:     5%
+sat:     45%  ← Highest probability
+jumped:  23%
+...</code></pre>
+
+                    <h2>Sampling Strategies</h2>
+                    <div class="warning-box">
+                        <p><strong>Temperature (0.0 - 2.0)</strong></p>
+                        <ul>
+                            <li><strong>Low (0.1)</strong>: Deterministic, always picks most likely → boring but safe</li>
+                            <li><strong>Medium (0.7)</strong>: Balanced creativity</li>
+                            <li><strong>High (1.5)</strong>: Very random → creative but risky</li>
+                        </ul>
+                        <pre><code># Temperature = 0.1 (deterministic):
+"The cat sat"  → always predicts "sat"
+
+# Temperature = 1.5 (creative):
+"The cat sat" OR "jumped" OR "meowed" → varied!</code></pre>
+                    </div>
+
+                    <h2>Top-k and Top-p Sampling</h2>
+                    <div class="info-box">
+                        <p><strong>Top-k</strong>: Only consider top k most likely tokens</p>
+                        <p><strong>Top-p</strong>: Consider tokens until cumulative probability reaches p</p>
+                        <pre><code># Top-k = 3:
+Consider only: sat (45%), jumped (23%), ran (15%)
+Ignore everything else
+
+# Top-p = 0.9 (90%):
+sat: 45%
+jumped: 23%
+ran: 15%
+walked: 10%  → Total = 93%, stop here!
+Ignore all tokens after 90% threshold</code></pre>
+                    </div>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Models predict probabilities for every possible next word. Temperature controls randomness, top-k/top-p filter unlikely options. This is how you control AI creativity vs accuracy!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What does temperature control?", options: ["Model size", "Randomness of predictions", "Training speed", "Context window"], correct: 1, explanation: "Temperature controls randomness: Low temperature (0.1) makes output deterministic and boring. High temperature (1.5) makes it creative but risky. Medium (0.7) balances both."},
+                    {question: "What is greedy decoding?", options: ["Always picking the highest probability token", "Random sampling", "Using temperature=1.0", "Training faster"], correct: 0, explanation: "Greedy decoding always picks the most likely token (temperature=0). It's deterministic but can be repetitive. Most chat models use temperature ~0.7 for better variety."},
+                    {question: "If top-p = 0.9, which tokens are considered?", options: ["Only the top token", "Top 90 tokens", "Tokens until cumulative probability reaches 90%", "90% of vocabulary"], correct: 2, explanation: "Top-p (nucleus sampling) considers tokens until their cumulative probability reaches the threshold (e.g., 90%). This dynamically adjusts how many tokens are considered based on the probability distribution."}
+                ]
+            },
+            {
+                id: 16,
+                title: "Floating Point Numbers",
+                category: 7,
+                content: `
+                    <h1>Floating Point: How Models Store Numbers</h1>
+                    <p class="lead">Every parameter is a number. The format you choose (FP32, FP16, BF16) dramatically affects model size and speed!</p>
+
+                    <svg class="flow-diagram" width="100%" height="250" viewBox="0 0 700 250">
+                        <g>
+                            <rect x="50" y="50" width="180" height="150" rx="8" fill="#ffebee" stroke="#F44336" stroke-width="2"/>
+                            <text x="140" y="80" text-anchor="middle" font-size="14" fill="#C62828" font-weight="bold">FP32 (Full)</text>
+                            <text x="140" y="110" text-anchor="middle" font-size="12" fill="#666">32 bits per number</text>
+                            <text x="140" y="135" text-anchor="middle" font-size="12" fill="#666">Best precision</text>
+                            <text x="140" y="160" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">7B model = 28 GB</text>
+                        </g>
+
+                        <g>
+                            <rect x="260" y="50" width="180" height="150" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                            <text x="350" y="80" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">FP16 (Half)</text>
+                            <text x="350" y="110" text-anchor="middle" font-size="12" fill="#666">16 bits per number</text>
+                            <text x="350" y="135" text-anchor="middle" font-size="12" fill="#666">Good precision</text>
+                            <text x="350" y="160" text-anchor="middle" font-size="13" fill="#F57C00" font-weight="bold">7B model = 14 GB</text>
+                        </g>
+
+                        <g>
+                            <rect x="470" y="50" width="180" height="150" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                            <text x="560" y="80" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">BF16 (Brain)</text>
+                            <text x="560" y="110" text-anchor="middle" font-size="12" fill="#666">16 bits per number</text>
+                            <text x="560" y="135" text-anchor="middle" font-size="12" fill="#666">Better range</text>
+                            <text x="560" y="160" text-anchor="middle" font-size="13" fill="#388E3C" font-weight="bold">7B model = 14 GB</text>
+                        </g>
+                    </svg>
+
+                    <h2>Understanding Precision</h2>
+                    <pre><code># FP32 (32 bits):
+- 1 bit: sign (+/-)
+- 8 bits: exponent (range)
+- 23 bits: mantissa (precision)
+= Can represent: 0.0000000001 to 3.4×10³⁸
+
+# FP16 (16 bits):
+- 1 bit: sign
+- 5 bits: exponent
+- 10 bits: mantissa
+= Smaller range, less precision
+
+# BF16 (16 bits):
+- 1 bit: sign
+- 8 bits: exponent (same as FP32!)
+- 7 bits: mantissa
+= Same range as FP32, less precision</code></pre>
+
+                    <h2>Why This Matters</h2>
+                    <div class="info-box">
+                        <p><strong>Model Size Calculation:</strong></p>
+                        <pre><code>7B parameters × 4 bytes (FP32) = 28 GB
+7B parameters × 2 bytes (FP16)  = 14 GB
+7B parameters × 2 bytes (BF16)  = 14 GB
+
+# Going from FP32 to FP16/BF16:
+✅ 50% smaller file size
+✅ 2x faster on modern GPUs
+✅ Uses 50% less VRAM
+❌ Slightly less accurate (usually fine!)</code></pre>
+                    </div>
+
+                    <h2>Which to Choose?</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px; text-align: left;">Format</th>
+                            <th style="padding: 12px; text-align: left;">Best For</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">FP32</td>
+                            <td style="padding: 10px;">Training, maximum accuracy</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">FP16</td>
+                            <td style="padding: 10px;">GPU inference (NVIDIA/AMD)</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">BF16</td>
+                            <td style="padding: 10px;">Training on modern GPUs, better stability</td>
+                        </tr>
+                    </table>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> FP32 is most accurate but huge. FP16/BF16 cut size in half with minimal quality loss. Most local models use FP16 or quantized formats for efficiency!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "How much memory does a 7B parameter model take in FP16?", options: ["7 GB", "14 GB", "28 GB", "56 GB"], correct: 1, explanation: "7 billion parameters × 2 bytes (FP16) = 14 GB. FP32 would be 28 GB, and FP16 cuts it in half while maintaining good quality."},
+                    {question: "What's the main advantage of BF16 over FP16?", options: ["Smaller file size", "Better precision", "Same range as FP32", "Faster processing"], correct: 2, explanation: "BF16 (Brain Float 16) has the same exponent range as FP32 (8 bits), making it more stable during training. FP16 has smaller range (5-bit exponent) which can cause overflow issues."},
+                    {question: "Why don't we always use FP32?", options: ["It's less accurate", "It's 2x larger and slower", "It's not supported", "It's more expensive"], correct: 1, explanation: "FP32 takes 2x more memory than FP16/BF16 and is slower on modern hardware. The quality difference is minimal for inference, so most people use FP16 or even quantized models."}
+                ]
+            },
+            {
+                id: 17,
+                title: "Quantization",
+                category: 7,
+                content: `
+                    <h1>Quantization: Extreme Compression</h1>
+                    <p class="lead">Go beyond FP16! INT8, INT4, even INT2 quantization can shrink 70B models from 140GB to just 18GB with surprisingly good quality.</p>
+
+                    <svg class="flow-diagram" width="100%" height="280" viewBox="0 0 750 280">
+                        <rect x="50" y="50" width="150" height="80" rx="8" fill="#ffebee" stroke="#F44336" stroke-width="2"/>
+                        <text x="125" y="75" text-anchor="middle" font-size="13" fill="#C62828" font-weight="bold">FP16</text>
+                        <text x="125" y="100" text-anchor="middle" font-size="12" fill="#666">2 bytes</text>
+                        <text x="125" y="120" text-anchor="middle" font-size="11" fill="#E65100">70B = 140GB</text>
+
+                        <path d="M 200 90 L 230 90" stroke="#FF9800" stroke-width="3"/>
+                        <text x="215" y="80" text-anchor="middle" font-size="11" fill="#FF9800" font-weight="bold">Quantize</text>
+
+                        <rect x="250" y="50" width="150" height="80" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+                        <text x="325" y="75" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">INT8</text>
+                        <text x="325" y="100" text-anchor="middle" font-size="12" fill="#666">1 byte</text>
+                        <text x="325" y="120" text-anchor="middle" font-size="11" fill="#F57C00">70B = 70GB</text>
+
+                        <path d="M 400 90 L 430 90" stroke="#4CAF50" stroke-width="3"/>
+
+                        <rect x="450" y="50" width="150" height="80" rx="8" fill="#e1f5fe" stroke="#03A9F4" stroke-width="2"/>
+                        <text x="525" y="75" text-anchor="middle" font-size="13" fill="#0277BD" font-weight="bold">INT4</text>
+                        <text x="525" y="100" text-anchor="middle" font-size="12" fill="#666">0.5 bytes</text>
+                        <text x="525" y="120" text-anchor="middle" font-size="11" fill="#0288D1">70B = 35GB</text>
+
+                        <rect x="625" y="50" width="100" height="80" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+                        <text x="675" y="75" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="bold">INT2</text>
+                        <text x="675" y="100" text-anchor="middle" font-size="12" fill="#666">0.25 bytes</text>
+                        <text x="675" y="120" text-anchor="middle" font-size="11" fill="#388E3C">70B = 18GB!</text>
+
+                        <g>
+                            <rect x="200" y="170" width="350" height="90" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="2"/>
+                            <text x="375" y="195" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">Quality vs Size Trade-off</text>
+                            <text x="375" y="220" text-anchor="middle" font-size="11" fill="#7B1FA2">INT8: ~99% quality, 50% size</text>
+                            <text x="375" y="240" text-anchor="middle" font-size="11" fill="#7B1FA2">INT4: ~95% quality, 25% size</text>
+                        </g>
+                    </svg>
+
+                    <h2>How Quantization Works</h2>
+                    <pre><code># Original FP16 values:
+weights = [0.1234, -0.5678, 0.9012, ...]
+
+# Quantize to INT8 (-128 to 127):
+1. Find min/max: -0.5678 to 0.9012
+2. Map to -128 to 127:
+   0.1234  → 25
+   -0.5678 → -128
+   0.9012  → 127
+
+# Store: 8-bit integers + scale factor
+# Dequantize when needed:
+   25 × scale → 0.1234 (approximately)</code></pre>
+
+                    <h2>Quantization Levels</h2>
+                    <div class="info-box">
+                        <p><strong>Popular Formats:</strong></p>
+                        <ul>
+                            <li><strong>Q8_0</strong>: 8-bit, highest quality quantization</li>
+                            <li><strong>Q4_K_M</strong>: 4-bit, best quality/size balance (most popular!)</li>
+                            <li><strong>Q4_K_S</strong>: 4-bit, smaller variant</li>
+                            <li><strong>Q3_K_M</strong>: 3-bit, very aggressive</li>
+                            <li><strong>Q2_K</strong>: 2-bit, extreme compression</li>
+                        </ul>
+                    </div>
+
+                    <h2>Real Example: LLaMA 2 70B</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px;">Format</th>
+                            <th style="padding: 12px;">Size</th>
+                            <th style="padding: 12px;">Quality</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">FP16</td>
+                            <td style="padding: 10px;">140 GB</td>
+                            <td style="padding: 10px;">100% ⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Q8_0</td>
+                            <td style="padding: 10px;">70 GB</td>
+                            <td style="padding: 10px;">99% ⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;"><strong>Q4_K_M</strong></td>
+                            <td style="padding: 10px;"><strong>39 GB</strong></td>
+                            <td style="padding: 10px;"><strong>95% ⭐⭐⭐⭐</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Q2_K</td>
+                            <td style="padding: 10px;">18 GB</td>
+                            <td style="padding: 10px;">85% ⭐⭐⭐</td>
+                        </tr>
+                    </table>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Quantization reduces model size by 4-8x with minimal quality loss. Q4_K_M is the sweet spot for most users - 1/4 the size, 95% quality!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What does Q4_K_M mean?", options: ["4 KB file size", "4-bit quantization, K-quant method, Medium quality", "4 transformer layers", "4 attention heads"], correct: 1, explanation: "Q4_K_M means 4-bit quantization using K-quant method (advanced technique) with Medium quality settings. It's one of the most popular formats for local models."},
+                    {question: "How much can Q4 quantization reduce model size?", options: ["10%", "25%", "50%", "75%"], correct: 3, explanation: "Q4 (4-bit) quantization reduces size to 25% of original (75% reduction). FP16 uses 16 bits, Q4 uses 4 bits → 4/16 = 25% of original size!"},
+                    {question: "What's the trade-off with aggressive quantization?", options: ["Slower inference", "Lower quality outputs", "More memory usage", "Harder to load"], correct: 1, explanation: "Aggressive quantization (Q2, Q3) significantly reduces quality. Q4_K_M offers the best balance - 1/4 size with ~95% quality. Q8 is nearly identical to FP16 but half the size."}
+                ]
+            },
+            {
+                id: 18,
+                title: "GGUF Format",
+                category: 7,
+                content: `
+                    <h1>GGUF: The Universal Model Format</h1>
+                    <p class="lead">GGUF (GPT-Generated Unified Format) is the standard for running models locally. It's optimized for CPU/GPU inference and supports all quantization levels!</p>
+
+                    <div class="info-box" style="margin: 20px 0;">
+                        <p><strong>Why GGUF?</strong></p>
+                        <ul>
+                            <li>✅ <strong>CPU-friendly</strong>: Can run on laptops without GPUs</li>
+                            <li>✅ <strong>Memory efficient</strong>: Supports all quantization formats</li>
+                            <li>✅ <strong>Fast loading</strong>: Optimized file structure</li>
+                            <li>✅ <strong>Wide support</strong>: Works with llama.cpp, LM Studio, Ollama</li>
+                            <li>✅ <strong>Cross-platform</strong>: Windows, Mac, Linux</li>
+                        </ul>
+                    </div>
+
+                    <h2>GGUF File Naming Convention</h2>
+                    <pre><code>llama-2-7b-chat.Q4_K_M.gguf
+│           │     │      │
+│           │     │      └─ File format
+│           │     └──────── Quantization
+│           └────────────── Model variant
+└────────────────────────── Base model
+
+Common patterns:
+- llama-2-7b.Q4_K_M.gguf       (Base model, 4-bit)
+- mistral-7b-instruct.Q5_K_S.gguf  (5-bit, small variant)
+- llama-2-70b.Q2_K.gguf        (Huge model, extreme compression)</code></pre>
+
+                    <h2>Popular Quantization Formats</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px;">Format</th>
+                            <th style="padding: 12px;">Bits</th>
+                            <th style="padding: 12px;">Use Case</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Q2_K</td>
+                            <td style="padding: 10px;">2-bit</td>
+                            <td style="padding: 10px;">Maximum compression, lowest quality</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Q3_K_M</td>
+                            <td style="padding: 10px;">3-bit</td>
+                            <td style="padding: 10px;">Good compression, acceptable quality</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px;"><strong>Q4_K_M</strong></td>
+                            <td style="padding: 10px;"><strong>4-bit</strong></td>
+                            <td style="padding: 10px;"><strong>Best balance (recommended!)</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Q5_K_M</td>
+                            <td style="padding: 10px;">5-bit</td>
+                            <td style="padding: 10px;">Higher quality, larger size</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Q6_K</td>
+                            <td style="padding: 10px;">6-bit</td>
+                            <td style="padding: 10px;">Near-original quality</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Q8_0</td>
+                            <td style="padding: 10px;">8-bit</td>
+                            <td style="padding: 10px;">Maximum quality, if you have space</td>
+                        </tr>
+                    </table>
+
+                    <h2>GGUF vs Other Formats</h2>
+                    <div class="warning-box">
+                        <p><strong>Other formats you might see:</strong></p>
+                        <ul>
+                            <li><strong>PyTorch (.pth, .bin)</strong>: Training format, large, needs GPU</li>
+                            <li><strong>SafeTensors</strong>: Secure format, used by Hugging Face</li>
+                            <li><strong>GGML</strong>: Old format (replaced by GGUF)</li>
+                            <li><strong>GGUF</strong>: Current standard for local inference ✨</li>
+                        </ul>
+                    </div>
+
+                    <h2>Choosing the Right Quantization</h2>
+                    <pre><code># 16GB RAM laptop:
+llama-2-7b.Q4_K_M.gguf         (4 GB)   ← Perfect fit!
+
+# 32GB RAM laptop:
+llama-2-13b.Q4_K_M.gguf        (7 GB)   ← Good performance
+mistral-7b.Q5_K_M.gguf         (5 GB)   ← Higher quality
+
+# 64GB RAM workstation:
+llama-2-70b.Q4_K_M.gguf        (39 GB)  ← Run big models!
+
+# 8GB RAM (tight):
+llama-2-7b.Q2_K.gguf           (2.5 GB) ← Works but lower quality</code></pre>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> GGUF is THE format for local AI. Q4_K_M is the sweet spot. Download from HuggingFace, load in LM Studio/Ollama, and you're running AI locally!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What does GGUF stand for?", options: ["GPU Generated Format", "GPT-Generated Unified Format", "General Graph Unified Format", "Quantized Format"], correct: 1, explanation: "GGUF stands for GPT-Generated Unified Format. It's the successor to GGML and is now the standard format for running LLMs locally with tools like llama.cpp and LM Studio."},
+                    {question: "Which quantization is recommended for most users?", options: ["Q2_K", "Q4_K_M", "Q8_0", "FP16"], correct: 1, explanation: "Q4_K_M offers the best balance between size and quality - about 1/4 the size of FP16 with ~95% quality retention. It's the most popular choice for local inference."},
+                    {question: "What's the main advantage of GGUF over PyTorch models?", options: ["Better training", "CPU-friendly and quantized", "More accurate", "Faster training"], correct: 1, explanation: "GGUF is optimized for CPU/GPU inference and supports quantization. PyTorch models are great for training but are large and GPU-dependent. GGUF lets you run models on regular laptops!"}
+                ]
+            },
+            {
+                id: 19,
+                title: "Running Models Locally",
+                category: 8,
+                content: `
+                    <h1>Running AI Models on Your Computer</h1>
+                    <p class="lead">You don't need expensive cloud APIs! With the right hardware and tools, you can run powerful AI models completely locally and privately.</p>
+
+                    <h2>Hardware Requirements</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px;">Model Size</th>
+                            <th style="padding: 12px;">RAM Needed</th>
+                            <th style="padding: 12px;">VRAM (GPU)</th>
+                            <th style="padding: 12px;">Speed</th>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px;"><strong>7B (Q4)</strong></td>
+                            <td style="padding: 10px;"><strong>8 GB</strong></td>
+                            <td style="padding: 10px;"><strong>6 GB</strong></td>
+                            <td style="padding: 10px;"><strong>Fast ✅</strong></td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">13B (Q4)</td>
+                            <td style="padding: 10px;">16 GB</td>
+                            <td style="padding: 10px;">10 GB</td>
+                            <td style="padding: 10px;">Medium</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">34B (Q4)</td>
+                            <td style="padding: 10px;">32 GB</td>
+                            <td style="padding: 10px;">20 GB</td>
+                            <td style="padding: 10px;">Slow</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">70B (Q4)</td>
+                            <td style="padding: 10px;">64 GB</td>
+                            <td style="padding: 10px;">40 GB</td>
+                            <td style="padding: 10px;">Very slow (CPU)</td>
+                        </tr>
+                    </table>
+
+                    <h2>CPU vs GPU Inference</h2>
+                    <div class="info-box">
+                        <p><strong>CPU Inference (Any laptop)</strong></p>
+                        <ul>
+                            <li>✅ Works on any computer</li>
+                            <li>✅ No special GPU needed</li>
+                            <li>❌ Slow (5-20 tokens/sec)</li>
+                            <li>🔄 Good for: 7B models, occasional use</li>
+                        </ul>
+
+                        <p><strong>GPU Inference (NVIDIA/AMD)</strong></p>
+                        <ul>
+                            <li>✅ Very fast (50-150 tokens/sec)</li>
+                            <li>✅ Can run larger models</li>
+                            <li>❌ Requires compatible GPU</li>
+                            <li>🔄 Good for: 13B-70B models, frequent use</li>
+                        </ul>
+                    </div>
+
+                    <h2>Popular Tools</h2>
+                    <div class="warning-box">
+                        <p><strong>LM Studio</strong> (Easiest - GUI)</p>
+                        <ul>
+                            <li>Download any model from HuggingFace</li>
+                            <li>One-click install</li>
+                            <li>ChatGPT-like interface</li>
+                            <li>Windows, Mac, Linux</li>
+                        </ul>
+
+                        <p><strong>Ollama</strong> (Developer-friendly - CLI)</p>
+                        <ul>
+                            <li>Simple commands: <code>ollama run llama2</code></li>
+                            <li>Built-in model library</li>
+                            <li>API compatible with OpenAI</li>
+                            <li>Great for coding</li>
+                        </ul>
+
+                        <p><strong>llama.cpp</strong> (Advanced - Most control)</p>
+                        <ul>
+                            <li>Pure C++ implementation</li>
+                            <li>Maximum performance</li>
+                            <li>Flexible configuration</li>
+                            <li>Requires technical knowledge</li>
+                        </ul>
+                    </div>
+
+                    <h2>Recommended Setup by Budget</h2>
+                    <pre><code># Budget laptop (8GB RAM):
+Model:  llama-2-7b-chat.Q4_K_M.gguf (4 GB)
+Tool:   LM Studio
+Speed:  ~10 tokens/sec (CPU)
+Use:    Casual chat, coding help
+
+# Mid-range (16GB RAM + RTX 3060):
+Model:  mistral-7b-instruct.Q5_K_M.gguf (5 GB)
+Tool:   Ollama
+Speed:  ~60 tokens/sec (GPU)
+Use:    Daily coding, writing
+
+# High-end (32GB RAM + RTX 4090):
+Model:  llama-2-70b-chat.Q4_K_M.gguf (39 GB)
+Tool:   LM Studio with GPU offloading
+Speed:  ~30 tokens/sec (partial GPU)
+Use:    Professional work, complex tasks</code></pre>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Start with 7B Q4 models on any laptop. Use LM Studio for simplicity or Ollama for coding. GPU dramatically improves speed but isn't required!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What's the minimum RAM needed to run a 7B Q4 model?", options: ["4 GB", "8 GB", "16 GB", "32 GB"], correct: 1, explanation: "A 7B model in Q4 format is about 4 GB, so 8 GB RAM minimum is recommended (leaving room for OS and other apps). 16 GB is more comfortable."},
+                    {question: "What's the main advantage of GPU inference over CPU?", options: ["Better quality", "Smaller models", "Much faster speed", "Lower cost"], correct: 2, explanation: "GPU inference is 5-10x faster than CPU - getting 50-150 tokens/sec vs 5-20 on CPU. Quality is the same, but speed makes the experience much better!"},
+                    {question: "Which tool is best for beginners?", options: ["llama.cpp", "Python scripts", "LM Studio", "Command line"], correct: 2, explanation: "LM Studio has a GUI, one-click downloads, and is extremely beginner-friendly. Ollama is great for developers, llama.cpp is for advanced users who want maximum control."}
+                ]
+            },
+            {
+                id: 20,
+                title: "LM Studio vs Enterprise APIs",
+                category: 8,
+                content: `
+                    <h1>Local vs Cloud: Choosing the Right Approach</h1>
+                    <p class="lead">Should you run AI locally or use cloud APIs? Each has pros and cons. Understanding both helps you make the right choice for your needs!</p>
+
+                    <h2>Local Tools (LM Studio, Ollama)</h2>
+                    <div class="info-box">
+                        <p><strong>Advantages</strong></p>
+                        <ul>
+                            <li>✅ <strong>Privacy</strong>: Your data never leaves your computer</li>
+                            <li>✅ <strong>Cost</strong>: No API fees, free after initial download</li>
+                            <li>✅ <strong>Offline</strong>: Works without internet</li>
+                            <li>✅ <strong>Control</strong>: Choose any model, any settings</li>
+                            <li>✅ <strong>No limits</strong>: Unlimited usage</li>
+                        </ul>
+
+                        <p><strong>Disadvantages</strong></p>
+                        <ul>
+                            <li>❌ <strong>Hardware needed</strong>: Requires decent RAM/GPU</li>
+                            <li>❌ <strong>Slower</strong>: Especially on CPU</li>
+                            <li>❌ <strong>Lower quality</strong>: 7B/13B < GPT-4</li>
+                            <li>❌ <strong>Setup required</strong>: Not just "type and go"</li>
+                        </ul>
+                    </div>
+
+                    <h2>Cloud APIs (OpenAI, Anthropic, Google)</h2>
+                    <div class="warning-box">
+                        <p><strong>Advantages</strong></p>
+                        <ul>
+                            <li>✅ <strong>Best quality</strong>: GPT-4, Claude 3.5 are state-of-the-art</li>
+                            <li>✅ <strong>Fast</strong>: Optimized infrastructure</li>
+                            <li>✅ <strong>No hardware</strong>: Works on any device</li>
+                            <li>✅ <strong>Easy</strong>: Just API key and go</li>
+                            <li>✅ <strong>Latest models</strong>: Always updated</li>
+                        </ul>
+
+                        <p><strong>Disadvantages</strong></p>
+                        <ul>
+                            <li>❌ <strong>Cost</strong>: $0.01-0.06 per 1K tokens</li>
+                            <li>❌ <strong>Privacy</strong>: Data sent to cloud</li>
+                            <li>❌ <strong>Rate limits</strong>: API quotas apply</li>
+                            <li>❌ <strong>Internet required</strong>: No offline use</li>
+                            <li>❌ <strong>Vendor lock-in</strong>: Depends on their service</li>
+                        </ul>
+                    </div>
+
+                    <h2>Cost Comparison</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px;">Usage</th>
+                            <th style="padding: 12px;">Local (LM Studio)</th>
+                            <th style="padding: 12px;">Cloud (GPT-4)</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Light (10K tokens/day)</td>
+                            <td style="padding: 10px;">$0/month</td>
+                            <td style="padding: 10px;">~$3/month</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Medium (100K tokens/day)</td>
+                            <td style="padding: 10px;">$0/month</td>
+                            <td style="padding: 10px;">~$30/month</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Heavy (1M tokens/day)</td>
+                            <td style="padding: 10px;">$0/month</td>
+                            <td style="padding: 10px;">~$300/month</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px;"><strong>Initial cost</strong></td>
+                            <td style="padding: 10px;"><strong>$0 (free)</strong></td>
+                            <td style="padding: 10px;"><strong>$0</strong></td>
+                        </tr>
+                    </table>
+
+                    <h2>Hybrid Approach (Best of Both)</h2>
+                    <pre><code># Use Local for:
+- Coding assistance (private code)
+- Personal notes and brainstorming
+- Learning and experimentation
+- High-volume, simple tasks
+
+# Use Cloud for:
+- Complex reasoning (GPT-4 level)
+- Latest features (vision, voice)
+- Critical accuracy needs
+- When you need the absolute best</code></pre>
+
+                    <h2>Recommendations by Use Case</h2>
+                    <div class="success-box">
+                        <p><strong>Student / Learner</strong></p>
+                        <p>→ Start with LM Studio (free, unlimited)</p>
+
+                        <p><strong>Developer</strong></p>
+                        <p>→ Ollama for local coding + GPT-4 for complex problems</p>
+
+                        <p><strong>Business / Enterprise</strong></p>
+                        <p>→ Cloud APIs for production + local for sensitive data</p>
+
+                        <p><strong>Privacy-Conscious</strong></p>
+                        <p>→ 100% local with LM Studio + larger models (13B/34B)</p>
+                    </div>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Local is free, private, and unlimited but requires hardware. Cloud is easy and highest quality but costs money. Most people benefit from using both!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What's the main advantage of running models locally?", options: ["Better quality", "Privacy and no API costs", "Faster speed", "Easier setup"], correct: 1, explanation: "Local models are completely private (data never leaves your computer) and free after download (no API fees). This makes them perfect for sensitive data or high-volume use."},
+                    {question: "When should you use cloud APIs instead of local models?", options: ["For simple tasks", "When you need maximum quality", "To save money", "For privacy"], correct: 1, explanation: "Cloud APIs like GPT-4 offer the highest quality and latest features. Use them when accuracy is critical or for complex reasoning tasks. For simple tasks, local models work great and are free."},
+                    {question: "What's a hybrid approach?", options: ["Using only local models", "Using only cloud APIs", "Using both local and cloud depending on the task", "Mixing different quantizations"], correct: 2, explanation: "A hybrid approach uses local models for private/simple tasks and cloud APIs for complex/critical tasks. This gives you the best of both worlds - privacy + cost savings + high quality when needed."}
+                ]
+            },
+            {
+                id: 21,
+                title: "Context Windows & Memory",
+                category: 8,
+                content: `
+                    <h1>Context Windows: How Much Can AI Remember?</h1>
+                    <p class="lead">The context window determines how much text an AI can "see" at once. Understanding this helps you work more effectively with AI models!</p>
+
+                    <h2>What is a Context Window?</h2>
+                    <div class="info-box">
+                        <p><strong>Context window = Maximum input + output tokens</strong></p>
+                        <p>If a model has a 4K context window:</p>
+                        <ul>
+                            <li>You can send up to ~3K tokens of input</li>
+                            <li>Model can generate ~1K tokens of output</li>
+                            <li><strong>Total = 4,000 tokens max</strong></li>
+                        </ul>
+                        <p>Anything beyond this is forgotten!</p>
+                    </div>
+
+                    <h2>Context Window Sizes</h2>
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px;">Model</th>
+                            <th style="padding: 12px;">Context</th>
+                            <th style="padding: 12px;">Use Case</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">GPT-3.5</td>
+                            <td style="padding: 10px;">4K tokens</td>
+                            <td style="padding: 10px;">Short conversations</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">LLaMA 2</td>
+                            <td style="padding: 10px;">4K tokens</td>
+                            <td style="padding: 10px;">Standard chat</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">GPT-4</td>
+                            <td style="padding: 10px;">8K - 32K</td>
+                            <td style="padding: 10px;">Long documents</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Claude 3</td>
+                            <td style="padding: 10px;">200K</td>
+                            <td style="padding: 10px;">Entire books!</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px;"><strong>Gemini 1.5</strong></td>
+                            <td style="padding: 10px;"><strong>1M tokens</strong></td>
+                            <td style="padding: 10px;"><strong>Multiple books</strong></td>
+                        </tr>
+                    </table>
+
+                    <h2>Why Are Context Windows Limited?</h2>
+                    <div class="warning-box">
+                        <p><strong>Remember: Self-attention is O(N²)</strong></p>
+                        <pre><code>1K tokens   → 1M comparisons
+4K tokens   → 16M comparisons
+128K tokens → 16 BILLION comparisons!
+
+This requires massive memory and computation!</code></pre>
+                    </div>
+
+                    <h2>Token Estimation</h2>
+                    <pre><code># Rule of thumb:
+~750 words = 1,000 tokens
+~3 pages = 1,000 tokens
+
+Examples:
+Short email:     ~100-200 tokens
+This webpage:    ~2,000 tokens
+Blog post:       ~1,000-2,000 tokens
+Research paper:  ~8,000-15,000 tokens
+Novel chapter:   ~5,000-10,000 tokens
+Entire book:     ~100,000+ tokens</code></pre>
+
+                    <h2>Working with Long Documents</h2>
+                    <div class="info-box">
+                        <p><strong>Strategies when context is too small:</strong></p>
+                        <ul>
+                            <li><strong>Chunking</strong>: Break document into sections, process separately</li>
+                            <li><strong>Summarization</strong>: Summarize early parts to fit more</li>
+                            <li><strong>Retrieval</strong>: Use vector DB to fetch relevant sections only</li>
+                            <li><strong>Sliding window</strong>: Process overlapping chunks</li>
+                            <li><strong>Use longer context models</strong>: Claude 3 (200K), Gemini (1M)</li>
+                        </ul>
+                    </div>
+
+                    <h2>Context Window vs Response Length</h2>
+                    <pre><code># 4K context window:
+Input:  3,000 tokens (your prompt + conversation)
+Output: 1,000 tokens max (model's response)
+Total:  4,000 tokens
+
+# If you want longer outputs:
+- Use model with larger context (8K, 32K)
+- Or split into multiple requests
+- Set max_tokens parameter appropriately</code></pre>
+
+                    <h2>Practical Tips</h2>
+                    <div class="success-box">
+                        <ul>
+                            <li>✅ <strong>Track tokens</strong>: Use token counters (tiktoken library)</li>
+                            <li>✅ <strong>Summarize</strong>: Compress conversation history when near limit</li>
+                            <li>✅ <strong>Be concise</strong>: Every word counts toward limit</li>
+                            <li>✅ <strong>Choose right model</strong>: Match context needs to model capability</li>
+                            <li>❌ <strong>Don't assume</strong>: Model forgets everything beyond window!</li>
+                        </ul>
+                    </div>
+
+                    <div class="success-box">
+                        <p><strong>Key Takeaway:</strong> Context window = how much the model can "see". Small windows (4K) for chat, large windows (200K) for documents. Remember: attention is O(N²), so longer context = much more computation!</p>
+                    </div>
+                `,
+                quiz: [
+                    {question: "What happens when you exceed the context window?", options: ["Model gets slower", "Older messages are forgotten", "Error message appears", "Quality decreases"], correct: 1, explanation: "When you exceed the context window, the oldest messages are dropped (forgotten). The model only sees the most recent tokens that fit in the window. This is why long conversations sometimes lose context."},
+                    {question: "Why can't models have unlimited context windows?", options: ["Cost too much", "Self-attention is O(N²) - grows quadratically", "Storage limitations", "API restrictions"], correct: 1, explanation: "Self-attention requires every token to attend to every other token, giving O(N²) complexity. Doubling context length quadruples the memory and computation needed! This is why 1M token context is a huge engineering achievement."},
+                    {question: "How many tokens is a typical book?", options: ["1,000 tokens", "10,000 tokens", "100,000 tokens", "1,000,000 tokens"], correct: 2, explanation: "A typical book is ~100,000 tokens (about 75,000 words). This means you need a 100K+ context window to fit an entire book, which only recent models like Claude 3 (200K) and Gemini 1.5 (1M) can handle."}
+                ]
+            }
 
         ];
 
