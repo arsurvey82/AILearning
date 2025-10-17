@@ -681,6 +681,157 @@
     <script>
         // Section data structure - will be filled in phases 2-9
         const sections = [
+            // ============================================
+            // SECTION 0: WELCOME & OVERVIEW
+            // ============================================
+            {
+                id: 0,
+                title: "Welcome to the LLM Learning Guide",
+                category: 0,
+                content: `
+                    <h1 style="text-align: center; margin-bottom: 20px;">🎓 Welcome to the LLM Learning Guide</h1>
+
+                    <!-- Introduction Section -->
+                    <div style="margin: 0 auto 60px;">
+
+                        <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); padding: 30px; border-radius: 16px; margin-bottom: 30px; border: 1px solid rgba(203, 213, 225, 0.5);">
+                            <h2 style="margin-top: 0; color: #667eea;">📚 What is This Guide?</h2>
+                            <p>
+                                This is a <strong>complete, interactive guide</strong> to understanding how Large Language Models (LLMs) work - from the ground up.
+                                No PhD required! We break down complex concepts into simple, visual explanations with real examples.
+                            </p>
+                            <p>
+                                You'll follow the actual journey of text through an AI model: <code>"The cat sat"</code> → tokens → vectors → attention → transformers → prediction!
+                            </p>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+
+                            <!-- Who it's for -->
+                            <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); padding: 25px; border-radius: 12px; border: 1px solid rgba(203, 213, 225, 0.5);">
+                                <h3 style="margin-top: 0; color: #4CAF50;">👥 Who Is This For?</h3>
+                                <ul style="padding-left: 20px;">
+                                    <li><strong>Developers</strong> - Learn how AI models actually work</li>
+                                    <li><strong>Students</strong> - Understand LLMs for courses/research</li>
+                                    <li><strong>AI Enthusiasts</strong> - Deep-dive into the technology</li>
+                                    <li><strong>Product Managers</strong> - Make informed AI decisions</li>
+                                    <li><strong>Anyone curious</strong> - No math/coding required!</li>
+                                </ul>
+                            </div>
+
+                            <!-- Time & Prerequisites -->
+                            <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); padding: 25px; border-radius: 12px; border: 1px solid rgba(203, 213, 225, 0.5);">
+                                <h3 style="margin-top: 0; color: #FF9800;">⏱️ Time & Prerequisites</h3>
+                                <p><strong>Total Time:</strong> 2-4 hours</p>
+                                <ul style="padding-left: 20px;">
+                                    <li>📖 <strong>Quick read:</strong> 1-2 hours (skip quizzes)</li>
+                                    <li>🎯 <strong>Deep learning:</strong> 3-4 hours (with quizzes)</li>
+                                    <li>🔖 <strong>Reference:</strong> Bookmark & revisit sections</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Prerequisites:</strong></p>
+                                <p>✅ None! We start from scratch</p>
+                            </div>
+
+                        </div>
+
+                        <!-- What you'll learn -->
+                        <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); padding: 25px; border-radius: 12px; border: 1px solid rgba(203, 213, 225, 0.5); margin-bottom: 30px;">
+                            <h3 style="margin-top: 0; color: #E91E63;">🎯 What You'll Learn</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <p><strong>📊 Foundations:</strong></p>
+                                    <ul style="margin-top: 5px;">
+                                        <li>How computers store text as numbers</li>
+                                        <li>Tokenization & vocabulary</li>
+                                        <li>Vectors and embeddings</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p><strong>🧠 Core Concepts:</strong></p>
+                                    <ul style="margin-top: 5px;">
+                                        <li>Self-attention mechanism</li>
+                                        <li>Transformer architecture</li>
+                                        <li>How predictions are made</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p><strong>💾 Practical Skills:</strong></p>
+                                    <ul style="margin-top: 5px;">
+                                        <li>Model compression (quantization)</li>
+                                        <li>Running models locally</li>
+                                        <li>Understanding file formats (GGUF)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p><strong>🚀 Deployment:</strong></p>
+                                    <ul style="margin-top: 5px;">
+                                        <li>LM Studio vs cloud APIs</li>
+                                        <li>Context windows & memory</li>
+                                        <li>Cost optimization strategies</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Learning Paths -->
+                        <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); padding: 25px; border-radius: 12px; border: 1px solid rgba(203, 213, 225, 0.5);">
+                            <h3 style="margin-top: 0; color: #3F51B5;">🛤️ Learning Paths</h3>
+
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-weight: bold; color: #4CAF50; margin-bottom: 8px;">✅ RECOMMENDED: Linear Path (Beginner-Friendly)</p>
+                                <p style="margin-left: 20px;">
+                                    📚 Start at Section 1 → Follow in order → Complete all 21 sections<br>
+                                    <em style="color: #666;">Best for: First-time learners, comprehensive understanding</em>
+                                </p>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-weight: bold; color: #FF9800; margin-bottom: 8px;">⚡ Quick Overview Path (Experienced)</p>
+                                <p style="margin-left: 20px;">
+                                    🗺️ Section 1 (Foundations) → 11 (Attention) → 12 (Transformers) → 14 (Pipeline) → 18 (GGUF)<br>
+                                    <em style="color: #666;">Best for: Developers who know basics, want key concepts</em>
+                                </p>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-weight: bold; color: #9C27B0; margin-bottom: 8px;">🎯 Practical Focus Path (Deployment)</p>
+                                <p style="margin-left: 20px;">
+                                    📚 Sections 1-5 (Basics) → 16-21 (Efficiency & Deployment)<br>
+                                    <em style="color: #666;">Best for: Running models locally, understanding formats</em>
+                                </p>
+                            </div>
+
+                            <div>
+                                <p style="font-weight: bold; color: #2196F3; margin-bottom: 8px;">🔍 Skip-Around Path (Reference)</p>
+                                <p style="margin-left: 20px;">
+                                    📍 Use the navigation below → Jump to topics you need<br>
+                                    <em style="color: #666;">Best for: Quick answers, specific topics, refresher</em>
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="info-box" style="margin-top: 40px;">
+                        <p style="font-weight: bold; color: #667eea; margin-bottom: 10px;">💡 How to Use This Guide:</p>
+                        <ul>
+                            <li><strong>Follow in order</strong> - Each section builds on the previous one</li>
+                            <li><strong>Visual learner?</strong> - Every section has animated diagrams</li>
+                            <li><strong>Test yourself</strong> - Complete the quiz after each section</li>
+                            <li><strong>Lost?</strong> - Use the navigation to see where you are!</li>
+                        </ul>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px;">
+                        <button onclick="showSection(1)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 40px; border-radius: 25px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s;">
+                            Start Learning! →
+                        </button>
+                    </div>
+                `,
+                quiz: []
+            },
+
             // PART 1: DATA FOUNDATIONS
             {
                 id: 1,
@@ -1529,6 +1680,15 @@ print(tokens)  # [791, 8415, 7731]</code></pre>
 
         // Category definitions
         const categories = [
+            {
+                id: 0,
+                name: "Welcome & Overview",
+                icon: "🎓",
+                why: "Start here to understand what you'll learn and choose your learning path.",
+                sections: [0],
+                color: "#667eea",
+                colorDark: "#764ba2"
+            },
             {
                 id: 1,
                 name: "Data Foundations",
