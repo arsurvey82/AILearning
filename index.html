@@ -1672,6 +1672,144 @@ print(tokens)  # [791, 8415, 7731]</code></pre>
             },
 
             // ============================================
+            // 🎯 CHECKPOINT 1: Data Foundations & Tokenization Complete
+            // ============================================
+            {
+                id: 5.5,
+                title: "🎯 Checkpoint 1: Data & Tokenization",
+                category: 2,
+                content: `
+                    <div style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+                                color: white;
+                                padding: 30px;
+                                margin: 0 0 30px 0;
+                                border-radius: 16px;
+                                box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);">
+                        <h1 style="margin-top: 0; color: white; text-align: center;">🎯 Checkpoint 1: Data Foundations Complete!</h1>
+                        <p style="text-align: center; font-size: 18px; margin-bottom: 0;">You've completed the first 5 sections. Let's review what you learned!</p>
+                    </div>
+
+                    <h2>📚 What You've Learned (Sections 1-5)</h2>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+                        <div class="info-box">
+                            <h3 style="margin-top: 0;">Section 1: What is Data?</h3>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Computers store everything as binary (0s and 1s)</li>
+                                <li>Text becomes numbers (ASCII/Unicode)</li>
+                                <li>Example: "A" → 65 → 01000001</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box">
+                            <h3 style="margin-top: 0;">Section 2: Text as Data</h3>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Text is a sequence of character codes</li>
+                                <li>UTF-8 handles all languages + emojis</li>
+                                <li>"Hello" → [72, 101, 108, 108, 111]</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box">
+                            <h3 style="margin-top: 0;">Section 3: The Problem</h3>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Character codes don't capture meaning</li>
+                                <li>"cat" and "car" are similar in code but different in meaning</li>
+                                <li>AI needs rich representations, not simple labels</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box">
+                            <h3 style="margin-top: 0;">Section 4: Tokens</h3>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Break text into meaningful chunks</li>
+                                <li>"running" → ["run", "ning"]</li>
+                                <li>More efficient than character-by-character</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box" style="grid-column: 1 / -1;">
+                            <h3 style="margin-top: 0;">Section 5: Token IDs</h3>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Each token gets a unique ID from a vocabulary (30K-100K tokens)</li>
+                                <li>"cat" → 8415 (always the same ID)</li>
+                                <li>Special tokens like [START], [END], [PAD]</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>🔄 The Journey So Far</h2>
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                        <pre style="background: transparent; color: #333; margin: 0; padding: 0; box-shadow: none;"><code>Text: "The cat sat"
+   ↓
+Step 1: Tokenization
+   ↓
+Tokens: ["The", " cat", " sat"]
+   ↓
+Step 2: Token IDs (lookup in vocabulary)
+   ↓
+Token IDs: [791, 8415, 7731]
+   ↓
+<strong style="color: #FF9800;">← YOU ARE HERE</strong>
+
+Next: Convert these IDs to meaningful vectors! ⬇️</code></pre>
+                    </div>
+
+                    <h2>✅ Self-Check Questions</h2>
+                    <div class="warning-box">
+                        <p><strong>Can you explain these concepts to someone else?</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Why do computers use binary?</li>
+                            <li>What's the difference between characters and tokens?</li>
+                            <li>Why is tokenization better than using individual characters?</li>
+                            <li>What is a token ID and why is it consistent?</li>
+                        </ul>
+                        <p style="margin-bottom: 0;"><strong>If you can't answer these</strong>, review Sections 1-5 before continuing!</p>
+                    </div>
+
+                    <h2>🔮 What's Next? (Sections 6-10)</h2>
+                    <div class="success-box">
+                        <p><strong>You're about to learn the magic of vectors and embeddings!</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Section 6:</strong> What are Vectors? (Lists of numbers that capture meaning)</li>
+                            <li><strong>Section 7:</strong> What are Embeddings? (Learned representations)</li>
+                            <li><strong>Section 8:</strong> Dimensions (Why GPT-4 uses 4096 numbers per word)</li>
+                            <li><strong>Section 9:</strong> Parameters/Weights (The AI's learned knowledge)</li>
+                            <li><strong>Section 10:</strong> Embedding Tables (The giant lookup table)</li>
+                        </ul>
+                        <p style="margin-bottom: 0;"><strong>Goal:</strong> Transform token IDs into rich 4096-dimensional vectors that capture meaning!</p>
+                    </div>
+
+                    <h2>📊 Progress</h2>
+                    <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
+                                padding: 20px;
+                                border-radius: 12px;
+                                text-align: center;">
+                        <p style="font-size: 24px; margin: 0 0 10px 0;"><strong>23% Complete</strong></p>
+                        <div style="background: #e0e0e0; height: 30px; border-radius: 15px; overflow: hidden; margin: 0 auto; max-width: 500px;">
+                            <div style="background: linear-gradient(90deg, #4CAF50 0%, #2E7D32 100%);
+                                        width: 23%;
+                                        height: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: white;
+                                        font-weight: bold;
+                                        font-size: 14px;">
+                                5/22
+                            </div>
+                        </div>
+                        <p style="margin: 15px 0 0 0; color: #666;">Sections 1-5 ✅ | Sections 6-21 ahead</p>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px;">
+                        <p style="font-size: 20px; color: #4CAF50; font-weight: bold;">Great work! Ready to dive into vectors and embeddings? 🚀</p>
+                    </div>
+                `,
+                quiz: []
+            },
+
+            // ============================================
             // PART 3: VECTORS & EMBEDDINGS (Sections 6-8)
             // ============================================
             {
@@ -2898,6 +3036,217 @@ Final = Token_Emb + Pos_Emb            # [0.9, 0.1, ...]</code></pre>
             },
 
             // ============================================
+            // 🎯 CHECKPOINT 2: Vectors & Embeddings Complete
+            // ============================================
+            {
+                id: 10.5,
+                title: "🎯 Checkpoint 2: Vectors & Embeddings",
+                category: 4,
+                content: `
+                    <div style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+                                color: white;
+                                padding: 30px;
+                                margin: 0 0 30px 0;
+                                border-radius: 16px;
+                                box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);">
+                        <h1 style="margin-top: 0; color: white; text-align: center; font-size: 32px;">
+                            🎯 Checkpoint 2: Vectors & Embeddings Complete!
+                        </h1>
+                        <p style="text-align: center; font-size: 18px; margin-bottom: 0; opacity: 0.95;">
+                            Halfway there! You've mastered how AI represents meaning with numbers.
+                        </p>
+                    </div>
+
+                    <h2>📚 What You've Learned (Sections 6-10)</h2>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #2196F3;">
+                            <h3 style="margin-top: 0; color: #1565C0;">📊 Section 6: Vectors</h3>
+                            <p style="margin-bottom: 0;">Numbers that capture meaning! Vectors represent concepts in multi-dimensional space where similar meanings are close together.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #9C27B0;">
+                            <h3 style="margin-top: 0; color: #6A1B9A;">🎯 Section 7: Embeddings</h3>
+                            <p style="margin-bottom: 0;">Learned vector representations! Embeddings are vectors specifically trained to capture semantic meaning from data.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #FF9800;">
+                            <h3 style="margin-top: 0; color: #E65100;">📐 Section 8: Dimensions</h3>
+                            <p style="margin-bottom: 0;">Why 4096 numbers? Each dimension captures a different feature of meaning - more dimensions = richer representation!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #4CAF50;">
+                            <h3 style="margin-top: 0; color: #2E7D32;">🧠 Section 9: Parameters</h3>
+                            <p style="margin-bottom: 0;">7 billion learned numbers! Parameters are the AI's "memory" - weights that were adjusted during training on massive datasets.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #E91E63;">
+                            <h3 style="margin-top: 0; color: #AD1457;">📖 Section 10: Embedding Tables</h3>
+                            <p style="margin-bottom: 0;">The AI's dictionary! A massive 50K×4096 lookup table that instantly converts token IDs to meaningful vectors.</p>
+                        </div>
+                    </div>
+
+                    <h2>🔄 The Journey So Far</h2>
+
+                    <div style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                margin: 30px 0;
+                                border: 2px solid #9E9E9E;">
+                        <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                            <strong style="color: #1976D2;">Text input:</strong> "The cat sat"<br>
+                            ↓ <em style="color: #666;">(Tokenization)</em><br>
+                            <strong style="color: #7B1FA2;">Tokens:</strong> ["The", " cat", " sat"]<br>
+                            ↓ <em style="color: #666;">(Token IDs)</em><br>
+                            <strong style="color: #D84315;">Token IDs:</strong> [791, 8415, 7731]<br>
+                            ↓ <em style="color: #666;">(Embedding Table Lookup)</em><br>
+                            <strong style="color: #388E3C;">Embedding Vectors:</strong><br>
+                            &nbsp;&nbsp;• Token 791 ("The") → <code>[0.1, 0.3, -0.2, 0.5, ..., 0.2]</code> (4096 numbers)<br>
+                            &nbsp;&nbsp;• Token 8415 (" cat") → <code>[0.8, 0.3, -0.5, 0.1, ..., 0.4]</code> (4096 numbers)<br>
+                            &nbsp;&nbsp;• Token 7731 (" sat") → <code>[0.2, 0.7, 0.1, -0.3, ..., 0.6]</code> (4096 numbers)
+                        </p>
+                    </div>
+
+                    <div class="info-box" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #2196F3;">
+                        <p><strong>🎓 Key Insight:</strong> You now understand how AI converts raw text into rich numerical representations that capture meaning! Each word becomes a point in a 4096-dimensional space where semantically similar words are close together.</p>
+                    </div>
+
+                    <h2>✅ Self-Check: Can You Explain These?</h2>
+
+                    <div style="background: #fff9c4;
+                                padding: 25px;
+                                border-radius: 12px;
+                                border-left: 5px solid #F57F17;
+                                margin: 30px 0;">
+                        <p style="margin-top: 0;"><strong>Before moving forward, make sure you can answer:</strong></p>
+                        <ul style="line-height: 2; margin-bottom: 0;">
+                            <li>❓ What's the difference between a vector and an embedding?</li>
+                            <li>❓ Why do we need 4096 dimensions instead of just 10?</li>
+                            <li>❓ What are parameters and how do they relate to model size?</li>
+                            <li>❓ How does the embedding table convert token IDs to vectors?</li>
+                            <li>❓ Why is embedding lookup instant (no computation)?</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px dashed #4CAF50;
+                                margin: 30px 0;">
+                        <p style="margin: 0; text-align: center; font-size: 15px;">
+                            <strong style="color: #2E7D32;">💡 Quick Answers:</strong><br>
+                            <em style="color: #558B2F;">Vector = any list of numbers; Embedding = learned vector | More dimensions = capture more subtle patterns | Parameters = AI's learned knowledge | Embedding table = simple array lookup (Table[8415]) | Lookup is indexing, not calculation!</em>
+                        </p>
+                    </div>
+
+                    <h2>🔮 What's Next? (Sections 11-15: Transformer Magic!)</h2>
+
+                    <p>Now that you understand how text becomes meaningful vectors, you're ready for the <strong>most exciting part</strong> - how transformers actually <em>process</em> these vectors!</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #FF9800;
+                                    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);">
+                            <h3 style="margin-top: 0; color: #E65100;">🎯 Section 11: Self-Attention</h3>
+                            <p>The <strong>breakthrough mechanism</strong> that lets AI understand context! Learn how "bank" knows if it's financial or riverside.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #03A9F4;">
+                            <h3 style="margin-top: 0; color: #01579B;">⚙️ Section 12: Transformer Layers</h3>
+                            <p>Discover how 96 identical layers stack together to create deep understanding - each layer refines meaning!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #9C27B0;">
+                            <h3 style="margin-top: 0; color: #6A1B9A;">🔀 Section 13: Multi-Head Attention</h3>
+                            <p>Why use 32 attention heads instead of one? Learn how parallel attention captures different relationships!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #4CAF50;">
+                            <h3 style="margin-top: 0; color: #2E7D32;">🔄 Section 14: Forward Pass</h3>
+                            <p>See the complete data flow from input text through all 96 layers to final prediction!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #FBC02D;">
+                            <h3 style="margin-top: 0; color: #F57F17;">🎲 Section 15: Token Prediction</h3>
+                            <p>How does AI choose the next word? Understand probability distributions and sampling strategies!</p>
+                        </div>
+                    </div>
+
+                    <h2>📊 Your Progress</h2>
+
+                    <div style="margin: 30px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-weight: bold; color: #4CAF50; font-size: 18px;">50% Complete!</span>
+                            <span style="color: #666; font-size: 14px;">10 of 22 sections (excluding checkpoints)</span>
+                        </div>
+                        <div style="background: #e0e0e0;
+                                    height: 30px;
+                                    border-radius: 15px;
+                                    overflow: hidden;
+                                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="background: linear-gradient(90deg, #4CAF50 0%, #66BB6A 100%);
+                                        width: 50%;
+                                        height: 100%;
+                                        border-radius: 15px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: white;
+                                        font-weight: bold;
+                                        font-size: 14px;
+                                        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+                                        animation: progressGrow 1s ease-out;">
+                                50%
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        @keyframes progressGrow {
+                            from { width: 0%; }
+                            to { width: 50%; }
+                        }
+                    </style>
+
+                    <div class="success-box" style="background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); border-left: 5px solid #2E7D32; margin-top: 30px;">
+                        <p style="margin: 0; font-size: 16px;">
+                            <strong>🎉 Congratulations!</strong> You're halfway through the guide! You've built a solid foundation in how AI represents language. The next sections reveal the <em>magic</em> of how transformers actually think and reason. Take a break if needed, then dive into the most exciting part! 🚀
+                        </p>
+                    </div>
+                `,
+                quiz: []
+            },
+
+            // ============================================
             // PART 5: TRANSFORMER BLOCKS (Sections 11-13)
             // ============================================
             {
@@ -3677,6 +4026,232 @@ Ignore all tokens after 90% threshold</code></pre>
                     {question: "If top-p = 0.9, which tokens are considered?", options: ["Only the top token", "Top 90 tokens", "Tokens until cumulative probability reaches 90%", "90% of vocabulary"], correct: 2, explanation: "Top-p (nucleus sampling) considers tokens until their cumulative probability reaches the threshold (e.g., 90%). This dynamically adjusts how many tokens are considered based on the probability distribution."}
                 ]
             },
+
+            // ============================================
+            // 🎯 CHECKPOINT 3: Complete Pipeline Understood
+            // ============================================
+            {
+                id: 15.5,
+                title: "🎯 Checkpoint 3: Complete Pipeline",
+                category: 6,
+                content: `
+                    <div style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+                                color: white;
+                                padding: 30px;
+                                margin: 0 0 30px 0;
+                                border-radius: 16px;
+                                box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);">
+                        <h1 style="margin-top: 0; color: white; text-align: center; font-size: 32px;">
+                            🎯 Checkpoint 3: You Understand How AI Works!
+                        </h1>
+                        <p style="text-align: center; font-size: 18px; margin-bottom: 0; opacity: 0.95;">
+                            Amazing! You've conquered the core transformer architecture and complete pipeline.
+                        </p>
+                    </div>
+
+                    <h2>📚 What You've Learned (Sections 11-15)</h2>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #FF9800;">
+                            <h3 style="margin-top: 0; color: #E65100;">🎯 Section 11: Self-Attention</h3>
+                            <p style="margin-bottom: 0;">The breakthrough! Self-attention lets AI understand context - how "bank" means different things based on surrounding words.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #03A9F4;">
+                            <h3 style="margin-top: 0; color: #01579B;">⚙️ Section 12: Transformer Layers</h3>
+                            <p style="margin-bottom: 0;">96 identical layers stacked together! Each layer refines understanding through attention + feed-forward networks.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #9C27B0;">
+                            <h3 style="margin-top: 0; color: #6A1B9A;">🔀 Section 13: Multi-Head Attention</h3>
+                            <p style="margin-bottom: 0;">32 attention heads in parallel! Each head specializes in different relationships (syntax, semantics, position).</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #4CAF50;">
+                            <h3 style="margin-top: 0; color: #2E7D32;">🔄 Section 14: Forward Pass</h3>
+                            <p style="margin-bottom: 0;">The complete journey! Data flows from tokenization → embeddings → 96 transformer layers → output probabilities.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border-left: 4px solid #FBC02D;">
+                            <h3 style="margin-top: 0; color: #F57F17;">🎲 Section 15: Token Prediction</h3>
+                            <p style="margin-bottom: 0;">How AI generates text! Temperature, top-k, and top-p control the balance between creativity and accuracy.</p>
+                        </div>
+                    </div>
+
+                    <h2>🔄 Complete Pipeline: "The cat sat" → "on"</h2>
+
+                    <div style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                margin: 30px 0;
+                                border: 2px solid #9E9E9E;">
+                        <p style="font-size: 16px; line-height: 2; margin: 0;">
+                            <strong style="color: #1976D2;">Input:</strong> "The cat sat"<br>
+                            ↓ <em style="color: #666;">(Tokenization)</em><br>
+                            <strong style="color: #7B1FA2;">Tokens:</strong> ["The", " cat", " sat"]<br>
+                            ↓ <em style="color: #666;">(Token IDs)</em><br>
+                            <strong style="color: #D84315;">IDs:</strong> [791, 8415, 7731]<br>
+                            ↓ <em style="color: #666;">(Embedding Lookup)</em><br>
+                            <strong style="color: #388E3C;">Vectors:</strong> [0.1, 0.3, ..., 0.2], [0.8, 0.3, ..., 0.4], [0.2, 0.7, ..., 0.6]<br>
+                            ↓ <em style="color: #666;">(Layer 1 Self-Attention)</em><br>
+                            <strong style="color: #FF9800;">Context-aware vectors:</strong> Each word now knows about surrounding words!<br>
+                            ↓ <em style="color: #666;">(Layers 2-96 refine understanding)</em><br>
+                            <strong style="color: #5E35B1;">Deep representations:</strong> Rich, nuanced meaning captured<br>
+                            ↓ <em style="color: #666;">(Output Layer)</em><br>
+                            <strong style="color: #C62828;">Logits:</strong> [2.1, 3.5, -1.2, 4.8, ...] (50,257 values)<br>
+                            ↓ <em style="color: #666;">(Softmax)</em><br>
+                            <strong style="color: #0277BD;">Probabilities:</strong> "on" (45%), "down" (23%), "still" (15%)<br>
+                            ↓ <em style="color: #666;">(Sampling)</em><br>
+                            <strong style="color: #2E7D32; font-size: 18px;">✨ Output:</strong> "on" → Complete sentence: "The cat sat on"
+                        </p>
+                    </div>
+
+                    <div class="info-box" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #2196F3;">
+                        <p><strong>🎓 Incredible Achievement:</strong> You now understand the complete architecture of ChatGPT, GPT-4, Llama, and all modern LLMs! From raw text to AI predictions, you can explain every single step.</p>
+                    </div>
+
+                    <h2>✅ Self-Check: Can You Explain These?</h2>
+
+                    <div style="background: #fff9c4;
+                                padding: 25px;
+                                border-radius: 12px;
+                                border-left: 5px solid #F57F17;
+                                margin: 30px 0;">
+                        <p style="margin-top: 0;"><strong>Before moving forward, make sure you can answer:</strong></p>
+                        <ul style="line-height: 2; margin-bottom: 0;">
+                            <li>❓ How does self-attention make embeddings context-aware?</li>
+                            <li>❓ Why do we need 96 layers instead of just 1?</li>
+                            <li>❓ What's the difference between single-head and multi-head attention?</li>
+                            <li>❓ How does text flow through the forward pass from input to output?</li>
+                            <li>❓ What's the difference between temperature, top-k, and top-p?</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px dashed #4CAF50;
+                                margin: 30px 0;">
+                        <p style="margin: 0; text-align: center; font-size: 15px;">
+                            <strong style="color: #2E7D32;">💡 Quick Answers:</strong><br>
+                            <em style="color: #558B2F;">Attention compares words using Query/Key/Value | More layers = deeper understanding (each refines meaning) | Multi-head captures different relationships in parallel | Tokenize → Embed → 96 Layers → Predict | Temperature=randomness, top-k=filter to k tokens, top-p=cumulative probability threshold!</em>
+                        </p>
+                    </div>
+
+                    <h2>🔮 What's Next? (Sections 16-21: Practical Deployment!)</h2>
+
+                    <p>You understand <strong>how AI works internally</strong>! Now learn the practical side - how to actually run these massive models efficiently on your own computer.</p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #F44336;">
+                            <h3 style="margin-top: 0; color: #C62828;">📊 Section 16: Floating Point</h3>
+                            <p>Why FP32 vs FP16 vs BF16 matters. How precision affects model size and performance.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #FF9800;">
+                            <h3 style="margin-top: 0; color: #E65100;">🔽 Section 17: Quantization</h3>
+                            <p>Shrink 7B models from 28GB to 4GB! Learn 8-bit, 4-bit, and Q4_K_M quantization.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #4CAF50;">
+                            <h3 style="margin-top: 0; color: #2E7D32;">📦 Section 18: GGUF Format</h3>
+                            <p>The standard for local AI! Understand .gguf files and naming conventions.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #03A9F4;">
+                            <h3 style="margin-top: 0; color: #01579B;">💻 Section 19: Local Models</h3>
+                            <p>Hardware requirements and setup for running AI on your own computer privately!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #9C27B0;">
+                            <h3 style="margin-top: 0; color: #6A1B9A;">🚀 Section 20: LM Studio</h3>
+                            <p>The easiest way to run AI locally! Step-by-step guide to downloading and using models.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+                                    padding: 20px;
+                                    border-radius: 12px;
+                                    border: 2px solid #FBC02D;">
+                            <h3 style="margin-top: 0; color: #F57F17;">📏 Section 21: Context Windows</h3>
+                            <p>Why 4K vs 32K vs 128K context matters. Memory management and cost implications.</p>
+                        </div>
+                    </div>
+
+                    <h2>📊 Your Progress</h2>
+
+                    <div style="margin: 30px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-weight: bold; color: #4CAF50; font-size: 18px;">68% Complete!</span>
+                            <span style="color: #666; font-size: 14px;">15 of 22 sections (excluding checkpoints)</span>
+                        </div>
+                        <div style="background: #e0e0e0;
+                                    height: 30px;
+                                    border-radius: 15px;
+                                    overflow: hidden;
+                                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="background: linear-gradient(90deg, #4CAF50 0%, #66BB6A 100%);
+                                        width: 68%;
+                                        height: 100%;
+                                        border-radius: 15px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: white;
+                                        font-weight: bold;
+                                        font-size: 14px;
+                                        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+                                        animation: progressGrow3 1s ease-out;">
+                                68%
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        @keyframes progressGrow3 {
+                            from { width: 0%; }
+                            to { width: 68%; }
+                        }
+                    </style>
+
+                    <div class="success-box" style="background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); border-left: 5px solid #2E7D32; margin-top: 30px;">
+                        <p style="margin: 0; font-size: 16px;">
+                            <strong>🎉 Outstanding Progress!</strong> You've mastered the theory - the <em>hard part is done</em>! The remaining sections are practical guides to actually using what you've learned. You're almost there! 🚀
+                        </p>
+                    </div>
+                `,
+                quiz: []
+            },
+
             {
                 id: 16,
                 title: "Floating Point Numbers",
@@ -4341,6 +4916,302 @@ Total:  4,000 tokens
                     {question: "Why can't models have unlimited context windows?", options: ["Cost too much", "Self-attention is O(N²) - grows quadratically", "Storage limitations", "API restrictions"], correct: 1, explanation: "Self-attention requires every token to attend to every other token, giving O(N²) complexity. Doubling context length quadruples the memory and computation needed! This is why 1M token context is a huge engineering achievement."},
                     {question: "How many tokens is a typical book?", options: ["1,000 tokens", "10,000 tokens", "100,000 tokens", "1,000,000 tokens"], correct: 2, explanation: "A typical book is ~100,000 tokens (about 75,000 words). This means you need a 100K+ context window to fit an entire book, which only recent models like Claude 3 (200K) and Gemini 1.5 (1M) can handle."}
                 ]
+            },
+
+            // ============================================
+            // 🎯 FINAL CHECKPOINT: Complete Guide Mastered!
+            // ============================================
+            {
+                id: 21.5,
+                title: "🎯 Final Checkpoint: Complete!",
+                category: 8,
+                content: `
+                    <div style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF6347 100%);
+                                color: white;
+                                padding: 40px;
+                                margin: 0 0 40px 0;
+                                border-radius: 20px;
+                                box-shadow: 0 12px 40px rgba(255, 215, 0, 0.4);
+                                text-align: center;">
+                        <h1 style="margin-top: 0; color: white; font-size: 42px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                            🎉🎓 CONGRATULATIONS! 🎓🎉
+                        </h1>
+                        <h2 style="margin: 20px 0; color: white; font-size: 28px; font-weight: normal; opacity: 0.95;">
+                            You've Completed the Entire LLM Learning Guide!
+                        </h2>
+                        <p style="font-size: 18px; margin-bottom: 0; opacity: 0.9;">
+                            You now understand Large Language Models better than 99% of people!
+                        </p>
+                    </div>
+
+                    <h2>🌟 What You've Achieved</h2>
+
+                    <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                padding: 30px;
+                                border-radius: 16px;
+                                border-left: 6px solid #4CAF50;
+                                margin: 30px 0;">
+                        <p style="font-size: 18px; line-height: 1.8; margin: 0;">
+                            <strong style="color: #2E7D32; font-size: 20px;">You can now explain:</strong><br><br>
+                            ✅ How text becomes tokens (tokenization)<br>
+                            ✅ How tokens become vectors (embeddings)<br>
+                            ✅ How vectors capture meaning (dimensions & parameters)<br>
+                            ✅ How attention makes AI context-aware (self-attention)<br>
+                            ✅ How 96 layers refine understanding (transformers)<br>
+                            ✅ How AI predicts the next word (forward pass)<br>
+                            ✅ How to control creativity vs accuracy (temperature)<br>
+                            ✅ How to make models smaller (quantization)<br>
+                            ✅ How to run AI on your own computer (local deployment)<br>
+                            ✅ How context windows work (memory management)
+                        </p>
+                    </div>
+
+                    <h2>📚 Complete Journey Recap (All 22 Sections!)</h2>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #2196F3;">
+                            <h4 style="margin-top: 0; color: #1565C0;">📝 Data Foundations</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 1-3: Binary, Unicode, ASCII</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #4CAF50;">
+                            <h4 style="margin-top: 0; color: #2E7D32;">🔤 Tokenization</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 4-5: BPE, Vocabulary</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #9C27B0;">
+                            <h4 style="margin-top: 0; color: #6A1B9A;">📊 Vectors & Embeddings</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 6-8: Meaning in numbers</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #FF9800;">
+                            <h4 style="margin-top: 0; color: #E65100;">💾 Parameters</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 9-10: 7B learned numbers</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #F44336;">
+                            <h4 style="margin-top: 0; color: #C62828;">⚙️ Transformers</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 11-13: Attention, Layers</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #E91E63;">
+                            <h4 style="margin-top: 0; color: #AD1457;">🤖 Complete Pipeline</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 14-15: Forward pass, Prediction</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #673AB7;">
+                            <h4 style="margin-top: 0; color: #4527A0;">🔧 Efficiency</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 16-18: FP16, Quantization, GGUF</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border-left: 4px solid #009688;">
+                            <h4 style="margin-top: 0; color: #00695C;">🚀 Deployment</h4>
+                            <p style="font-size: 14px; margin-bottom: 0;">Sections 19-21: Local models, LM Studio</p>
+                        </div>
+                    </div>
+
+                    <h2>🔄 From Text to AI: The Complete Story</h2>
+
+                    <div style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+                                padding: 30px;
+                                border-radius: 12px;
+                                margin: 30px 0;
+                                border: 3px solid #9E9E9E;">
+                        <p style="font-size: 16px; line-height: 2.2; margin: 0; font-family: monospace;">
+                            <strong style="color: #1976D2; font-size: 18px;">"Tell me about cats"</strong><br>
+                            ↓ <em style="color: #666;">Tokenization (Sections 4-5)</em><br>
+                            ["Tell", " me", " about", " cats"]<br>
+                            ↓ <em style="color: #666;">Token IDs (Section 5)</em><br>
+                            [5779, 757, 546, 10875]<br>
+                            ↓ <em style="color: #666;">Embedding Lookup (Section 10)</em><br>
+                            4096-dimensional vectors for each token<br>
+                            ↓ <em style="color: #666;">Self-Attention (Section 11)</em><br>
+                            "cats" attends to "about" → context-aware!<br>
+                            ↓ <em style="color: #666;">96 Transformer Layers (Sections 12-13)</em><br>
+                            Each layer refines understanding<br>
+                            ↓ <em style="color: #666;">Output Layer (Section 14)</em><br>
+                            Probabilities for next token<br>
+                            ↓ <em style="color: #666;">Sampling (Section 15)</em><br>
+                            <strong style="color: #2E7D32; font-size: 18px;">✨ "Cats are domesticated carnivorous mammals..."</strong>
+                        </p>
+                    </div>
+
+                    <h2>🎯 What Makes You Special Now</h2>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                        <div style="background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+                                    padding: 25px;
+                                    border-radius: 12px;
+                                    border: 2px solid #FBC02D;">
+                            <h3 style="margin-top: 0; color: #F57F17;">💡 Deep Understanding</h3>
+                            <p>You don't just use AI - you <strong>understand</strong> how it works internally. You can explain transformers to others!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+                                    padding: 25px;
+                                    border-radius: 12px;
+                                    border: 2px solid #03A9F4;">
+                            <h3 style="margin-top: 0; color: #01579B;">🛠️ Practical Skills</h3>
+                            <p>You know how to choose models, optimize for size, run locally, and manage context windows effectively!</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+                                    padding: 25px;
+                                    border-radius: 12px;
+                                    border: 2px solid #9C27B0;">
+                            <h3 style="margin-top: 0; color: #6A1B9A;">🔮 Future-Ready</h3>
+                            <p>This foundational knowledge applies to GPT-5, GPT-6, and beyond. The core concepts won't change!</p>
+                        </div>
+                    </div>
+
+                    <h2>🚀 What's Next? Your Learning Path Forward</h2>
+
+                    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                border-left: 5px solid #2196F3;
+                                margin: 30px 0;">
+                        <h3 style="margin-top: 0; color: #1565C0;">📖 Deepen Your Knowledge</h3>
+                        <ul style="line-height: 2;">
+                            <li>Read the original "Attention is All You Need" paper (2017)</li>
+                            <li>Study GPT-2 and GPT-3 papers from OpenAI</li>
+                            <li>Learn about training techniques (supervised fine-tuning, RLHF)</li>
+                            <li>Explore LLaMA 2, Claude, and Gemini architectures</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                border-left: 5px solid #4CAF50;
+                                margin: 30px 0;">
+                        <h3 style="margin-top: 0; color: #2E7D32;">💻 Build Projects</h3>
+                        <ul style="line-height: 2;">
+                            <li>Fine-tune your own model on custom data</li>
+                            <li>Build a RAG (Retrieval-Augmented Generation) system</li>
+                            <li>Create a local AI assistant with LM Studio</li>
+                            <li>Implement attention mechanism from scratch in Python</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                border-left: 5px solid #FF9800;
+                                margin: 30px 0;">
+                        <h3 style="margin-top: 0; color: #E65100;">🎓 Advanced Topics</h3>
+                        <ul style="line-height: 2;">
+                            <li>Model training and optimization (Adam, learning rate schedules)</li>
+                            <li>Advanced architectures (mixture of experts, sparse attention)</li>
+                            <li>Multimodal models (CLIP, GPT-4 Vision)</li>
+                            <li>Prompt engineering and few-shot learning</li>
+                        </ul>
+                    </div>
+
+                    <h2>📊 Your Final Progress</h2>
+
+                    <div style="margin: 30px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-weight: bold; color: #4CAF50; font-size: 22px;">100% COMPLETE! 🎉</span>
+                            <span style="color: #666; font-size: 14px;">22 of 22 sections (including checkpoints: 26 total)</span>
+                        </div>
+                        <div style="background: #e0e0e0;
+                                    height: 40px;
+                                    border-radius: 20px;
+                                    overflow: hidden;
+                                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 50%, #CDDC39 100%);
+                                        width: 100%;
+                                        height: 100%;
+                                        border-radius: 20px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: white;
+                                        font-weight: bold;
+                                        font-size: 18px;
+                                        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.6);
+                                        animation: progressGrowFinal 2s ease-out, celebration 3s ease-in-out infinite;">
+                                ✨ 100% ✨
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        @keyframes progressGrowFinal {
+                            from { width: 0%; }
+                            to { width: 100%; }
+                        }
+                        @keyframes celebration {
+                            0%, 100% { transform: scale(1); }
+                            50% { transform: scale(1.02); }
+                        }
+                    </style>
+
+                    <div style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+                                color: white;
+                                padding: 30px;
+                                border-radius: 16px;
+                                text-align: center;
+                                margin: 40px 0;
+                                box-shadow: 0 8px 32px rgba(255, 215, 0, 0.5);">
+                        <h2 style="margin-top: 0; color: white; font-size: 28px;">🏆 You Are Now an LLM Expert! 🏆</h2>
+                        <p style="font-size: 18px; margin-bottom: 20px; opacity: 0.95;">
+                            Share this knowledge, build amazing things, and continue learning!
+                        </p>
+                        <p style="font-size: 16px; margin-bottom: 0; opacity: 0.9;">
+                            <em>"The beautiful thing about learning is that nobody can take it away from you."</em><br>
+                            - B.B. King
+                        </p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                text-align: center;
+                                margin: 30px 0;
+                                border: 2px dashed #9E9E9E;">
+                        <p style="font-size: 16px; color: #666; margin: 0;">
+                            <strong>Did this guide help you?</strong><br>
+                            Consider sharing it with others who want to understand AI!<br>
+                            The best way to solidify your knowledge is to teach it to someone else. 🎓
+                        </p>
+                    </div>
+
+                    <div class="success-box" style="background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); border-left: 5px solid #2E7D32; margin-top: 40px;">
+                        <p style="margin: 0; font-size: 18px; text-align: center;">
+                            <strong>🎉 CONGRATULATIONS AGAIN! 🎉</strong><br><br>
+                            You've completed one of the most comprehensive LLM guides available.<br>
+                            You now have the knowledge to understand, use, and build with AI confidently.<br><br>
+                            <strong style="font-size: 20px;">Welcome to the future! 🚀</strong>
+                        </p>
+                    </div>
+                `,
+                quiz: []
             }
 
         ];
