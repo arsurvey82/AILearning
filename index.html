@@ -4148,10 +4148,337 @@ Ignore all tokens after 90% threshold</code></pre>
             },
 
             // ============================================
-            // 🎯 CHECKPOINT 3: Complete Pipeline Understood
+            // Section 15.5: Complete Pipeline Walkthrough
             // ============================================
             {
                 id: 15.5,
+                title: "Complete Pipeline Walkthrough",
+                category: 6,
+                content: `
+                    <h1>🔄 Complete Pipeline: "The cat sat" → "on"</h1>
+
+                    <p class="lead">Let's trace EVERY SINGLE STEP of how a 7B model processes "The cat sat" and predicts the next word "on". We'll use real numbers!</p>
+
+                    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                border-left: 5px solid #2196F3;
+                                margin: 30px 0;">
+                        <p style="margin: 0; font-size: 16px;"><strong>🎯 Goal:</strong> Understand the <em>complete journey</em> from input text to output prediction with actual numbers at each step. This brings together everything you've learned!</p>
+                    </div>
+
+                    <h2>📝 Step 1: Tokenization</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #2196F3;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Input:</strong> <code>"The cat sat"</code></p>
+                        <p><strong>↓ Tokenizer (BPE)</strong></p>
+                        <p><strong>Output:</strong> <code>["The", " cat", " sat"]</code> (3 tokens)</p>
+                        <p style="margin-bottom: 0; color: #666;"><em>Note the space prefix on " cat" and " sat" - BPE includes whitespace!</em></p>
+                    </div>
+
+                    <h2>🔢 Step 2: Token IDs</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #7B1FA2;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Tokens:</strong> <code>["The", " cat", " sat"]</code></p>
+                        <p><strong>↓ Vocabulary Lookup</strong></p>
+                        <p><strong>Token IDs:</strong></p>
+                        <ul>
+                            <li>"The" → <code>791</code></li>
+                            <li>" cat" → <code>8415</code></li>
+                            <li>" sat" → <code>7731</code></li>
+                        </ul>
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> <code>[791, 8415, 7731]</code></p>
+                    </div>
+
+                    <h2>📊 Step 3: Embedding Lookup</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #FF9800;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Token IDs:</strong> <code>[791, 8415, 7731]</code></p>
+                        <p><strong>↓ Embedding Table (50K × 4096)</strong></p>
+                        <p><strong>Embedding Vectors (4096 dimensions each):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto;"><code>Token 791 ("The"):
+[0.123, 0.456, -0.234, 0.789, ..., 0.321]  (4096 numbers)
+
+Token 8415 (" cat"):
+[0.856, 0.234, -0.567, 0.123, ..., 0.445]  (4096 numbers)
+
+Token 7731 (" sat"):
+[0.234, 0.789, 0.123, -0.345, ..., 0.667]  (4096 numbers)</code></pre>
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> 3 vectors, each with 4096 numbers = <strong>12,288 total numbers</strong></p>
+                    </div>
+
+                    <h2>🧠 Step 4: Layer 1 - Self-Attention</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #9C27B0;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Input:</strong> 3 vectors (static embeddings)</p>
+                        <p><strong>↓ Self-Attention Mechanism</strong></p>
+
+                        <h4>Processing "cat" (token 8415):</h4>
+
+                        <p><strong>1. Create Q, K, V for all words:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code>Q_cat = W_Q @ embedding_cat  # Query: What am I looking for?
+K_The = W_K @ embedding_The  # Keys: What do others offer?
+K_cat = W_K @ embedding_cat
+K_sat = W_K @ embedding_sat
+V_The, V_cat, V_sat = similar for Values</code></pre>
+
+                        <p><strong>2. Calculate attention scores (similarity):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code>score_The = Q_cat · K_The = 2.3
+score_cat = Q_cat · K_cat = 8.1  (high - self-attention!)
+score_sat = Q_cat · K_sat = 9.7  (highest - strong connection!)</code></pre>
+
+                        <p><strong>3. Apply softmax to get weights:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code>weights = softmax([2.3, 8.1, 9.7])
+        = [0.05, 0.35, 0.60]  # Sum = 1.0</code></pre>
+
+                        <p><strong>4. Weighted combination of Values:</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code>output_cat = 0.05×V_The + 0.35×V_cat + 0.60×V_sat
+           = [0.623, 0.445, -0.123, ..., 0.556]  (4096 numbers)
+
+# "cat" now understands it's related to "sat" (60% focus!)</code></pre>
+
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> Context-aware vectors for all 3 tokens!</p>
+                    </div>
+
+                    <h2>⚙️ Step 5: Layer 1 - Feed-Forward Network</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #4CAF50;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Input:</strong> Context-aware vectors from attention</p>
+                        <p><strong>↓ Feed-Forward Network (2 linear layers + ReLU)</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code># For "cat" vector:
+hidden = ReLU(W1 @ [0.623, 0.445, ...])
+       = [0.0, 2.3, 0.0, 5.6, ...]  # ReLU zeroes negatives
+
+output = W2 @ hidden
+       = [0.634, 0.432, -0.115, ..., 0.571]  (4096 numbers)
+
+# Further refines the representation!</code></pre>
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> Even richer vectors after Layer 1!</p>
+                    </div>
+
+                    <h2>🔄 Step 6: Layers 2-96 (Repeat!)</h2>
+
+                    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+                                padding: 20px;
+                                border-radius: 10px;
+                                border-left: 5px solid #FF9800;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Each of the remaining 95 layers repeats:</strong></p>
+                        <ol style="line-height: 1.8;">
+                            <li><strong>Self-Attention:</strong> Update vectors based on context</li>
+                            <li><strong>Feed-Forward:</strong> Refine representations</li>
+                            <li><strong>Residual Connections:</strong> Add input to output (prevents vanishing gradients)</li>
+                            <li><strong>Layer Normalization:</strong> Stabilize training</li>
+                        </ol>
+
+                        <p><strong>Progression through layers:</strong></p>
+                        <pre style="background: white; padding: 15px; border-radius: 8px;"><code>Layer 1:  [0.634, 0.432, -0.115, ..., 0.571]
+Layer 10: [0.723, 0.512, -0.089, ..., 0.623]
+Layer 50: [0.845, 0.634, -0.023, ..., 0.712]
+Layer 96: [0.912, 0.723, 0.045, ..., 0.823]  ← Final!</code></pre>
+
+                        <p style="margin-bottom: 0;">💡 <strong>Each layer refines understanding deeper and deeper!</strong></p>
+                    </div>
+
+                    <h2>🎯 Step 7: Output Projection</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #E91E63;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Input:</strong> Final vector for last token "sat" after 96 layers</p>
+                        <p><code>[0.912, 0.723, 0.045, ..., 0.823]</code> (4096 numbers)</p>
+
+                        <p><strong>↓ Output Projection (4096 → 50,257 vocabulary size)</strong></p>
+
+                        <p><strong>Logits (scores for every possible next token):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code>logits = W_output @ final_vector
+
+Token ID     Token        Logit (raw score)
+---------    -------      -----------------
+319          "on"         4.82  ← Highest!
+1495         "down"       3.21
+2103         "still"      2.67
+5657         "quickly"    2.15
+791          "The"        1.03
+...
+(50,257 total values - one for EVERY token in vocabulary!)</code></pre>
+
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> Raw scores (logits) for all possible next words!</p>
+                    </div>
+
+                    <h2>📊 Step 8: Softmax (Logits → Probabilities)</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #03A9F4;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Input:</strong> Logits (raw scores)</p>
+                        <p><strong>↓ Softmax Function</strong></p>
+
+                        <p><strong>Probabilities (sum = 1.0):</strong></p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code>probs = softmax(logits)
+
+Token        Probability    Interpretation
+-------      -----------    --------------
+"on"         0.452 (45%)    Most likely! ✨
+"down"       0.231 (23%)    Second choice
+"still"      0.156 (16%)    Third choice
+"quickly"    0.089 (9%)     Possible
+"The"        0.023 (2%)     Unlikely
+...others    0.049 (5%)     Unlikely
+
+Total:       1.000 (100%)   ✓</code></pre>
+
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> Clear probability distribution!</p>
+                    </div>
+
+                    <h2>🎲 Step 9: Sampling (Choose Next Token)</h2>
+
+                    <div style="background: white;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border: 2px solid #9C27B0;
+                                margin: 20px 0;">
+                        <p style="margin-top: 0;"><strong>Sampling Strategy:</strong> Temperature = 0.7, Top-p = 0.9</p>
+
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px;"><code># Apply temperature (0.7 = slightly less confident):
+adjusted_probs = softmax(logits / 0.7)
+
+# Apply top-p = 0.9 (nucleus sampling):
+# Include tokens until cumulative probability ≥ 90%
+"on":      45%  (cumulative: 45%)  ✓ Include
+"down":    23%  (cumulative: 68%)  ✓ Include
+"still":   16%  (cumulative: 84%)  ✓ Include
+"quickly": 9%   (cumulative: 93%)  ✓ Include (exceeds 90%, stop!)
+...others: Excluded!
+
+# Sample from filtered distribution:
+Chosen token: "on" (ID 319) ✨</code></pre>
+
+                        <p style="margin-bottom: 0;"><strong>Result:</strong> Next token predicted: <code>"on"</code></p>
+                    </div>
+
+                    <h2>✨ Step 10: Final Output</h2>
+
+                    <div style="background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+                                padding: 25px;
+                                border-radius: 12px;
+                                text-align: center;
+                                margin: 30px 0;
+                                border: 3px solid #4CAF50;">
+                        <h3 style="margin-top: 0; color: #2E7D32;">Complete Sequence Generated!</h3>
+                        <p style="font-size: 20px; margin: 20px 0;"><strong>Input:</strong> <code>"The cat sat"</code></p>
+                        <p style="font-size: 24px; margin: 20px 0; color: #1B5E20;"><strong>Output:</strong> <code>"The cat sat on"</code> 🎉</p>
+                        <p style="margin-bottom: 0; font-size: 14px; color: #666;">To continue generating, this process repeats with the new sequence!</p>
+                    </div>
+
+                    <h2>📈 Numbers Summary</h2>
+
+                    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <th style="padding: 12px; text-align: left;">Step</th>
+                            <th style="padding: 12px; text-align: right;">Numbers Involved</th>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Tokens</td>
+                            <td style="padding: 10px; text-align: right;">3 tokens</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Token IDs</td>
+                            <td style="padding: 10px; text-align: right;">3 integers</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Embeddings</td>
+                            <td style="padding: 10px; text-align: right;">3 × 4,096 = 12,288 numbers</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">After 96 Layers</td>
+                            <td style="padding: 10px; text-align: right;">3 × 4,096 = 12,288 numbers (refined!)</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 10px;">Output Logits</td>
+                            <td style="padding: 10px; text-align: right;">50,257 numbers</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">Output Probabilities</td>
+                            <td style="padding: 10px; text-align: right;">50,257 numbers (sum=1.0)</td>
+                        </tr>
+                        <tr style="background: #e8f5e9;">
+                            <td style="padding: 10px;"><strong>Final Prediction</strong></td>
+                            <td style="padding: 10px; text-align: right;"><strong>1 token ("on")</strong></td>
+                        </tr>
+                    </table>
+
+                    <div class="success-box">
+                        <p><strong>🎓 Key Takeaway:</strong> This is the complete pipeline! Every time ChatGPT generates a single word, it does ALL these steps - tokenization, embedding lookup, 96 transformer layers with self-attention and feed-forward networks, output projection, softmax, and sampling. Now you understand the ENTIRE process with real numbers!</p>
+                    </div>
+
+                    <div style="background: #fff9c4;
+                                padding: 20px;
+                                border-radius: 10px;
+                                border-left: 5px solid #FBC02D;
+                                margin: 30px 0;">
+                        <p style="margin-top: 0;"><strong>💡 Why is this slow?</strong></p>
+                        <p>For a 7B parameter model:</p>
+                        <ul>
+                            <li>Each layer has ~73M parameters (7B ÷ 96 layers)</li>
+                            <li>Each attention calculation compares ALL tokens to ALL tokens (O(N²))</li>
+                            <li>Each feed-forward layer multiplies 4096 → 16384 → 4096</li>
+                            <li>This happens 96 times per token!</li>
+                        </ul>
+                        <p style="margin-bottom: 0;">That's why GPUs are essential - billions of parallel operations! 🚀</p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "What happens to the embedding vectors as they pass through the 96 layers?",
+                        options: ["They stay the same", "They get smaller", "They get refined and context-aware", "They turn into probabilities"],
+                        correct: 2,
+                        explanation: "Each layer refines the embedding vectors, making them more context-aware and meaningful. Early layers might capture basic patterns, while later layers understand complex relationships and semantics."
+                    },
+                    {
+                        question: "Why does the model output 50,257 logits?",
+                        options: ["One for each parameter", "One for each layer", "One for each possible token in the vocabulary", "Random number"],
+                        correct: 2,
+                        explanation: "The model outputs one logit (score) for EVERY token in the vocabulary (50,257 tokens for GPT-2). This allows it to assign a probability to every possible next word."
+                    },
+                    {
+                        question: "At what stage do vectors become context-aware?",
+                        options: ["During tokenization", "During embedding lookup", "During self-attention", "During softmax"],
+                        correct: 2,
+                        explanation: "Self-attention is where vectors become context-aware! The embedding lookup gives static vectors, but self-attention lets each word 'look at' other words and update its representation based on context."
+                    }
+                ]
+            },
+
+            // ============================================
+            // 🎯 CHECKPOINT 3: Complete Pipeline Understood
+            // ============================================
+            {
+                id: 15.6,
                 title: "🎯 Checkpoint 3: Complete Pipeline",
                 category: 6,
                 content: `
