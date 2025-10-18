@@ -1782,6 +1782,269 @@ print(tokens)  # [791, 8415, 7731]</code></pre>
             // 🎯 CHECKPOINT 1: Data Foundations & Tokenization Complete
             // ============================================
             {
+                id: "6a",
+                title: "Tokenizers: How Text Becomes Tokens",
+                category: 2,
+                content: `
+                    <h1>Tokenizers: How Text Becomes Tokens<div style="display: inline-block; margin-left: 15px; vertical-align: middle;">
+                        <span style="background: #fff9c4; color: #f57f17; padding: 6px 14px; border-radius: 16px; font-size: 13px; font-weight: bold; border: 2px solid #f57f17;">🟡 Medium | ⏱️ 9-11 min</span>
+                    </div></h1>
+
+                    <p class="lead">You know <strong>WHAT</strong> tokens are (chunks of text) and <strong>WHAT</strong> token IDs are (numbers). But <strong>HOW</strong> does text actually get chopped into tokens? Meet the tokenizer - the text slicer!</p>
+
+                    <div class="checkpoint">
+                        <h3>🔪 What is a Tokenizer?</h3>
+                        <p>A <strong>tokenizer</strong> is an algorithm that breaks text into tokens. Think of it as a pizza slicer - different tokenizers slice the same text in different ways!</p>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <strong>Same Text, Different Slicing:</strong><br><br>
+                            Text: <code>"I'm learning about AI!"</code><br><br>
+                            <strong>Tokenizer A:</strong> ["I", "'m", " learning", " about", " AI", "!"] = <span style="color: #2196F3; font-weight: bold;">6 tokens</span><br>
+                            <strong>Tokenizer B:</strong> ["I", "'", "m", " learn", "##ing", " about", " A", "##I", "!"] = <span style="color: #FF9800; font-weight: bold;">9 tokens</span><br>
+                        </div>
+                        <p><strong>Why this matters:</strong> Different models use different tokenizers, so the same text takes up different amounts of "space"!</p>
+                    </div>
+
+                    <h2>🏗️ The Main Tokenizer Types</h2>
+
+                    <h3 style="color: #2196F3;">1. Byte Pair Encoding (BPE)</h3>
+                    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #2196F3;">
+                        <p><strong>Used by:</strong> GPT-2, GPT-3, GPT-4, LLaMA</p>
+                        <p><strong>The Big Idea:</strong> Start with characters, then merge frequent pairs into bigger tokens.</p>
+
+                        <h4>How BPE Works (Step-by-Step):</h4>
+                        <ol style="font-size: 14px; line-height: 1.8;">
+                            <li><strong>Step 1 - Start with Characters:</strong> Break all words into letters<br>
+                                <code>"playing"</code> → <code>["p", "l", "a", "y", "i", "n", "g"]</code></li>
+                            <li><strong>Step 2 - Count Pairs:</strong> Find most frequent adjacent pairs across all text<br>
+                                Most common: <code>"i" + "n"</code> appears 50,000 times → Merge to <code>"in"</code></li>
+                            <li><strong>Step 3 - Merge & Repeat:</strong> Now <code>"playing"</code> becomes <code>["p", "l", "a", "y", "in", "g"]</code><br>
+                                Next merge: <code>"in" + "g"</code> → <code>"ing"</code></li>
+                            <li><strong>Step 4 - Keep Going:</strong> Repeat for 50,000+ merges<br>
+                                Final: <code>"playing"</code> → <code>["play", "ing"]</code></li>
+                        </ol>
+
+                        <div style="background: #fff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>🎯 Real Example - Training "playing" with BPE:</strong><br><br>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                                <tr style="background: #f5f5f5; font-weight: bold;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Merge #</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Most Frequent Pair</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Result</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Start</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">-</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">p | l | a | y | i | n | g</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">1</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">"i" + "n"</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">p | l | a | y | in | g</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">2</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">"in" + "g"</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">p | l | a | y | ing</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">3</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">"p" + "l"</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">pl | a | y | ing</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">4</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">"pl" + "ay"</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>play | ing</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <p style="margin-top: 15px;"><strong>Result:</strong> "play" and "ing" become single tokens in the vocabulary!</p>
+                    </div>
+
+                    <h3 style="color: #FF9800;">2. tiktoken (OpenAI's BPE)</h3>
+                    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #FF9800;">
+                        <p><strong>Used by:</strong> GPT-3.5, GPT-4, ChatGPT</p>
+                        <p><strong>What it is:</strong> OpenAI's fast implementation of BPE (written in Rust)</p>
+
+                        <h4>Different Encodings:</h4>
+                        <ul style="font-size: 14px;">
+                            <li><code>cl100k_base</code>: GPT-4, GPT-3.5-turbo (~100,000 tokens)</li>
+                            <li><code>p50k_base</code>: GPT-3, Codex (~50,000 tokens)</li>
+                            <li><code>r50k_base</code>: GPT-3 DaVinci (~50,000 tokens)</li>
+                        </ul>
+
+                        <div style="background: #fff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>💰 Why Token Count Matters for GPT:</strong><br><br>
+                            <code>"I'm learning about artificial intelligence"</code><br>
+                            → <strong>7 tokens</strong> with cl100k_base<br><br>
+                            <strong>Cost:</strong> If GPT-4 charges $0.03 per 1,000 input tokens<br>
+                            → This sentence costs: $0.03 × (7 ÷ 1,000) = <strong>$0.00021</strong><br><br>
+                            <em>Multiply by millions of API calls...</em>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #9C27B0;">3. WordPiece</h3>
+                    <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #9C27B0;">
+                        <p><strong>Used by:</strong> BERT, DistilBERT, Google models</p>
+                        <p><strong>The Difference:</strong> Similar to BPE but uses likelihood instead of raw frequency</p>
+
+                        <h4>The ## Prefix:</h4>
+                        <p>WordPiece uses <code>##</code> to mark subwords that are NOT at the start of a word:</p>
+
+                        <div style="background: #fff; padding: 15px; border-radius: 8px;">
+                            <code>"unhappiness"</code> →<br><br>
+                            <code>["un", "##hap", "##pi", "##ness"]</code><br><br>
+                            <ul style="font-size: 13px; margin-top: 10px;">
+                                <li><code>"un"</code> - No ## (starts the word)</li>
+                                <li><code>"##hap"</code> - Has ## (middle of word)</li>
+                                <li><code>"##pi"</code> - Has ## (middle of word)</li>
+                                <li><code>"##ness"</code> - Has ## (end of word)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #4CAF50;">4. SentencePiece</h3>
+                    <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 5px solid #4CAF50;">
+                        <p><strong>Used by:</strong> LLaMA, Mistral, Gemma, T5, most open-source models</p>
+                        <p><strong>The Big Idea:</strong> Language-agnostic - works directly on raw bytes, no pre-tokenization needed!</p>
+
+                        <h4>The ▁ (Underscore) Character:</h4>
+                        <p>SentencePiece treats spaces as special tokens using <code>▁</code>:</p>
+
+                        <div style="background: #fff; padding: 15px; border-radius: 8px;">
+                            <code>"I'm learning"</code> →<br><br>
+                            <code>["▁I", "'", "m", "▁learn", "ing"]</code><br><br>
+                            <p style="font-size: 13px; margin-top: 10px;">
+                                <code>▁</code> = space before the word<br>
+                                Notice: "▁I" has space, "'m" doesn't (it's attached to "I")
+                            </p>
+                        </div>
+
+                        <p><strong>Why SentencePiece?</strong> Works for ANY language (Chinese, Arabic, emoji) without special handling!</p>
+                    </div>
+
+                    <h2>📊 Side-by-Side Comparison</h2>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin: 20px 0;">
+                            <tr style="background: #667eea; color: white; font-weight: bold;">
+                                <td style="padding: 12px; border: 1px solid #ddd;">Input Text</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Tokenizer</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Tokens</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">Count</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" style="padding: 12px; border: 1px solid #ddd; vertical-align: middle; background: #f5f5f5; font-weight: bold;">
+                                    "I'm learning about AI!"
+                                </td>
+                                <td style="padding: 12px; border: 1px solid #ddd; background: #e3f2fd;">BPE (GPT-4)</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">["I", "'m", " learning", " about", " AI", "!"]</td>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #2196F3;">6</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; background: #fff3e0;">tiktoken</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">["I", "'m", " learning", " about", " AI", "!"]</td>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #FF9800;">6</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; background: #f3e5f5;">WordPiece</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">["I", "'", "m", " learning", " about", " A", "##I", "!"]</td>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #9C27B0;">8</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border: 1px solid #ddd; background: #e8f5e9;">SentencePiece</td>
+                                <td style="padding: 12px; border: 1px solid #ddd;">["▁I", "'", "m", "▁learning", "▁about", "▁AI", "!"]</td>
+                                <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; color: #4CAF50;">7</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h2>⚠️ Why This REALLY Matters</h2>
+                    <div class="example-box">
+                        <h3>1. API Costs</h3>
+                        <p>GPT-4 charges by tokens, not words! Same text = different costs with different tokenizers.</p>
+
+                        <h3>2. Context Window Limits</h3>
+                        <p>GPT-4 with 8K context = <strong>8,000 tokens</strong>, NOT 8,000 words!</p>
+                        <div style="background: #fff9c4; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                            <strong>Example:</strong><br>
+                            Average English: ~1.3 tokens per word<br>
+                            8,000 tokens ≈ 6,000 words<br><br>
+                            But "tokenization" = 3 tokens!<br>
+                            "I'm" = 2 tokens!
+                        </div>
+
+                        <h3>3. Model Compatibility</h3>
+                        <p><strong>You CANNOT swap tokenizers between models!</strong></p>
+                        <ul style="font-size: 14px;">
+                            <li>GPT-4's tokenizer → Token ID 1234 = "apple"</li>
+                            <li>LLaMA's tokenizer → Token ID 1234 = "🍎"</li>
+                        </ul>
+                        <p>Same ID, different meaning! This is why you can't just copy-paste token IDs.</p>
+
+                        <h3>4. The Rare Token Problem</h3>
+                        <p><strong>Remember "SolidGoldMagikarp"?</strong> It broke GPT because:</p>
+                        <ul style="font-size: 14px;">
+                            <li>BPE merged it into ONE token during training</li>
+                            <li>But it appeared SO rarely that the model never learned what it meant</li>
+                            <li>Token existed in vocabulary but had no learned embedding!</li>
+                        </ul>
+                    </div>
+
+                    <h2>🔑 Key Takeaways</h2>
+                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 20px; border-radius: 12px; border-left: 5px solid #667eea;">
+                        <ul style="font-size: 14px; line-height: 1.8;">
+                            <li>Tokenizers are <strong>learned from data</strong>, not manually designed</li>
+                            <li><strong>BPE</strong> is the most common (GPT, LLaMA)</li>
+                            <li><strong>Different tokenizers = different token counts</strong> for same text</li>
+                            <li>Vocabulary sizes vary: 32K (BERT), 50K (GPT-3), 100K (GPT-4), 128K (LLaMA)</li>
+                            <li>You can't swap tokenizers between models - token IDs are model-specific</li>
+                            <li>Token count directly affects API costs and context limits</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top: 25px; font-size: 14px; color: #666; font-style: italic;">
+                        <strong>Next up:</strong> Now you know how text becomes tokens. In Section 7, we'll checkpoint what you've learned about Data & Tokenization before moving to vectors!
+                    </p>
+                `,
+                quiz: [
+                    {
+                        question: "What is the main advantage of SentencePiece over BPE and WordPiece?",
+                        options: [
+                            "It creates fewer tokens for English text",
+                            "It's faster to train",
+                            "It's language-agnostic and works on raw bytes without pre-tokenization",
+                            "It has a smaller vocabulary"
+                        ],
+                        correct: 2,
+                        explanation: "SentencePiece works directly on raw bytes without needing language-specific pre-tokenization, making it perfect for multilingual models and any language (even emoji!). This is why most open-source models like LLaMA and Mistral use it."
+                    },
+                    {
+                        question: "If GPT-4 tokenizes 'I'm learning!' into 4 tokens and BERT tokenizes it into 6 tokens, which has a bigger impact on API usage?",
+                        options: [
+                            "GPT-4, because fewer tokens = more expensive",
+                            "BERT, because more tokens = higher API costs",
+                            "GPT-4, because it uses more tokens per word",
+                            "They cost the same - API pricing is per word, not token"
+                        ],
+                        correct: 1,
+                        explanation: "BERT's 6 tokens means higher API costs since most APIs charge per token. GPT-4's more efficient tokenization (4 tokens) would cost 33% less for the same text. This is why OpenAI improved tokenization in newer models!"
+                    },
+                    {
+                        question: "Why did the word 'SolidGoldMagikarp' break GPT models?",
+                        options: [
+                            "It was too long to tokenize",
+                            "BPE merged it into a single token, but it appeared so rarely that the model never learned its meaning",
+                            "It contained special characters that confused the tokenizer",
+                            "The tokenizer couldn't handle capital letters"
+                        ],
+                        correct: 1,
+                        explanation: "During BPE training, 'SolidGoldMagikarp' was merged into a single token ID. But since it appeared extremely rarely in training data, the embedding for that token was never properly learned. When someone used it, the model didn't know how to handle that token ID - like having a dictionary entry with no definition!"
+                    }
+                ]
+            },
+
+            {
                 id: 7,
                 title: "🎯 Checkpoint 1: Data & Tokenization",
                 category: 2,
@@ -4867,6 +5130,308 @@ Ignore all tokens after 90% threshold</code></pre>
             // Section 15.5: Complete Pipeline Walkthrough
             // ============================================
             {
+                id: "20a",
+                title: "Autoregressive Generation & KV Cache",
+                category: 8,
+                content: `
+                    <h1>🔄 Autoregressive Generation & KV Cache<div style="display: inline-block; margin-left: 15px; vertical-align: middle;">
+                        <span style="background: #ffebee; color: #c62828; padding: 6px 14px; border-radius: 16px; font-size: 13px; font-weight: bold; border: 2px solid #c62828;">🔴 Advanced | ⏱️ 12-15 min</span>
+                    </div></h1>
+
+                    <p class="lead">You know models predict the <strong>next token</strong> (Section 20). But HOW do they generate multiple tokens to form complete sentences? Meet <strong>autoregressive generation</strong> - the loop that generates text one token at a time!</p>
+
+                    <!-- Key Concepts Table -->
+                    <div style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); padding: 20px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #2196F3;">
+                        <h2 style="color: #1976D2; margin-bottom: 20px;">🔑 KEY CONCEPTS</h2>
+                        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+                            <thead>
+                                <tr style="background: #1976D2; color: white;">
+                                    <th style="padding: 12px; text-align: left;">Term</th>
+                                    <th style="padding: 12px; text-align: left;">What It Means</th>
+                                    <th style="padding: 12px; text-align: left;">Direction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 12px;"><strong>PASS</strong></td>
+                                    <td style="padding: 12px;">One complete trip through ALL 96 layers (one loop iteration)</td>
+                                    <td style="padding: 12px;">→ TIME (horizontal)</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 12px;"><strong>LAYER</strong></td>
+                                    <td style="padding: 12px;">One transformer block (there are 96 stacked vertically)</td>
+                                    <td style="padding: 12px;">↓ DEPTH (vertical)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px;"><strong>KV CACHE</strong></td>
+                                    <td style="padding: 12px;">Memory storage that saves K,V matrices for past tokens</td>
+                                    <td style="padding: 12px;">💾 STORAGE (reused)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- What is Autoregressive Generation? -->
+                    <h2>📝 What is Autoregressive Generation?</h2>
+                    <p><strong>"Autoregressive"</strong> means the model generates text <strong>one token at a time</strong>, using its own previous outputs as inputs for the next prediction.</p>
+
+                    <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #E0E0E0;">
+                        <h3 style="color: #667eea; margin-bottom: 15px;">🎬 The Generation Loop</h3>
+                        <div style="font-family: 'Courier New', monospace; background: #F5F5F5; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                            <div><strong>You type:</strong> "The cat"</div>
+                            <div style="margin-top: 10px;"><strong>Model generates:</strong></div>
+                            <div style="margin-left: 20px; color: #2196F3;">
+                                • PASS 1: "The cat" → predict → <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"sat"</span><br>
+                                • PASS 2: "The cat sat" → predict → <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"on"</span><br>
+                                • PASS 3: "The cat sat on" → predict → <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"the"</span><br>
+                                • PASS 4: "The cat sat on the" → predict → <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"mat"</span><br>
+                                • PASS 5: "The cat sat on the mat" → predict → <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">[STOP]</span>
+                            </div>
+                        </div>
+                        <p style="margin-top: 15px;"><strong>Key insight:</strong> Each pass uses ALL previous tokens as context to predict the next single token.</p>
+                    </div>
+
+                    <!-- The Problem: Recomputing Everything -->
+                    <h2>⚠️ The Problem: Recomputing Everything</h2>
+                    <p>Without optimization, generating "sat on the mat" (4 tokens) requires:</p>
+
+                    <div style="background: #FFEBEE; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #F44336;">
+                        <h3 style="color: #C62828;">❌ Without KV Cache (Wasteful!)</h3>
+                        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; margin-top: 15px;">
+                            <thead>
+                                <tr style="background: #C62828; color: white;">
+                                    <th style="padding: 10px;">Pass</th>
+                                    <th style="padding: 10px;">Input</th>
+                                    <th style="padding: 10px;">Tokens Processed</th>
+                                    <th style="padding: 10px;">Layer Runs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 10px; text-align: center;">1</td>
+                                    <td style="padding: 10px;">"The cat"</td>
+                                    <td style="padding: 10px; text-align: center;">2</td>
+                                    <td style="padding: 10px; text-align: center;">2 × 96 = 192</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 10px; text-align: center;">2</td>
+                                    <td style="padding: 10px;">"The cat sat"</td>
+                                    <td style="padding: 10px; text-align: center;">3</td>
+                                    <td style="padding: 10px; text-align: center;">3 × 96 = 288</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 10px; text-align: center;">3</td>
+                                    <td style="padding: 10px;">"The cat sat on"</td>
+                                    <td style="padding: 10px; text-align: center;">4</td>
+                                    <td style="padding: 10px; text-align: center;">4 × 96 = 384</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 10px; text-align: center;">4</td>
+                                    <td style="padding: 10px;">"The cat sat on the"</td>
+                                    <td style="padding: 10px; text-align: center;">5</td>
+                                    <td style="padding: 10px; text-align: center;">5 × 96 = 480</td>
+                                </tr>
+                                <tr style="background: #FFCDD2;">
+                                    <td colspan="3" style="padding: 10px; text-align: right;"><strong>TOTAL:</strong></td>
+                                    <td style="padding: 10px; text-align: center;"><strong>1,344 layer runs!</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 15px; color: #C62828;"><strong>Problem:</strong> "The" and "cat" get processed again in EVERY pass - massive waste!</p>
+                    </div>
+
+                    <!-- The Solution: KV Cache -->
+                    <h2>✅ The Solution: KV Cache</h2>
+                    <p>KV Cache saves the <strong>Key (K)</strong> and <strong>Value (V)</strong> matrices from self-attention for tokens we've already processed.</p>
+
+                    <div style="background: #E8F5E9; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #4CAF50;">
+                        <h3 style="color: #2E7D32;">✅ With KV Cache (Efficient!)</h3>
+                        <div style="font-family: 'Courier New', monospace; background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <div style="margin-bottom: 10px;"><strong>PASS 1:</strong> Process "The cat" (2 tokens)</div>
+                            <div style="margin-left: 20px; color: #4CAF50;">
+                                ↓ Layer 1: Compute K,V for "The" → <span style="background: #C8E6C9; padding: 2px 6px; border-radius: 3px;">SAVE to cache</span><br>
+                                ↓ Layer 1: Compute K,V for "cat" → <span style="background: #C8E6C9; padding: 2px 6px; border-radius: 3px;">SAVE to cache</span><br>
+                                ↓ Layer 2-96: Same (save K,V for both tokens)<br>
+                                → Output: <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"sat"</span>
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px; background: #F0F4C3; border-radius: 5px;">
+                                📦 Cache now contains: K,V for "The" and "cat" (96 layers × 2 tokens × 2 matrices = 384 cached values)
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>PASS 2:</strong> Process "The cat sat" (3 tokens)</div>
+                            <div style="margin-left: 20px; color: #4CAF50;">
+                                ↓ Layer 1: <span style="background: #C8E6C9; padding: 2px 6px; border-radius: 3px;">LOAD K,V for "The", "cat"</span> + Compute K,V for "sat" → SAVE<br>
+                                ↓ Layer 2-96: Same (load old, compute new)<br>
+                                → Output: <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"on"</span>
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px; background: #F0F4C3; border-radius: 5px;">
+                                📦 Cache now contains: K,V for "The", "cat", "sat" (96 × 3 × 2 = 576 values)
+                            </div>
+
+                            <div style="margin-bottom: 10px;"><strong>PASS 3:</strong> Process "The cat sat on" (4 tokens)</div>
+                            <div style="margin-left: 20px; color: #4CAF50;">
+                                ↓ Layer 1: <span style="background: #C8E6C9; padding: 2px 6px; border-radius: 3px;">LOAD K,V for "The", "cat", "sat"</span> + Compute K,V for "on" → SAVE<br>
+                                ↓ Layer 2-96: Same<br>
+                                → Output: <span style="background: #FFF59D; padding: 2px 6px; border-radius: 3px;">"the"</span>
+                            </div>
+                        </div>
+                        <p style="margin-top: 15px; color: #2E7D32;"><strong>Key insight:</strong> "The" is processed ONCE in Pass 1, then reused in Pass 2, 3, 4, 5...</p>
+                    </div>
+
+                    <!-- Performance Comparison -->
+                    <h2>📊 Performance Impact: Real Numbers</h2>
+                    <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #E0E0E0;">
+                        <h3 style="color: #667eea;">Scenario: Generate 100-token response</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                            <thead>
+                                <tr style="background: #667eea; color: white;">
+                                    <th style="padding: 12px;">Metric</th>
+                                    <th style="padding: 12px; text-align: right;">Without KV Cache</th>
+                                    <th style="padding: 12px; text-align: right;">With KV Cache</th>
+                                    <th style="padding: 12px; text-align: right;">Speedup</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 12px;">Token #1 processed</td>
+                                    <td style="padding: 12px; text-align: right; color: #F44336;"><strong>100 times</strong></td>
+                                    <td style="padding: 12px; text-align: right; color: #4CAF50;"><strong>1 time</strong></td>
+                                    <td style="padding: 12px; text-align: right;"><strong>100x faster</strong></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 12px;">Total layer runs</td>
+                                    <td style="padding: 12px; text-align: right; color: #F44336;">~500,000</td>
+                                    <td style="padding: 12px; text-align: right; color: #4CAF50;">~10,000</td>
+                                    <td style="padding: 12px; text-align: right;"><strong>50x faster</strong></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 12px;">Memory used</td>
+                                    <td style="padding: 12px; text-align: right;">~8 GB (model only)</td>
+                                    <td style="padding: 12px; text-align: right;">~12 GB (model + cache)</td>
+                                    <td style="padding: 12px; text-align: right; color: #FF9800;">+4 GB RAM</td>
+                                </tr>
+                                <tr style="background: #E3F2FD;">
+                                    <td style="padding: 12px;"><strong>Generation time</strong></td>
+                                    <td style="padding: 12px; text-align: right; color: #F44336;"><strong>~30 seconds</strong></td>
+                                    <td style="padding: 12px; text-align: right; color: #4CAF50;"><strong>~2 seconds</strong></td>
+                                    <td style="padding: 12px; text-align: right;"><strong>15x faster!</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 15px;"><strong>Trade-off:</strong> KV cache uses more RAM but makes generation 10-50x faster!</p>
+                    </div>
+
+                    <!-- Visual: PASS vs LAYER -->
+                    <h2>🎯 Understanding PASS vs LAYER</h2>
+                    <div style="background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #FF9800;">
+                        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+                            <thead>
+                                <tr style="background: #FF9800; color: white;">
+                                    <th style="padding: 12px;">Dimension</th>
+                                    <th style="padding: 12px;">Explanation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #E0E0E0;">
+                                    <td style="padding: 12px;"><strong>PASSES (horizontal →)</strong></td>
+                                    <td style="padding: 12px;">Time moving forward. Each pass = generate 1 new token.<br>
+                                    Pass 1 → Pass 2 → Pass 3 (autoregressive loop)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px;"><strong>LAYERS (vertical ↓)</strong></td>
+                                    <td style="padding: 12px;">Depth of processing within EACH pass.<br>
+                                    Layer 1 → Layer 2 → ... → Layer 96 (all in one pass)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px; font-family: 'Courier New', monospace;">
+                            <div style="color: #1976D2; font-weight: bold; margin-bottom: 10px;">📍 Think of it like a building:</div>
+                            <div style="margin-left: 20px;">
+                                • <strong>LAYERS</strong> = Floors in a building (96 floors stacked vertically)<br>
+                                • <strong>PASS</strong> = Elevator ride from floor 1 → floor 96 (one trip)<br>
+                                • <strong>Generating 5 tokens</strong> = Taking elevator 5 separate times (5 trips)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters -->
+                    <h2>💡 Why This Matters</h2>
+                    <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #667eea;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div style="background: #F3E5F5; padding: 15px; border-radius: 8px;">
+                                <h3 style="color: #7B1FA2; margin-bottom: 10px;">🚀 For Users</h3>
+                                <ul style="margin-left: 20px; line-height: 1.8;">
+                                    <li>KV cache = Why ChatGPT feels fast</li>
+                                    <li>Longer context = More memory needed</li>
+                                    <li>First token slower than rest (no cache yet)</li>
+                                </ul>
+                            </div>
+                            <div style="background: #E8F5E9; padding: 15px; border-radius: 8px;">
+                                <h3 style="color: #2E7D32; margin-bottom: 10px;">⚙️ For Developers</h3>
+                                <ul style="margin-left: 20px; line-height: 1.8;">
+                                    <li>KV cache = Critical optimization</li>
+                                    <li>RAM requirement = model size + cache size</li>
+                                    <li>Batch processing needs careful cache management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Common Misconception -->
+                    <div style="background: #FFF9C4; padding: 20px; border-radius: 8px; margin: 30px 0; border-left: 5px solid #F57F17;">
+                        <h3 style="color: #F57F17; margin-bottom: 15px;">❌ Common Misconception</h3>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                            <p style="margin-bottom: 10px;"><strong>WRONG:</strong> "The model processes all tokens in parallel to generate a response."</p>
+                            <p><strong>RIGHT:</strong> "The model generates tokens ONE AT A TIME in a loop. Self-attention processes multiple tokens in parallel <em>within each pass</em>, but generation itself is sequential (autoregressive)."</p>
+                        </div>
+                    </div>
+
+                    <!-- Key Takeaway -->
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 12px; margin: 30px 0; color: white;">
+                        <h3 style="margin-bottom: 15px; font-size: 20px;">✨ Key Takeaway</h3>
+                        <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                            <strong>Autoregressive generation</strong> means generating one token at a time in a loop. <strong>KV cache</strong> saves previously computed attention matrices so we don't reprocess old tokens. This makes generation 10-50x faster but requires extra RAM. Understanding this explains why ChatGPT's first token takes longer and why long conversations need more memory!
+                        </p>
+                    </div>
+                `,
+                quiz: [
+                    {
+                        question: "In autoregressive generation with 100 output tokens and KV cache enabled, how many times is the first input token processed?",
+                        options: [
+                            "100 times (once per generation pass)",
+                            "1 time (computed once, cached and reused)",
+                            "96 times (once per layer)",
+                            "9,600 times (100 passes × 96 layers)"
+                        ],
+                        correct: 1,
+                        explanation: "With KV cache, the first token is processed ONCE through all 96 layers in Pass 1. Its K,V matrices are saved to cache. In Pass 2-100, these cached values are loaded (not recomputed). This is why KV cache provides such massive speedup!"
+                    },
+                    {
+                        question: "What is a 'PASS' in the context of autoregressive generation?",
+                        options: [
+                            "Processing one token through one layer",
+                            "One complete trip through all 96 layers to generate one new token",
+                            "One self-attention operation",
+                            "One forward and backward pass during training"
+                        ],
+                        correct: 1,
+                        explanation: "A PASS is one complete journey through all 96 transformer layers, taking input tokens and producing exactly one new output token. Generating a 5-word response requires 5 separate passes (one per token generated)."
+                    },
+                    {
+                        question: "What is the main trade-off of using KV cache?",
+                        options: [
+                            "Slower generation but uses less memory",
+                            "Faster generation but uses more memory",
+                            "Same speed but better quality",
+                            "Worse quality but uses less compute"
+                        ],
+                        correct: 1,
+                        explanation: "KV cache stores K,V matrices for all past tokens (consuming RAM proportional to context length), but makes generation 10-50x faster by avoiding recomputation. For a 100-token context in GPT-3.5, the cache adds ~4GB of RAM usage but speeds up generation dramatically."
+                    }
+                ]
+            },
+
+            {
                 id: 21,
                 title: "Complete Pipeline Walkthrough",
                 category: 6,
@@ -6416,7 +6981,7 @@ Total:  4,000 tokens
                 name: "Tokenization",
                 icon: "🔤",
                 why: "AI can't process whole sentences at once. Tokenization is the first step in converting text to something AI understands.",
-                sections: [5, 6, 7],
+                sections: [5, 6, "6a", 7],
                 color: "#4CAF50",
                 colorDark: "#388E3C"
             },
@@ -6452,7 +7017,7 @@ Total:  4,000 tokens
                 name: "Complete Pipeline",
                 icon: "🤖",
                 why: "See the complete journey from your typed text to AI's response.",
-                sections: [19, 20, 21, 22],
+                sections: [19, 20, "20a", 21, 22],
                 color: "#E91E63",
                 colorDark: "#C2185B"
             },
