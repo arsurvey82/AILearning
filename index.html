@@ -3145,6 +3145,329 @@ Training happens ONCE → Inference happens BILLIONS of times daily!</code></pre
                 ]
             },
             {
+                id: 9.6,
+                title: "How Neural Networks Learn",
+                category: 4,
+                content: `
+                    <h1>How Neural Networks Learn<div style="display: inline-block; margin-left: 15px; vertical-align: middle;">
+                        <span style="background: #fff9c4; color: #f57f17; padding: 6px 14px; border-radius: 16px; font-size: 13px; font-weight: bold; border: 2px solid #f57f17;">🟡 Medium | ⏱️ 10-12 min</span>
+                    </div></h1>
+
+                    <p class="lead">You've learned that training adjusts parameters to make the model better. But <strong>HOW</strong> does it know which way to adjust them? Let's demystify the learning process with real numbers!</p>
+
+                    <div class="checkpoint">
+                        <h3>🎯 The Core Learning Loop</h3>
+                        <p>Neural networks learn through a simple 4-step cycle repeated millions of times:</p>
+                        <ol style="font-size: 14px; line-height: 1.8;">
+                            <li><strong>Forward Pass</strong> - Make a prediction</li>
+                            <li><strong>Calculate Loss</strong> - Measure how wrong you were</li>
+                            <li><strong>Backpropagation</strong> - Figure out which parameters caused the error</li>
+                            <li><strong>Update Weights</strong> - Adjust parameters to reduce error</li>
+                        </ol>
+                    </div>
+
+                    <svg class="flow-diagram" width="100%" height="400" viewBox="0 0 900 400">
+                        <!-- Learning Loop Cycle -->
+
+                        <!-- Step 1: Forward Pass -->
+                        <g>
+                            <rect x="50" y="50" width="180" height="80" rx="8" fill="#e3f2fd" stroke="#2196F3" stroke-width="3"/>
+                            <text x="140" y="75" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">1. FORWARD PASS</text>
+                            <text x="140" y="95" text-anchor="middle" font-size="12" fill="#666">Input: "cat"</text>
+                            <text x="140" y="115" text-anchor="middle" font-size="11" fill="#2196F3">Prediction: "dog" (0.7)</text>
+                        </g>
+
+                        <!-- Arrow to Step 2 -->
+                        <path d="M 240 90 L 280 90" stroke="#FF9800" stroke-width="3" marker-end="url(#arrowLearning1)"/>
+
+                        <!-- Step 2: Calculate Loss -->
+                        <g>
+                            <rect x="290" y="50" width="180" height="80" rx="8" fill="#fff3e0" stroke="#FF9800" stroke-width="3"/>
+                            <text x="380" y="75" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">2. CALCULATE LOSS</text>
+                            <text x="380" y="95" text-anchor="middle" font-size="12" fill="#666">Correct: "sat"</text>
+                            <text x="380" y="115" text-anchor="middle" font-size="11" fill="#F57F17">Error = 0.3</text>
+                        </g>
+
+                        <!-- Arrow to Step 3 -->
+                        <path d="M 470 90 L 510 90" stroke="#9C27B0" stroke-width="3" marker-end="url(#arrowLearning2)"/>
+
+                        <!-- Step 3: Backpropagation -->
+                        <g>
+                            <rect x="520" y="50" width="180" height="80" rx="8" fill="#f3e5f5" stroke="#9C27B0" stroke-width="3"/>
+                            <text x="610" y="75" text-anchor="middle" font-size="14" fill="#6A1B9A" font-weight="bold">3. BACKPROP</text>
+                            <text x="610" y="95" text-anchor="middle" font-size="11" fill="#666">Which weights caused</text>
+                            <text x="610" y="115" text-anchor="middle" font-size="11" fill="#9C27B0">this error?</text>
+                        </g>
+
+                        <!-- Arrow down to Step 4 -->
+                        <path d="M 610 140 L 610 180" stroke="#4CAF50" stroke-width="3" marker-end="url(#arrowLearning3)"/>
+
+                        <!-- Step 4: Update Weights -->
+                        <g>
+                            <rect x="520" y="190" width="180" height="80" rx="8" fill="#e8f5e9" stroke="#4CAF50" stroke-width="3"/>
+                            <text x="610" y="215" text-anchor="middle" font-size="14" fill="#2E7D32" font-weight="bold">4. UPDATE WEIGHTS</text>
+                            <text x="610" y="235" text-anchor="middle" font-size="11" fill="#666">0.65 → 0.68</text>
+                            <text x="610" y="255" text-anchor="middle" font-size="11" fill="#4CAF50">Reduce error!</text>
+                        </g>
+
+                        <!-- Arrow back to Step 1 -->
+                        <path d="M 610 280 Q 610 330, 350 330 Q 140 330, 140 140" stroke="#2196F3" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowLearning4)"/>
+                        <text x="350" y="360" text-anchor="middle" font-size="12" fill="#666" font-style="italic">Repeat millions of times!</text>
+
+                        <defs>
+                            <marker id="arrowLearning1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#FF9800"/>
+                            </marker>
+                            <marker id="arrowLearning2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#9C27B0"/>
+                            </marker>
+                            <marker id="arrowLearning3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4CAF50"/>
+                            </marker>
+                            <marker id="arrowLearning4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#2196F3"/>
+                            </marker>
+                        </defs>
+                    </svg>
+
+                    <h2>🏀 The Basketball Analogy</h2>
+                    <p>Learning to shoot free throws is exactly like neural network training:</p>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%;">🏀 Basketball Practice</th>
+                                <th style="width: 50%;">🧠 Neural Network Learning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. Shoot</strong> - Attempt the shot</td>
+                                <td><strong>1. Forward Pass</strong> - Make prediction</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. Miss</strong> - Ball hits rim, goes left</td>
+                                <td><strong>2. Loss</strong> - Prediction is wrong</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. Analyze</strong> - "I aimed too far right"</td>
+                                <td><strong>3. Backprop</strong> - "These weights caused error"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. Adjust</strong> - Next shot, aim slightly left</td>
+                                <td><strong>4. Update</strong> - Adjust weights to reduce error</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Repeat</strong> - 1,000 shots → muscle memory</td>
+                                <td><strong>Repeat</strong> - Millions of examples → learned model</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>🔢 Step-by-Step with Real Numbers</h2>
+                    <p>Let's watch one learning cycle with actual numbers. We're training a tiny network to predict the next word after "The cat".</p>
+
+                    <div class="info-box">
+                        <p><strong>Training Example:</strong></p>
+                        <ul>
+                            <li><strong>Input:</strong> "The cat"</li>
+                            <li><strong>Correct answer:</strong> "sat" (we want the model to predict this!)</li>
+                            <li><strong>Current state:</strong> Model's parameters are not yet tuned</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 1: Forward Pass (Make a Prediction)</h3>
+                    <p>The model processes "The cat" through all its layers using current parameter values.</p>
+
+                    <div style="background: #f5f5f5; border-left: 4px solid #2196F3; padding: 15px; margin: 15px 0; font-family: monospace; font-size: 13px;">
+                        Input: "The cat" → [token IDs: 123, 456]<br>
+                        → Embedding lookup → Vectors<br>
+                        → Layer 1: weights multiply vectors<br>
+                        → Layer 2: more multiplication<br>
+                        → ... (96 layers total for Llama-3-8B)<br>
+                        → Final output: Probabilities for next token<br>
+                        <br>
+                        <strong>Model's prediction:</strong><br>
+                        - "dog": 0.35 (35%)<br>
+                        - "sat": 0.25 (25%) ← This is the correct answer!<br>
+                        - "ran": 0.20 (20%)<br>
+                        - "ate": 0.20 (20%)<br>
+                    </div>
+
+                    <p><strong>Problem:</strong> The model thinks "dog" (35%) is more likely than "sat" (25%), but "sat" is correct!</p>
+
+                    <h3>Step 2: Calculate Loss (Measure the Error)</h3>
+                    <p>The <strong>loss function</strong> measures how wrong the prediction was. A common one is <strong>Cross-Entropy Loss</strong>.</p>
+
+                    <div style="background: #fff3e0; border-left: 4px solid #FF9800; padding: 15px; margin: 15px 0;">
+                        <p><strong>Loss Calculation:</strong></p>
+                        <p style="font-family: monospace; font-size: 13px;">
+                            Loss = -log(probability of correct answer)<br>
+                            Loss = -log(0.25)<br>
+                            Loss = <strong>1.39</strong>
+                        </p>
+                        <p><strong>Interpretation:</strong> A loss of 1.39 is bad! (Lower is better, 0 is perfect)</p>
+                        <p>If the model had predicted "sat" with 100% confidence (probability 1.0), loss would be 0.</p>
+                    </div>
+
+                    <h3>Step 3: Backpropagation (Find the Culprits)</h3>
+                    <p>Now the magic: <strong>which parameters caused this error?</strong> Backpropagation uses calculus to trace the error back through every layer.</p>
+
+                    <div class="info-box">
+                        <p><strong>What Backprop Does:</strong></p>
+                        <ol>
+                            <li><strong>Start at output:</strong> "We predicted 'dog' too strongly (0.35), 'sat' too weakly (0.25)"</li>
+                            <li><strong>Work backwards:</strong> Which weights in Layer 96 caused this?</li>
+                            <li><strong>Keep going back:</strong> Which weights in Layer 95 influenced Layer 96?</li>
+                            <li><strong>All the way to input:</strong> Calculate how much EACH of the 8 billion parameters contributed to the error</li>
+                        </ol>
+                        <p><strong>Result:</strong> A <strong>gradient</strong> (direction and magnitude) for each parameter showing how to adjust it.</p>
+                    </div>
+
+                    <div style="background: #f3e5f5; border-left: 4px solid #9C27B0; padding: 15px; margin: 15px 0; font-family: monospace; font-size: 13px;">
+                        <strong>Example gradients (simplified):</strong><br>
+                        <br>
+                        Weight W1 (Layer 96): gradient = +0.03 → "Increase this weight"<br>
+                        Weight W2 (Layer 50): gradient = -0.01 → "Decrease this weight"<br>
+                        Weight W3 (Layer 12): gradient = +0.05 → "Increase this weight"<br>
+                        ...<br>
+                        (8 billion weights total, each gets a gradient!)
+                    </div>
+
+                    <h3>Step 4: Update Weights (Make it Better)</h3>
+                    <p>Now we adjust each parameter using its gradient. This is called <strong>Gradient Descent</strong>.</p>
+
+                    <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 15px; margin: 15px 0; font-family: monospace; font-size: 13px;">
+                        <strong>Update Rule:</strong><br>
+                        New Weight = Old Weight - (Learning Rate × Gradient)<br>
+                        <br>
+                        <strong>Example:</strong><br>
+                        W1 old value: 0.65<br>
+                        Gradient: +0.03<br>
+                        Learning rate: 0.01 (small step size)<br>
+                        <br>
+                        W1 new = 0.65 - (0.01 × 0.03)<br>
+                        W1 new = 0.65 - 0.0003<br>
+                        W1 new = <strong>0.6497</strong> ← Tiny adjustment!<br>
+                        <br>
+                        <span style="color: #2E7D32;">Result: Next time, the model will predict "sat" slightly higher!</span>
+                    </div>
+
+                    <h2>🔄 Why "Gradient Descent"?</h2>
+                    <p>Imagine you're blindfolded on a hilly landscape. Your goal: reach the lowest point (minimum loss).</p>
+
+                    <ul>
+                        <li><strong>Gradient:</strong> Tells you which direction is downhill</li>
+                        <li><strong>Descent:</strong> You take a step downhill</li>
+                        <li><strong>Learning rate:</strong> How big your step is (0.01 = tiny steps, 0.1 = big steps)</li>
+                    </ul>
+
+                    <p>After millions of these tiny steps, you reach the valley (low loss) where the model makes accurate predictions!</p>
+
+                    <h2>⚡ The Full Training Process</h2>
+                    <div class="checkpoint">
+                        <h3>Training GPT-4 (Simplified)</h3>
+                        <ol style="font-size: 14px; line-height: 1.8;">
+                            <li><strong>Dataset:</strong> ~10 trillion tokens (most of the internet!)</li>
+                            <li><strong>Batch size:</strong> Process 1,000 examples at a time</li>
+                            <li><strong>One epoch:</strong> See every example once</li>
+                            <li><strong>Forward pass:</strong> Make predictions for 1,000 examples</li>
+                            <li><strong>Calculate loss:</strong> Average error across batch</li>
+                            <li><strong>Backprop:</strong> Calculate gradients for 1 trillion+ parameters</li>
+                            <li><strong>Update:</strong> Adjust all parameters</li>
+                            <li><strong>Repeat:</strong> 10 billion batches over weeks!</li>
+                        </ol>
+                        <p><strong>Result:</strong> A model that can predict next tokens with incredible accuracy!</p>
+                    </div>
+
+                    <h2>🎯 Why This Matters</h2>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Concept</th>
+                                <th>Why It Matters</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Forward Pass</strong></td>
+                                <td>This is what happens during <strong>inference</strong> too! Same process, frozen weights.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Loss Function</strong></td>
+                                <td>Defines what "good" means. Different tasks use different loss functions.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Backpropagation</strong></td>
+                                <td>Only happens during training. Requires MASSIVE compute (why training needs GPUs!).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gradients</strong></td>
+                                <td>The "learning signal" that propagates through billions of parameters.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Learning Rate</strong></td>
+                                <td>Too big: model diverges. Too small: training takes forever. Needs tuning!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="warning-box">
+                        <p><strong>Common Misconception:</strong></p>
+                        <p>"The model memorizes the training data."</p>
+                        <p><strong>Reality:</strong> The model learns <strong>patterns</strong> across billions of examples. It compresses 10 trillion tokens into 8 billion numbers. It can't possibly memorize everything - it extracts general rules!</p>
+                    </div>
+
+                    <h2>✅ Quick Check</h2>
+                    <div class="info-box">
+                        <p><strong>After training on "The cat sat", what happens?</strong></p>
+                        <p>✅ Next time the model sees "The cat", it will predict "sat" with <strong>higher</strong> probability.</p>
+                        <p>✅ Weights have been nudged in the right direction.</p>
+                        <p>✅ After seeing millions of similar patterns ("The dog sat", "The bird sat"), the model learns the general pattern: [animal] often "sat".</p>
+                    </div>
+
+                    <p style="margin-top: 30px; font-size: 16px; color: #666;">
+                        <strong>Next up:</strong> Now that you understand how parameters learn, we'll explore what came <em>before</em> transformers - and why attention was a breakthrough! (Section 10.5)
+                    </p>
+                `,
+                quiz: [
+                    {
+                        question: "What is the correct order of the learning loop?",
+                        options: [
+                            "Backprop → Forward Pass → Update Weights → Calculate Loss",
+                            "Forward Pass → Calculate Loss → Backpropagation → Update Weights",
+                            "Calculate Loss → Forward Pass → Update Weights → Backprop",
+                            "Update Weights → Forward Pass → Backprop → Calculate Loss"
+                        ],
+                        correct: 1,
+                        explanation: "The learning loop is: 1) Forward Pass (make prediction), 2) Calculate Loss (measure error), 3) Backpropagation (find which weights caused error), 4) Update Weights (adjust to reduce error)."
+                    },
+                    {
+                        question: "If a model predicts 'dog' with 35% confidence but the correct answer is 'sat' at 25%, what happens during backpropagation?",
+                        options: [
+                            "Only the final layer's weights get adjusted",
+                            "The model deletes the word 'dog' from its vocabulary",
+                            "Gradients are calculated for ALL parameters showing how each contributed to the error",
+                            "The model starts training from scratch"
+                        ],
+                        correct: 2,
+                        explanation: "Backpropagation traces the error backward through EVERY layer, calculating how much each of the billions of parameters contributed to the wrong prediction. This creates a gradient (adjustment direction) for each weight."
+                    },
+                    {
+                        question: "Why are the weight updates so tiny (like 0.0003)?",
+                        options: [
+                            "The learning rate keeps steps small to avoid overshooting the optimal values",
+                            "Computers can't handle larger numbers",
+                            "It's a bug in the training code",
+                            "Weights can only change by 0.001 per day"
+                        ],
+                        correct: 0,
+                        explanation: "The learning rate (often 0.01 or smaller) controls step size. Tiny steps prevent the model from 'jumping over' the optimal weight values. After millions of tiny adjustments across billions of parameters, the model converges to accurate predictions."
+                    }
+                ]
+            },
+
+            {
                 id: 10,
                 title: "Embedding Tables - The Dictionary",
                 category: 4,
