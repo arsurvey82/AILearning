@@ -1,0 +1,265 @@
+.dz {
+  max-width: 780px;
+}
+
+.dz-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+
+.dz-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--c) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 50%, transparent);
+}
+.c-blue {
+  --c: var(--blue);
+}
+.c-violet {
+  --c: var(--violet);
+}
+.c-aqua {
+  --c: var(--aqua);
+}
+.c-orange {
+  --c: var(--orange);
+}
+.c-yellow {
+  --c: var(--yellow);
+}
+.c-magenta {
+  --c: var(--magenta);
+}
+.c-green {
+  --c: var(--green);
+}
+
+.dz-stub {
+  font-size: 11px;
+  color: var(--warn);
+  border: 1px dashed color-mix(in srgb, var(--warn) 55%, transparent);
+  border-radius: var(--r-pill);
+  padding: 2px 10px;
+}
+
+.dz-title {
+  width: 100%;
+  margin: var(--sp-1) 0 0;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.dz-oneliner {
+  margin: var(--sp-3) 0 var(--sp-2);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 62ch;
+}
+
+.dz-analogy {
+  margin: 0 0 var(--sp-5);
+  font-size: 14.5px;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+.dz-analogy-k {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-right: var(--sp-1);
+}
+
+.dz-layers {
+  border-bottom: 1px solid var(--border);
+}
+
+.dz-steps {
+  margin: 0 0 var(--sp-3);
+  padding-left: 1.4em;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 68ch;
+}
+.dz-steps li {
+  margin-bottom: var(--sp-2);
+}
+.dz-steps strong {
+  color: var(--ink);
+}
+
+.dz-caveat {
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-3);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--warn) 8%, transparent);
+  border-left: 2px solid var(--warn);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  max-width: 68ch;
+}
+.dz-caveat strong {
+  color: var(--ink);
+}
+
+.dz-scroll {
+  overflow-x: auto;
+}
+
+.dz-scale {
+  border-collapse: collapse;
+  font-size: 13.5px;
+  min-width: 420px;
+}
+.dz-scale th,
+.dz-scale td {
+  text-align: left;
+  padding: var(--sp-2) var(--sp-4) var(--sp-2) 0;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.dz-scale thead th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.dz-scale tbody th {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.dz-scale tbody td {
+  color: var(--ink);
+}
+
+.dz-scalenote {
+  margin: var(--sp-3) 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 68ch;
+}
+.dz-scalenote strong {
+  color: var(--ink);
+}
+
+/* Citations are deliberately quiet but present. A figure you cannot trace is a
+   figure you are trusting on someone's word. */
+.dz-cite {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--aqua);
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in srgb, var(--aqua) 60%, transparent);
+}
+.dz-cite:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+.dz-uncited {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--warn);
+  border-bottom: 1px dotted color-mix(in srgb, var(--warn) 55%, transparent);
+}
+
+.dz-empty {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.dz-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4) 0 0;
+}
+
+.dz-footrow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.dz-footk {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 58px;
+}
+
+.dz-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.dz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) var(--ease);
+}
+/* Same blue/green language as the map, so the two views teach one vocabulary. */
+.dz-chip.needs {
+  border-color: color-mix(in srgb, var(--blue) 55%, transparent);
+}
+.dz-chip.unlocks {
+  border-color: color-mix(in srgb, var(--green) 55%, transparent);
+}
+.dz-chip:hover {
+  border-color: var(--ink);
+}
+
+.dz-stubdot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+.dz-none {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* The weights are trained now, so the note is a claim rather than an apology. */
+.dz-caveat.trained {
+  border-left-color: var(--aqua);
+  color: var(--ink-2);
+}
+.dz-caveat.trained strong {
+  color: var(--aqua);
+}
+
+/* The origin sits with the opening framing, so it needs a little air but no
+   heavy chrome of its own. The block already carries its own borders. */
+.dz-origin {
+  margin: var(--sp-3) 0 var(--sp-4);
+}

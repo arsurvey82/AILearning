@@ -1,0 +1,255 @@
+.st {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: var(--sp-5) var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+/* ---- the one idea ---- */
+.st-thesis {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  padding: var(--sp-5);
+}
+.st-k {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: var(--sp-3);
+}
+.st-big {
+  margin: 0 0 var(--sp-4);
+  font-size: clamp(24px, 4.4vw, 36px);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.st-big em {
+  font-style: normal;
+  color: var(--yellow);
+}
+.st-tail {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* ---- sections ---- */
+.st-sec h2 {
+  margin: 0 0 6px;
+  font-size: clamp(19px, 2.6vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.st-lede {
+  margin: 0 0 var(--sp-4);
+  font-size: 14.5px;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+.st-note {
+  margin: var(--sp-3) 0 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 64ch;
+}
+.st-note b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.st-hi {
+  color: var(--aqua) !important;
+  font-family: var(--mono);
+}
+
+/* ---- the printed table ---- */
+.st-plate {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.st-nums {
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 13px;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.st-nums th {
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+  padding: 9px 13px;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.st-nums th.lab {
+  text-align: left;
+}
+.st-nums td {
+  padding: 7px 13px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.st-nums tr:last-child td {
+  border-bottom: none;
+}
+.st-nums td.lab {
+  text-align: left;
+}
+.st-nums td.lab button {
+  color: var(--blue);
+  font: inherit;
+  border-bottom: 1px dotted currentColor;
+}
+.st-nums td.lab button:hover {
+  color: var(--ink);
+}
+.st-nums td.sim {
+  color: var(--muted);
+}
+
+/* The closeness is the whole thesis, so it is marked in the table itself
+   rather than described underneath it. */
+.st-nums tr.near td {
+  background: color-mix(in srgb, var(--aqua) 15%, transparent);
+}
+.st-nums tr.near td.sim {
+  color: var(--aqua);
+}
+.st-nums tr.self td {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.st-nums tr.self td.lab button {
+  color: var(--ink);
+}
+
+.st-corpus {
+  margin-top: var(--sp-3);
+}
+.st-corpus summary {
+  font-size: 12.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.st-corpus summary:hover {
+  color: var(--ink);
+}
+.st-corpus ul {
+  margin: var(--sp-3) 0;
+  padding-left: var(--sp-4);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-2);
+  columns: 2;
+}
+.st-corpus p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+/* ---- two times ---- */
+.st-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+.st-time {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  padding: var(--sp-4);
+}
+.st-time.run {
+  border-color: color-mix(in srgb, var(--aqua) 45%, transparent);
+  background: color-mix(in srgb, var(--aqua) 7%, transparent);
+}
+.st-time-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  border-bottom: 1px dotted currentColor;
+  margin-bottom: var(--sp-3);
+  display: inline-block;
+}
+.st-time ol {
+  margin: 0 0 var(--sp-3);
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+.st-time p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ---- origin ---- */
+.st-era {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: baseline;
+  width: 100%;
+  text-align: left;
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--border);
+}
+.st-era:hover {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.st-when {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--yellow);
+}
+.st-era.forced .st-when {
+  color: var(--aqua);
+}
+.st-what b {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.st-what span {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+@media (max-width: 620px) {
+  .st-times {
+    grid-template-columns: 1fr;
+  }
+  .st-corpus ul {
+    columns: 1;
+  }
+  .st-era {
+    grid-template-columns: 60px minmax(0, 1fr);
+    gap: var(--sp-3);
+  }
+}

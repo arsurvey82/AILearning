@@ -1,0 +1,166 @@
+.ng {
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.ng.pulse {
+  animation: ngPulse var(--dur-slow) var(--ease);
+}
+@keyframes ngPulse {
+  from {
+    background: color-mix(in srgb, var(--blue) 14%, var(--surface));
+  }
+  to {
+    background: var(--surface);
+  }
+}
+
+.ng-caption {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-bottom: var(--sp-3);
+}
+
+.ng-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-3);
+}
+
+.ng-chip {
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 3px 10px;
+  transition: background var(--dur-fast) var(--ease);
+}
+.ng-chip:hover {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+}
+.ng-chip.on {
+  color: var(--ink);
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.ng-groupmeta {
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: var(--sp-2);
+}
+.ng-sub {
+  color: var(--muted);
+}
+
+/* §7.7: wide grids scroll inside their own box, the page never does. */
+.ng-scroll {
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.ng-table {
+  border-collapse: separate;
+  border-spacing: 3px;
+}
+
+.ng-label {
+  text-align: right;
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+  padding-right: var(--sp-2);
+}
+
+/* The sum is visually separated from its two inputs. */
+.ng-row.role-input .ng-label {
+  color: var(--ink);
+  font-weight: 600;
+}
+.ng-row.role-input .ng-cell {
+  border-width: 1.5px;
+}
+
+.ng-cellwrap {
+  padding: 0;
+}
+
+.ng-cell {
+  display: block;
+  min-width: 62px;
+  padding: 5px 8px;
+  font-size: 12.5px;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--role) calc(var(--tint) * 100%), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--role) 45%, transparent);
+  border-radius: 5px;
+  text-align: right;
+  transition:
+    background var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+.ng-cell:hover,
+.ng-cell:focus-visible {
+  background: color-mix(in srgb, var(--role) calc(var(--tint-strong) * 100%), var(--surface));
+  transform: translateY(-1px);
+}
+
+.ng-ellipsis {
+  color: var(--muted);
+  padding-left: var(--sp-2);
+  font-family: var(--mono);
+}
+
+.ng-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+  font-size: 12px;
+  color: var(--muted);
+}
+.ng-more {
+  font-size: 12px;
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ng-probe {
+  margin: var(--sp-3) 0 0;
+  min-height: 2.6em;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  background: var(--plane);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-sm);
+}
+
+.ng-note {
+  margin: var(--sp-3) 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ng-empty {
+  margin-top: var(--sp-4);
+  padding: var(--sp-4);
+  font-size: 13.5px;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-md);
+}

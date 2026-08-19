@@ -1,0 +1,28 @@
+.vt {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+}
+
+.vt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 15px;
+  font-size: 13px;
+  color: var(--muted);
+  border-radius: var(--r-pill);
+  transition:
+    background var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+.vt-btn:hover {
+  color: var(--ink);
+}
+.vt-btn.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+}

@@ -1,0 +1,103 @@
+.ps {
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.ps-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-2);
+}
+
+.ps-l {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The one input, visible at every stage, the continuity made literal. */
+.ps-in {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 45%;
+}
+
+.ps-track {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Arrows between stages, never before the first. */
+.ps-item + .ps-item::before {
+  content: '→';
+  color: var(--muted);
+  font-size: 12px;
+  padding: 0 5px;
+  opacity: 0.55;
+}
+
+.ps-item {
+  display: flex;
+  align-items: center;
+}
+
+.ps-btn {
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  color: var(--muted);
+  white-space: nowrap;
+  transition:
+    color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
+}
+.ps-btn:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+/* Exactly one thing is emphasised at a time (von Restorff). */
+.ps-item.here .ps-btn {
+  color: var(--ink);
+  font-weight: 600;
+  background: color-mix(in srgb, var(--blue) 26%, transparent);
+}
+.ps-item.done .ps-btn {
+  color: var(--ink-2);
+}
+.ps-item.ahead .ps-btn {
+  opacity: 0.62;
+}
+
+.ps.off .ps-track {
+  opacity: 0.75;
+}
+
+.ps-aside {
+  margin: var(--sp-2) 0 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .ps-in {
+    display: none;
+  }
+}

@@ -1,0 +1,502 @@
+.sv {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: var(--sp-5);
+  gap: var(--sp-4);
+  background: var(--plane);
+  /* The pane scrolls as one column now that the persistent scene sits above
+     the stage detail. Nesting a second scroller inside it would make the
+     wheel land on whichever region happened to be under the pointer. */
+  overflow-y: auto;
+}
+
+/* The scene keeps its height; everything else gives way around it. */
+.sv > .ms {
+  flex: 0 0 auto;
+}
+
+.sv-head {
+  flex: 0 0 auto;
+}
+
+.sv-step {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sv-title {
+  margin: 2px 0 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.sv-sub {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.sv-body {
+  flex: 0 0 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  /* Horizontal only: a wide attention matrix may scroll sideways, but the
+     column itself is scrolled by the pane. */
+  overflow-x: auto;
+}
+
+/* ---- lanes (tokenization / token id) ---- */
+
+.sv-lane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.sv-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.sv-l {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sv-cells {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sv-box {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 8px;
+  font-family: var(--mono);
+  font-size: 17px;
+  color: var(--ink);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+.sv-box.k-text {
+  border-style: dashed;
+  color: var(--ink-2);
+}
+.sv-box.k-piece {
+  border-color: color-mix(in srgb, var(--orange) 60%, transparent);
+  background: color-mix(in srgb, var(--orange) 14%, var(--surface));
+}
+.sv-box.k-id {
+  border-color: color-mix(in srgb, var(--blue) 60%, transparent);
+  background: color-mix(in srgb, var(--blue) 16%, var(--surface));
+}
+
+.sv-arrow {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+  max-width: 34ch;
+}
+.sv-arrow span {
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+/* ---- tensor ---- */
+
+.sv-tensor-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: center;
+  width: 100%;
+}
+
+.sv-cap {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  text-align: center;
+  max-width: 42ch;
+}
+.sv-dims {
+  color: var(--muted);
+}
+
+/* Columns of coloured cells, a tensor drawn as a tensor. */
+.sv-tensor {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sv-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.sv-col.on {
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+.sv-cell {
+  display: block;
+  width: 26px;
+  height: 11px;
+  border-radius: 2px;
+  background: var(--surface);
+  outline: 1px solid var(--border);
+  outline-offset: -1px;
+}
+
+.sv-collabel {
+  margin-top: 4px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.sv-col.on .sv-collabel {
+  color: var(--ink);
+}
+
+.sv-key {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.sv-swatch {
+  width: 16px;
+  height: 9px;
+  border-radius: 2px;
+  outline: 1px solid var(--border);
+  outline-offset: -1px;
+}
+.sv-swatch.neg {
+  background: color-mix(in srgb, var(--blue) 70%, transparent);
+}
+.sv-swatch.zero {
+  background: var(--surface);
+}
+.sv-swatch.pos {
+  background: color-mix(in srgb, var(--orange) 70%, transparent);
+}
+
+/* ---- transport ---- */
+
+.sv-transport {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.sv-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.sv-btn:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.sv-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.sv-play {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.sv-play.on {
+  background: color-mix(in srgb, var(--blue) 26%, transparent);
+  border-color: color-mix(in srgb, var(--blue) 60%, transparent);
+}
+.sv-play:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.sv-ticks {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0 0 0 auto;
+  padding: 0;
+}
+
+.sv-tick {
+  display: block;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  background: transparent;
+}
+.sv-tick.done {
+  background: var(--muted);
+}
+.sv-tick.here {
+  width: 20px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ---- token row ---- */
+
+.sv-tokens {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.sv-tok {
+  min-width: 32px;
+  height: 30px;
+  padding: 0 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.sv-tok sub {
+  font-size: 9px;
+  color: var(--muted);
+}
+.sv-tok:hover {
+  color: var(--ink);
+}
+.sv-tok.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+  border-color: var(--border-strong);
+}
+
+/* ---- attention matrix ---- */
+
+.sv-grid {
+  display: grid;
+  gap: 3px;
+  justify-content: center;
+}
+.sv-grid {
+  grid-template-columns: auto repeat(var(--n, 6), minmax(0, 34px));
+}
+
+.sv-gh {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+}
+.sv-gh.on {
+  color: var(--ink);
+}
+.sv-gh sub {
+  font-size: 8px;
+}
+
+.sv-gcell {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink);
+  outline: 1px solid var(--border);
+  outline-offset: -1px;
+}
+.sv-gcell.masked {
+  background: transparent;
+  outline-style: dashed;
+  opacity: 0.35;
+}
+.sv-gcell.inrow {
+  outline-color: var(--border-strong);
+}
+
+/* ---- strips and shape changes ---- */
+
+.sv-widths {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sv-x {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.sv-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sv-stripcells {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+.sv-strip .sv-cell {
+  width: 22px;
+}
+/* Physically wider, so the 4x expansion is a thing you see. */
+.sv-strip.wide .sv-cell {
+  width: 42px;
+  height: 8px;
+}
+
+.sv-striplabel {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---- bars ---- */
+
+.sv-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 190px;
+}
+
+.sv-bar {
+  display: grid;
+  grid-template-columns: 18px 1fr 44px;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.sv-barlabel {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.sv-bartrack {
+  height: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sv-barfill {
+  display: block;
+  height: 100%;
+}
+.sv-barfill.k-logit {
+  background: color-mix(in srgb, var(--yellow) 72%, transparent);
+}
+.sv-barfill.k-prob {
+  background: color-mix(in srgb, var(--aqua) 78%, transparent);
+}
+
+.sv-barval {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  text-align: right;
+}
+
+/* The chosen token, marked with a glyph as well as colour. */
+.sv-bar.pick .sv-barlabel::after {
+  content: ' ◂';
+  color: var(--aqua);
+}
+.sv-bar.pick .sv-barval {
+  color: var(--ink);
+}
+
+.sv-loopline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: var(--sp-3) 0 0;
+}
+
+.sv-seq {
+  font-family: var(--mono);
+  font-size: 17px;
+  letter-spacing: 0.16em;
+  color: var(--ink-2);
+}
+.sv-seq em {
+  font-style: normal;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--aqua) 30%, transparent);
+  border-radius: 3px;
+  padding: 0 5px;
+}
+
+.sv-loopnote {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.sv-empty {
+  font-size: 13.5px;
+  color: var(--muted);
+}

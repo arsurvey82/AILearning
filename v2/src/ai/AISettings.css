@@ -1,0 +1,207 @@
+.ais-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  background: color-mix(in srgb, var(--plane) 78%, transparent);
+  backdrop-filter: blur(4px);
+  animation: lxOpen var(--dur) var(--ease);
+}
+
+.ais {
+  width: min(520px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--sp-5);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+}
+
+.ais-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.ais-head h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.ais-x {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.ais-x:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+
+.ais-lede {
+  margin: var(--sp-3) 0 var(--sp-5);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.ais-l {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--sp-2);
+}
+
+.ais-input {
+  width: 100%;
+  padding: 8px 11px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--plane);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.ais-input:focus {
+  border-color: var(--blue);
+}
+
+.ais-keyrow {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.ais-hint {
+  margin: var(--sp-2) 0 var(--sp-4);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.ais-hint a {
+  color: var(--blue);
+}
+
+.ais-ghost {
+  padding: 6px 12px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+}
+.ais-ghost:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+
+.ais-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin: 0 0 var(--sp-4);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.ais-check input {
+  margin-top: 3px;
+  flex: 0 0 auto;
+  accent-color: var(--blue);
+}
+.ais-check em {
+  color: var(--muted);
+  font-style: normal;
+  font-size: 12px;
+}
+
+.ais-warn {
+  margin: var(--sp-2) 0 var(--sp-5);
+  padding: var(--sp-3);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--warn) 9%, transparent);
+  border-left: 2px solid var(--warn);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+.ais-warn strong {
+  color: var(--ink);
+}
+
+.ais-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+.ais-done {
+  padding: 8px 18px;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+}
+.ais-done:hover {
+  background: color-mix(in srgb, var(--ink) 20%, transparent);
+}
+
+/* ---- discovered models ----
+   Chips rather than a select, because the first one is a recommendation and a
+   select would hide it behind a click. Only the top few are shown; the full
+   list stays available through the datalist on the field itself. */
+.ais-models {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--sp-2);
+}
+
+.ais-model {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.ais-model:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.ais-model.on {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.ais-model em {
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aqua);
+}
+
+.ais-error {
+  margin: var(--sp-2) 0 var(--sp-4);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--serious);
+}

@@ -1,0 +1,67 @@
+.snags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.snag {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.snag:hover {
+  border-color: var(--border-strong);
+}
+.snag.open {
+  border-color: color-mix(in srgb, var(--yellow) 55%, transparent);
+  background: color-mix(in srgb, var(--yellow) 7%, var(--surface));
+}
+
+.snag-q {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: var(--sp-3);
+  text-align: left;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.snag-mark {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--yellow);
+  background: color-mix(in srgb, var(--yellow) 18%, transparent);
+  transform: translateY(2px);
+}
+
+.snag-a {
+  padding: 0 var(--sp-3) var(--sp-3) calc(var(--sp-3) + 18px + var(--sp-2));
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 68ch;
+  animation: lxOpen var(--dur) var(--ease);
+}
+.snag-a strong {
+  color: var(--ink);
+}
+
+.snag-none {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0;
+  max-width: 68ch;
+}

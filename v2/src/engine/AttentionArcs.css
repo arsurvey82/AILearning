@@ -1,0 +1,182 @@
+.aa {
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.aa-caption {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin-bottom: var(--sp-3);
+  max-width: 68ch;
+}
+.aa-caption strong {
+  color: var(--ink);
+  font-family: var(--mono);
+}
+
+.aa-stage {
+  background: var(--plane);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: var(--sp-2);
+}
+
+.aa-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.aa-arc {
+  fill: none;
+  stroke: var(--magenta);
+  stroke-linecap: round;
+  transition:
+    stroke-width var(--dur) var(--ease),
+    opacity var(--dur) var(--ease),
+    d var(--dur) var(--ease);
+}
+/* prefers-reduced-motion: the state still changes, it just does not tween. */
+.aa-svg.still .aa-arc,
+.aa-svg.still .aa-tok circle {
+  transition: none;
+}
+
+.aa-pct {
+  fill: var(--ink-2);
+  font-size: 11px;
+  font-family: var(--mono);
+}
+
+.aa-tok circle {
+  fill: color-mix(in srgb, var(--ink) 10%, transparent);
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  transition:
+    fill var(--dur) var(--ease),
+    stroke var(--dur) var(--ease);
+}
+/* Signaling: the active token is unmistakable, the masked ones recede. */
+.aa-tok.q circle {
+  fill: color-mix(in srgb, var(--magenta) 42%, transparent);
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+.aa-tok.visible circle {
+  stroke: var(--magenta);
+}
+.aa-tok.masked circle {
+  stroke-dasharray: 3 3;
+  opacity: 0.4;
+}
+
+.aa-letter {
+  fill: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+.aa-tok.masked .aa-letter {
+  opacity: 0.4;
+}
+
+.aa-seat {
+  fill: var(--muted);
+  font-size: 10px;
+}
+
+.aa-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+
+.aa-step {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.aa-step:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.aa-step:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.aa-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+}
+
+.aa-chip {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  transition: background var(--dur-fast) var(--ease);
+}
+.aa-chip sub {
+  font-size: 9px;
+  color: var(--muted);
+}
+.aa-chip:hover {
+  color: var(--ink);
+}
+.aa-chip.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--magenta) 26%, transparent);
+  border-color: color-mix(in srgb, var(--magenta) 60%, transparent);
+}
+
+.aa-read {
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  background: var(--plane);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-sm);
+  max-width: 68ch;
+}
+.aa-read strong {
+  color: var(--ink);
+  font-family: var(--mono);
+}
+
+.aa-empty {
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-4);
+  font-size: 13.5px;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-md);
+}
+
+@media (max-width: 640px) {
+  .aa-controls {
+    flex-wrap: wrap;
+  }
+  .aa-chips {
+    order: 3;
+    width: 100%;
+  }
+}

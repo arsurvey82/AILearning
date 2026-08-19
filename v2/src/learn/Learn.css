@@ -1,0 +1,66 @@
+.lrn {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--sp-6);
+}
+
+/* A rule rather than a heading: the ladder is a continuation of the same
+   sentence, not a new document. */
+.lrn-rule {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  max-width: 900px;
+  width: 100%;
+  margin: var(--sp-5) auto var(--sp-4);
+  padding: 0 var(--sp-5);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lrn-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Two scales, offered as a real choice rather than a hidden toggle. The order
+   is the recommendation: printed numbers first, trained model second. */
+.lrn-scales {
+  display: flex;
+  gap: var(--sp-3);
+  max-width: 780px;
+  width: 100%;
+  margin: var(--sp-5) auto var(--sp-2);
+  padding: 0 var(--sp-5);
+  flex-wrap: wrap;
+}
+.lrn-scale {
+  flex: 1;
+  min-width: 200px;
+  text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+.lrn-scale b {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.lrn-scale span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.lrn-scale:hover {
+  border-color: var(--border-strong);
+}
+.lrn-scale.on {
+  border-color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 12%, var(--surface));
+}

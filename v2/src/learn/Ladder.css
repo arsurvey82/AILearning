@@ -1,0 +1,234 @@
+.ld {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* ---- breadcrumb ---- */
+.ld-crumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.ld-sep {
+  color: var(--muted);
+  padding: 0 6px;
+}
+.ld-crumb {
+  color: var(--muted);
+  padding: 2px 0;
+}
+.ld-crumb:hover {
+  color: var(--ink);
+}
+.ld-crumb.here {
+  color: var(--violet);
+}
+
+/* ---- rung switch and selectors ---- */
+.ld-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.ld-rungs {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.ld-rung {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 11px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.ld-rung + .ld-rung {
+  border-left: 1px solid var(--border);
+}
+.ld-rung:hover:not(.on) {
+  color: var(--ink);
+}
+.ld-rung.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--violet) 22%, transparent);
+}
+.ld-rung-n {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--muted);
+}
+.ld-rung.on .ld-rung-n {
+  color: var(--violet);
+}
+
+.ld-sel {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.ld-choice {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ld-choice b {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink);
+  min-width: 2.2em;
+}
+.ld-choice input[type='range'] {
+  width: 120px;
+  accent-color: var(--violet);
+}
+.ld-opt {
+  width: 24px;
+  height: 24px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.ld-opt.on {
+  color: var(--ink);
+  border-color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 20%, transparent);
+}
+
+/* The seam with the concept map. Deliberately quiet: it is a way out, not the
+   thing to do next. */
+.ld-concept {
+  margin-left: auto;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  color: var(--blue);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.ld-concept:hover {
+  border-color: var(--blue);
+}
+
+/* ---- grids ---- */
+.ld-grids {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+.ld-g-t {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ld-g-fixed {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid color-mix(in srgb, var(--orange) 55%, transparent);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+.ld-g-n {
+  margin: 3px 0 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+.ld-g-rows {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.ld-g-labels {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  flex: none;
+  min-width: 4.5em;
+}
+.ld-g-labels span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* Set from the canvas once it knows its cell size. Guessing a padding here
+     left the labels drifting further out of line with every extra row. */
+  height: var(--cell, 14px);
+}
+.ld-canvas {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  cursor: crosshair;
+}
+
+.ld-read {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-top: 8px;
+  padding: 7px 11px;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--violet);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+.ld-read-v {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.ld-read-w,
+.ld-read-t {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ld-read-t {
+  font-family: var(--mono);
+}
+
+/* Reachable by screen reader, out of the way for everyone else. */
+.ld-a11y,
+.ld-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .ld-concept {
+    margin-left: 0;
+  }
+}

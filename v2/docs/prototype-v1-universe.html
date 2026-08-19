@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The LLM Universe, dive in</title>
+<style>
+  :root{
+    --blue:#3987e5; --violet:#9085e9; --aqua:#199e70; --orange:#e0692f;
+    --yellow:#e0a83a; --magenta:#e06aa0; --green:#38b24a; --red:#e66767;
+    --ink:#f4f5fb; --ink2:#aeb2c8; --muted:#71768f; --panel:rgba(16,18,32.82);
+    --border:rgba(255,255,255.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#05060d;overflow:hidden;
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+  #stage{position:fixed;inset:0;display:block;cursor:grab}
+  #stage:active{cursor:grabbing}
+
+  /* top bar */
+.top{position:fixed;top:0;left:0;right:0;padding:14px 18px;display:flex;gap:14px;
+    align-items:flex-start;justify-content:space-between;pointer-events:none;z-index:5}
+.title{pointer-events:none}
+.title h1{margin:0;font-size:17px;letter-spacing:-.01em;text-shadow:0 2px 18px #000}
+.title p{margin:3px 0 0;font-size:12.5px;color:var(--ink2);max-width:520px;text-shadow:0 1px 10px #000}
+.crumbs{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px;pointer-events:auto}
+.crumb{font-size:11.5px;color:var(--ink2);background:rgba(255,255,255.06);
+    border:1px solid var(--border);border-radius:999px;padding:3px 10px;cursor:pointer;white-space:nowrap}
+.crumb:hover{color:#fff;background:rgba(255,255,255.13)}
+.crumb.here{color:#fff;border-color:rgba(255,255,255.35)}
+.crumb.sep{color:var(--muted);margin:0 2px}
+
+.btns{display:flex;gap:8px;pointer-events:auto}
+.btn{font-size:12px;color:var(--ink2);background:var(--panel);border:1px solid var(--border);
+    border-radius:9px;padding:7px 12px;cursor:pointer;backdrop-filter:blur(8px)}
+.btn:hover{color:#fff;border-color:rgba(255,255,255.3)}
+
+  /* info panel */
+.info{position:fixed;left:18px;bottom:18px;width:min(380px,calc(100vw - 36px));
+    background:var(--panel);border:1px solid var(--border);border-radius:16px;
+    padding:16px 18px 17px;backdrop-filter:blur(12px);z-index:5;
+    box-shadow:0 18px 50px rgba(0,0,0.55);transition:opacity.2s}
+.info.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-bottom:9px}
+.info h2{margin:0 0 6px;font-size:19px;letter-spacing:-.01em}
+.info.desc{font-size:13.5px;line-height:1.55;color:var(--ink2);margin:0 0 13px}
+.info.desc b{color:var(--ink)}
+.info.kids-l{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.info.kids{display:flex;flex-wrap:wrap;gap:7px}
+.kid{font-size:12px;color:var(--ink);background:rgba(255,255,255.05);
+    border:1px solid var(--border);border-radius:9px;padding:6px 11px;cursor:pointer;
+    display:flex;align-items:center;gap:7px;transition:.12s}
+.kid:hover{background:rgba(255,255,255.13);transform:translateY(-1px)}
+.kid.d{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.leaf{font-size:12px;color:var(--muted);font-style:italic}
+
+.hint{position:fixed;top:auto;bottom:96px;left:50%;transform:translateX(-50%);
+    font-size:13px;color:var(--ink2);text-align:center;pointer-events:none;z-index:4;
+    text-shadow:0 2px 14px #000;animation:pulse 2.6s ease-in-out infinite;transition:opacity.5s}
+.hint.gone{display:none}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+.legend{position:fixed;right:18px;bottom:18px;z-index:5;background:var(--panel);
+    border:1px solid var(--border);border-radius:12px;padding:11px 13px;backdrop-filter:blur(10px);
+    display:flex;flex-direction:column;gap:6px;max-width:190px}
+.legend.lr{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink2)}
+.legend.d{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  @media(max-width:640px){.legend{display:none}.title p{display:none} }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+
+<div class="top">
+  <div class="title">
+    <h1>The LLM Universe</h1>
+    <p>Every glowing body opens. Click one to dive inside. Foundations crack open into the transformer, the transformer into its organs, the organs into raw linear algebra. Watch the light flow: that's data moving.</p>
+    <div class="crumbs" id="crumbs"></div>
+  </div>
+  <div class="btns">
+    <button class="btn" id="upBtn">↑ Zoom out</button>
+    <button class="btn" id="homeBtn">⌂ Universe</button>
+  </div>
+</div>
+
+<div class="hint" id="hint">click a world to dive in ·  scroll to zoom · drag to pan</div>
+
+<div class="info" id="info"></div>
+
+<div class="legend" id="legend"></div>
+
+<script>
+/* ---------------- DATA: the nested cosmos ---------------- */
+const TREE = {
+  id:"llm", name:"LLM", color:"#8fa6ff", tag:"the machine",
+  desc:"A large language model: billions of numbers that learned to predict the next token. Everything below is <b>inside</b> this one object. Dive in to see the boxes within boxes.",
+  children:[
+    { id:"model", name:"The Model", color:"var(--violet)", tag:"what it is",
+      desc:"The internals, what you're actually learning. Split into the <b>math it runs on</b>, the <b>objects</b> it's built from, and the <b>architecture</b> where they flow.",
+      children:[
+        { id:"found", name:"Foundations", color:"var(--blue)", tag:"the math",
+          desc:"The three branches of math underneath everything. Three branches, three jobs: <b>run</b>, <b>learn</b>, <b>speak</b>.",
+          children:[
+            { id:"linalg", name:"Linear Algebra", color:"var(--blue)", tag:"how it RUNS",
+              desc:"Numbers arranged in grids, multiplied together. A word becomes a <b>vector</b>; a layer's knowledge is a <b>matrix</b>; running the model is one <b>matrix multiply</b> after another. This is the substance that flows through the whole architecture.",
+              children:[
+                {id:"vector",name:"Vector",color:"var(--blue)",desc:"An ordered list of numbers. A single token's meaning is a vector, e.g. 4,096 numbers pointing somewhere in 'meaning-space'."},
+                {id:"matrix",name:"Matrix",color:"var(--blue)",desc:"A grid of numbers = one learned <b>weight</b>. A layer stores what it knows as matrices; training is the act of setting these numbers."},
+                {id:"matmul",name:"Matrix × Vector",color:"var(--blue)",desc:"Multiply a vector by a matrix → a new vector. This single operation, repeated billions of times, <b>is</b> what the model does at runtime."},
+                {id:"dot",name:"Dot Product",color:"var(--blue)",desc:"Multiply two vectors element-wise and sum → one number meaning 'how aligned are these?'. It's the literal heart of an attention score."}
+              ]},
+            { id:"calc", name:"Calculus / Gradients", color:"var(--aqua)", tag:"how it LEARNS",
+              desc:"A gradient is a slope answering: 'nudge this weight which way to be <b>less wrong</b>?' Backprop computes that slope for every weight at once.",
+              children:[
+                {id:"slope",name:"Derivative (slope)",color:"var(--aqua)",desc:"How much the error changes if you wiggle one weight. Steep slope → big correction."},
+                {id:"chain",name:"Chain Rule → Backprop",color:"var(--aqua)",desc:"Multiply slopes backwards through the layers. Doing this for every weight IS backpropagation."},
+                {id:"gd",name:"Gradient Descent",color:"var(--aqua)",desc:"Step downhill, repeat. The <b>optimizer</b> (SGD → Adam → AdamW) decides how big each step is."}
+              ]},
+            { id:"prob", name:"Probability", color:"var(--yellow)", tag:"how it SPEAKS",
+              desc:"The output isn't one word. it's a <b>probability for every word</b> in the vocabulary. That's why the same prompt can answer differently.",
+              children:[
+                {id:"logits",name:"Logits",color:"var(--yellow)",desc:"Raw, unnormalized scores, one per possible token. straight out of the final matrix multiply."},
+                {id:"softmax",name:"Softmax",color:"var(--yellow)",desc:"Squashes the logits into probabilities that sum to 1. Also the exact step that turns attention scores into weights."},
+                {id:"sample",name:"Sampling",color:"var(--yellow)",desc:"Pick one token from the distribution. Temperature & top-p control how adventurous the pick is."}
+              ]}
+          ]},
+        { id:"objects", name:"Core Objects", color:"var(--aqua)", tag:"the nouns",
+          desc:"The vocabulary everything else is built from. the things that flow and the things that transform them.",
+          children:[
+            {id:"param",name:"Parameter / Weight",color:"var(--aqua)",desc:"One learned number. A '70B model' has 70 billion of these, living inside matrices."},
+            {id:"embed",name:"Tensor / Embedding",color:"var(--aqua)",desc:"The numbers in motion. a token as a vector, a batch as a tensor. This is what travels through every layer."},
+            {id:"neuron",name:"“Neuron”",color:"var(--aqua)",desc:"A metaphor, not biology: a weight plus a nonlinearity. Better to picture a number in a grid than a brain cell."},
+            {id:"modelobj",name:"Model",color:"var(--aqua)",desc:"The whole pile of weights <b>plus</b> the wiring (the architecture) that decides how to multiply them together."}
+          ]},
+        { id:"xformer", name:"The Transformer", color:"var(--orange)", tag:"the architecture",
+          desc:"Where the math actually flows. Dive in and follow one token's journey: text in at one end, a predicted next-token out the other. Open the repeated <b>Layer</b> to see the organs.",
+          children:[
+            {id:"tok",name:"1 · Tokenization",color:"var(--orange)",desc:"Chop text into sub-word pieces, each mapped to an integer ID. 'unhappiness' → un / happi / ness."},
+            {id:"emb2",name:"2 · Embedding",color:"var(--orange)",desc:"Look up each ID in a big matrix → its meaning-vector. Linear algebra's first appearance: a lookup that's really a matrix multiply."},
+            {id:"layer",name:"3 · Transformer Layer ×N",color:"var(--orange)", tag:"repeated block",
+              desc:"The block stacked ~100 times. Two organs. <b>attention</b> (mix) and <b>feed-forward</b> (think). wrapped in plumbing that keeps deep stacks trainable. Dive in.",
+              children:[
+                {id:"attn",name:"Attention",color:"var(--magenta)",tag:"mixing / routing",
+                  desc:"Tokens look at each other and decide who's relevant. It is <b>pure linear algebra</b>: Q, K, V are matrix multiplies; the scores are dot products; softmax makes weights; the output is a weighted sum. Dive in to see each step.",
+                  children:[
+                    {id:"q",name:"Query (Q)",color:"var(--magenta)",desc:"'What am I looking for?', each token's vector × the learned Q-matrix."},
+                    {id:"k",name:"Key (K)",color:"var(--magenta)",desc:"'What do I offer?', each token's vector × the learned K-matrix."},
+                    {id:"v",name:"Value (V)",color:"var(--magenta)",desc:"'What do I pass along if chosen?', vector × the learned V-matrix."},
+                    {id:"score",name:"Scores = Q·K",color:"var(--magenta)",desc:"Dot every Query against every Key → a grid of 'relevance' numbers. This is where the dot product earns its keep."},
+                    {id:"w",name:"Softmax weights",color:"var(--magenta)",desc:"Turn each row of scores into probabilities. how much attention each token pays to each other token."},
+                    {id:"sum",name:"Weighted sum of V",color:"var(--magenta)",desc:"Blend the Values by those weights → each token walks away carrying a mix of everyone it cared about."}
+                  ]},
+                {id:"mlp",name:"Feed-Forward (MLP)",color:"var(--violet)",tag:"thinking / memory",
+                  desc:"After mixing, each token thinks alone. Two matrix multiplies with a <b>curve</b> between them. This is where most facts are physically stored.",
+                  children:[
+                    {id:"up",name:"Up-projection",color:"var(--violet)",desc:"Matrix multiply that expands the vector to ~4× width, room to compute in."},
+                    {id:"act",name:"Activation (SwiGLU)",color:"var(--violet)",desc:"The nonlinear 'curve'. Without it, stacking layers would collapse into one big linear map."},
+                    {id:"down",name:"Down-projection",color:"var(--violet)",desc:"Matrix multiply back down to the original width, ready to rejoin the stream."}
+                  ]},
+                {id:"res",name:"Residual stream",color:"var(--orange)",desc:"A shared bus every organ reads from and writes back to. It's why ~100 layers can stack without the signal fading."},
+                {id:"norm",name:"Normalization (RMSNorm)",color:"var(--orange)",desc:"Rescales the numbers at each step so they never explode or vanish. housekeeping that makes training possible."},
+                {id:"pos",name:"Positional (RoPE)",color:"var(--orange)",desc:"Injects word order by rotating Q and K, so 'dog bites man' ≠ 'man bites dog' to the model."}
+              ]},
+            {id:"unemb",name:"4 · Unembedding → Logits",color:"var(--orange)",desc:"Final matrix multiply turns the last vector into one score per vocabulary token."},
+            {id:"samp2",name:"5 · Sampling",color:"var(--orange)",desc:"Softmax the logits, then pick the next token."},
+            {id:"loop",name:"6 · The Loop",color:"var(--orange)",desc:"Append the new token to the input and run the whole thing again. The model itself is stateless, the text is its only memory."}
+          ]}
+      ]},
+    { id:"ops", name:"The Operations", color:"var(--green)", tag:"build & serve",
+      desc:"How the model is trained and served, the full stack around it. It splits into a <b>training</b> path and an <b>inference</b> path, meeting at the model registry.",
+      children:[
+        { id:"train", name:"Training path", color:"var(--blue)", tag:"batch · offline",
+          desc:"Turn data into a versioned model artifact.",
+          children:[
+            {id:"feast",name:"Feast",color:"var(--blue)",desc:"Feature store. serves the same features to training and to live inference, so they never drift apart."},
+            {id:"kube",name:"Kubeflow",color:"var(--blue)",desc:"Orchestrates distributed multi-GPU training, pipelines, and hyperparameter tuning on Kubernetes."},
+            {id:"mlflow",name:"MLflow",color:"var(--blue)",desc:"Tracks experiments, versions, and registers the finished model. This registry is the seam to serving."}
+          ]},
+        { id:"infer", name:"Inference path", color:"var(--orange)", tag:"real-time · online",
+          desc:"Turn the frozen artifact into low-latency answers.",
+          children:[
+            {id:"aibrix",name:"AIBrix",color:"var(--orange)",desc:"Control plane that wraps vLLM. routing, autoscaling, KV-cache, LoRA. It orchestrates the engine (not the reverse)."},
+            {id:"vllm",name:"vLLM",color:"var(--orange)",desc:"The inference engine. PagedAttention + continuous batching for fast, memory-efficient token generation."},
+            {id:"agent",name:"Agent layer",color:"var(--orange)",desc:"Reasoning loops, tools, memory, external writes. Bedrock AgentCore / Foundry Agent Service / LangGraph."}
+          ]}
+      ]}
+  ]
+};
+
+/* ---------------- layout (static radii, dynamic angles) ---------------- */
+function resolveColor(c){ if(!c) return "#8fa6ff"; if(c.startsWith("var(")){ const n=c.slice(4,-1).trim();
+  return getComputedStyle(document.documentElement).getPropertyValue(n).trim()||"#8fa6ff";} return c; }
+let ALL=[]; let byId={};
+(function layout(node,parent,depth){
+  node.parent=parent||null; node.depth=depth; node.rc=resolveColor(node.color);
+  node.cx=0; node.cy=0; byId[node.id]=node; ALL.push(node);
+  const kids=node.children||[];
+  node.R = depth===0 ? 1000 : parent.childR;      // this node's own world radius
+  node.ringR = node.R*0.60;                        // radius kids orbit at
+  const n=kids.length;
+  // child radius: fit around the ring without overlap, capped
+  let cr = n>1 ? node.ringR*Math.sin(Math.PI/n)*0.62 : node.ringR*0.5;
+  node.childR = Math.min(cr, node.R*0.30);
+  kids.forEach((k,i)=>{
+    k.baseAngle = -Math.PI/2 + i*(2*Math.PI/Math.max(n,1)) + (depth*0.4);
+    k.orbitSpeed = (0.03/(depth+1)) * (depth%2? -1:1);
+  });
+  kids.forEach(k=>layout(k,node,depth+1));
+})(TREE,null,0);
+
+/* ---------------- canvas + camera ---------------- */
+const cv=document.getElementById("stage"), ctx=cv.getContext("2d");
+let W,H,DPR;
+function resize(){ DPR=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+  cv.width=W*DPR; cv.height=H*DPR; cv.style.width=W+"px"; cv.style.height=H+"px"; ctx.setTransform(DPR,0,0,DPR,0,0); }
+addEventListener("resize",resize); resize();
+
+const stars=[]; for(let i=0;i<220;i++) stars.push({x:Math.random(),y:Math.random(),
+  r:Math.random()*1.3+.2, tw:Math.random()*6.28, sp:Math.random()*.6+.2});
+
+let focus=TREE;
+let cam={x:0,y:0,scale:0.16}, camT={x:0,y:0,scale:0.16};
+let manual=null;            // manual pan offset {x,y} in world units, cleared on focus
+function focusScaleFor(node){ return (Math.min(W,H)*0.36)/node.R; }
+function setFocus(node,instant){
+  focus=node; manual=null;
+  camT.scale=focusScaleFor(node);
+  updatePanel(); updateCrumbs();
+  document.getElementById("hint").classList.toggle("gone", node!==TREE);
+  if(instant){ cam.scale=camT.scale; cam.x=node.cx; cam.y=node.cy; }
+}
+
+/* positions recomputed each frame from live angles */
+let T=0;
+function computePositions(dt){
+  T+=dt;
+  (function walk(node){
+    if(!node.parent){ node.cx=0; node.cy=0; }
+    (node.children||[]).forEach(k=>{
+      const a=k.baseAngle+T*k.orbitSpeed;
+      k.cx=node.cx+node.ringR*Math.cos(a);
+      k.cy=node.cy+node.ringR*Math.sin(a);
+      walk(k);
+    });
+  })(TREE);
+}
+function w2s(x,y){ return [ (x-cam.x)*cam.scale + W/2, (y-cam.y)*cam.scale + H/2 ]; }
+
+/* relation sets for what to draw around focus */
+function isAncestor(a,n){ let p=n.parent; while(p){ if(p===a) return true; p=p.parent;} return false; }
+
+/* ---------------- render ---------------- */
+let last=performance.now();
+function frame(now){
+  const dt=Math.min((now-last)/1000,0.05); last=now;
+  computePositions(dt);
+  // camera: pin position exactly to focus (no lag at deep zoom); ease scale for the dive feel
+  cam.x=focus.cx+(manual?manual.x:0);
+  cam.y=focus.cy+(manual?manual.y:0);
+  cam.scale+=(camT.scale-cam.scale)*Math.min(dt*5,1);
+
+  ctx.clearRect(0,0,W,H);
+  // starfield
+  for(const s of stars){ s.tw+=dt*s.sp; const a=0.35+0.45*Math.sin(s.tw);
+    ctx.globalAlpha=a; ctx.fillStyle="#cfd6ff";
+    ctx.beginPath(); ctx.arc(s.x*W,s.y*H,s.r,0,6.283); ctx.fill(); }
+  ctx.globalAlpha=1;
+
+  // decide draw set: focus, its kids, grandkids (hint), parent + siblings (context)
+  const kids=focus.children||[];
+  const parent=focus.parent;
+
+  // connectors + flow particles from focus to its kids
+  for(const k of kids){
+    const [px,py]=w2s(focus.cx,focus.cy), [cxs,cys]=w2s(k.cx,k.cy);
+    ctx.strokeStyle="rgba(255,255,255.10)"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(cxs,cys); ctx.stroke();
+    // flowing dot (data moving outward)
+    const f=((T*0.28 + (k.baseAngle))%1+1)%1;
+    const fx=px+(cxs-px)*f, fy=py+(cys-py)*f;
+    const gr=ctx.createRadialGradient(fx,fy,0,fx,fy,5);
+    gr.addColorStop(0,k.rc); gr.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(fx,fy,5,0,6.283); ctx.fill();
+  }
+
+  // parent + siblings faint (context ring you came from)
+  if(parent){
+    drawNode(parent,0.16,false);
+    for(const sib of parent.children){ if(sib!==focus) drawNode(sib,0.13,false); }
+  }
+  // grandkids as faint hints
+  for(const k of kids){ for(const gk of (k.children||[])) drawNode(gk,0.28,false); }
+  // kids bright + focus
+  for(const k of kids) drawNode(k,1,true);
+  drawNode(focus,1,true,true);
+
+  requestAnimationFrame(frame);
+}
+
+function drawNode(node,alpha,label,isFocus){
+  const [sx,sy]=w2s(node.cx,node.cy);
+  const r=node.R*cam.scale;
+  if(r<1.2) return;
+  if(sx< -r-80||sx>W+r+80||sy< -r-80||sy>H+r+80) return;
+  const col=node.rc;
+  // outer glow
+  ctx.globalAlpha=alpha;
+  const g=ctx.createRadialGradient(sx,sy,r*0.2,sx,sy,r*1.9);
+  g.addColorStop(0,hexA(col,isFocus?0.34:0.22)); g.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(sx,sy,r*1.9,0,6.283); ctx.fill();
+  // body
+  const bg=ctx.createRadialGradient(sx-r*0.3,sy-r*0.3,r*0.1,sx,sy,r);
+  bg.addColorStop(0,hexA(col,0.95)); bg.addColorStop(0.6,hexA(col,0.55)); bg.addColorStop(1,hexA(col,0.16));
+  ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(sx,sy,r,0,6.283); ctx.fill();
+  // rim
+  ctx.strokeStyle=hexA(col,isFocus?0.95:0.6); ctx.lineWidth=isFocus?2:1.2;
+  ctx.beginPath(); ctx.arc(sx,sy,r,0,6.283); ctx.stroke();
+  // orbit ring hint if it has kids and is reasonably sized
+  if(node.children&&node.children.length&&r>26){
+    ctx.strokeStyle="rgba(255,255,255.09)"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(sx,sy,node.ringR*cam.scale,0,6.283); ctx.stroke();
+  }
+  // label
+  const showLabel = label && r>10;
+  if(showLabel){
+    ctx.globalAlpha=Math.min(alpha*1.2,1);
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    const fs=Math.max(11,Math.min(r*0.34,20));
+    // name fits inside if big enough, else below
+    if(r>44){
+      ctx.font=`600 ${fs}px system-ui,sans-serif`; ctx.fillStyle="#fff";
+      wrapText(node.name,sx,sy- (node.tag?fs*0.35:0),r*1.7,fs*1.05);
+      if(node.tag){ ctx.font=`500 ${Math.max(9,fs*0.5)}px system-ui,sans-serif`;
+        ctx.fillStyle=hexA("#ffffff",0.7); ctx.fillText(node.tag,sx,sy+fs*0.85); }
+    } else {
+      ctx.font=`600 ${Math.max(11,Math.min(r*0.9,15))}px system-ui,sans-serif`;
+      ctx.fillStyle="rgba(255,255,255.92)";
+      ctx.fillText(node.name,sx,sy+r+12);
+    }
+  }
+  ctx.globalAlpha=1;
+  node._sx=sx; node._sy=sy; node._sr=r;   // cache for hit-testing
+}
+function wrapText(t,x,y,maxw,lh){
+  const words=t.split(" "); let line="",lines=[];
+  for(const wd of words){ const test=line?line+" "+wd:wd;
+    if(ctx.measureText(test).width>maxw && line){ lines.push(line); line=wd; } else line=test; }
+  if(line) lines.push(line);
+  const start=y-(lines.length-1)*lh/2;
+  lines.forEach((ln,i)=>ctx.fillText(ln,x,start+i*lh));
+}
+function hexA(hex,a){
+  if(hex.startsWith("rgb")) return hex;
+  let h=hex.replace("#",""); if(h.length===3) h=h.split("").map(c=>c+c).join("");
+  const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+/* ---------------- interaction ---------------- */
+function hitTest(mx,my){
+  // clickable: focus's kids, grandkids, siblings, parent (things currently drawn)
+  const cand=[];
+  const push=n=>{ if(n&&n._sr!==undefined) cand.push(n); };
+  (focus.children||[]).forEach(k=>{ push(k); (k.children||[]).forEach(push); });
+  if(focus.parent){ push(focus.parent); focus.parent.children.forEach(push); }
+  push(focus);
+  let best=null,bestR=1e9;
+  for(const n of cand){ const d=Math.hypot(mx-n._sx,my-n._sy);
+    if(d<=Math.max(n._sr,12) && n._sr<bestR){ best=n; bestR=n._sr; } }
+  return best;
+}
+let down=null,moved=false,panStart=null;
+cv.addEventListener("pointerdown",e=>{ down={x:e.clientX,y:e.clientY}; moved=false;
+  panStart={x:manual?manual.x:0,y:manual?manual.y:0, mx:e.clientX,my:e.clientY}; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener("pointermove",e=>{ if(!down) return;
+  if(Math.hypot(e.clientX-down.x,e.clientY-down.y)>5){ moved=true;
+    manual=manual||{x:0,y:0};
+    manual.x=panStart.x-(e.clientX-panStart.mx)/cam.scale;
+    manual.y=panStart.y-(e.clientY-panStart.my)/cam.scale; } });
+cv.addEventListener("pointerup",e=>{
+  if(!moved){ const n=hitTest(e.clientX,e.clientY);
+    if(n && n!==focus){ setFocus(n); }
+    else if(!n){ if(focus.parent) setFocus(focus.parent); } }
+  down=null; });
+cv.addEventListener("wheel",e=>{ e.preventDefault();
+  camT.scale=cam.scale=Math.max(0.02,Math.min(cam.scale*(e.deltaY<0?1.12:0.89),8));
+},{passive:false});
+addEventListener("keydown",e=>{ if(e.key==="Escape"&&focus.parent) setFocus(focus.parent); });
+
+document.getElementById("upBtn").onclick=()=>{ if(focus.parent) setFocus(focus.parent); };
+document.getElementById("homeBtn").onclick=()=>setFocus(TREE);
+
+/* ---------------- panels ---------------- */
+function updatePanel(){
+  const n=focus, info=document.getElementById("info");
+  const kids=n.children||[];
+  let html=`<span class="tag" style="background:${hexA(n.rc,0.18)};color:${n.rc}">${n.tag||"concept"}</span>`;
+  html+=`<h2>${n.name}</h2><p class="desc">${n.desc||""}</p>`;
+  if(kids.length){
+    html+=`<div class="kids-l">Inside. click to dive</div><div class="kids">`;
+    kids.forEach(k=>{ html+=`<span class="kid" data-id="${k.id}"><span class="d" style="background:${k.rc}"></span>${k.name}</span>`; });
+    html+=`</div>`;
+  } else {
+    html+=`<div class="leaf">◉ deepest layer, this is raw material. Press <b>Zoom out</b> to rise.</div>`;
+  }
+  info.innerHTML=html;
+  info.querySelectorAll(".kid").forEach(el=>el.onclick=()=>setFocus(byId[el.dataset.id]));
+}
+function updateCrumbs(){
+  const c=document.getElementById("crumbs"); const path=[]; let p=focus; while(p){ path.unshift(p); p=p.parent; }
+  c.innerHTML=path.map((n,i)=>`<span class="crumb ${n===focus?'here':''}" data-id="${n.id}">${n.name}</span>`
+    + (i<path.length-1?`<span class="sep">›</span>`:"")).join("");
+  c.querySelectorAll(".crumb").forEach(el=>el.onclick=()=>setFocus(byId[el.dataset.id]));
+}
+function buildLegend(){
+  const items=[["The Model","var(--violet)"],["Foundations / Linear algebra","var(--blue)"],
+    ["Calculus","var(--aqua)"],["Transformer","var(--orange)"],["Attention","var(--magenta)"],
+    ["Feed-forward","var(--violet)"],["Operations","var(--green)"]];
+  document.getElementById("legend").innerHTML=items.map(([t,c])=>
+    `<div class="lr"><span class="d" style="background:${resolveColor(c)}"></span>${t}</div>`).join("");
+}
+
+/* ---------------- go ---------------- */
+buildLegend(); setFocus(TREE,true); requestAnimationFrame(frame);
+window.focusById=(id)=>setFocus(byId[id],false);   // test hook
+</script>
+</body>
+</html>

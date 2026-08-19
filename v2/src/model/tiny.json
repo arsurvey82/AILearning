@@ -1,0 +1,119 @@
+{
+ "note": "Skip-gram trained on a 16-line corpus. Four dimensions so the table can be printed.",
+ "vocab": [
+  "the",
+  "cat",
+  "dog",
+  "sat",
+  "wood",
+  "food",
+  "eat"
+ ],
+ "dim": 4,
+ "seats": 6,
+ "corpus": [
+  "the cat sat",
+  "the dog sat",
+  "the cat eat food",
+  "the dog eat food",
+  "cat eat",
+  "dog eat",
+  "the cat",
+  "the dog",
+  "the cat sat wood",
+  "the cat sat wood",
+  "the dog eat food",
+  "the dog eat",
+  "eat food",
+  "eat food",
+  "sat wood",
+  "sat wood",
+  "the food",
+  "the wood"
+ ],
+ "window": 2,
+ "tokens": [
+  [
+   -0.04,
+   -0.17,
+   0.24,
+   -0.01
+  ],
+  [
+   0.24,
+   -0.05,
+   -0.23,
+   0.01
+  ],
+  [
+   0.38,
+   0.03,
+   -0.21,
+   0.0
+  ],
+  [
+   -0.31,
+   0.14,
+   -0.16,
+   -0.0
+  ],
+  [
+   -0.18,
+   0.03,
+   -0.04,
+   0.9
+  ],
+  [
+   0.26,
+   0.58,
+   0.57,
+   0.12
+  ],
+  [
+   -0.18,
+   0.27,
+   -0.0,
+   -0.14
+  ]
+ ],
+ "positions": [
+  [
+   0.01,
+   0.02,
+   0.03,
+   0.04
+  ],
+  [
+   0.05,
+   0.06,
+   0.07,
+   0.08
+  ],
+  [
+   0.09,
+   0.1,
+   0.11,
+   0.12
+  ],
+  [
+   0.13,
+   0.14,
+   0.15,
+   0.16
+  ],
+  [
+   0.17,
+   0.18,
+   0.19,
+   0.2
+  ],
+  [
+   0.21,
+   0.22,
+   0.23,
+   0.24
+  ]
+ ],
+ "cat_dog_cosine": 0.943,
+ "cat_wood_cosine": -0.086
+}

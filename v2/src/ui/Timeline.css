@@ -1,0 +1,145 @@
+.tl {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: var(--sp-5) var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.tl-head h2 {
+  margin: 0 0 6px;
+  font-size: clamp(20px, 2.8vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.tl-head p {
+  margin: 0 0 var(--sp-3);
+  font-size: 14px;
+  color: var(--ink-2);
+  max-width: 64ch;
+}
+.tl-head b {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.tl-filters {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  width: fit-content;
+}
+.tl-f {
+  padding: 5px 11px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.tl-f + .tl-f {
+  border-left: 1px solid var(--border);
+}
+.tl-f.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--yellow) 20%, transparent);
+}
+
+/* Outside the list, because a year would imply an alternative history. */
+.tl-forced {
+  border: 1px solid color-mix(in srgb, var(--aqua) 40%, transparent);
+  background: color-mix(in srgb, var(--aqua) 7%, transparent);
+  border-radius: var(--r-sm);
+  padding: var(--sp-3);
+}
+.tl-forced-k {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--aqua);
+  margin-bottom: var(--sp-2);
+}
+.tl-forced-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.tl-chip {
+  padding: 4px 10px;
+  font-size: 12.5px;
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+}
+.tl-chip:hover {
+  border-color: var(--aqua);
+}
+
+.tl-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tl-row {
+  border-top: 1px solid var(--border);
+}
+.tl-row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.tl-open {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: var(--sp-4);
+  width: 100%;
+  text-align: left;
+  padding: var(--sp-3) 0;
+  align-items: baseline;
+}
+.tl-open:hover {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.tl-year {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--yellow);
+  font-variant-numeric: tabular-nums;
+}
+.tl-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.tl-problem {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* The hinge everything else sits either side of. */
+.tl-row.hinge .tl-year {
+  color: var(--violet);
+}
+.tl-row.hinge {
+  background: color-mix(in srgb, var(--violet) 7%, transparent);
+}
+
+.tl-foot {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 66ch;
+}
+
+@media (max-width: 620px) {
+  .tl-open {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: var(--sp-3);
+  }
+}

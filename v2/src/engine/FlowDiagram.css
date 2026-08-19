@@ -1,0 +1,199 @@
+.fd {
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.fd-caption {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin-bottom: var(--sp-4);
+  max-width: 68ch;
+}
+
+.fd-scroll {
+  padding-bottom: 2px;
+}
+
+/* Wraps rather than scrolling sideways. A five-step chain does not fit an
+   800px column, and a horizontally scrolled diagram hides its own ending , 
+   the last steps simply never get seen. Wrapping is safe here only because
+   every box carries its step number, so the order survives the line break. */
+.fd-chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* The arrow is drawn with ::before so it never lands before the first item and
+   never needs a DOM node to hide from screen readers. */
+.fd-step {
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+}
+.fd-step + .fd-step::before {
+  content: '→';
+  flex: 0 0 auto;
+  /* Aligned with the label rather than the middle: boxes have very different
+     heights, and centring the arrow against a tall box points it at nothing. */
+  padding: 30px var(--sp-2) 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.fd-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  /* Natural height. Stretching every box to match the tallest one leaves the
+     simple steps as large empty rectangles. */
+  min-width: 138px;
+  max-width: 196px;
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-3);
+  padding-top: 22px;
+  border: 1px solid var(--c, var(--border));
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--c, var(--muted)) 8%, var(--plane));
+}
+
+/* Kind is carried by colour AND by the little word in the corner, never
+   colour alone (§7.6). */
+.k-input .fd-box,
+.k-input.fd-part {
+  --c: var(--blue);
+}
+.k-stage .fd-box,
+.k-stage.fd-part {
+  --c: var(--violet);
+}
+.k-store .fd-box,
+.k-store.fd-part {
+  --c: var(--yellow);
+}
+.k-control .fd-box,
+.k-control.fd-part {
+  --c: var(--orange);
+}
+.k-output .fd-box,
+.k-output.fd-part {
+  --c: var(--aqua);
+}
+
+.fd-kind {
+  position: absolute;
+  top: 5px;
+  left: var(--sp-3);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c, var(--muted));
+}
+
+.fd-num {
+  position: absolute;
+  top: 5px;
+  right: var(--sp-3);
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.fd-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.fd-sub {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.fd-parts-l {
+  margin-top: var(--sp-2);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fd-parts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fd-part {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border-left: 2px solid var(--c, var(--muted));
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+
+.fd-part-l {
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.fd-part-s {
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.fd-loop {
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-sm);
+  display: inline-block;
+}
+
+.fd-note {
+  margin: var(--sp-3) 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+@media (max-width: 640px) {
+  /* Stack vertically and turn the arrows down, a horizontal chain on a phone
+     is a scroll race, and the order is the whole point. */
+  .fd-chain {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .fd-step + .fd-step::before {
+    content: '↓';
+    padding: 0 0 var(--sp-1);
+    text-align: center;
+    width: 100%;
+  }
+  .fd-step {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .fd-box {
+    max-width: none;
+  }
+}
