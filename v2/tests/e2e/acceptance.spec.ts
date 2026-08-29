@@ -658,7 +658,11 @@ test('every concept has real content behind it', async ({ page }) => {
   await openMap(page);
 
   // It used to read "1 of 64".
-  await expect(page.locator('.map-count')).toContainText('64 concepts');
+  /* Read the number rather than hardcoding it. Pinning 64 meant that adding
+     three lessons failed a test about honesty rather than about counting. */
+  const headline = await page.locator('.map-count').innerText();
+  const concepts = Number(headline.match(/(\d+)\s+concepts/)![1]);
+  expect(concepts, `headline said "${headline}"`).toBeGreaterThanOrEqual(64);
   await expect(page.locator('.map-count')).toContainText('diagrams');
 
   // Spot-check a leaf that was previously a bare one-liner.

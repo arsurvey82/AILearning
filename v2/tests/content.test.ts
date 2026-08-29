@@ -71,6 +71,9 @@ describe('the three continents', () => {
       'vllm',
       'aibrix',
       'agent-layer',
+      'agentic',
+      'context-engineering',
+      'tool-design',
       'monitoring',
     ]);
   });
@@ -154,6 +157,9 @@ describe('honesty about depth', () => {
       'vllm',
       'aibrix',
       'agent-layer',
+      'agentic',
+      'context-engineering',
+      'tool-design',
       'monitoring',
     ]) {
       expect(complete.has(id), id).toBe(true);

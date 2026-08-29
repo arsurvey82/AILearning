@@ -8,6 +8,7 @@
  * Attention is INSIDE a Transformer Layer, but comes AFTER Embedding.
  */
 
+import { agenticNodes } from './nodes/agentic';
 import { attentionNode } from './nodes/attention';
 import { embeddingNode } from './nodes/embedding';
 import { buildNodes } from './nodes/build';
@@ -32,6 +33,7 @@ export const NODES: ConceptNode[] = [
   attentionNode,
   ...buildNodes,
   ...operationsNodes,
+  ...agenticNodes,
 ];
 
 /**

@@ -41,7 +41,7 @@ it was looking at while deciding: 100% on "cat", 0% on "dogs". Change "cat" to
 "cats" and the answer becomes "run". Change "dogs" to "dog" and the answer does
 not change, which is the point.
 
-**3. Concept map.** 64 lessons about parts of a language model. Click through
+**3. Concept map.** 67 lessons about parts of a language model. Click through
 them, or walk the twelve steps a word takes through the model from left to right.
 
 Any underlined word anywhere can be clicked to look it up. That opens a panel
@@ -92,7 +92,7 @@ fails.
     src/model/      the four models and the maths that runs them
     src/learn/      the "Start here" and "trained model" screens
     src/glossary/   the clickable word lookups
-    src/content/    the 64 lessons, and why each concept exists
+    src/content/    the 67 lessons, and why each concept exists
     src/ui/         the history timeline and shared bits
     tools/          the Python training scripts
     tests/          195 tests that run in Node, 74 that run in a browser
@@ -104,7 +104,10 @@ Run them with `npx vitest run` and `npx playwright test`.
 - All four models, trained and checked.
 - Three screens, all working.
 - The word lookup, with sources.
-- History for 38 of the concepts: what problem each one solved, and when.
+- History for 44 of the concepts: what problem each one solved, and when.
+- Three lessons on AI agents: workflows versus agents, context engineering, and
+  designing tools. Every claim quoted from a published source, including the
+  one that says there is no correct pattern.
 - 269 tests passing.
 
 ## What is not finished
@@ -121,11 +124,8 @@ Run them with `npx vitest run` and `npx playwright test`.
    but it is not small. Shrinking it means saving the model numbers with fewer
    decimal places, which also means regenerating the test fixtures.
 
-3. **Nothing about AI agents is written yet.** The research is done and the
-   sources are gathered, but no lesson exists.
-
-4. **Nothing has been pushed.** There is one commit, `d156889`, sitting on
-   `master` locally. It has never been sent to GitHub.
+3. **Nothing has been pushed.** Three commits sit on `master` locally. They
+   have never been sent to GitHub.
 
 ## If you only do one thing
 

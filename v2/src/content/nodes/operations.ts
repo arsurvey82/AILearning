@@ -1257,7 +1257,7 @@ Three things are worth reading off that:
       title: 'Monitoring',
       tag: 'the feedback loop',
       color: 'orange',
-      order: 5,
+      order: 8,
       track: 'operations',
       parent: 'inference-path',
       L0_oneLiner:
