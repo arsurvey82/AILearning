@@ -23,6 +23,9 @@ import {
   ORIGINS,
   nodeTimeline,
   forcedNodes,
+  ASPECTS,
+  byPhase,
+  leavesNoTrace,
 } from '../src/content';
 
 describe('referential integrity', () => {
@@ -318,5 +321,66 @@ describe('origins: why each concept exists', () => {
       expect(ORIGINS[id], `${id} is an object and should have no origin`).toBeUndefined();
     }
     expect(ORIGINS['dot-product']?.kind, 'an operation can be forced').toBe('forced');
+  });
+});
+
+describe('aspects: when it runs, and what of it ships', () => {
+  /**
+   * The axis that kills the biggest misconception about these systems.
+   *
+   * People assume a model file contains the machinery that produced it. It does
+   * not: no loss, no gradients, no optimiser. So `trace: null` is a real answer
+   * here rather than missing data, and these tests protect it from being
+   * "helpfully" filled in later.
+   */
+  it('attaches only to nodes that exist', () => {
+    const unknown = Object.keys(ASPECTS).filter((id) => !NODES_BY_ID[id]);
+    expect(unknown, `aspects for missing nodes: ${unknown.join(', ')}`).toEqual([]);
+  });
+
+  it('says plainly that the training machinery is not in the file', () => {
+    // If any of these ever gains a trace, something has gone wrong in the
+    // writing, because none of them survives into a checkpoint.
+    for (const id of ['backprop', 'gradient-descent', 'derivative']) {
+      expect(ASPECTS[id]?.trace, `${id} should leave no trace`).toBeNull();
+      expect(ASPECTS[id]?.phase, id).toBe('training');
+    }
+  });
+
+  it('says the attention scores everyone pictures are never stored', () => {
+    expect(ASPECTS['attention-scores']?.trace).toBeNull();
+    expect(ASPECTS['attention-weights']?.trace).toBeNull();
+    // But the weights that produce them are the file.
+    expect(ASPECTS['attention']?.trace).toBeTruthy();
+    expect(ASPECTS['parameter']?.trace).toBeTruthy();
+  });
+
+  it('separates things that only exist while answering', () => {
+    for (const id of ['kv-cache', 'the-loop', 'agent-layer']) {
+      expect(ASPECTS[id]?.phase, id).toBe('inference');
+    }
+    // The KV cache is a serving structure and was never part of training.
+    expect(ASPECTS['kv-cache']?.trace).toBeNull();
+  });
+
+  it('keeps a real answer for every entry, including the empty one', () => {
+    for (const [id, a] of Object.entries(ASPECTS)) {
+      expect(['setup', 'training', 'inference', 'both'], id).toContain(a.phase);
+      // trace may be null, but it may not be an empty or lazy string.
+      if (a.trace !== null) expect(a.trace.length, id).toBeGreaterThan(15);
+      if (a.code) expect(a.code.length, id).toBeGreaterThan(3);
+    }
+  });
+
+  it('covers all four phases, so the split is doing work', () => {
+    const p = byPhase();
+    expect(p.training.length).toBeGreaterThan(5);
+    expect(p.inference.length).toBeGreaterThan(5);
+    expect(p.both.length).toBeGreaterThan(10);
+    expect(p.setup.length).toBeGreaterThan(0);
+  });
+
+  it('finds plenty that leaves nothing behind, which is the point', () => {
+    expect(leavesNoTrace().length, 'nothing is absent from the file?').toBeGreaterThan(10);
   });
 });

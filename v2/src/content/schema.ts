@@ -185,6 +185,46 @@ export type NodeStatus = 'complete' | 'stub';
  */
 export type { Origin } from '../glossary/schema';
 
+/**
+ * When a concept is live, and whether any of it survives into the file you download.
+ *
+ * The axis that kills the largest single misconception about these systems.
+ * People assume a model file contains the machinery that made it: the loss
+ * function, the gradients, the optimiser. None of that is in there. What ships
+ * is a pile of numbers and a little configuration, and everything that did the
+ * learning was scaffolding that was thrown away.
+ *
+ * So every concept answers two questions a reader can check against a real
+ * download:
+ *
+ *   phase   when is this thing running at all
+ *   trace   what of it exists in the shipped artifact, or null for nothing
+ *
+ * `trace: null` is the interesting value, not a gap in the data. Loss, gradient
+ * and backpropagation all legitimately have nothing to point at, and saying so
+ * teaches more than any description of them would.
+ */
+export type Phase =
+  /** Before anything runs: shapes decided, tables created, nothing meaningful yet. */
+  | 'setup'
+  /** Only while learning. Gone by the time anyone uses the model. */
+  | 'training'
+  /** Only while answering. Did not exist while the model was being trained. */
+  | 'inference'
+  /** Both, and usually the same code path. */
+  | 'both';
+
+export interface Aspect {
+  phase: Phase;
+  /**
+   * What of this you would find inside the downloaded model, in plain words.
+   * null means nothing at all, which is often the point.
+   */
+  trace: string | null;
+  /** The code that actually realises it, named concretely. */
+  code?: string;
+}
+
 export interface ConceptNode {
   id: NodeId;
   title: string;
@@ -239,6 +279,12 @@ export interface ConceptNode {
    * Inventing a history for it would be worse than leaving it empty.
    */
   origin?: import('../glossary/schema').Origin;
+
+  /**
+   * When it runs, and whether it survives into the shipped file. Optional
+   * because a container node like "The Model" has no single honest answer.
+   */
+  aspect?: Aspect;
 
   L2_snags: Snag[];
   /**

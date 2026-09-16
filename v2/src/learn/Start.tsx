@@ -24,6 +24,7 @@
 
 import { useState } from 'react';
 import { Prose } from '../glossary/Dig';
+import { AspectTable } from '../ui/AspectTable';
 import { Timeline } from '../ui/Timeline';
 import { useStore } from '../store';
 import tiny from '../model/tiny.json';
@@ -164,6 +165,9 @@ export function Start() {
           text="[[training]] is not a third time. It is time two, run millions of times, with the numbers corrected after each one. When it stops, the numbers freeze and the machinery is identical."
         />
       </section>
+
+      {/* ---- what is actually in the file ---- */}
+      <AspectTable />
 
       {/* ---- origin: the walk-back path ---- */}
       <Timeline />

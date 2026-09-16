@@ -527,3 +527,67 @@ test('a timeline row opens the concept it belongs to', async ({ page }) => {
   await expect(page.locator('.dz-origin [data-testid="origin"]')).toContainText('2014');
   expect(errors).toEqual([]);
 });
+
+/* ------------------------------------------------------------------ *
+ * What is actually in the downloaded file.
+ * ------------------------------------------------------------------ */
+
+test('the table says plainly what is not in the file', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+
+  const t = page.getByTestId('aspect-table');
+  await t.scrollIntoViewIfNeeded();
+  await expect(t).toBeVisible();
+
+  /* The rows saying "nothing" are the point. People assume a model file
+     contains the machinery that produced it, and none of this is in there. */
+  for (const id of ['backprop', 'gradient-descent', 'attention-scores', 'kv-cache']) {
+    await expect(t.getByTestId(`aspect-${id}`), id).toContainText('Nothing');
+  }
+  // And the things that ARE the file say so.
+  await expect(t.getByTestId('aspect-parameter')).toContainText('Every value in every tensor');
+
+  await page.screenshot({ path: `${SHOTS}/learn-11-aspects.png`, fullPage: true });
+  expect(errors).toEqual([]);
+});
+
+test('it groups by when things run, not alphabetically', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+  const t = page.getByTestId('aspect-table');
+
+  const banners = await t.locator('.at-sep-k').allInnerTexts();
+  expect(banners.map((b) => b.toLowerCase())).toEqual([
+    'both',
+    'only while learning',
+    'only while answering',
+    'before anything runs',
+  ]);
+  expect(errors).toEqual([]);
+});
+
+test('filtering to what is missing leaves only absent rows', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+  const t = page.getByTestId('aspect-table');
+
+  const before = await t.locator('tbody tr:not(.at-sep)').count();
+  await page.getByTestId('only-absent').click();
+  const after = await t.locator('tbody tr:not(.at-sep)').count();
+
+  expect(after, 'filtering should remove rows').toBeLessThan(before);
+  expect(after, 'plenty leaves no trace').toBeGreaterThan(10);
+  // Every remaining row must be an absent one.
+  const cells = await t.locator('.at-t').allInnerTexts();
+  expect(cells.every((c) => c.startsWith('Nothing'))).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test('a table row opens its lesson', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+  await page.getByTestId('aspect-table').getByTestId('aspect-backprop').locator('button').click();
+  await expect(page.locator('.dz-title')).toContainText('Backprop');
+  expect(errors).toEqual([]);
+});
