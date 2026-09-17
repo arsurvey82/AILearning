@@ -159,6 +159,7 @@ const TRACK_LABEL: Record<string, string> = {
   model: 'The model',
   build: 'Building it',
   operations: 'Running it',
+  beyond: 'Beyond text',
 };
 
 export function ConceptIndex() {
@@ -190,7 +191,7 @@ export function ConceptIndex() {
       })).concat([
         { key: 'none' as Phase, label: 'Not answered yet', rows: rows.filter((r) => !ASPECTS[r.n.id]) },
       ])
-    : ['model', 'build', 'operations'].map((t) => ({
+    : ['model', 'build', 'operations', 'beyond'].map((t) => ({
         key: t as Phase,
         label: TRACK_LABEL[t]!,
         rows: rows.filter((r) => r.n.track === t),

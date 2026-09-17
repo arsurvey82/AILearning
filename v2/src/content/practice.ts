@@ -64,6 +64,19 @@ const s = (useCase: string, choose: string, source: Source): Practice => ({
 });
 
 export const PRACTICE: Record<string, Practice> = {
+  beyond: j(
+    'Knowing what you have learned and what you have not, before you need it.',
+    'Read it once you can follow the forward pass. Do not read it first: the boundary means nothing until you know what is inside it.',
+  ),
+  diffusion: j(
+    'Making images, video and audio, where the whole output is refined at once rather than emitted piece by piece.',
+    'Reach for it for anything continuous and perceptual. Do not reach for it when the output is a short factual answer, because paying for many passes to produce a sentence is waste.',
+  ),
+  multimodal: j(
+    'Letting one model read pictures and text together, rather than wiring two systems to each other.',
+    'Choose it when the question genuinely spans both, like asking about a chart. Do not choose it for text-only work: you pay for the vision tower whether or not you send an image.',
+  ),
+
   /* ------------------------------------------------ the whole thing ----- */
   llm: j(
     'Turning text into more text: drafting, summarising, answering, translating, writing code.',

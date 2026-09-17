@@ -57,8 +57,16 @@ describe('referential integrity', () => {
 });
 
 describe('the three continents', () => {
-  it('splits the universe into Model, Build and Operations', () => {
-    expect(childrenOf(ROOT_ID).map((n) => n.id)).toEqual(['model', 'build', 'operations']);
+  it('splits the universe into Model, Build, Operations and what it leaves out', () => {
+    /* The fourth exists because a reader asked whether everything is a language
+       model in 2026. The app had no answer, and silence on a boundary reads as
+       a claim that there is not one. */
+    expect(childrenOf(ROOT_ID).map((n) => n.id)).toEqual([
+      'model',
+      'build',
+      'operations',
+      'beyond',
+    ]);
   });
 
   it('puts Operations on a training path and an inference path', () => {

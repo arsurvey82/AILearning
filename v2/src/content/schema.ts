@@ -13,7 +13,7 @@ import type { EmbedResult } from '../model/embedding';
 
 export type NodeId = string;
 
-export type Track = 'model' | 'build' | 'operations';
+export type Track = 'model' | 'build' | 'operations' | 'beyond';
 
 /** The three roles a row of numbers can play, coloured distinctly and always labelled. */
 export type NumberRole = 'token' | 'position' | 'input' | 'neutral';

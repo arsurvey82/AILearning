@@ -18,6 +18,37 @@
 import type { Origin } from '../glossary/schema';
 
 export const ORIGINS: Record<string, Origin> = {
+  /* A grouping. The boundary is a fact about this app, not about the field. */
+  beyond: {
+    kind: 'none',
+    because:
+      'A heading for the things this app does not teach. The boundary is a choice about what to cover, not an invention anyone made.',
+  },
+  diffusion: {
+    kind: 'fix',
+    year: 2020,
+    problem:
+      'The generative models that worked at the time were adversarial: two networks fighting, which trained unstably and quietly ignored parts of the data it found hard.',
+    gained:
+      'A plain regression objective. Predict the noise you added, which is stable to train and covers the data rather than collapsing onto the easy parts of it.',
+    source: {
+      label: 'Ho et al, Denoising Diffusion Probabilistic Models',
+      url: 'https://arxiv.org/abs/2006.11239',
+    },
+  },
+  multimodal: {
+    kind: 'fix',
+    year: 2020,
+    problem:
+      'Images needed convolutions and text needed transformers, so the two had separate architectures and nothing learned about one transferred to the other.',
+    gained:
+      'Cut a picture into patches and each one is a vector, which is the only thing a transformer ever handles. One architecture now serves both, which is why a single backbone can read a photograph and a sentence in the same sequence.',
+    source: {
+      label: 'Dosovitskiy et al, An Image is Worth 16x16 Words',
+      url: 'https://arxiv.org/abs/2010.11929',
+    },
+  },
+
   /* ---------------------------------------------------------- forced ---- */
 
   tokenization: {

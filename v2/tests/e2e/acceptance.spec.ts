@@ -102,11 +102,14 @@ test('map and notebook are visible together, not toggled', async ({ page }) => {
   // No view toggle, because there is nothing to toggle between.
   await expect(page.getByRole('button', { name: /^Map/ })).toHaveCount(0);
 
-  // design-spec §5: three continents, reachable from the map pane.
+  /* design-spec section 5 named three continents. There are four: a reader
+     asked whether everything is a language model in 2026, the app had no
+     answer, and silence about a boundary reads as a claim there is not one. */
   const kids = page.locator('.map-kid');
-  await expect(kids).toHaveCount(3);
+  await expect(kids).toHaveCount(4);
   await expect(kids.nth(0)).toContainText('The Model');
   await expect(kids.nth(2)).toContainText('The Operations');
+  await expect(kids.nth(3)).toContainText('Beyond Text');
 
   await page.waitForTimeout(700);
   await shot(page, '01-split');

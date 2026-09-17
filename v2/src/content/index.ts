@@ -11,6 +11,7 @@
 import { agenticNodes } from './nodes/agentic';
 import { attentionNode } from './nodes/attention';
 import { embeddingNode } from './nodes/embedding';
+import { beyondNodes } from './nodes/beyond';
 import { buildNodes } from './nodes/build';
 import { modelNodes, rootNode } from './nodes/model';
 import { operationsNodes } from './nodes/operations';
@@ -36,6 +37,7 @@ export const NODES: ConceptNode[] = [
   ...buildNodes,
   ...operationsNodes,
   ...agenticNodes,
+  ...beyondNodes,
 ];
 
 /**

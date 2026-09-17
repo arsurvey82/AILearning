@@ -20,6 +20,24 @@ import type { Aspect } from './schema';
 const LLAMA = 'https://huggingface.co/meta-llama/Llama-3.1-8B';
 
 export const ASPECTS: Record<string, Aspect> = {
+  beyond: {
+    phase: 'both',
+    trace: 'A grouping. Nothing of its own; its parts are separate files entirely.',
+    code: 'not one codebase. diffusers for images, transformers for text',
+  },
+  diffusion: {
+    phase: 'both',
+    trace:
+      'A different download: a denoising network, a text encoder, and a scheduler config that records how much noise each step removes.',
+    code: 'DiTransformer2DModel or UNet2DConditionModel, plus a scheduler',
+  },
+  multimodal: {
+    phase: 'both',
+    trace:
+      'The usual weights plus a vision tower and a small projection matrix between them.',
+    code: 'a vision encoder, a projection, then the same decoder',
+  },
+
   /* ------------------------------------------------ the thing itself ---- */
 
   llm: {
