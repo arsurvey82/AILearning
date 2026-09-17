@@ -1,0 +1,171 @@
+.ci {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: var(--sp-5) var(--sp-5) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.ci-head h2 {
+  margin: 0 0 6px;
+  font-size: clamp(20px, 2.8vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.ci-head > p {
+  margin: 0 0 var(--sp-4);
+  font-size: 14px;
+  color: var(--ink-2);
+  max-width: 66ch;
+}
+
+/* One button per lens, each carrying its own coverage. */
+.ci-lenses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ci-lens {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--ink-2);
+}
+.ci-lens b {
+  font-size: 13px;
+  font-weight: 500;
+}
+.ci-lens em {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.ci-lens em.full {
+  color: var(--aqua);
+}
+.ci-lens em.thin {
+  color: var(--orange);
+}
+.ci-lens:hover {
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+.ci-lens.on {
+  color: var(--ink);
+  border-color: var(--violet);
+  background: color-mix(in srgb, var(--violet) 14%, transparent);
+}
+
+.ci-q {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  margin-top: var(--sp-3);
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.ci-gaps {
+  font-size: 12px;
+  color: var(--muted);
+  border-bottom: 1px dotted currentColor;
+}
+.ci-gaps:hover {
+  color: var(--ink);
+}
+.ci-gaps.on {
+  color: var(--crit);
+}
+
+.ci-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.ci-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.ci-tbl td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.ci-sep td {
+  padding-top: 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--c, var(--muted));
+  border-bottom: 1px solid var(--border-strong);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.ci-both { --c: var(--blue); }
+.ci-training { --c: var(--yellow); }
+.ci-inference { --c: var(--aqua); }
+.ci-setup { --c: var(--violet); }
+.ci-none { --c: var(--muted); }
+.ci-model { --c: var(--blue); }
+.ci-build { --c: var(--violet); }
+.ci-operations { --c: var(--orange); }
+
+.ci-c {
+  width: 1%;
+  white-space: nowrap;
+}
+.ci-c button {
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  border-bottom: 1px dotted var(--border-strong);
+}
+.ci-c button:hover {
+  color: var(--blue);
+  border-bottom-color: currentColor;
+}
+
+.ci-v {
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+/* The absent rows carry the lesson, so they are marked rather than dimmed. */
+.ci-v.absent {
+  color: var(--crit);
+  font-weight: 500;
+}
+.ci-v.empty {
+  color: var(--muted);
+  font-style: italic;
+}
+.ci-note {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 8px;
+  vertical-align: 1px;
+}
+
+.ci-foot {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 68ch;
+}
+.ci-foot b {
+  color: var(--ink-2);
+  font-weight: 600;
+}

@@ -532,62 +532,78 @@ test('a timeline row opens the concept it belongs to', async ({ page }) => {
  * What is actually in the downloaded file.
  * ------------------------------------------------------------------ */
 
-test('the table says plainly what is not in the file', async ({ page }) => {
+test('the index reads one lens down the whole list', async ({ page }) => {
   const errors = watchConsole(page);
   await openStart(page);
 
-  const t = page.getByTestId('aspect-table');
-  await t.scrollIntoViewIfNeeded();
-  await expect(t).toBeVisible();
+  const ix = page.getByTestId('concept-index');
+  await ix.scrollIntoViewIfNeeded();
+  await expect(ix).toBeVisible();
 
   /* The rows saying "nothing" are the point. People assume a model file
      contains the machinery that produced it, and none of this is in there. */
   for (const id of ['backprop', 'gradient-descent', 'attention-scores', 'kv-cache']) {
-    await expect(t.getByTestId(`aspect-${id}`), id).toContainText('Nothing');
+    await expect(ix.getByTestId(`row-${id}`), id).toContainText('Nothing');
   }
-  // And the things that ARE the file say so.
-  await expect(t.getByTestId('aspect-parameter')).toContainText('Every value in every tensor');
+  await expect(ix.getByTestId('row-parameter')).toContainText('Every value in every tensor');
 
-  await page.screenshot({ path: `${SHOTS}/learn-11-aspects.png`, fullPage: true });
+  await page.screenshot({ path: `${SHOTS}/learn-11-index.png`, fullPage: true });
   expect(errors).toEqual([]);
 });
 
-test('it groups by when things run, not alphabetically', async ({ page }) => {
+test('switching lens asks a different question of the same concepts', async ({ page }) => {
   const errors = watchConsole(page);
   await openStart(page);
-  const t = page.getByTestId('aspect-table');
+  const ix = page.getByTestId('concept-index');
 
-  const banners = await t.locator('.at-sep-k').allInnerTexts();
-  expect(banners.map((b) => b.toLowerCase())).toEqual([
-    'both',
-    'only while learning',
-    'only while answering',
-    'before anything runs',
-  ]);
+  const cell = () => ix.getByTestId('row-backprop').innerText();
+  const inFile = await cell();
+  expect(inFile).toContain('Nothing');
+
+  await page.getByTestId('lens-why').click();
+  const why = await cell();
+  expect(why, 'the why lens should say something else').not.toBe(inFile);
+  expect(why).toContain('1986');
+
+  await page.getByTestId('lens-what').click();
+  expect(await cell()).not.toBe(why);
   expect(errors).toEqual([]);
 });
 
-test('filtering to what is missing leaves only absent rows', async ({ page }) => {
+test('every lens reports its own coverage, holes included', async ({ page }) => {
   const errors = watchConsole(page);
   await openStart(page);
-  const t = page.getByTestId('aspect-table');
+  const ix = page.getByTestId('concept-index');
 
-  const before = await t.locator('tbody tr:not(.at-sep)').count();
-  await page.getByTestId('only-absent').click();
-  const after = await t.locator('tbody tr:not(.at-sep)').count();
-
-  expect(after, 'filtering should remove rows').toBeLessThan(before);
-  expect(after, 'plenty leaves no trace').toBeGreaterThan(10);
-  // Every remaining row must be an absent one.
-  const cells = await t.locator('.at-t').allInnerTexts();
-  expect(cells.every((c) => c.startsWith('Nothing'))).toBe(true);
+  // "What it is" is answered for every concept; "why it exists" is not, and the
+  // button has to admit that rather than look complete.
+  await expect(ix.getByTestId('lens-what')).toContainText('100%');
+  const why = await ix.getByTestId('lens-why').innerText();
+  expect(Number(why.match(/(\d+)%/)![1])).toBeLessThan(100);
   expect(errors).toEqual([]);
 });
 
-test('a table row opens its lesson', async ({ page }) => {
+test('unanswered cells are shown, not hidden', async ({ page }) => {
   const errors = watchConsole(page);
   await openStart(page);
-  await page.getByTestId('aspect-table').getByTestId('aspect-backprop').locator('button').click();
+  const ix = page.getByTestId('concept-index');
+
+  await page.getByTestId('lens-why').click();
+  // A tidy table with the gaps filtered out would be the empty box that looks
+  // full, which is the failure this project keeps guarding against.
+  await expect(ix.locator('.ci-v.empty').first()).toContainText('not written yet');
+
+  await page.getByTestId('gaps-only').click();
+  const cells = await ix.locator('.ci-v').allInnerTexts();
+  expect(cells.length).toBeGreaterThan(5);
+  expect(cells.every((c) => c.includes('not written yet') || c.includes('Nothing'))).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test('an index row opens its lesson', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+  await page.getByTestId('concept-index').getByTestId('row-backprop').locator('button').click();
   await expect(page.locator('.dz-title')).toContainText('Backprop');
   expect(errors).toEqual([]);
 });

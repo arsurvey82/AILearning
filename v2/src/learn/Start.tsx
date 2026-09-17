@@ -24,7 +24,7 @@
 
 import { useState } from 'react';
 import { Prose } from '../glossary/Dig';
-import { AspectTable } from '../ui/AspectTable';
+import { ConceptIndex } from '../ui/ConceptIndex';
 import { Timeline } from '../ui/Timeline';
 import { useStore } from '../store';
 import tiny from '../model/tiny.json';
@@ -166,8 +166,8 @@ export function Start() {
         />
       </section>
 
-      {/* ---- what is actually in the file ---- */}
-      <AspectTable />
+      {/* ---- the index: one question, asked of everything ---- */}
+      <ConceptIndex />
 
       {/* ---- origin: the walk-back path ---- */}
       <Timeline />
