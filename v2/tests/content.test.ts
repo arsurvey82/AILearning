@@ -26,6 +26,8 @@ import {
   ASPECTS,
   byPhase,
   leavesNoTrace,
+  PRACTICE,
+  sourcedCount,
 } from '../src/content';
 
 describe('referential integrity', () => {
@@ -318,7 +320,10 @@ describe('origins: why each concept exists', () => {
        comparison done that way" has a real answer: it is what comparing two
        positions means. So that one earns a forced origin and these do not. */
     for (const id of ['vector', 'matrix', 'tensor']) {
-      expect(ORIGINS[id], `${id} is an object and should have no origin`).toBeUndefined();
+      /* These used to be absent from ORIGINS entirely. Absence was silence,
+         and silence reads the same as an oversight. They now answer "there is
+         nothing to chase here, and this is why", which is a real answer. */
+      expect(ORIGINS[id]?.kind, `${id} is an object`).toBe('none');
     }
     expect(ORIGINS['dot-product']?.kind, 'an operation can be forced').toBe('forced');
   });
@@ -382,5 +387,60 @@ describe('aspects: when it runs, and what of it ships', () => {
 
   it('finds plenty that leaves nothing behind, which is the point', () => {
     expect(leavesNoTrace().length, 'nothing is absent from the file?').toBeGreaterThan(10);
+  });
+});
+
+describe('every lens answers every concept', () => {
+  /**
+   * 100% means every concept has an ANSWER, not that every concept has a
+   * history. A vector is an object, so its origin says "there is nothing to
+   * chase here" rather than inventing a date. An explicit no is an answer; a
+   * blank cell is not.
+   */
+  it('covers all 67 concepts on every factual lens', () => {
+    for (const n of NODES) {
+      expect(ORIGINS[n.id], `${n.id} has no origin`).toBeDefined();
+      expect(ASPECTS[n.id], `${n.id} has no aspect`).toBeDefined();
+      expect(ASPECTS[n.id]?.code, `${n.id} has no code`).toBeTruthy();
+      expect(PRACTICE[n.id], `${n.id} has no practice`).toBeDefined();
+    }
+  });
+
+  it('answers "no history" explicitly rather than inventing one', () => {
+    const none = Object.entries(ORIGINS).filter(([, o]) => o.kind === 'none');
+    expect(none.length, 'nothing is an object?').toBeGreaterThan(10);
+    for (const [id, o] of none) {
+      expect((o as { because: string }).because.length, id).toBeGreaterThan(40);
+    }
+    // The objects specifically must be in that group, not given a date.
+    for (const id of ['vector', 'matrix', 'tensor', 'layer']) {
+      expect(ORIGINS[id]?.kind, id).toBe('none');
+    }
+  });
+
+  it('marks the two opinion lenses as opinion', () => {
+    for (const [id, p] of Object.entries(PRACTICE)) {
+      expect(['sourced', 'judgement'], id).toContain(p.confidence);
+      expect(p.useCase.length, id).toBeGreaterThan(25);
+      expect(p.choose.length, id).toBeGreaterThan(40);
+      // A sourced claim must carry the source it claims.
+      if (p.confidence === 'sourced') expect(p.source, id).toBeDefined();
+    }
+  });
+
+  it('grounds what it can, and does not overclaim the rest', () => {
+    // Six entries rest on a published source. The rest are informed opinion
+    // and say so, which is the honest split rather than a flattering one.
+    expect(sourcedCount()).toBeGreaterThanOrEqual(5);
+    expect(sourcedCount()).toBeLessThan(Object.keys(PRACTICE).length / 2);
+  });
+
+  it('says when NOT to use something, not only when to use it', () => {
+    /* A "when to choose" lens that only ever recommends is marketing. Most
+       entries should name a condition under which the answer is no. */
+    const negative = Object.values(PRACTICE).filter((p) =>
+      /\b(do not|never|rarely|skip|overkill|not the right|almost never|instead)\b/i.test(p.choose),
+    );
+    expect(negative.length / Object.keys(PRACTICE).length).toBeGreaterThan(0.3);
   });
 });

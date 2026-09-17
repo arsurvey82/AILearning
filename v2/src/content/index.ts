@@ -21,6 +21,7 @@ import type { ConceptNode, NodeId } from './schema';
 
 export { ORIGINS, nodeTimeline, forcedNodes } from './origins';
 export { ASPECTS, PHASE_LABEL, ASPECT_SOURCE, leavesNoTrace, byPhase } from './aspects';
+export { PRACTICE, sourcedCount } from './practice';
 
 export const ROOT_ID: NodeId = 'llm';
 

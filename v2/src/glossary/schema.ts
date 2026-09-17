@@ -35,6 +35,18 @@ export interface Source {
 
 export type Origin =
   | {
+      /**
+       * It has no history, and saying so is the honest answer.
+       *
+       * A vector is an object. A grouping like "The Model" is a container.
+       * Neither is somebody's fix for anything, and inventing a date for them
+       * would be worse than the gap. This exists so every concept can be
+       * ANSWERED without every concept being given a story it does not have.
+       */
+      kind: 'none';
+      because: string;
+    }
+  | {
       kind: 'forced';
       /** The constraint that leaves no choice. */
       because: string;

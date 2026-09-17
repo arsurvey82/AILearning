@@ -206,3 +206,13 @@
     border-left: none;
   }
 }
+
+/* No history, and that is the answer rather than a gap. Quieter than the other
+   two, because it is telling you there is nothing to chase. */
+.gl-origin.none {
+  border-color: var(--border);
+  background: transparent;
+}
+.gl-origin.none .gl-origin-k {
+  color: var(--muted);
+}

@@ -169,3 +169,34 @@
   color: var(--ink-2);
   font-weight: 600;
 }
+
+/* The opinion lenses are marked, not hidden. Everything else in this table can
+   be checked against a paper or a real download; these two cannot, and the
+   reader deserves to be told which they are reading. */
+.ci-warn {
+  font-style: normal;
+  color: var(--yellow);
+}
+.ci-v.judged {
+  border-left: 2px solid color-mix(in srgb, var(--yellow) 50%, transparent);
+  padding-left: 10px;
+}
+
+/* Filtering to the gaps and finding none is a result, not an empty screen. */
+.ci-none {
+  margin: 0;
+  padding: var(--sp-5) var(--sp-4);
+  color: var(--muted);
+  font-size: 13.5px;
+  text-align: center;
+}
+
+/* What the lens holds, counted. Sits under the question so a reader knows
+   what is below the fold before deciding whether to scroll. */
+.ci-sum {
+  margin: 0;
+  padding-top: var(--sp-2);
+  color: var(--ink-2);
+  font-size: 12.5px;
+  line-height: 1.55;
+}

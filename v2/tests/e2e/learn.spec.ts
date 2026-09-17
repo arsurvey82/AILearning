@@ -498,7 +498,7 @@ test('things nobody chose sit outside the timeline, with no year', async ({ page
   const forced = page.locator('.tl-forced');
   await expect(forced).toContainText('nobody chose them');
   // A year would imply an alternative history, so there must not be one.
-  expect(await forced.evaluate((e) => e.textContent ?? '')).not.toMatch(/(18|19|20)\d\d/);
+  expect(await forced.evaluate((e) => e.textContent ?? '')).not.toMatch(/\b(18|19|20)\d\d\b/);
   expect(errors).toEqual([]);
 });
 
@@ -575,11 +575,14 @@ test('every lens reports its own coverage, holes included', async ({ page }) => 
   await openStart(page);
   const ix = page.getByTestId('concept-index');
 
-  // "What it is" is answered for every concept; "why it exists" is not, and the
-  // button has to admit that rather than look complete.
-  await expect(ix.getByTestId('lens-what')).toContainText('100%');
-  const why = await ix.getByTestId('lens-why').innerText();
-  expect(Number(why.match(/(\d+)%/)![1])).toBeLessThan(100);
+  /* This used to assert that "why it exists" read under 100%, because it did.
+     The hole was filled rather than the check relaxed, so the assertion now
+     reads the other way: every lens is complete, and the number is still
+     computed from the content rather than written on the button. */
+  for (const id of ['what', 'use', 'choose', 'why', 'when', 'file', 'code', 'scale']) {
+    const txt = await ix.getByTestId(`lens-${id}`).innerText();
+    expect(Number(txt.match(/(\d+)%/)![1]), id).toBe(100);
+  }
   expect(errors).toEqual([]);
 });
 
@@ -588,15 +591,20 @@ test('unanswered cells are shown, not hidden', async ({ page }) => {
   await openStart(page);
   const ix = page.getByTestId('concept-index');
 
-  await page.getByTestId('lens-why').click();
-  // A tidy table with the gaps filtered out would be the empty box that looks
-  // full, which is the failure this project keeps guarding against.
-  await expect(ix.locator('.ci-v.empty').first()).toContainText('not written yet');
-
+  /* No concept is unanswered any more, so the gap this exercises is the real
+     one that remains: the 21 concepts with nothing in the downloaded file. */
+  await page.getByTestId('lens-file').click();
   await page.getByTestId('gaps-only').click();
   const cells = await ix.locator('.ci-v').allInnerTexts();
   expect(cells.length).toBeGreaterThan(5);
-  expect(cells.every((c) => c.includes('not written yet') || c.includes('Nothing'))).toBe(true);
+  expect(cells.every((c) => c.includes('Nothing'))).toBe(true);
+
+  /* Filtering to the gaps on a lens that has none used to render a bare table
+     and no explanation, which reads as a broken screen rather than as good
+     news. It has to say so. */
+  await page.getByTestId('lens-why').click();
+  await expect(ix.getByTestId('no-gaps')).toContainText('No gaps in this lens');
+  await expect(ix.locator('.ci-v.empty')).toHaveCount(0);
   expect(errors).toEqual([]);
 });
 
@@ -605,5 +613,27 @@ test('an index row opens its lesson', async ({ page }) => {
   await openStart(page);
   await page.getByTestId('concept-index').getByTestId('row-backprop').locator('button').click();
   await expect(page.locator('.dz-title')).toContainText('Backprop');
+  expect(errors).toEqual([]);
+});
+
+test('a lens says what it holds before you scroll it', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+  const ix = page.getByTestId('concept-index');
+
+  /* "Why it exists" is at 100%, and its first six rows all read "no history"
+     because groupings and mathematical objects sort to the top. A reader who
+     stops there concludes the lens is empty. The count has to arrive first. */
+  await ix.getByTestId('lens-why').click();
+  const why = await ix.getByTestId('lens-summary').innerText();
+  expect(why).toMatch(/carry a dated fix, from 1[0-9]{3} to 20[0-9]{2}/);
+  expect(why).toMatch(/no history to tell/);
+
+  await ix.getByTestId('lens-file').click();
+  await expect(ix.getByTestId('lens-summary')).toContainText('leave nothing at all in the file');
+
+  // A lens with nothing to count must not print an empty line where one goes.
+  await ix.getByTestId('lens-what').click();
+  await expect(ix.getByTestId('lens-summary')).toHaveCount(0);
   expect(errors).toEqual([]);
 });

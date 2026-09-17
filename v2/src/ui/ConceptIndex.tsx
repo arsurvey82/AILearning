@@ -18,19 +18,33 @@
  */
 
 import { useMemo, useState } from 'react';
-import { ASPECTS, NODES, ORIGINS, PHASE_LABEL } from '../content';
+import { ASPECTS, NODES, ORIGINS, PHASE_LABEL, PRACTICE, sourcedCount } from '../content';
 import type { ConceptNode, Phase } from '../content/schema';
 import { useStore } from '../store';
 import './ConceptIndex.css';
 
-type LensId = 'what' | 'why' | 'when' | 'file' | 'code' | 'scale';
+type LensId = 'what' | 'use' | 'choose' | 'why' | 'when' | 'file' | 'code' | 'scale';
 
 interface Lens {
   id: LensId;
   label: string;
   question: string;
   /** The cell for one concept, or null when this lens has nothing to say. */
-  cell: (n: ConceptNode) => { text: string; absent?: boolean; note?: string } | null;
+  cell: (n: ConceptNode) =>
+    | { text: string; absent?: boolean; note?: string; judgement?: boolean }
+    | null;
+  /** True when this lens is opinion rather than checkable fact. */
+  opinion?: boolean;
+  /**
+   * What this lens holds, counted rather than claimed.
+   *
+   * "Why it exists" reads 100%, and its first six rows all say NO HISTORY,
+   * because groupings and mathematical objects sort to the top. A reader who
+   * opens the lens and scrolls no further concludes it is empty, which is the
+   * box that looks full in a new costume. Saying "42 carry a dated fix" up
+   * front is the fix, and the number is computed so it cannot drift.
+   */
+  summary?: () => string;
   /** Group rows by when they run rather than by area. */
   byPhase?: boolean;
 }
@@ -43,12 +57,48 @@ const LENSES: Lens[] = [
     cell: (n) => ({ text: n.L0_oneLiner }),
   },
   {
+    id: 'use',
+    label: 'What it is for',
+    question: 'In practice, what do people use this for?',
+    opinion: true,
+    cell: (n) => {
+      const p = PRACTICE[n.id];
+      if (!p) return null;
+      return { text: p.useCase, judgement: p.confidence === 'judgement' };
+    },
+  },
+  {
+    id: 'choose',
+    label: 'When to choose it',
+    question: 'When would you reach for this, and when would you not?',
+    opinion: true,
+    summary: () => `${sourcedCount()} of ${NODES.length} rest on a published source. The rest are informed opinion.`,
+    cell: (n) => {
+      const p = PRACTICE[n.id];
+      if (!p) return null;
+      return {
+        text: p.choose,
+        note: p.confidence === 'sourced' ? 'sourced' : undefined,
+        judgement: p.confidence === 'judgement',
+      };
+    },
+  },
+  {
     id: 'why',
     label: 'Why it exists',
     question: 'What was broken before it, and when?',
+    summary: () => {
+      const all = NODES.map((n) => ORIGINS[n.id]).filter(Boolean);
+      const fix = all.filter((o) => o!.kind === 'fix');
+      const years = fix.map((o) => (o as { year: number }).year).sort((a, b) => a - b);
+      return `${fix.length} carry a dated fix, from ${years[0]} to ${years[years.length - 1]}. ${
+        all.filter((o) => o!.kind === 'forced').length
+      } nobody chose. ${all.filter((o) => o!.kind === 'none').length} have no history to tell, and say so.`;
+    },
     cell: (n) => {
       const o = ORIGINS[n.id];
       if (!o) return null;
+      if (o.kind === 'none') return { text: o.because, note: 'no history' };
       return o.kind === 'forced'
         ? { text: o.because, note: 'nobody chose it' }
         : { text: o.problem, note: String(o.year) };
@@ -68,6 +118,10 @@ const LENSES: Lens[] = [
     id: 'file',
     label: 'In the file',
     question: 'What of it exists in the model you download?',
+    summary: () => {
+      const gone = NODES.filter((n) => ASPECTS[n.id]?.trace === null).length;
+      return `${gone} of ${NODES.length} leave nothing at all in the file you download.`;
+    },
     byPhase: true,
     cell: (n) => {
       const a = ASPECTS[n.id];
@@ -175,7 +229,19 @@ export function ConceptIndex() {
         </div>
 
         <div className="ci-q">
-          <span>{lens.question}</span>
+          <span>
+            {lens.question}
+            {/* Everything else in this project can be checked: a date has a
+                paper, a number is recomputed, a trace can be verified against a
+                real download. These two cannot, and saying so is the difference
+                between an opinion and a fact wearing the same typeface. */}
+            {lens.opinion && (
+              <em className="ci-warn" data-testid="opinion-warning">
+                {' '}
+                Judgement, not fact. Marked where a published source backs it.
+              </em>
+            )}
+          </span>
           <button
             className={`ci-gaps${gapsOnly ? ' on' : ''}`}
             onClick={() => setGapsOnly(!gapsOnly)}
@@ -184,9 +250,20 @@ export function ConceptIndex() {
             {gapsOnly ? 'show everything' : 'show only the gaps'}
           </button>
         </div>
+
+        {lens.summary && (
+          <p className="ci-sum" data-testid="lens-summary">
+            {lens.summary()}
+          </p>
+        )}
       </header>
 
       <div className="ci-wrap">
+        {gapsOnly && rows.length === 0 && (
+          <p className="ci-none" data-testid="no-gaps">
+            No gaps in this lens. Every concept has an answer here.
+          </p>
+        )}
         <table className="ci-tbl">
           {groups.map((g) =>
             g.rows.length === 0 ? null : (
@@ -221,9 +298,11 @@ export function ConceptIndex() {
       </div>
 
       <p className="ci-foot">
-        Two lenses do not exist at all yet: <b>when would I choose this</b> and{' '}
-        <b>what is it for in practice</b>. Both are judgement rather than fact, and neither
-        should be written before someone has watched a learner use this.
+        Every lens now answers every concept, which is why the percentages read 100. Six of
+        the eight are checkable: a date has a paper, a number is recomputed, a trace can be
+        confirmed against a real download. <b>What it is for</b> and <b>when to choose it</b>
+        {' '}cannot be checked that way. They are marked, and they are still waiting on
+        someone watching a learner actually use this.
       </p>
     </section>
   );

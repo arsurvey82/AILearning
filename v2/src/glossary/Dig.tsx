@@ -168,6 +168,18 @@ export function OriginBlock({ id }: { id: string }) {
  * exactly the thing that must not drift.
  */
 export function OriginOf({ origin }: { origin: Origin }) {
+  /* An object with no history says so, rather than being left blank. A vector
+     is not somebody's fix for anything, and a made-up date would be worse than
+     the gap. */
+  if (origin.kind === 'none') {
+    return (
+      <div className="gl-origin none" data-testid="origin">
+        <span className="gl-origin-k">no history to tell</span>
+        <Prose text={origin.because} />
+      </div>
+    );
+  }
+
   if (origin.kind === 'forced') {
     return (
       <div className="gl-origin forced" data-testid="origin">

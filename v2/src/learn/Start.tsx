@@ -103,7 +103,7 @@ export function Start() {
                     {T.tokens[r]!.map((v, c) => (
                       <td key={c}>{v.toFixed(2)}</td>
                     ))}
-                    <td className="sim">{w === compare[0] ? '—' : s.toFixed(2)}</td>
+                    <td className="sim">{s.toFixed(2)}</td>
                   </tr>
                 );
               })}

@@ -162,6 +162,33 @@ export const ASPECTS: Record<string, Aspect> = {
     code: 'PreTrainedTokenizerFast',
   },
   'token-id': { phase: 'both', trace: 'Implicit: it is a row number in the token table.', code: 'a list index' },
+  /* -------------------- the rest, so every concept is answered ---------- */
+
+  model: { phase: 'both', trace: 'A grouping. Its parts are the file; the heading is not.', code: 'the module graph as a whole' },
+  foundations: { phase: 'both', trace: 'Nothing directly. The mathematics is in the operations, not stored as anything.', code: 'torch, and the linear algebra underneath it' },
+  objects: { phase: 'both', trace: 'A grouping for the things that ARE the file.', code: 'nn.Module and nn.Parameter' },
+  linalg: { phase: 'both', trace: null, code: 'torch.matmul and friends' },
+  matrix: { phase: 'both', trace: 'Every weight in the file is one.', code: 'a 2-D torch.Tensor' },
+  matmul: { phase: 'both', trace: null, code: 'torch.matmul' },
+  'dot-product': { phase: 'both', trace: null, code: 'one row of a matmul' },
+  vector: { phase: 'both', trace: 'Every row of every matrix is one.', code: 'a 1-D torch.Tensor' },
+  calculus: { phase: 'training', trace: null, code: 'torch.autograd' },
+  probability: { phase: 'both', trace: null, code: 'softmax, and the sampling that follows it' },
+  architecture: { phase: 'both', trace: 'config.json, which records the shape: how many layers, how wide, how many heads.', code: 'LlamaConfig' },
+  transformer: { phase: 'both', trace: 'The whole stack of decoder layers, which is nearly the entire file.', code: 'LlamaModel' },
+  'up-projection': { phase: 'both', trace: 'The gate and up matrices, which are among the largest tensors in the file.', code: 'LlamaMLP.up_proj' },
+  activation: { phase: 'both', trace: null, code: 'F.silu, or F.gelu' },
+  'down-projection': { phase: 'both', trace: 'The down matrix, the same size again.', code: 'LlamaMLP.down_proj' },
+  rope: { phase: 'both', trace: 'Usually nothing. The rotation is computed from the position, not looked up in a stored table.', code: 'apply_rotary_pos_emb' },
+  unembedding: { phase: 'both', trace: 'Often nothing of its own, because it reuses the token table transposed.', code: 'lm_head, weights tied to embed_tokens' },
+  build: { phase: 'training', trace: null, code: 'the whole training pipeline' },
+  operations: { phase: 'inference', trace: null, code: 'the serving stack' },
+  'training-path': { phase: 'training', trace: null, code: 'the offline half of the lifecycle' },
+  'inference-path': { phase: 'inference', trace: null, code: 'the online half of the lifecycle' },
+  feast: { phase: 'both', trace: null, code: 'a feature store, running beside the model' },
+  kubeflow: { phase: 'training', trace: null, code: 'Kubernetes, or SLURM on an HPC cluster' },
+  mlflow: { phase: 'training', trace: null, code: 'an experiment tracker and model registry' },
+
   dimension_placeholder: { phase: 'setup', trace: null },
 };
 

@@ -1256,8 +1256,12 @@ test('objects with no real history are given none', async ({ page }) => {
     await page.locator(`.map-kid[data-node-id="${id}"]`).click();
   }
   await expect(page.locator('.dz-title')).toHaveText('Vector');
-  // A vector is not somebody's fix for something, and claiming otherwise would
-  // be worse than saying nothing.
-  await expect(page.locator('.dz-origin')).toHaveCount(0);
+  /* A vector is not somebody's fix for something, and inventing a date for it
+     would be worse than saying nothing. Leaving it blank was worse too: a blank
+     reads as an oversight. So it now answers, and the answer is that there is
+     nothing to chase here. */
+  await expect(page.locator('.dz-origin')).toHaveCount(1);
+  await expect(page.locator('.dz-origin')).toContainText('no history to tell');
+  await expect(page.locator('.dz-origin')).not.toHaveText(/[0-9]{4}/);
   expect(errors).toEqual([]);
 });

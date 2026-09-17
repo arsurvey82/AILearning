@@ -439,6 +439,39 @@ export const ORIGINS: Record<string, Origin> = {
       'Once a vocabulary exists, its entries need addresses, and a position in a list is the cheapest address there is. The number is a label, not a measurement, which is why arithmetic on token ids is meaningless.',
   },
 
+  /* ------------------------ answered, with no history to tell ----------- */
+
+  /* These are objects, groupings or sub-parts. None of them is somebody's fix
+     for anything, so they get an explicit reason rather than silence. Saying
+     "there is nothing to chase here" is an answer; a blank cell is not. */
+
+  llm: { kind: 'none', because: 'A grouping, not a thing anyone invented. It names the three continents below it, and each of those has its own story.' },
+  model: { kind: 'none', because: 'A container for the maths, the objects and the architecture. The history belongs to its parts, not to the heading.' },
+  foundations: { kind: 'none', because: 'A grouping for the mathematics underneath, all of which predates machine learning by centuries.' },
+  objects: { kind: 'none', because: 'A grouping for the things a model is made of. Each part has its own answer; the shelf does not.' },
+  linalg: { kind: 'none', because: 'A branch of mathematics, not a fix. It was developed for solving equations long before anyone applied it here.' },
+  calculus: { kind: 'none', because: 'Mathematics from the seventeenth century, borrowed wholesale. Nobody invented it for neural networks.' },
+  vector: { kind: 'none', because: 'A list of numbers. There is no failure it repaired and no alternative to it, because a list of numbers is simply what a position is.' },
+  matrix: { kind: 'none', because: 'A grid of numbers. Naming it does not require a history any more than naming a table does.' },
+  tensor: { kind: 'none', because: 'A grid with more than two directions. It is notation for shape, not an invention.' },
+  architecture: { kind: 'none', because: 'The word for how the parts are arranged. Particular architectures have histories; the word does not.' },
+  layer: { kind: 'none', because: 'One repetition of the transformer block, so its history belongs to the transformer. Stacking identical blocks is a consequence of that design, not a separate idea.' },
+  query: { kind: 'none', because: 'One of three projections inside attention, and it arrived with attention in 2014. It has no separate story.' },
+  key: { kind: 'none', because: 'The second of the three projections. Same origin as attention itself.' },
+  value: { kind: 'none', because: 'The third projection, and the one carrying the payload. Same origin as attention itself.' },
+  'attention-scores': { kind: 'none', because: 'A step inside attention rather than an invention of its own. Its history belongs to attention.' },
+  'attention-weights': { kind: 'none', because: 'What the scores become after softmax. Two existing ideas meeting, not a third one.' },
+  'weighted-sum': { kind: 'none', because: 'The final step of attention. Multiplying and adding is arithmetic, not a contribution anyone made.' },
+  'up-projection': { kind: 'none', because: 'The first half of the feed-forward block, so its history belongs to the transformer.' },
+  'down-projection': { kind: 'none', because: 'The second half of the same block. It exists because the first half widened and something has to narrow it again.' },
+  build: { kind: 'none', because: 'A grouping for how a model is made. The stages inside it have dates; the heading does not.' },
+  operations: { kind: 'none', because: 'A grouping for how a model is run. Same again: the parts carry the history.' },
+  'training-path': { kind: 'none', because: 'The name for the offline half of the lifecycle, not a technique. Its tools each have their own origin.' },
+  'inference-path': { kind: 'none', because: 'The name for the online half. A description of where things happen, not a thing that was invented.' },
+  agentic: { kind: 'none', because: 'An umbrella for workflows and agents. The published guidance is explicit that the patterns under it are not prescriptive, so the umbrella itself makes no claim.' },
+  'context-engineering': { kind: 'none', because: 'A name given to practices that already existed, once context windows grew large enough for filling them to become a mistake.' },
+  'tool-design': { kind: 'none', because: 'A discipline rather than an invention. It is API design with a different reader.' },
+
 };
 
 /** Nodes with a dated origin, oldest first. This is the walk-back path. */
