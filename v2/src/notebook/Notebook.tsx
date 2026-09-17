@@ -17,7 +17,7 @@ import {
 import { Checkpoint } from '../engine/Checkpoint';
 import { Dossier } from '../engine/Dossier';
 import { RunControl } from '../engine/RunControl';
-import { useStore } from '../store';
+import { universeShown, useStore } from '../store';
 import { LevelToggle } from '../ui/LevelToggle';
 import { PipelineStrip } from '../ui/PipelineStrip';
 import { ProgressRail } from '../ui/ProgressRail';
@@ -28,8 +28,8 @@ export function Notebook() {
   const focusNode = useStore((s) => s.focusNode);
   const setView = useStore((s) => s.setView);
   const collapseAll = useStore((s) => s.collapseAll);
-  const showMap = useStore((s) => s.showMap);
-  const setShowMap = useStore((s) => s.setShowMap);
+  const graphic = useStore((s) => s.graphic);
+  const setGraphic = useStore((s) => s.setGraphic);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const node = getNode(focusNodeId);
@@ -79,13 +79,17 @@ export function Notebook() {
       <div className="nb-inner">
         <div className="nb-top">
           <button
-            className={`nb-onmap${showMap ? ' on' : ''}`}
+            className={`nb-onmap${universeShown(graphic, focusNodeId) ? ' on' : ''}`}
             onClick={() => {
-              setShowMap(!showMap);
+              setGraphic(universeShown(graphic, focusNodeId) ? 'structure' : 'universe');
               setView('map');
             }}
           >
-            <span aria-hidden="true">◉</span> {showMap ? 'show the structure' : 'show on map'}
+            {/* Reads from what is actually drawn, not from the flag, because
+                at the root the flag is inverted and a label built on the flag
+                alone said "show on map" while the map was already showing. */}
+            <span aria-hidden="true">◉</span>{' '}
+            {universeShown(graphic, focusNodeId) ? 'show the structure' : 'show on map'}
           </button>
           <ProgressRail />
         </div>
@@ -155,7 +159,7 @@ export function Notebook() {
             onClick={() => prev && focusNode(prev.id)}
           >
             <span className="nb-dir">‹ Prev</span>
-            <span className="nb-name">{prev?.title ?? ', '}</span>
+            <span className="nb-name">{prev?.title ?? ''}</span>
           </button>
           <button
             className="nb-step right"
@@ -163,7 +167,7 @@ export function Notebook() {
             onClick={() => next && focusNode(next.id)}
           >
             <span className="nb-dir">Next ›</span>
-            <span className="nb-name">{next?.title ?? ', '}</span>
+            <span className="nb-name">{next?.title ?? ''}</span>
           </button>
         </nav>
       </div>

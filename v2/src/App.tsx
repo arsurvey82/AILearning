@@ -28,7 +28,7 @@ import { WalkStart } from './map/WalkStart';
 import { Notebook } from './notebook/Notebook';
 import { StageFlow } from './stage/StageFlow';
 import { StageView, hasStage } from './stage/StageView';
-import { useStore } from './store';
+import { universeShown, useStore } from './store';
 import { ViewToggle } from './ui/ViewToggle';
 import './App.css';
 
@@ -55,14 +55,15 @@ export function App() {
   const openAISettings = useStore((s) => s.openAISettings);
   const aiKey = useStore((s) => s.aiKey);
   const focusNodeId = useStore((s) => s.focusNodeId);
-  const showMap = useStore((s) => s.showMap);
+  const graphic = useStore((s) => s.graphic);
   const setView = useStore((s) => s.setView);
   const learn = useStore((s) => s.learn);
   const setLearn = useStore((s) => s.setLearn);
   const split = useSplit();
   const onStage = hasStage(focusNodeId);
   const node = getNode(focusNodeId);
-  const flow = showMap ? undefined : node?.L1?.flow;
+  const showUniverse = universeShown(graphic, focusNodeId);
+  const flow = showUniverse ? undefined : node?.L1?.flow;
 
   return (
     <div className={`app${split ? ' split' : ''}`}>
@@ -122,7 +123,7 @@ export function App() {
               own structure as boxes. The map is navigation, and navigation is
               not what the largest pane on screen is for, it is one click away
               on "show on map". */}
-          {showMap ? (
+          {showUniverse ? (
             /* The index wins over everything, including a pipeline stage , 
                otherwise asking for the index on one of the twelve stages
                silently does nothing, which reads as a broken button. */

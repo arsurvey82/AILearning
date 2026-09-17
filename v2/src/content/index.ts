@@ -167,3 +167,4 @@ export function findBrokenLinks(): string[] {
 export const ENTRY_NODE_ID: NodeId = ROOT_ID;
 
 export type { ConceptNode, NodeId } from './schema';
+export { basisOf, citationsFor, isConvention, GPT2_CONFIG, LLAMA_CONFIG } from './basis';

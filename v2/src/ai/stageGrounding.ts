@@ -118,7 +118,7 @@ export function stageGrounding(stageId: string, input: string): string | undefin
       l.push(`  The vector being read from: ${vec(f.finalNorm[last] ?? [])}`);
       l.push(`  One raw score (logit) per vocabulary entry: ${f.logits.map((x, i) => `${'ABC'[i]}=${x.toFixed(2)}`).join('  ')}`);
       l.push(`  After softmax, as probabilities: ${f.probs.map((p, i) => `${'ABC'[i]}=${(p * 100).toFixed(1)}%`).join('  ')}`);
-      l.push(`  Highest-probability next token: ${f.predicted ?? ', '}`);
+      l.push(`  Highest-probability next token: ${f.predicted ?? 'none'}`);
       break;
     }
 

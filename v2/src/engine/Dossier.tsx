@@ -14,7 +14,7 @@
 import { useMemo } from 'react';
 import { AskBox } from '../ai/AskBox';
 import type { ConceptNode, NodeId } from '../content/schema';
-import { getNode } from '../content';
+import { basisOf, citationsFor, getNode, isConvention } from '../content';
 import { ORIGINS } from '../content';
 import { OriginOf } from '../glossary/Dig';
 import { SORT_ACCURACY, WEIGHTS_ARE_ILLUSTRATIVE } from '../model/toyModel';
@@ -214,8 +214,8 @@ export function Dossier({ node }: { node: ConceptNode }) {
                     <tr key={s.label}>
                       <th scope="row">{s.label}</th>
                       <td className="tabular">{s.here}</td>
-                      <td className="tabular">{s.gpt2 ?? ', '}</td>
-                      <td className="tabular">{s.llama ?? ', '}</td>
+                      <td className="tabular">{s.gpt2 ?? ''}</td>
+                      <td className="tabular">{s.llama ?? ''}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -223,25 +223,33 @@ export function Dossier({ node }: { node: ConceptNode }) {
             </div>
           )}
           {node.L3_atScale
-            .filter((s) => s.note || s.source)
+            .filter((s) => s.note || citationsFor(node.id, s).length > 0 || isConvention(node.id, s))
             .map((s) => (
               <p className="dz-scalenote" key={s.label}>
                 <strong>{s.label}:</strong> {inline(s.note ?? '')}{' '}
                 {/* An uncited figure is one nobody has checked. Saying so is
                     the point. Design-spec §8 asks for a verification pass,
                     and a pass you cannot see is not one you can trust. */}
-                {s.source ? (
-                  <a
-                    className="dz-cite"
-                    href={s.source.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    title={s.source.url}
-                  >
-                    verified · {s.source.label}
-                  </a>
+                {/* A habit is not a measurement. Hanging a config URL on
+                    "temperature 0.7 to 1.0" would dress common practice up as
+                    a published fact, which is the exact failure the citations
+                    exist to prevent. So it says what it is instead. */}
+                {isConvention(node.id, s) ? (
+                  <span className="dz-uncited">common practice, not a published figure</span>
                 ) : (
-                  <span className="dz-uncited">not yet verified against a source</span>
+                  citationsFor(node.id, s).map((src) => (
+                    <a
+                      key={src.url}
+                      className="dz-cite"
+                      href={src.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      title={src.url}
+                    >
+                      {basisOf(node.id, s.label) === 'derived' ? 'computed from' : 'verified'} ·{' '}
+                      {src.label}
+                    </a>
+                  ))
                 )}
               </p>
             ))}

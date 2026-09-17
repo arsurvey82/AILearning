@@ -28,8 +28,10 @@ function watchConsole(page: Page): string[] {
 
 /** The trained-model surface is opt-in while it is being built. */
 async function openLearn(page: Page) {
-  // Already the landing surface. Kept as a helper so intent stays readable.
+  /* No longer the landing surface: the universe greets first and hands over
+     to this. The header button reads "Trained model" from the map side. */
   await page.goto(BUILT);
+  await page.getByRole('button', { name: 'Trained model', exact: true }).click();
 }
 
 /* Scale one is the front door now, so anything about the trained model has to
@@ -150,9 +152,9 @@ test('editing a word after deciding never leaves a stale answer on screen', asyn
 
 test('the concept map is still reachable and still works', async ({ page }) => {
   const errors = watchConsole(page);
+  // The map is the landing surface now, so there is nothing to click to reach
+  // it. The rest of the assertion is unchanged: it still has to work.
   await page.goto(BUILT);
-  await page.getByRole('button', { name: 'Concept map' }).click();
-  // The original surface, untouched by any of this.
   await expect(page.locator('.app-note .dz-title')).toBeVisible();
   await expect(page.locator('.ps-track')).toContainText('Attention');
   expect(errors).toEqual([]);

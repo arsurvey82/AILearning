@@ -13,17 +13,20 @@
 
 import { useEffect, useRef } from 'react';
 import { childrenOf, getNode, pathTo } from '../content';
-import { useStore } from '../store';
+import { universeShown, useStore } from '../store';
 import './UniverseButton.css';
 
 export function UniverseButton() {
   const focusNodeId = useStore((s) => s.focusNodeId);
-  const showMap = useStore((s) => s.showMap);
-  const setShowMap = useStore((s) => s.setShowMap);
+  const graphic = useStore((s) => s.graphic);
+  const setGraphic = useStore((s) => s.setGraphic);
   const setView = useStore((s) => s.setView);
   const ref = useRef<HTMLCanvasElement>(null);
 
   const node = getNode(focusNodeId);
+  /* Label and state both read from what is drawn, not from the stored choice,
+     so the button cannot say "Universe index" while the universe is showing. */
+  const on = universeShown(graphic, focusNodeId);
   const kids = childrenOf(focusNodeId);
   const crumbs = pathTo(focusNodeId);
   // At a leaf there is nothing inside to preview, so show its siblings: the
@@ -100,22 +103,22 @@ export function UniverseButton() {
 
   return (
     <button
-      className={`ub${showMap ? ' on' : ''}`}
+      className={`ub${on ? ' on' : ''}`}
       onClick={() => {
-        setShowMap(!showMap);
+        setGraphic(on ? 'auto' : 'universe');
         setView('map');
       }}
       title={
-        showMap
+        on
           ? 'Back to the structure'
           : `Open the index. ${ring.length} concepts beside this one, 64 in all`
       }
-      aria-pressed={showMap}
+      aria-pressed={on}
     >
       <canvas ref={ref} className="ub-canvas" aria-hidden="true" />
       <span className="ub-text">
-        <span className="ub-t">{showMap ? 'Close index' : 'Universe index'}</span>
-        <span className="ub-d">{showMap ? 'back to the structure' : `${ring.length} beside this`}</span>
+        <span className="ub-t">{on ? 'Close index' : 'Universe index'}</span>
+        <span className="ub-d">{on ? 'back to the structure' : `${ring.length} beside this`}</span>
       </span>
     </button>
   );

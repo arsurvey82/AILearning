@@ -77,3 +77,18 @@ describe('the source itself', () => {
     expect(scan(all, isDash)).toEqual([]);
   });
 });
+
+describe('leftovers from the dedash repair', () => {
+  const all = LOOK.flatMap((d) => files(join(ROOT, d)));
+
+  it('has no placeholder that renders as a stray comma', () => {
+    /* A script meant to remove long dashes once collapsed a run of them into
+       ", ", and the result was a table cell that showed a lone comma where a
+       value was missing. Tests were green; a screenshot caught it. */
+    /* Assembled from parts so this file does not contain what it forbids,
+       which is how the first version of this guard failed itself. */
+    const needle = ['??', "', '"].join(' ');
+    const bad = all.filter((f) => readFileSync(f, 'utf8').includes(needle));
+    expect(bad.map((f) => f.slice(ROOT.length + 1))).toEqual([]);
+  });
+});

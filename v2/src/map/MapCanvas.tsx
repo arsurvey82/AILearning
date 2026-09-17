@@ -119,6 +119,18 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
   const [hint, setHint] = useState(true);
 
   const focused = getNode(focusNodeId);
+  const setGraphic = useStore((s) => s.setGraphic);
+  /* Two different clicks, deliberately.
+
+     Diving through the canvas or the trail is MAP navigation, so it pins the
+     pane and the universe stays up. Clicking a chip means "take me to that
+     concept", so it leaves the pane alone and the destination shows its own
+     structure, which teaches more than another ring of circles. */
+  const diveTo = (id: string) => {
+    setGraphic('universe');
+    focusNode(id);
+  };
+
   const crumbs = pathTo(focusNodeId);
   const kids = childrenOf(focusNodeId);
 
@@ -328,6 +340,34 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
 
         if (labelled && r > 8) {
           ctx.textAlign = 'center';
+
+          /* A focused container cannot hold its own name in the middle of
+             itself. Its children orbit at 0.6R AND rotate, so over a few
+             seconds they sweep every angle; the disc left clear inside that
+             orbit is roughly 45px across while the title needs 200. No choice
+             of angle fixes it, which is why "The Operations" sat across "a
+             model, not a machine" and "The Transformer" across "The Model".
+
+             So the name of the room goes above the room. Nothing orbits
+             there. Clamped to the viewport, because once you are deep enough
+             the rim is off-screen and an unclamped title goes with it. */
+          if (isFocus && b.children.length > 0) {
+            const size = Math.max(14, Math.min(30, r * 0.16));
+            const lx = Math.min(Math.max(sx, 120), W - 120);
+            const base = Math.max(sy - r - 12, 22 + size);
+            ctx.textBaseline = 'bottom';
+            ctx.fillStyle = INK;
+            ctx.font = `600 ${size}px system-ui, sans-serif`;
+            ctx.fillText(b.node.title, lx, b.node.tag ? base - size * 0.95 : base);
+            if (b.node.tag) {
+              ctx.font = `500 ${Math.max(10, size * 0.48)}px system-ui, sans-serif`;
+              ctx.fillStyle = withAlpha(INK, 0.66);
+              ctx.fillText(b.node.tag, lx, base);
+            }
+            ctx.textBaseline = 'middle';
+            ctx.globalAlpha = 1;
+            return;
+          }
           // Shrink, then wrap, and only leave the disc when nothing readable
           // fits at all. The old rule tried one size and gave up, which is why
           // "The Operations" hung outside its circle while "The Model" sat
@@ -499,6 +539,7 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
         setHint(false);
         reset();
         if (b && b.node.id !== current) {
+          pin();
           focusNode(b.node.id); // dive into it
         } else if (b && b.node.id === current) {
           // Already here: a leaf opens its lesson, a container you have already
@@ -506,7 +547,7 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
           setView('notebook');
         } else {
           const cur = byId[current];
-          if (cur?.parent) focusNode(cur.parent.node.id); // empty space rises
+          if (cur?.parent) { pin(); focusNode(cur.parent.node.id); } // empty space rises
         }
       }
       down = null;
@@ -516,6 +557,8 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
       const next = (userScale ?? cam.scale) * (e.deltaY < 0 ? 1.12 : 0.89);
       userScale = Math.max(0.002, Math.min(next, 12));
     };
+    const pin = () => useStore.getState().setGraphic('universe');
+
     const onKey = (e: KeyboardEvent) => {
       const state = useStore.getState();
       const cur = byId[state.focusNodeId];
@@ -526,16 +569,16 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
         const n = sibs[(i + 1) % sibs.length];
-        if (n) { reset(); setHint(false); focusNode(n.node.id); }
+        if (n) { reset(); setHint(false); pin(); focusNode(n.node.id); }
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
         const n = sibs[(i - 1 + sibs.length) % sibs.length];
-        if (n) { reset(); setHint(false); focusNode(n.node.id); }
+        if (n) { reset(); setHint(false); pin(); focusNode(n.node.id); }
       } else if (e.key === 'Enter') {
         e.preventDefault();
         // Enter descends if there is anything inside; otherwise it teaches.
         const first = cur.children[0];
-        if (first) { reset(); focusNode(first.node.id); }
+        if (first) { reset(); pin(); focusNode(first.node.id); }
         else setView('notebook');
       } else if (e.key === ' ') {
         e.preventDefault();
@@ -543,7 +586,7 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
         e.preventDefault();
         reset();
-        if (cur.parent) focusNode(cur.parent.node.id);
+        if (cur.parent) { pin(); focusNode(cur.parent.node.id); }
       }
     };
 
@@ -581,16 +624,29 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
         <TreeList id={ROOT_ID} />
       </nav>
 
-      {/* The notebook beside it already shows this exact trail. Two identical
-          breadcrumbs two inches apart is redundancy the reader has to check
-          against itself. */}
-      <div className={`map-crumbs${compact ? ' hide' : ''}`}>
+      {/* This used to be hidden in split mode on the grounds that the notebook
+          beside it shows the same trail. That was wrong in practice: the
+          notebook's trail is in the other pane, and split is the only mode the
+          map is ever seen in, so the map shipped with no visible way back at
+          all. The cost of two trails is mild redundancy. The cost of none was
+          a map you could fall into. */}
+      <div className="map-crumbs">
+        {crumbs.length > 1 && (
+          <button
+            className="map-up"
+            data-testid="map-up"
+            onClick={() => diveTo(crumbs[crumbs.length - 2]!.id)}
+            title="Out to the level above"
+          >
+            ↑ Out
+          </button>
+        )}
         {crumbs.map((c, i) => (
           <span key={c.id}>
             {i > 0 && <span className="map-sep">›</span>}
             <button
               className={`map-crumb${c.id === focusNodeId ? ' here' : ''}`}
-              onClick={() => focusNode(c.id)}
+              onClick={() => diveTo(c.id)}
             >
               {c.title}
             </button>
@@ -603,7 +659,7 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
           the map is for roaming, and roaming alone is paralysis.
           Hidden in split mode: the pipeline strip beside it already IS the
           way in, and two competing entry points is worse than one. */}
-      {!compact && (
+      {(!compact || crumbs.length === 1) && (
       <button
         className="map-start"
         onClick={() => {

@@ -359,3 +359,20 @@
     width: auto;
   }
 }
+
+/* Out to the level above. The map had no visible way back in split mode,
+   which is the only mode it is ever seen in. */
+.map-up {
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 2px 8px;
+  margin-right: 8px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.map-up:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}

@@ -137,6 +137,12 @@ export interface Checkpoint {
   options: CheckpointOption[];
 }
 
+/** Where a figure can be checked. Shared so a citation is one object. */
+export interface Source {
+  label: string;
+  url: string;
+}
+
 export interface ScaleNote {
   label: string;
   here: string;
@@ -152,7 +158,7 @@ export interface ScaleNote {
    * Omit for `here` values, which are computed from the toy model itself and
    * are checked by tests rather than by citation.
    */
-  source?: { label: string; url: string };
+  source?: Source;
 }
 
 /**

@@ -29,6 +29,7 @@ const LENSES = ['what', 'use', 'choose', 'why', 'when', 'file', 'code', 'scale']
 test('capture every lens', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1300 });
   await page.goto(BUILT);
+  await page.getByRole('button', { name: 'Trained model', exact: true }).click();
   await page.getByTestId('scale-start').click();
   const ix = page.getByTestId('concept-index');
   await expect(ix).toBeVisible();
@@ -58,7 +59,6 @@ test('capture every lens', async ({ page }) => {
 test('capture a concept with no history', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1300 });
   await page.goto(BUILT);
-  await page.getByRole('button', { name: 'Concept map' }).click();
   for (const id of ['model', 'foundations', 'linalg', 'vector']) {
     await page.locator(`.map-kid[data-node-id="${id}"]`).click();
   }

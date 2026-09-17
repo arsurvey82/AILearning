@@ -7,7 +7,7 @@
 
 import { create } from 'zustand';
 import { DEFAULT_INPUT } from './model/toyModel';
-import { ENTRY_NODE_ID } from './content';
+import { ENTRY_NODE_ID, ROOT_ID } from './content';
 import type { NodeId } from './content/schema';
 import { PROVIDERS, type ProviderId } from './ai/providers';
 
@@ -65,8 +65,20 @@ interface State {
    * is a navigation question and does not deserve the largest surface on
    * screen. One click away, not the default.
    */
-  showMap: boolean;
-  setShowMap: (v: boolean) => void;
+  /**
+   * What the graphic pane draws.
+   *
+   * 'auto' means "whatever suits this node": the universe at the root, the
+   * node's own structure everywhere else. The two explicit values are the
+   * reader overriding that.
+   *
+   * This was a boolean, and a boolean could not express it. The root needs the
+   * opposite default from every other node, so the flag had to be read
+   * inverted there, and then toggling at the root left it inverted on the way
+   * out. Three named states say the thing directly.
+   */
+  graphic: Graphic;
+  setGraphic: (g: Graphic) => void;
   /**
    * The trained-model experience, built on src/learn.
    *
@@ -136,13 +148,19 @@ export const useStore = create<State>((set, get) => ({
   setQueryToken: (queryToken) => set({ queryToken }),
   playing: false,
   setPlaying: (playing) => set({ playing }),
-  showMap: false,
-  setShowMap: (showMap) => set({ showMap }),
+  graphic: 'auto',
+  setGraphic: (graphic) => set({ graphic }),
   /* On. Seven words and four numbers is where a reader should land: at that
      size the whole table is printable and readable, and the trained
      transformer is a deliberate second step rather than an ambush. The concept
      map is one click away in the header. */
-  learn: true,
+  /* The universe is the front door.
+     It was the printed word table, on the reasoning that four numbers you can
+     read beat a picture of a model you cannot. That reasoning still holds for
+     TEACHING, and the table is still the first thing the map points at. But a
+     front door also has to make someone want to walk in, and a table of
+     numbers does not. So the map greets, and it hands straight over. */
+  learn: false,
   setLearn: (learn) => set({ learn }),
 
   dig: [],
@@ -218,3 +236,20 @@ export const useStore = create<State>((set, get) => ({
       return { theme };
     }),
 }));
+
+export type Graphic = 'auto' | 'universe' | 'structure';
+
+/**
+ * Is the universe the thing currently drawn in the graphic pane?
+ *
+ * The root's graphic IS the universe: a front door has to make someone want to
+ * walk in, and three boxes do not. Everywhere else the node's own structure
+ * leads, because circles answer a taxonomy question nobody asked once you are
+ * inside. So the toggle means the same thing to a reader in both places, "swap
+ * what is in this pane", while defaulting opposite ways. Both App and Notebook
+ * read this, so the button can never disagree with what is on screen.
+ */
+export function universeShown(graphic: Graphic, focusNodeId: string): boolean {
+  if (graphic !== 'auto') return graphic === 'universe';
+  return focusNodeId === ROOT_ID;
+}

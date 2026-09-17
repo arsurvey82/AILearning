@@ -21,8 +21,10 @@ const SHOTS = path.resolve(here, '../../test-results/shots');
  * for it rather than assuming it.
  */
 async function openMap(page: Page) {
+  /* The map is now the landing surface, so there is nothing to click. The
+     button this used to press only exists on the learn surface, and pressing
+     it from here would navigate AWAY from the map. */
   await page.goto(BUILT);
-  await page.getByRole('button', { name: 'Concept map' }).click();
 }
 
 /** Screenshots are evidence, take them after motion settles. */
@@ -90,10 +92,12 @@ test('map and notebook are visible together, not toggled', async ({ page }) => {
   await expect(page.locator('.app.split')).toBeVisible();
   await expect(page.locator('.app-note .dz-title')).toBeVisible();
 
-  // The graphic pane holds structure, not circles. This assertion used to say
-  // `canvas`, and that was the bug a reader named: the largest pane on screen
-  // was answering a taxonomy question nobody had asked.
-  await expect(page.locator('.app-map .sf-box').first()).toBeVisible();
+  /* At the root the graphic pane IS the universe, by request: a front door
+     has to make someone want to walk in, and a diagram of three boxes does
+     not. The earlier complaint that circles answer a taxonomy question nobody
+     asked still stands EVERYWHERE ELSE, which is why this holds only at the
+     root and the structure is one click away here. */
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
 
   // No view toggle, because there is nothing to toggle between.
   await expect(page.getByRole('button', { name: /^Map/ })).toHaveCount(0);
@@ -230,7 +234,8 @@ test('the Run box only appears where the input computes something', async ({ pag
   // Step off the pipeline first, on a pipeline node the stage view replaces
   // the map, so there are no map chips to navigate with.
   await page.locator('.nb-crumb', { hasText: 'LLM' }).click();
-  await expect(page.locator('.app-map .sf-chain')).toBeVisible();
+  // The root is the universe now, and its chips are the way down from here.
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
 
   // Deploy prep computes nothing from "C B A B B C". Showing the control
   // there implies a relationship that does not exist.
@@ -254,6 +259,7 @@ test('the Run box only appears where the input computes something', async ({ pag
 test('off the pipeline, the pane shows structure instead of live data', async ({ page }) => {
   const errors = watchConsole(page);
   await openMap(page);
+  await page.locator('.map-kid[data-node-id="operations"]').click();
 
   // Nothing is flowing through "The Operations", so there is no tensor to
   // draw, but there is still a real thing to show, and it is not a circle.
@@ -825,10 +831,12 @@ test('picking a concept shows its structure as boxes, not orbiting circles', asy
   const errors = watchConsole(page);
   await openMap(page);
 
-  // The root itself: boxes from the first screen, before any navigation.
+  /* The root is the one deliberate exception: it greets with the universe.
+     Its structure is still there, one click away, and that click is what this
+     asserts. Everywhere below, boxes lead and circles are opt-in. */
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
+  await page.getByRole('button', { name: /show the structure/ }).click();
   await expect(page.locator('.app-map .sf-box').first()).toBeVisible();
-  // The scene is also a canvas now, so this names the map's own. Off the
-  // pipeline there is no scene either, just the structure.
   await expect(page.locator('.app-map .map-canvas')).toHaveCount(0);
 
   for (const id of ['operations', 'training-path', 'kubeflow']) {
@@ -882,10 +890,12 @@ test('the map is still one click away, and drilling down still works without it'
   // feature. otherwise fourteen nodes, the root included, lose their way down.
   await expect(page.locator('.map-kid[data-node-id="operations"]')).toBeVisible();
 
-  await page.getByRole('button', { name: /show on map/ }).click();
+  // The root opens on the universe, so the trip is the other way round now.
   await expect(page.locator('.app-map .map-canvas')).toBeVisible();
   await page.getByRole('button', { name: /show the structure/ }).click();
   await expect(page.locator('.app-map .sf-box').first()).toBeVisible();
+  await page.getByRole('button', { name: /show on map/ }).click();
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
 
   expect(errors).toEqual([]);
 });
@@ -1017,8 +1027,10 @@ test('the universe survives as an index, and every entry opens a lesson', async 
   const errors = watchConsole(page);
   await openMap(page);
 
-  // It is no longer the default graphic, circles do not teach how a model
-  // works, but as an index of 64 nested concepts it earns a door of its own.
+  /* At the root the index IS the graphic, so its door reads "Close index"
+     there. The door this test is about is the one on every OTHER node, where
+     circles are not the default and the index has to be asked for. */
+  await page.locator('.map-kid[data-node-id="model"]').click();
   const open = page.getByRole('button', { name: /Universe index/ });
   await expect(open).toBeVisible();
   await open.click();
@@ -1034,9 +1046,9 @@ test('the universe survives as an index, and every entry opens a lesson', async 
   await shot(page, '23-universe-index');
 
   // An index that does not take you anywhere is decoration. Start from the
-  // root, because the index shows what is inside wherever you currently are.
+  // root, where the index is already what is on screen.
   await openMap(page);
-  await page.getByRole('button', { name: /Universe index/ }).click();
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
   await page.locator('.map-kid[data-node-id="operations"]').click();
   await expect(page.locator('.dz-title')).toHaveText('The Operations');
 
@@ -1112,8 +1124,10 @@ test('the index is a preview you can see, not a word you have to imagine', async
   const errors = watchConsole(page);
   await openMap(page);
 
-  // "Show on map" told the reader nothing about what was behind it. The
-  // thumbnail shows the bodies around wherever they currently are.
+  /* Off the root, where the index is something you ask for rather than the
+     thing already on screen. "Show on map" told the reader nothing about what
+     was behind it; the thumbnail shows the bodies around where they are. */
+  await page.locator('.map-kid[data-node-id="model"]').click();
   const btn = page.getByRole('button', { name: /Universe index/ });
   await expect(btn.locator('.ub-canvas')).toBeVisible();
   await expect(btn).toHaveAttribute('aria-pressed', 'false');
@@ -1263,5 +1277,63 @@ test('objects with no real history are given none', async ({ page }) => {
   await expect(page.locator('.dz-origin')).toHaveCount(1);
   await expect(page.locator('.dz-origin')).toContainText('no history to tell');
   await expect(page.locator('.dz-origin')).not.toHaveText(/[0-9]{4}/);
+  expect(errors).toEqual([]);
+});
+
+/* ------------------------------------------------------------------ *
+ * The front door, and getting back out of it.
+ * ------------------------------------------------------------------ */
+
+test('the universe greets first, and hands over', async ({ page }) => {
+  const errors = watchConsole(page);
+  await page.goto(BUILT);
+
+  // No clicking to get here. This is what opening the file gives you.
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
+  await expect(page.locator('.map-crumb.here')).toHaveText('LLM');
+
+  // And it points at the lesson rather than being an end in itself.
+  await expect(page.locator('.map-start')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('you can go down three levels on the map and get back out', async ({ page }) => {
+  const errors = watchConsole(page);
+  await page.goto(BUILT);
+
+  /* The reported problem was that the map could not be navigated. The trail
+     and the way up were both hidden in split mode, which is the only mode the
+     map is ever shown in, so going in was one-way.
+
+     Driven from the keyboard, which is also the only way to check that the
+     canvas keeps the promise its own aria-label makes. */
+  await expect(page.getByTestId('map-up')).toHaveCount(0); // nothing above the root
+  const canvas = page.locator('.app-map .map-canvas');
+  await canvas.focus();
+
+  for (let i = 0; i < 3; i++) await canvas.press('Enter');
+  const deep = await page.locator('.map-crumb.here').innerText();
+  expect(deep).not.toBe('LLM');
+  expect(await page.locator('.map-crumb').count()).toBe(4);
+
+  // All the way back up, using only what the map itself offers.
+  await expect(page.getByTestId('map-up')).toHaveCount(1);
+  for (let i = 0; i < 3; i++) await page.getByTestId('map-up').click();
+  await expect(page.locator('.map-crumb.here')).toHaveText('LLM');
+  await expect(page.getByTestId('map-up')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('the trail jumps straight home from depth', async ({ page }) => {
+  const errors = watchConsole(page);
+  await page.goto(BUILT);
+  const canvas = page.locator('.app-map .map-canvas');
+  await canvas.focus();
+  for (let i = 0; i < 3; i++) await canvas.press('Enter');
+
+  // Four levels deep, one click home. Stepping out four times is not navigation.
+  await page.locator('.map-crumb', { hasText: 'LLM' }).first().click();
+  await expect(page.locator('.map-crumb.here')).toHaveText('LLM');
+  await expect(page.locator('.app-map .map-canvas')).toBeVisible();
   expect(errors).toEqual([]);
 });
