@@ -44,17 +44,21 @@ async function openModelScale(page: Page) {
 async function decide(page: Page) {
   await openModelScale(page);
   await page.getByTestId('decide').click();
-  await expect(page.getByTestId('gap')).not.toHaveText('?');
+  await expect(page.getByTestId('gap-word')).not.toHaveText('?');
 }
 
-const gap = (p: Page) => p.getByTestId('gap').innerText();
+/* The gap now carries the verb AND its number, because "the number did not
+   change" was something the reader had to take on faith while watching the
+   word change. This reads just the word, so every assertion below still means
+   what it meant. */
+const gap = (p: Page) => p.getByTestId('gap-word').innerText();
 
 test('the hook opens on a sentence with a gap and one button', async ({ page }) => {
   const errors = watchConsole(page);
   await openModelScale(page);
 
   await expect(page.getByTestId('sentence')).toContainText('near');
-  await expect(page.getByTestId('gap')).toHaveText('?');
+  await expect(page.getByTestId('gap-word')).toHaveText('?');
   await expect(page.getByTestId('decide')).toBeVisible();
   // Nothing is revealed before the reader asks for it.
   await expect(page.getByTestId('attention')).toHaveCount(0);
@@ -144,7 +148,7 @@ test('editing a word after deciding never leaves a stale answer on screen', asyn
   await page.getByTestId('subject').click();
   const subject = await page.getByTestId('subject').innerText();
   expect(subject).not.toBe('cat');
-  await expect(page.getByTestId('gap')).not.toHaveText('?');
+  await expect(page.getByTestId('gap-word')).not.toHaveText('?');
   expect(SG_VERB.concat(PL_VERB)).toContain(await gap(page));
   expect(before).toBeTruthy();
   expect(errors).toEqual([]);
@@ -637,5 +641,47 @@ test('a lens says what it holds before you scroll it', async ({ page }) => {
   // A lens with nothing to count must not print an empty line where one goes.
   await ix.getByTestId('lens-what').click();
   await expect(ix.getByTestId('lens-summary')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('the number holds when the nearer noun flips, even though the word may not', async ({
+  page,
+}) => {
+  const errors = watchConsole(page);
+  await openLearn(page);
+  await page.getByTestId('scale-model').click();
+  await page.getByTestId('decide').click();
+
+  /* A reader reported this as a bug: they flipped the noun next to the gap and
+     the verb changed, which the page had promised would not happen. They were
+     right about what they saw. The word does change; the number does not, and
+     the number is the whole point, so it is now on screen. */
+  /* innerText on both sides. toHaveText compares textContent, which is the
+     lowercase source, while innerText returns what CSS renders in caps, so
+     mixing them silently compares two different strings. */
+  const num = () => page.getByTestId('gap-number').innerText();
+  const before = await num();
+  await page.getByTestId('flip-distractor').click();
+  await page.waitForTimeout(120);
+  expect(await num(), 'flipping the nearer noun must not move the number').toBe(before);
+
+  // And the subject still moves it, or the demonstration proves nothing.
+  await page.getByTestId('flip-subject').click();
+  await page.waitForTimeout(120);
+  expect(await num(), 'flipping the subject must move it').not.toBe(before);
+  expect(errors).toEqual([]);
+});
+
+test('the first screen defines its own words', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openLearn(page);
+  await page.getByTestId('scale-model').click();
+
+  // "distractor" is testing jargon. A reader meeting it in the first thirty
+  // seconds has been handed a term nobody defined, and said so.
+  const text = (await page.locator('.hk').innerText()).toLowerCase();
+  expect(text).not.toContain('distractor');
+  expect(text).toContain('the nearer noun');
+  expect(text).toContain('the subject');
   expect(errors).toEqual([]);
 });

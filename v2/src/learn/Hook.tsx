@@ -23,6 +23,7 @@ import {
   flipNoun,
   nextNoun,
   nounNumber,
+  verbNumber,
   promptOf,
   type Decision,
   type Sentence,
@@ -90,13 +91,18 @@ export function Hook({
               }}
             >
               {w}
-              <em>{isSubject ? 'subject' : 'distractor'}</em>
+              <em>{isSubject ? 'the subject' : 'the nearer noun'}</em>
             </button>
           );
         })}
 
         <span className={`hk-gap${result ? ' filled' : ''}`} data-testid="gap">
-          {result ? result.verb : '?'}
+          <span data-testid="gap-word">{result ? result.verb : '?'}</span>
+          {result && (
+            <em className="hk-gap-n" data-testid="gap-number">
+              {verbNumber(result.verb) ?? ''}
+            </em>
+          )}
         </span>
         <span className="hk-w">.</span>
       </div>
@@ -107,7 +113,9 @@ export function Hook({
             Watch it decide
           </button>
           <p className="hk-sub">
-            Two nouns, and only one of them controls the verb.
+            Two nouns. The first one is <b>the subject</b>, the one the sentence is about. The
+            second sits closer to the gap and has nothing to do with it. Only the subject
+            controls the verb.
           </p>
         </div>
       ) : (
@@ -155,7 +163,7 @@ export function Hook({
                   >
                     Make the subject {subjNum === 'singular' ? 'plural' : 'singular'}
                   </button>
-                  <span>the verb changes number</span>
+                  <span>the verb switches to its {subjNum === 'singular' ? 'plural' : 'singular'} form</span>
                 </li>
                 <li>
                   <button
@@ -165,17 +173,25 @@ export function Hook({
                       edit({ ...sentence, distractor: flipNoun(sentence.distractor) })
                     }
                   >
-                    Make the distractor {distNum === 'singular' ? 'plural' : 'singular'}
+                    Make the nearer noun {distNum === 'singular' ? 'plural' : 'singular'}
                   </button>
-                  <span>the number stays the same</span>
+                  {/* Measured, not assumed: flipping this noun often changes
+                      the verb WORD ("waits" becomes "runs") while leaving its
+                      number alone. Promising "the number stays the same" and
+                      then showing a different word reads as a broken promise,
+                      so the promise now says which part holds. */}
+                  <span>
+                    the verb may change word, but it stays {subjNum === 'singular' ? 'singular' : 'plural'}
+                  </span>
                 </li>
               </ul>
             </div>
 
             <p className="hk-foot">
               It gets this right on {Math.round(AGREEMENT * 100)}% of sentences it was never
-              trained on. The distractor is singular or plural equally often, so a model reading
-              the nearest noun would land on about half, no better than a coin flip.{' '}
+              trained on. The nearer noun is singular or plural equally often, so it carries no
+              clue about the answer: a model that copied it would score about half, no better
+              than a coin flip.{' '}
               {onOpenModel && (
                 <button className="hk-open" onClick={onOpenModel} data-testid="open-model">
                   Now look inside it

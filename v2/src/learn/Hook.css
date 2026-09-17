@@ -225,3 +225,17 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* The number, beside the word. The whole demonstration rests on "the number
+   did not change", and without this the reader has to know which verb forms
+   are plural to see it. Watching a word change while a label holds steady is
+   the evidence; being told it held steady is not. */
+.hk-gap-n {
+  display: block;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}

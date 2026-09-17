@@ -105,7 +105,10 @@ export function UniverseButton() {
     <button
       className={`ub${on ? ' on' : ''}`}
       onClick={() => {
-        setGraphic(on ? 'auto' : 'universe');
+        /* 'auto' means "whatever suits this node", and at the root that IS
+           the universe, so closing the index by returning to auto closed
+           nothing. Closing has to be an explicit ask for the structure. */
+        setGraphic(on ? 'structure' : 'universe');
         setView('map');
       }}
       title={
