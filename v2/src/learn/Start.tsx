@@ -48,15 +48,57 @@ function cosine(a: number[], b: number[]): number {
   return na && nb ? dot / (na * nb) : 0;
 }
 
+/**
+ * Three steps, not one scroll.
+ *
+ * This surface used to render everything at once: the idea, the printed table,
+ * the two times, the whole 67-row index and the whole timeline. That came to
+ * 138 buttons on one page, and the same concept names appeared twice, once in
+ * the index and once in the timeline, which reads as a bug rather than as
+ * thoroughness.
+ *
+ * The three do different jobs and are wanted at different moments, so they are
+ * now three steps. Each one is a complete thing to read, and nothing below the
+ * fold is competing with what you are looking at.
+ */
+type Step = 'idea' | 'history' | 'index';
+
+const STEPS: { id: Step; n: string; label: string; sub: string }[] = [
+  { id: 'idea', n: '1', label: 'The one idea', sub: 'meaning becomes a position' },
+  { id: 'history', n: '2', label: 'How it got here', sub: 'the fixes, oldest first' },
+  { id: 'index', n: '3', label: 'Every concept', sub: 'one question, asked of all 70' },
+];
+
 export function Start() {
   const digTo = useStore((s) => s.digTo);
   const [compare, setCompare] = useState<[string, string]>(['cat', 'dog']);
+  const [step, setStep] = useState<Step>('idea');
 
   const idx = (w: string) => T.vocab.indexOf(w);
   const sim = cosine(T.tokens[idx(compare[0])]!, T.tokens[idx(compare[1])]!);
 
   return (
     <div className="st">
+      <nav className="st-steps" aria-label="Three steps">
+        {STEPS.map((x) => (
+          <button
+            key={x.id}
+            className={`st-step${step === x.id ? ' on' : ''}`}
+            onClick={() => setStep(x.id)}
+            data-testid={`step-${x.id}`}
+            aria-current={step === x.id ? 'step' : undefined}
+          >
+            <span className="st-step-n">{x.n}</span>
+            <span className="st-step-t">
+              <b>{x.label}</b>
+              <em>{x.sub}</em>
+            </span>
+          </button>
+        ))}
+      </nav>
+
+      {step === 'idea' && (
+      <div className="st-idea">
       {/* ---- the one idea, before anything else ---- */}
       <section className="st-thesis">
         <span className="st-k">the one idea underneath all of it</span>
@@ -166,11 +208,26 @@ export function Start() {
         />
       </section>
 
-      {/* ---- the index: one question, asked of everything ---- */}
-      <ConceptIndex />
+      <button className="st-next" onClick={() => setStep('history')} data-testid="to-history">
+        Next: how it got here →
+      </button>
+      </div>
+      )}
 
-      {/* ---- origin: the walk-back path ---- */}
-      <Timeline />
+      {/* The walk-back path. Its own step, because a history read while a
+          67-row table sits underneath it is a history nobody finishes. */}
+      {step === 'history' && (
+        <>
+          <Timeline />
+          <button className="st-next" onClick={() => setStep('index')} data-testid="to-index">
+            Next: every concept →
+          </button>
+        </>
+      )}
+
+      {/* One question, asked of everything. Last, because it is a reference
+          and a reference is what you want after the explanation, not during. */}
+      {step === 'index' && <ConceptIndex />}
     </div>
   );
 }

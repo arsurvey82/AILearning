@@ -1,5 +1,9 @@
 .st {
-  max-width: 780px;
+  /* Prose still wraps at 62ch for readability; the container no longer does.
+     At 780px the table and the step nav sat in the left half of a wide screen
+     with the right half empty, which reads as a page that failed to load
+     rather than as restraint. */
+  max-width: 1180px;
   margin: 0 auto;
   padding: var(--sp-5) var(--sp-5) var(--sp-6);
   display: flex;
@@ -253,3 +257,87 @@
     gap: var(--sp-3);
   }
 }
+
+/* ---- three steps ----
+   This surface used to be one scroll with 138 controls on it. The three parts
+   want reading at different moments, so they are three steps and the nav says
+   where you are. */
+.st-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+}
+.st-step {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  text-align: left;
+  padding: var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent;
+}
+.st-step:hover {
+  border-color: var(--border-strong);
+}
+.st-step.on {
+  border-color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 9%, transparent);
+}
+.st-step-n {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.st-step.on .st-step-n {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.st-step-t {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.st-step-t b {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.st-step-t em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.st-next {
+  display: block;
+  margin: var(--sp-6) 0 var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.st-next:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+@media (max-width: 680px) {
+  .st-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tried and reverted: a two-column grid for the idea and the table. It clipped
+   the table at four of six columns and split the section below it across both
+   columns. The sections here are full-width blocks in a sequence, and the
+   container being wide is enough. */

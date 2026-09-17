@@ -31,6 +31,7 @@ test('capture every lens', async ({ page }) => {
   await page.goto(BUILT);
   await page.getByRole('button', { name: 'Trained model', exact: true }).click();
   await page.getByTestId('scale-start').click();
+  await page.getByTestId('step-index').click();
   const ix = page.getByTestId('concept-index');
   await expect(ix).toBeVisible();
   await ix.scrollIntoViewIfNeeded();

@@ -392,6 +392,20 @@ test('the learned table shows different rows for different words', async ({ page
  * Scale one, and digging into terms.
  * ------------------------------------------------------------------ */
 
+/* The Start surface is three steps now, not one scroll: the idea, the history,
+   then the index. Each helper lands on the one its tests are about. */
+async function openHistory(page: Page) {
+  await openStart(page);
+  await page.getByTestId('step-history').click();
+  await expect(page.getByTestId('timeline')).toBeVisible();
+}
+
+async function openIndex(page: Page) {
+  await openStart(page);
+  await page.getByTestId('step-index').click();
+  await expect(page.getByTestId('concept-index')).toBeVisible();
+}
+
 async function openStart(page: Page) {
   await openLearn(page);
   await page.getByTestId('scale-start').click();
@@ -478,7 +492,7 @@ test('digging keeps the trail, and you can walk back out', async ({ page }) => {
 
 test('the timeline reads as a stack of fixes, oldest first', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openHistory(page);
 
   const tl = page.getByTestId('timeline');
   await expect(tl).toBeVisible();
@@ -499,7 +513,7 @@ test('the timeline reads as a stack of fixes, oldest first', async ({ page }) =>
 
 test('things nobody chose sit outside the timeline, with no year', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openHistory(page);
 
   const forced = page.locator('.tl-forced');
   await expect(forced).toContainText('nobody chose them');
@@ -510,7 +524,7 @@ test('things nobody chose sit outside the timeline, with no year', async ({ page
 
 test('filtering by era splits at the transformer', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openHistory(page);
 
   const years = async () =>
     (await page.locator('.tl-year').allInnerTexts()).map(Number);
@@ -525,7 +539,7 @@ test('filtering by era splits at the transformer', async ({ page }) => {
 
 test('a timeline row opens the concept it belongs to', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openHistory(page);
 
   await page.getByTestId('year-attention').click();
   // It leaves the start scale and lands on the authored lesson.
@@ -540,7 +554,7 @@ test('a timeline row opens the concept it belongs to', async ({ page }) => {
 
 test('the index reads one lens down the whole list', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openIndex(page);
 
   const ix = page.getByTestId('concept-index');
   await ix.scrollIntoViewIfNeeded();
@@ -559,7 +573,7 @@ test('the index reads one lens down the whole list', async ({ page }) => {
 
 test('switching lens asks a different question of the same concepts', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openIndex(page);
   const ix = page.getByTestId('concept-index');
 
   const cell = () => ix.getByTestId('row-backprop').innerText();
@@ -578,7 +592,7 @@ test('switching lens asks a different question of the same concepts', async ({ p
 
 test('every lens reports its own coverage, holes included', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openIndex(page);
   const ix = page.getByTestId('concept-index');
 
   /* This used to assert that "why it exists" read under 100%, because it did.
@@ -594,7 +608,7 @@ test('every lens reports its own coverage, holes included', async ({ page }) => 
 
 test('unanswered cells are shown, not hidden', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openIndex(page);
   const ix = page.getByTestId('concept-index');
 
   /* No concept is unanswered any more, so the gap this exercises is the real
@@ -616,7 +630,7 @@ test('unanswered cells are shown, not hidden', async ({ page }) => {
 
 test('an index row opens its lesson', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openIndex(page);
   await page.getByTestId('concept-index').getByTestId('row-backprop').locator('button').click();
   await expect(page.locator('.dz-title')).toContainText('Backprop');
   expect(errors).toEqual([]);
@@ -624,7 +638,7 @@ test('an index row opens its lesson', async ({ page }) => {
 
 test('a lens says what it holds before you scroll it', async ({ page }) => {
   const errors = watchConsole(page);
-  await openStart(page);
+  await openIndex(page);
   const ix = page.getByTestId('concept-index');
 
   /* "Why it exists" is at 100%, and its first six rows all read "no history"
@@ -683,5 +697,50 @@ test('the first screen defines its own words', async ({ page }) => {
   expect(text).not.toContain('distractor');
   expect(text).toContain('the nearer noun');
   expect(text).toContain('the subject');
+  expect(errors).toEqual([]);
+});
+
+test('the front surface is three steps, not one scroll', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openStart(page);
+
+  /* It used to render the idea, the table, the whole 67-row index AND the
+     whole timeline at once: 138 controls on one page, with every concept name
+     appearing twice. Thoroughness that reads as a bug. */
+  await expect(page.getByTestId('table')).toBeVisible();
+  await expect(page.getByTestId('concept-index')).toHaveCount(0);
+  await expect(page.getByTestId('timeline')).toHaveCount(0);
+
+  const onIdea = await page.locator('button:visible').count();
+  expect(onIdea, 'the first step should be readable, not a control panel').toBeLessThan(40);
+
+  // And each step is reachable, both by the nav and by the way forward.
+  await page.getByTestId('to-history').click();
+  await expect(page.getByTestId('timeline')).toBeVisible();
+  await expect(page.getByTestId('table')).toHaveCount(0);
+
+  await page.getByTestId('to-index').click();
+  await expect(page.getByTestId('concept-index')).toBeVisible();
+  await expect(page.getByTestId('timeline')).toHaveCount(0);
+
+  await page.getByTestId('step-idea').click();
+  await expect(page.getByTestId('table')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('no concept is listed twice on the same screen', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openIndex(page);
+
+  /* The duplication was real: the timeline and the index each listed the
+     concepts, so twelve names appeared twice on one page. They are separate
+     steps now, and this fails if they are ever merged back. */
+  const labels = await page.locator('button:visible').allInnerTexts();
+  const seen = new Map<string, number>();
+  for (const l of labels.map((x) => x.replace(/\s+/g, ' ').trim()).filter(Boolean)) {
+    seen.set(l, (seen.get(l) ?? 0) + 1);
+  }
+  const twice = [...seen].filter(([, n]) => n > 1).map(([l]) => l);
+  expect(twice).toEqual([]);
   expect(errors).toEqual([]);
 });
