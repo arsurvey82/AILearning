@@ -1,0 +1,168 @@
+/* The facilitator's panel. Deliberately plain: it is an instrument, not part
+   of the product, and it should never be mistaken for one. */
+.pt {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 90;
+  width: min(420px, calc(100vw - 24px));
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow);
+  font-size: 12.5px;
+}
+
+.pt-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+.pt-head b {
+  margin-right: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pt-clock {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.pt-go,
+.pt-foot button,
+.pt-draft button {
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  font-size: 12px;
+}
+.pt-go:hover,
+.pt-foot button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.pt-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+}
+.pt-btns button {
+  padding: var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  font-size: 12.5px;
+}
+.pt-btns button:first-child:hover {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+.pt-btns button:last-child:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.pt-draft {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 var(--sp-3) var(--sp-3);
+}
+.pt-draft label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+.pt-draft input {
+  width: 100%;
+  padding: 7px 9px;
+  background: var(--plane);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  font: inherit;
+}
+.pt-where {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.pt-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0 var(--sp-3);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.pt-list li {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 4px 8px;
+  padding: var(--sp-2);
+  border-left: 2px solid var(--yellow);
+  background: var(--plane);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+/* A stumble nobody voiced. The protocol calls these the ones anticipated
+   cards miss most often, so they are marked differently rather than blended in. */
+.pt-list li.silent {
+  border-left-color: var(--orange);
+}
+.pt-at {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  color: var(--muted);
+}
+.pt-words {
+  color: var(--ink);
+}
+.pt-w {
+  grid-column: 2;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.pt-res {
+  grid-column: 2;
+  display: flex;
+  gap: 5px;
+}
+.pt-res button {
+  padding: 1px 7px;
+  font-size: 10.5px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--muted);
+}
+.pt-res button.on {
+  border-color: var(--aqua);
+  color: var(--aqua);
+}
+
+.pt-foot {
+  padding: var(--sp-3);
+  border-top: 1px solid var(--border);
+}
+.pt-foot button {
+  width: 100%;
+}

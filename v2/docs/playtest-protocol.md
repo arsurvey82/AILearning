@@ -35,7 +35,33 @@ will try to be encouraging. Both produce clean sessions and no data.
 
 - One node per session, roughly 30-45 minutes.
 - They drive. You do not touch the keyboard.
-- Record the screen, or take timestamped notes. You will not remember it.
+- **Open the app at `#playtest` before they sit down.** That turns on the
+  recorder, bottom right. It is absent at every other URL, because a visible
+  research instrument changes the session it is measuring.
+- Record the screen as a backup. You will not remember it.
+
+### The recorder
+
+It exists because the protocol asks for two things a person cannot do at once:
+watch closely enough to catch a silent stumble, and write down where the
+learner was when it happened. The app already knows where they were, so it
+fills that column itself.
+
+| Button | What it does |
+| --- | --- |
+| Start session | Begins the clock. Everything is timestamped from here. |
+| They said something | Captures the context immediately, then asks you for their words. |
+| Silent stumble | One click, no typing. For a long pause, a scroll back up, a re-read. |
+| alone / told | Mark afterwards, on any row. |
+| Copy as markdown | The protocol's log table, filled in, ready to paste. |
+
+The context is captured on the keypress, not when you finish typing. By then
+the learner has moved on and the note would record where they went next rather
+than where they got stuck.
+
+It records and nothing else. It does not decide what becomes a snag, because
+one of the four gates below is "two or more people hit it", which no single
+session can answer.
 - Say once, at the start: **"Think out loud. Every time you're confused, say
   so, that's the entire point. You can't say it too often."**
 - Then stop talking. The urge to rescue them is the biggest threat to the data.

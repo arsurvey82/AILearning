@@ -18,6 +18,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { Recorder } from './playtest/Recorder';
 import { AISettings } from './ai/AISettings';
 import { Learn } from './learn/Learn';
 import { NODES, ROOT_ID, getNode, hasChildren } from './content';
@@ -186,6 +187,10 @@ export function App() {
       )}
 
       <AISettings />
+
+      {/* Facilitator only, and invisible unless the URL ends in #playtest.
+          A visible research instrument changes the session it is measuring. */}
+      <Recorder />
     </div>
   );
 }
