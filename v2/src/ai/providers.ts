@@ -17,7 +17,7 @@
  * chose. Browser-side keys are visible in devtools, the UI says so plainly.
  */
 
-export type ProviderId = 'anthropic' | 'openai' | 'openrouter' | 'google';
+export type ProviderId = 'anthropic' | 'openai' | 'openrouter' | 'google' | 'lmstudio';
 
 export interface ProviderSpec {
   id: ProviderId;
@@ -34,6 +34,14 @@ export interface ProviderSpec {
   modelHint: string;
   /** Whether this provider takes OpenRouter's `reasoning` request parameter. */
   supportsReasoning?: boolean;
+  /**
+   * Runs on the reader's own machine and wants no key at all.
+   *
+   * Worth its own flag rather than an empty-string special case, because the
+   * key check is what decides whether the adapter is available, and a local
+   * model with no key is available in every sense that matters.
+   */
+  keyless?: boolean;
   /**
    * Where to ask the key what it can actually reach.
    *
@@ -113,6 +121,21 @@ export const PROVIDERS: Record<ProviderId, ProviderSpec> = {
     modelHint:
       'openrouter/free costs nothing and picks a free model for you (50 requests/day, more with credit). openrouter/auto picks the best model for the request. Or type any vendor/model slug.',
     supportsReasoning: true,
+  },
+  lmstudio: {
+    id: 'lmstudio',
+    label: 'LM Studio (on this machine)',
+    // LM Studio serves an OpenAI-compatible API, so it reuses that path whole.
+    endpoint: 'http://localhost:1234/v1/chat/completions',
+    listUrl: 'http://localhost:1234/v1/models',
+    keysUrl: 'https://lmstudio.ai/docs/app/api/endpoints/openai',
+    keyless: true,
+    defaultModel: '',
+    modelSuggestions: [],
+    keyHint:
+      'No key, no account, no cost. Install LM Studio, download a model, and start its local server on port 1234.',
+    modelHint:
+      'Press Find models once the server is running. Nothing you type leaves your machine. If the request fails, turn on CORS in LM Studio: the page is served from a file, so the browser treats localhost as a different origin.',
   },
   google: {
     id: 'google',
@@ -295,10 +318,9 @@ async function askChatCompletions(
   req: AskRequest,
   reasoning: boolean,
 ): Promise<AskResult> {
-  const headers: Record<string, string> = {
-    'content-type': 'application/json',
-    authorization: `Bearer ${key}`,
-  };
+  const headers: Record<string, string> = { 'content-type': 'application/json' };
+  // A local server has nothing to authorise against.
+  if (!p.keyless) headers.authorization = `Bearer ${key}`;
   if (p.id === 'openrouter') {
     // OpenRouter uses these for its public leaderboard; harmless and polite.
     headers['HTTP-Referer'] = 'https://github.com/arsurvey82/AILearning';
@@ -546,9 +568,10 @@ export interface AdapterConfig {
 }
 
 export function createAdapter(cfg: AdapterConfig): AIAdapter {
-  if (!cfg.apiKey.trim() || !cfg.model.trim()) return NullAdapter;
-
   const p = PROVIDERS[cfg.provider];
+  /* A local model is available with no key. Requiring one here is what made
+     "free and private" impossible to offer at all. */
+  if ((!cfg.apiKey.trim() && !p.keyless) || !cfg.model.trim()) return NullAdapter;
   return {
     available: true,
     async ask(req) {

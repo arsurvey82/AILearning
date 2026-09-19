@@ -706,11 +706,14 @@ test('the AI layer is optional and off by default', async ({ page }) => {
   // adding one is a data change and this assertion is what keeps the UI
   // honest about it.
   const options = dialog.locator('#ais-provider option');
-  await expect(options).toHaveCount(4);
+  /* Five now. The fourth runs on the reader's own machine and needs no key, so
+     "pay someone" stopped being the only answer to wanting this layer. */
+  await expect(options).toHaveCount(5);
   await expect(options.nth(0)).toHaveText(/Claude \(Anthropic\)/);
   await expect(options.nth(1)).toHaveText(/OpenAI/);
   await expect(options.nth(2)).toHaveText(/OpenRouter/);
-  await expect(options.nth(3)).toHaveText(/Gemini \(Google\)/);
+  await expect(options.nth(3)).toHaveText(/LM Studio/);
+  await expect(options.nth(4)).toHaveText(/Gemini \(Google\)/);
 
   // Gemini ships no hardcoded model name, one was, and it 404'd once Google
   // withdrew it from new accounts. Instead the panel offers to ask the key
@@ -1338,5 +1341,77 @@ test('the trail jumps straight home from depth', async ({ page }) => {
   await page.locator('.map-crumb', { hasText: 'LLM' }).first().click();
   await expect(page.locator('.map-crumb.here')).toHaveText('LLM');
   await expect(page.locator('.app-map .map-canvas')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('a reader with no key is told how to get one, free included', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openMap(page);
+  await page.getByRole('button', { name: /Connect LLM/ }).click();
+  const help = page.getByTestId('ai-help');
+
+  /* "Add an API key" with no idea where to get one is the same dead end as a
+     map that stops, with better manners. */
+  await expect(help).toBeVisible();
+  await help.locator('summary').click();
+  const text = await help.innerText();
+  for (const want of ['LM Studio', 'Google AI Studio', 'OpenRouter', 'Anthropic']) {
+    expect(text, `${want} should be offered`).toContain(want);
+  }
+  expect(text).toContain('never saved');
+  expect(errors).toEqual([]);
+});
+
+test('the local provider asks for no key at all', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openMap(page);
+  await page.getByRole('button', { name: /Connect LLM/ }).click();
+  await page.locator('#ais-provider').selectOption('lmstudio');
+
+  // The key field is the thing that used to make "free and private" impossible.
+  await expect(page.locator('label[for="ais-key"]')).toContainText('not needed');
+  await expect(page.getByText('Nothing to paste')).toBeVisible();
+  // And discovery must not be gated on the key it does not want.
+  await expect(page.getByRole('button', { name: /Find models/ })).toBeEnabled();
+  expect(errors).toEqual([]);
+});
+
+test('a leaf is the bottom, not a dead end', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openMap(page);
+  const canvas = page.locator('.app-map .map-canvas');
+  await canvas.focus();
+
+  /* 54 of the 70 concepts have nothing inside them. The panel used to render
+     only when a node had children, so arriving at any of them made the map go
+     blank with no explanation, which reads as the map breaking. */
+  for (let i = 0; i < 5; i++) await canvas.press('Enter');
+  const panel = page.locator('.map-panel');
+  await expect(panel).toBeVisible();
+  await expect(panel).toContainText('This is where the lesson is');
+
+  // And the way on is offered, rather than left to be guessed.
+  await expect(page.getByTestId('map-read')).toBeVisible();
+  await expect(page.getByTestId('map-ask')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('the map offers the lesson and the question on every node', async ({ page }) => {
+  const errors = watchConsole(page);
+  await openMap(page);
+  /* Diving through the canvas, not a chip: a chip means "take me to that
+     concept" and deliberately leaves the map, so there would be no map panel
+     to test. */
+  const canvas = page.locator('.app-map .map-canvas');
+  await canvas.focus();
+  await canvas.press('Enter');
+
+  await expect(page.getByTestId('map-read')).toBeVisible();
+  await page.getByTestId('map-ask').click();
+  /* Without a key the ask box can only describe what it would do, so the
+     settings open too. Being told to add a key with no way to get one is the
+     dead end again in a different costume. */
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByTestId('ai-help')).toBeVisible();
   expect(errors).toEqual([]);
 });

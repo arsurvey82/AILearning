@@ -85,7 +85,12 @@ function buildBodies(reduced: boolean): { root: Body; byId: Record<string, Body>
       // Fan children evenly, offset per depth so nested rings do not line up
       // into a spoke and read as one straight line.
       baseAngle: -Math.PI / 2 + i * ((2 * Math.PI) / Math.max(n, 1)) + depth * 0.4,
-      orbitSpeed: reduced ? 0 : (0.03 / (depth + 1)) * (depth % 2 ? -1 : 1),
+      /* Nested rings must not all spin at one rate or the whole thing reads
+         as noise, so speed still falls with depth. But dividing by depth+1
+         took a full orbit from 209 seconds at the top to 1047 four levels
+         down, which is not "slower", it is stopped. A gentler falloff keeps
+         the distinction and keeps everything visibly alive. */
+      orbitSpeed: reduced ? 0 : (0.05 / (1 + depth * 0.35)) * (depth % 2 ? -1 : 1),
       cx: 0,
       cy: 0,
       sx: 0,
@@ -129,6 +134,15 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
   const diveTo = (id: string) => {
     setGraphic('universe');
     focusNode(id);
+  };
+
+  /* Straight to the lesson, where the grounded ask box lives. Without a key
+     that box can only explain what it would do, so the settings open too:
+     being told to add a key with no way to get one is the dead end again in
+     a different costume. */
+  const askAbout = () => {
+    focusNode(focusNodeId, 'notebook');
+    if (!useStore.getState().aiKey) useStore.getState().openAISettings();
   };
 
   const crumbs = pathTo(focusNodeId);
@@ -682,8 +696,18 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
       {/* Split mode: navigation only. The notebook beside it already carries
           the title, the description and the relationships, and repeating them
           two inches apart is redundancy the learner has to reconcile. */}
-      {focused && compact && kids.length > 0 && (
+      {/* This used to render only when the node had children, so arriving at
+          any of the 54 leaves made the panel vanish and the map became a dead
+          end with no explanation. A leaf is not a failure, it is the bottom,
+          and the bottom is where the lesson is. */}
+      {focused && compact && (
         <aside className="map-panel slim">
+          {kids.length === 0 ? (
+            <p className="map-kids-l">
+              Nothing inside {focused.title}. This is where the lesson is.
+            </p>
+          ) : (
+          <>
           <p className="map-kids-l">Inside {focused.title}</p>
           <div className="map-kids">
             {kids.map((k) => (
@@ -697,6 +721,19 @@ export function MapCanvas({ compact = false }: { compact?: boolean } = {}) {
                 {k.title}
               </button>
             ))}
+          </div>
+          </>
+          )}
+
+          {/* On every node, not only the dead ends. The map answers "where am
+              I"; these are the two things anyone wants next. */}
+          <div className="map-acts">
+            <button onClick={() => focusNode(focusNodeId, 'notebook')} data-testid="map-read">
+              Read the lesson
+            </button>
+            <button onClick={askAbout} data-testid="map-ask">
+              Ask about this
+            </button>
           </div>
         </aside>
       )}

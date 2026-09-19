@@ -205,3 +205,51 @@
   line-height: 1.55;
   color: var(--serious);
 }
+
+/* "Add an API key" with no idea where to get one is a dead end with better
+   manners. Collapsed, because it is only needed once. */
+.ais-help {
+  margin-top: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: var(--sp-3);
+}
+.ais-help summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--blue);
+}
+.ais-help dl {
+  margin: var(--sp-3) 0 0;
+  display: grid;
+  gap: var(--sp-3);
+}
+.ais-help dt {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.ais-help dd {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.ais-help dd b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.ais-help code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--aqua);
+}
+.ais-help > p {
+  margin: var(--sp-3) 0 0;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}

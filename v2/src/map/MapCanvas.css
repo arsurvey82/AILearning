@@ -376,3 +376,29 @@
   color: var(--ink);
   border-color: var(--border-strong);
 }
+
+/* The two things anyone wants after "where am I". Shown on every node, and
+   especially on the 54 leaves, where the panel used to disappear entirely. */
+.map-acts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border);
+}
+.map-acts button {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.map-acts button:first-child:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.map-acts button:last-child:hover {
+  border-color: var(--violet);
+  color: var(--violet);
+}

@@ -119,7 +119,7 @@ export function AISettings() {
         </select>
 
         <label className="ais-l" htmlFor="ais-key">
-          API key
+          {spec.keyless ? 'API key (not needed)' : 'API key'}
         </label>
         <div className="ais-keyrow">
           <input
@@ -142,12 +142,59 @@ export function AISettings() {
           </button>
         </div>
         <p className="ais-hint">
-          Get one at{' '}
-          <a href={spec.keysUrl} target="_blank" rel="noreferrer noopener">
-            {new URL(spec.keysUrl).host}
-          </a>
-          .
+          {spec.keyless ? (
+            <>
+              Nothing to paste. Leave this empty.{' '}
+              <a href={spec.keysUrl} target="_blank" rel="noreferrer noopener">
+                Setup instructions
+              </a>
+              .
+            </>
+          ) : (
+            <>
+              Get one at{' '}
+              <a href={spec.keysUrl} target="_blank" rel="noreferrer noopener">
+                {new URL(spec.keysUrl).host}
+              </a>
+              .
+            </>
+          )}
         </p>
+
+        {/* Nobody arrives knowing which of these they want, and "add an API
+            key" with no idea where to get one is the same dead end as a map
+            that stops. So the four honest answers, with what each costs. */}
+        <details className="ais-help" data-testid="ai-help">
+          <summary>I do not have a key. What are my options?</summary>
+          <dl>
+            <dt>Free and private, nothing leaves this machine</dt>
+            <dd>
+              <b>LM Studio.</b> Install it, download a model, start its local server. No account,
+              no key, no cost. Slower than a hosted model and limited by your own hardware, which
+              on this laptop is plenty for re-explaining a paragraph.
+            </dd>
+            <dt>Free, hosted</dt>
+            <dd>
+              <b>Google AI Studio</b> gives a key at no cost. <b>OpenRouter</b> with the model{' '}
+              <code>openrouter/free</code> costs nothing for about 50 requests a day, and picks a
+              free model for you so you do not have to choose one.
+            </dd>
+            <dt>Paid, best quality</dt>
+            <dd>
+              <b>Anthropic</b> or <b>OpenAI</b> directly. You pay per request, and for this use,
+              re-explaining a short lesson, that is fractions of a penny.
+            </dd>
+            <dt>One key, many models</dt>
+            <dd>
+              <b>OpenRouter</b> again. One account reaches most providers, which is the least
+              painful option if you expect to switch.
+            </dd>
+          </dl>
+          <p>
+            Whatever you choose, the key is held in memory for this page only. It is never saved
+            to disk and never sent anywhere except the provider you picked.
+          </p>
+        </details>
 
         <label className="ais-l" htmlFor="ais-model">
           Model
@@ -168,8 +215,14 @@ export function AISettings() {
               className="ais-ghost"
               type="button"
               onClick={find}
-              disabled={finding || !apiKey.trim()}
-              title={apiKey.trim() ? 'List the models this key can reach' : 'Paste a key first'}
+              disabled={finding || (!apiKey.trim() && !spec.keyless)}
+              title={
+                spec.keyless
+                  ? 'List the models your local server has loaded'
+                  : apiKey.trim()
+                    ? 'List the models this key can reach'
+                    : 'Paste a key first'
+              }
             >
               {finding ? 'finding…' : 'Find models'}
             </button>
@@ -240,11 +293,24 @@ export function AISettings() {
         )}
 
         <div className="ais-warn">
-          <strong>Where this key goes.</strong> Requests are sent straight from this page to{' '}
-          {spec.label}. The key is kept in memory only. Nothing is written to storage, so it is
-          gone when you reload, and it is never part of the published file. But a key used from a
-          browser is visible in the network tab, so use one you are happy to rotate, and don't
-          enter a key on a copy of this page you didn't build.
+          {/* Warning a reader that their key is visible in devtools is only
+              useful when they have one. On a local model the honest note is
+              the opposite: nothing leaves the machine at all. */}
+          {spec.keyless ? (
+            <>
+              <strong>Where this goes.</strong> Nowhere. Requests are sent to {spec.label} on this
+              computer, over localhost. No key, no account, and nothing about your questions or the
+              lesson leaves the machine.
+            </>
+          ) : (
+            <>
+              <strong>Where this key goes.</strong> Requests are sent straight from this page to{' '}
+              {spec.label}. The key is kept in memory only. Nothing is written to storage, so it is
+              gone when you reload, and it is never part of the published file. But a key used from
+              a browser is visible in the network tab, so use one you are happy to rotate, and
+              don't enter a key on a copy of this page you didn't build.
+            </>
+          )}
         </div>
 
         <div className="ais-actions">
