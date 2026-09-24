@@ -498,6 +498,19 @@ export const ORIGINS: Record<string, Origin> = {
     },
   },
 
+  'bengio-nnlm': {
+    kind: 'fix',
+    year: 2003,
+    problem:
+      'Language models counted how often exact word sequences appeared in text. Anything unseen was assigned probability zero, and word similarity was invisible to the count.',
+    gained:
+      'A dense vector per word, run through a small network to predict the next one. Similar words end up with similar vectors, so an unseen sequence borrows credit from seen ones near it.',
+    source: {
+      label: 'Bengio et al, A Neural Probabilistic Language Model',
+      url: 'https://www.jmlr.org/papers/v3/bengio03a.html',
+    },
+  },
+
   /* ------------------------ answered, with no history to tell ----------- */
 
   /* These are objects, groupings or sub-parts. None of them is somebody's fix

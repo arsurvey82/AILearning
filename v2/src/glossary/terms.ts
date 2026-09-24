@@ -247,6 +247,29 @@ export const TERMS: Term[] = [
     see: ['backpropagation'],
   },
   {
+    id: 'bengio-nnlm',
+    term: 'Bengio neural language model',
+    plain:
+      'A 2003 paper that predicts the next word from a small [[vector]] per word, fed through a network.',
+    not: 'Not the invention of the vector idea. That was 1986. This paper welded the vector to the task of predicting the next word.',
+    more: [
+      'It is the direct ancestor of every neural language model that followed. Word vectors as a shared resource arrived a decade later, with [[word2vec]].',
+    ],
+    origin: {
+      kind: 'fix',
+      year: 2003,
+      problem:
+        'Older language models counted how often exact word sequences appeared. Anything unseen was assigned probability zero, and word similarity was invisible to the count.',
+      gained:
+        'A dense vector per word, fed through a small network to predict the next one. Similar words end up in similar places, so an unseen sequence borrows credit from seen ones near it.',
+      source: {
+        label: 'Bengio et al, A Neural Probabilistic Language Model',
+        url: 'https://www.jmlr.org/papers/v3/bengio03a.html',
+      },
+    },
+    see: ['word2vec', 'embedding'],
+  },
+  {
     id: 'backpropagation',
     term: 'Backpropagation',
     plain: 'The rule for working out which numbers to nudge, and in which direction, after a wrong answer.',
