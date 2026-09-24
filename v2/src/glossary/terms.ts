@@ -432,6 +432,26 @@ export const TERMS: Term[] = [
     see: ['transformer', 'attention', 'context-window'],
   },
   {
+    id: 'liquid',
+    term: 'Liquid Networks',
+    plain:
+      'Small networks whose units follow a differential equation with a time constant that itself depends on the input. Behaviour changes with the signal.',
+    not: 'Not a [[transformer]] variant. No attention, no token grid, no KV cache. The unit itself is the new idea.',
+    origin: {
+      kind: 'fix',
+      year: 2020,
+      problem:
+        'Standard networks take discrete steps and their behaviour is fixed by the weights alone. Small networks stayed brittle at time-series work.',
+      gained:
+        'Units whose response speed depends on the input, so behaviour follows the signal rather than a preset step size.',
+      source: {
+        label: 'Hasani et al, Liquid Time-Constant Networks',
+        url: 'https://arxiv.org/abs/2006.04439',
+      },
+    },
+    see: ['transformer', 'attention'],
+  },
+  {
     id: 'scaling',
     term: 'Scaling',
     plain: 'Making the model, the data and the compute bigger, in measured proportion.',

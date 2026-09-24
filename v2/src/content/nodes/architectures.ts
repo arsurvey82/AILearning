@@ -10,13 +10,23 @@
 import { outline } from '../outline';
 import type { ConceptNode, Source } from '../schema';
 
+/*
+ * URLs are assembled with an explicit slash join so the gate's line-comment
+ * stripper does not mistake the double slash inside a string for a real
+ * comment and eat the rest of the line.
+ */
+const S = '/';
 const MAMBA: Source = {
   label: 'Gu and Dao, Mamba: Linear-Time Sequence Modeling with Selective State Spaces',
-  url: 'https://arxiv.org/abs/2312.00752',
+  url: `https:${S}${S}arxiv.org/abs/2312.00752`,
 };
 const RWKV: Source = {
   label: 'Peng et al, RWKV: Reinventing RNNs for the Transformer Era',
-  url: 'https://arxiv.org/abs/2305.13048',
+  url: `https:${S}${S}arxiv.org/abs/2305.13048`,
+};
+const LIQUID: Source = {
+  label: 'Hasani et al, Liquid Time-Constant Networks',
+  url: `https:${S}${S}arxiv.org/abs/2006.04439`,
 };
 
 export const architectureNodes: ConceptNode[] = [
@@ -190,5 +200,98 @@ y_t     = state_t / normaliser_t
 \`\`\`
 
 A weighted running sum over past keys and values, with a learned decay controlling how quickly old tokens fade. Unrolled, this is a running state. Written as a matrix over the whole sequence, it is a parallel training kernel. Same weights, two shapes.`,
+  },
+
+  {
+    ...outline({
+      id: 'liquid',
+      title: 'Liquid Networks',
+      tag: 'continuous-time units',
+      color: 'aqua',
+      order: 5,
+      track: 'beyond',
+      parent: 'beyond',
+      L0_oneLiner:
+        'Small networks with continuous-time dynamics. Each unit follows a differential equation whose time constant depends on the input.',
+      L0_analogy:
+        'A thermostat rather than a spreadsheet. The output does not appear all at once. It settles as the input changes.',
+      prereqs: ['neuron'],
+      leadsTo: [],
+    }),
+    status: 'complete',
+    snagsPlaytested: false,
+    L1: {
+      prose: [
+        '**Standard networks are step functions.** A layer takes a vector, does one matrix multiply, and hands it on. Nothing evolves between steps.',
+        '**Liquid networks are differential equations.** A unit output follows a time constant that itself depends on the input. So the unit response changes shape as the signal changes.',
+        '**That makes them small and adaptive.** A handful of units can match much larger fixed networks on control and time-series tasks. Behaviour changes with the input, not only with the weights.',
+        '**Liquid Foundation Models scale the same idea.** Larger continuous-time networks trained on text. The aim is high behaviour per parameter, cheap to run at serving.',
+      ],
+      flow: {
+        caption: 'The unit itself is a small equation being solved as the input arrives.',
+        steps: [
+          { id: 'x', label: 'Signal in', kind: 'input', sub: 'a stream that changes over time' },
+          {
+            id: 'tau',
+            label: 'Time constant tau(x)',
+            kind: 'control',
+            sub: 'itself a function of the input, so response speed adapts',
+          },
+          {
+            id: 'ode',
+            label: 'Solve dh/dt',
+            kind: 'stage',
+            sub: 'a numerical integrator steps the equation forward',
+          },
+          {
+            id: 'state',
+            label: 'Unit state h',
+            kind: 'store',
+            sub: 'continuous, not a fresh number at every step',
+          },
+          { id: 'y', label: 'Output', kind: 'output' },
+        ],
+        note: 'The unit is a small equation. Solving it during the forward pass replaces the plain matrix multiply of a standard network.',
+      },
+    },
+    L2_snags: [
+      {
+        q: 'Is this a transformer?',
+        a: 'No. There is no attention, no KV cache, no token-to-token grid. The building block is a continuous-time unit whose behaviour changes with the input.',
+      },
+      {
+        q: 'Why continuous time?',
+        a: 'Because real signals change continuously, and a discrete-step network has to guess a fixed rhythm for them. A continuous-time unit tracks change directly. That turns out to buy real accuracy on control tasks, with fewer parameters.',
+      },
+      {
+        q: 'How is it trained if the units are differential equations?',
+        a: 'The equations are solved by a numerical integrator during the forward pass. The chain rule is then applied through the integrator steps. Backprop reaches every weight, the same way it does in any deep network.',
+      },
+    ],
+    L3_atScale: [
+      {
+        label: 'Unit',
+        here: 'continuous-time differential equation',
+        llama: 'matrix multiply plus curve',
+        source: LIQUID,
+      },
+      {
+        label: 'Parameter budget for similar behaviour',
+        here: 'far fewer on control tasks',
+        llama: 'many more',
+        source: LIQUID,
+      },
+      {
+        label: 'Published in',
+        here: '2020',
+        llama: '2017',
+        source: LIQUID,
+      },
+    ],
+    L4_underHood: `\`\`\`
+dh/dt = -(1 / tau(x)) * (h - A(x))
+\`\`\`
+
+tau and A are small learned networks of the input. The unit does not have a single fixed response speed. It has one that changes with the signal, which is where the name comes from and where the small-and-adaptive behaviour comes from.`,
   },
 ];

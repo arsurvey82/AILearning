@@ -550,6 +550,18 @@ export const ORIGINS: Record<string, Origin> = {
       url: 'https://arxiv.org/abs/2305.13048',
     },
   },
+  liquid: {
+    kind: 'fix',
+    year: 2020,
+    problem:
+      'Standard networks take discrete steps, and behaviour is fixed by the weights alone. That made small networks brittle at time-series tasks where the rhythm keeps changing.',
+    gained:
+      'Units whose time constant depends on the input. Behaviour then follows the signal rather than a preset step size.',
+    source: {
+      label: 'Hasani et al, Liquid Time-Constant Networks',
+      url: 'https://arxiv.org/abs/2006.04439',
+    },
+  },
 
   /* ------------------------ answered, with no history to tell ----------- */
 

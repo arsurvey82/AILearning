@@ -221,6 +221,12 @@ export const ASPECTS: Record<string, Aspect> = {
       'Time-mix and channel-mix weights per layer, plus the learned decay parameters. Nothing token-shaped is stored between calls.',
     code: 'RWKV-LM, or the rwkv package',
   },
+  liquid: {
+    phase: 'both',
+    trace:
+      'The coupling weights, plus the small networks that shape each unit time constant. No attention grid and no KV cache.',
+    code: 'ncps, or the reference LTC implementation',
+  },
 
   dimension_placeholder: { phase: 'setup', trace: null },
 };

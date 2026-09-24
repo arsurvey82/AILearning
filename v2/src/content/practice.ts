@@ -62,6 +62,10 @@ const RWKV_SRC: Source = {
   label: 'Peng et al, RWKV: Reinventing RNNs for the Transformer Era',
   url: 'https://arxiv.org/abs/2305.13048',
 };
+const LIQUID_SRC: Source = {
+  label: 'Hasani et al, Liquid Time-Constant Networks',
+  url: 'https://arxiv.org/abs/2006.04439',
+};
 
 const j = (useCase: string, choose: string): Practice => ({ useCase, choose, confidence: 'judgement' });
 const s = (useCase: string, choose: string, source: Source): Practice => ({
@@ -374,6 +378,11 @@ export const PRACTICE: Record<string, Practice> = {
     'Long-context language modelling where transformer-speed training and recurrent-speed serving are both wanted.',
     'Reach for it when the serving cost per token has to stay flat. Do not reach for it when the workload leans on precise lookup of specific past tokens.',
     RWKV_SRC,
+  ),
+  liquid: s(
+    'Small models that react to changing signals, from control loops to language.',
+    'Reach for it when parameter budget and adaptivity matter more than absolute benchmark scores. Do not reach for it as a drop-in transformer replacement. Tooling for very large continuous-time models is still young.',
+    LIQUID_SRC,
   ),
   'tool-design': s(
     'Making tools a model can actually use correctly.',
