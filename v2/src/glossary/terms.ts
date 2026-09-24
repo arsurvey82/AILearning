@@ -412,6 +412,26 @@ export const TERMS: Term[] = [
     see: ['transformer', 'attention', 'context-window'],
   },
   {
+    id: 'rwkv',
+    term: 'RWKV',
+    plain:
+      'A recurrent [[transformer]] hybrid. It trains in parallel like a transformer, and runs step by step like an older recurrent network.',
+    not: 'Not just an RNN with new tricks. The scoring rule was chosen so the same weights can be written as a matrix for training or as a running state for serving.',
+    origin: {
+      kind: 'fix',
+      year: 2023,
+      problem:
+        'Transformers train in parallel and serve slowly. Older recurrent networks serve cheaply and train slowly.',
+      gained:
+        'A single rule that rewrites as a parallel training pass or as a cheap running state at serving.',
+      source: {
+        label: 'Peng et al, RWKV: Reinventing RNNs for the Transformer Era',
+        url: 'https://arxiv.org/abs/2305.13048',
+      },
+    },
+    see: ['transformer', 'attention', 'context-window'],
+  },
+  {
     id: 'scaling',
     term: 'Scaling',
     plain: 'Making the model, the data and the compute bigger, in measured proportion.',

@@ -14,6 +14,10 @@ const MAMBA: Source = {
   label: 'Gu and Dao, Mamba: Linear-Time Sequence Modeling with Selective State Spaces',
   url: 'https://arxiv.org/abs/2312.00752',
 };
+const RWKV: Source = {
+  label: 'Peng et al, RWKV: Reinventing RNNs for the Transformer Era',
+  url: 'https://arxiv.org/abs/2305.13048',
+};
 
 export const architectureNodes: ConceptNode[] = [
   {
@@ -103,5 +107,88 @@ y_t = C_t * h_t
 \`\`\`
 
 Three small matrices per step. A_t, B_t and C_t are computed from the input at that step, which is what makes the state selective. During training a parallel scan computes every h_t at once, so wall-clock speed stays close to a transformer.`,
+  },
+
+  {
+    ...outline({
+      id: 'rwkv',
+      title: 'RWKV',
+      tag: 'recurrent-transformer hybrid',
+      color: 'green',
+      order: 4,
+      track: 'beyond',
+      parent: 'beyond',
+      L0_oneLiner:
+        'A recurrent transformer hybrid. Trains in parallel like a transformer, runs step by step like an older recurrent network.',
+      L0_analogy:
+        'The training rig and the delivery van are different vehicles for the same route. Use whichever is faster for the trip in hand.',
+      prereqs: ['transformer'],
+      leadsTo: [],
+    }),
+    status: 'complete',
+    snagsPlaytested: false,
+    L1: {
+      prose: [
+        '**Transformers train fast and serve slowly at long context.** Recurrent networks are the mirror image: cheap to serve, painful to train. RWKV takes both sides.',
+        '**Attention is replaced by a weighted decay over past values.** The score for a past token is not a query dotted with a key. It is the token value scaled by a learned decay of how many steps back it sits.',
+        '**The formula is the same forwards and backwards.** Rewritten one way it is a matrix multiply over the whole sequence, which trains fast on a GPU. Rewritten the other way it is a running state, which serves cheaply.',
+        '**Every layer has a time-mix and a channel-mix.** Time-mix blends the current token with a small window of past ones. Channel-mix is a per-token feed-forward step.',
+      ],
+      flow: {
+        caption: 'One rule, two shapes. The same computation runs as a matrix during training and as a state at serving.',
+        steps: [
+          { id: 'x', label: 'Token in', kind: 'input' },
+          { id: 'tm', label: 'Time-mix', kind: 'stage', sub: 'blend with a window of past tokens' },
+          {
+            id: 'state',
+            label: 'Decaying state',
+            kind: 'store',
+            sub: 'a weighted trace of every past step, updated in place',
+          },
+          { id: 'cm', label: 'Channel-mix', kind: 'stage', sub: 'per-token feed-forward' },
+          { id: 'y', label: 'Output', kind: 'output' },
+        ],
+        note: 'The training pass uses the matrix form. The serving pass uses the state form. Both compute the same thing.',
+      },
+    },
+    L2_snags: [
+      {
+        q: 'How can one architecture be both parallel and recurrent?',
+        a: 'The scoring rule uses a weighted decay that has a closed matrix form and an equivalent running form. Rewritten as matrices, you get a parallel training pass. Rewritten as a recurrence, you get a cheap serving pass. Both compute the same thing.',
+      },
+      {
+        q: 'Is it really as expressive as a transformer?',
+        a: 'On many language benchmarks the answer is close. RWKV models have been released at sizes competitive with open transformers. Fine-grained lookup of a specific past token is where it can trail, because it does not keep every token addressable.',
+      },
+      {
+        q: 'Does it need a KV cache?',
+        a: 'No. The past collapses into a small running state, so nothing token-shaped has to be stored. That is why the serving cost per token stays flat as the sequence grows.',
+      },
+    ],
+    L3_atScale: [
+      {
+        label: 'Cost per token at long context',
+        here: 'linear',
+        llama: 'quadratic in the sequence',
+        source: RWKV,
+      },
+      {
+        label: 'State per layer',
+        here: 'a small fixed vector',
+        llama: 'grows with every past token',
+      },
+      {
+        label: 'First public release',
+        here: '2023',
+        llama: '2017',
+        source: RWKV,
+      },
+    ],
+    L4_underHood: `\`\`\`
+state_t = decay * state_{t-1} + k_t * v_t
+y_t     = state_t / normaliser_t
+\`\`\`
+
+A weighted running sum over past keys and values, with a learned decay controlling how quickly old tokens fade. Unrolled, this is a running state. Written as a matrix over the whole sequence, it is a parallel training kernel. Same weights, two shapes.`,
   },
 ];

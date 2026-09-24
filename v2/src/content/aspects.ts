@@ -215,6 +215,12 @@ export const ASPECTS: Record<string, Aspect> = {
       'The A, B and C matrices, plus the small projections that produce them. No stored attention grid, and no KV cache.',
     code: 'mamba-ssm, or the reference selective-scan implementation',
   },
+  rwkv: {
+    phase: 'both',
+    trace:
+      'Time-mix and channel-mix weights per layer, plus the learned decay parameters. Nothing token-shaped is stored between calls.',
+    code: 'RWKV-LM, or the rwkv package',
+  },
 
   dimension_placeholder: { phase: 'setup', trace: null },
 };

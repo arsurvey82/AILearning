@@ -538,6 +538,18 @@ export const ORIGINS: Record<string, Origin> = {
       url: 'https://arxiv.org/abs/2312.00752',
     },
   },
+  rwkv: {
+    kind: 'fix',
+    year: 2023,
+    problem:
+      'Transformers train in parallel and serve slowly at long context. Older recurrent networks serve cheaply and train slowly. Nobody had both.',
+    gained:
+      'A scoring rule that rewrites two ways from the same weights. As a parallel matrix multiply for training, or as a running state for serving.',
+    source: {
+      label: 'Peng et al, RWKV: Reinventing RNNs for the Transformer Era',
+      url: 'https://arxiv.org/abs/2305.13048',
+    },
+  },
 
   /* ------------------------ answered, with no history to tell ----------- */
 

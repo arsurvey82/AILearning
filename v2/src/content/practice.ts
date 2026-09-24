@@ -58,6 +58,10 @@ const MAMBA: Source = {
   label: 'Gu and Dao, Mamba: Linear-Time Sequence Modeling with Selective State Spaces',
   url: 'https://arxiv.org/abs/2312.00752',
 };
+const RWKV_SRC: Source = {
+  label: 'Peng et al, RWKV: Reinventing RNNs for the Transformer Era',
+  url: 'https://arxiv.org/abs/2305.13048',
+};
 
 const j = (useCase: string, choose: string): Practice => ({ useCase, choose, confidence: 'judgement' });
 const s = (useCase: string, choose: string, source: Source): Practice => ({
@@ -365,6 +369,11 @@ export const PRACTICE: Record<string, Practice> = {
     'Long-context language modelling where the transformer grid becomes the serving bottleneck.',
     'Reach for it when context is long and serving cost matters. Do not reach for it when the task needs exact recall of a specific past token. A small running state is not a lookup table.',
     MAMBA,
+  ),
+  rwkv: s(
+    'Long-context language modelling where transformer-speed training and recurrent-speed serving are both wanted.',
+    'Reach for it when the serving cost per token has to stay flat. Do not reach for it when the workload leans on precise lookup of specific past tokens.',
+    RWKV_SRC,
   ),
   'tool-design': s(
     'Making tools a model can actually use correctly.',
