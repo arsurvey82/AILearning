@@ -211,6 +211,10 @@ That indirection buys three things: rollback is a version change rather than a r
         q: 'Does a small team really need all three tools?',
         a: 'No. The three jobs are always present. Define inputs, run the job, record what happened, but early on they can be a shared SQL file, a shell script and a spreadsheet. The tools earn their place when more than one person needs to answer "which model is in production and what trained it?"',
       },
+      {
+        q: 'Why did GPUs win training in the first place?',
+        a: 'Three things stacked. Their arithmetic units run the same operation across many numbers at once, which is the shape of every matrix multiply. Their memory bandwidth sits about an order of magnitude above a server CPU, and training reads the same weights over and over. And CUDA has had two decades of libraries and compiler work, so the code path is short and the debugger is real.',
+      },
     ],
     L3_atScale: [
       {
@@ -221,6 +225,12 @@ That indirection buys three things: rollback is a version change rather than a r
         note: 'At that size the job is a distributed system in its own right. Node failure is expected, so training checkpoints constantly.',
       },
       { label: 'Wall-clock per run', here: ', ', gpt2: 'days', llama: 'weeks' },
+      {
+        label: 'What the arithmetic units actually do',
+        here: ', ',
+        llama: 'the same operation across many values',
+        note: 'A matrix multiply is the same multiply-add repeated across every cell. GPUs and TPUs both bet the whole design on that shape, which is why the two beat general-purpose CPUs by orders of magnitude at training.',
+      },
     ],
     L4_underHood: `The pipeline is a DAG of containerised steps. Each step declares its inputs and outputs, so the orchestrator can cache: if the prep step's inputs have not changed, its output is reused and the step is skipped.
 
@@ -699,6 +709,14 @@ Everything the registry buys follows from that string being resolved late:
         q: 'Why does the same prompt sometimes come back at very different speeds?',
         a: 'Almost always batching. Your request shares the GPU with whatever else is in flight; a full batch is more efficient overall but each individual response is slower. Cache hits on a shared prefix also change it dramatically.',
       },
+      {
+        q: 'Why is one user on one GPU still slow, if the GPU is supposedly fast?',
+        a: 'Because decode is memory-bound, not compute-bound. Every generated token reads every weight in the model, and reading them takes about as long whether the arithmetic runs or not. A batch of one leaves the arithmetic units mostly idle. A batch of sixty spreads the same weight read across sixty answers, and throughput climbs with almost no extra latency.',
+      },
+      {
+        q: 'Are people building non-Nvidia silicon for this? Why the slow shift?',
+        a: 'Yes, and shipping. Google TPUs, Groq LPUs and Cerebras wafer-scale parts each beat GPUs at some slice of the job. The blocker is software, not silicon: CUDA holds fifteen years of tooling and kernels. Every new stack has to rebuild that ladder before the speedup reaches production.',
+      },
     ],
     L3_atScale: [
       {
@@ -785,6 +803,14 @@ Batching helps decode enormously and prefill barely at all, because the weight r
         q: 'Is a bigger GPU always the answer?',
         a: 'Not always the cheapest one. Two smaller GPUs can hold the same weights if you split the model across them, but they then have to talk to each other every layer, and that interconnect becomes the new bottleneck.',
       },
+      {
+        q: 'Why is everyone still on Nvidia if the maths is simple?',
+        a: 'The maths is simple; the ladder up to it is not. CUDA is over fifteen years of drivers, kernels and profilers, and PyTorch grew up on top of it. Triton, the compiler most custom inference kernels are written in, targets CUDA first. Ports to other silicon exist and are catching up; the debugging story on other silicon has not, yet.',
+      },
+      {
+        q: 'So what are the real alternatives to a Nvidia GPU?',
+        a: 'Three that ship and have primary papers. Google TPUs are systolic arrays built for exactly this matrix shape. Cerebras wafer-scale chips fit a whole model on one piece of silicon, so the inter-chip network vanishes. Groq LPUs are inference-only: weights sit on-chip and tokens stream through a fixed schedule.',
+      },
     ],
     L3_atScale: [
       {
@@ -800,6 +826,27 @@ Batching helps decode enormously and prefill barely at all, because the weight r
         here: 'none',
         llama: '40-80 GB',
         note: 'Which leaves roughly 60 GB for cache after an 8B model loads. The number that sets concurrency.',
+      },
+      {
+        label: 'TPU (Google)',
+        here: 'not used',
+        llama: 'systolic array, matrix-shape-first',
+        note: 'A dense grid of multiply-and-add units passes data in lockstep, which matches the arithmetic in attention and MLPs almost exactly. Runs on JAX and PyTorch/XLA rather than CUDA.',
+        source: SOURCES.tpuPaper,
+      },
+      {
+        label: 'Cerebras wafer-scale',
+        here: 'not used',
+        llama: 'whole model on one wafer',
+        note: 'One giant chip in place of many small ones. The inter-chip network vanishes, so weights and activations stay local. Trade-off is a fixed pool of on-chip memory and a bespoke software stack.',
+        source: SOURCES.cerebrasWafer,
+      },
+      {
+        label: 'Groq LPU',
+        here: 'not used',
+        llama: 'inference-only, deterministic',
+        note: 'A design aimed at decode: weights sit on-chip, tokens stream through in a fixed schedule with no runtime scheduler. Very fast per-sequence for models that fit. Not built for training.',
+        source: SOURCES.groqLpu,
       },
     ],
     L4_underHood: `The whole capacity question is one inequality:
