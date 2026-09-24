@@ -112,7 +112,7 @@ export const operationsNodes: ConceptNode[] = [
 models:/customer-support/3     # resolved at deploy time
 \`\`\`
 
-That indirection buys three things: rollback is a version change rather than a rebuild, two versions can serve side by side for a comparison, and the training side can publish version 4 without touching anything that is currently serving.`,
+That indirection buys three things. Rollback is a version change, not a rebuild. Two versions can serve side by side for a comparison. And the training side can publish version 4 without touching anything currently serving.`,
     leadsTo: [],
   },
 
@@ -205,7 +205,7 @@ That indirection buys three things: rollback is a version change rather than a r
       },
       {
         q: 'What makes a training run reproducible in practice?',
-        a: 'Pinning four things together: the data snapshot, the feature definitions, the code commit, and the random seed. Miss any one and a rerun gives a different model, which means you can no longer tell whether a change you made helped, or whether you just got a different roll.',
+        a: 'Pinning four things together: the data snapshot, the feature definitions, the code commit, and the random seed. Miss any one and a rerun gives a different model. Then a change you made cannot be told apart from a different roll of the dice.',
       },
       {
         q: 'Does a small team really need all three tools?',
@@ -330,7 +330,7 @@ That caching is why a rerun after a small code change costs minutes rather than 
         llama: 'Redis or DynamoDB online, warehouse offline',
       },
     ],
-    L4_underHood: `The signature that matters is the point-in-time join. You hand it an entity plus a timestamp, and it returns the value as of that timestamp:
+    L4_underHood: `The signature that matters is the point-in-time join. Hand it an entity plus a timestamp. It returns the value as of that timestamp.
 
 \`\`\`python
 store.get_historical_features(
@@ -339,7 +339,7 @@ store.get_historical_features(
 )
 \`\`\`
 
-Doing this correctly by hand in SQL is an as-of join against every feature table, and getting it subtly wrong is one of the most common causes of a model that evaluates well and ships badly.`,
+Doing this by hand in SQL is an as-of join against every feature table. Getting it subtly wrong is a common cause of models that evaluate well and ship badly.`,
     prereqs: [],
   },
 
@@ -479,7 +479,7 @@ Doing this correctly by hand in SQL is an as-of join against every feature table
       },
       {
         q: 'Kubeflow or SLURM, which one is right?',
-        a: 'Usually neither: you use whichever the cluster you have access to already runs. SLURM dominates academic and national-lab HPC, where the machine predates containers and users think in node-hours. Kubernetes dominates cloud, where everything is already a container. The model code barely changes between them. What changes is how you request the machines, how the filesystem works, and how you package the environment.',
+        a: 'Usually neither: you use whichever the cluster you have access to already runs. SLURM dominates academic and national-lab HPC, where the machine predates containers and users think in node-hours. Kubernetes dominates cloud, where everything is already a container.\n\nThe model code barely changes between them. What changes is how you request the machines, how the filesystem works, and how you package the environment.',
       },
       {
         q: 'Why is so much of this about data formats? That sounds like plumbing.',
@@ -487,7 +487,7 @@ Doing this correctly by hand in SQL is an as-of join against every feature table
       },
       {
         q: 'Does a LoRA run need all of this too?',
-        a: 'The same shape, at a much smaller scale. You still need prepared data, a pinned image and a scheduler, but because the base weights are frozen there is no optimiser state for them, which is the memory that usually forces a job across many nodes. A LoRA fine-tune that would have needed a cluster often fits on a single machine, so the orchestration stops being the hard part.',
+        a: 'The same shape, at a much smaller scale. You still need prepared data, a pinned image and a scheduler. Because the base weights are frozen there is no optimiser state for them, and that is the memory that usually forces a job across many nodes. A LoRA fine-tune that would have needed a cluster often fits on a single machine, so orchestration stops being the hard part.',
       },
     ],
     L3_atScale: [
@@ -570,11 +570,11 @@ So the scheduler must allocate all workers atomically or none. Getting this wron
     L2_snags: [
       {
         q: 'Why track runs that failed?',
-        a: 'Because "we already tried that and it did not work" is expensive knowledge, and without a record a team relearns it every few months. The failures are also what let you tell whether a new result is a real improvement or normal run-to-run variance.',
+        a: 'Because "that was already tried and did not work" is expensive knowledge, and without a record a team relearns it every few months. The failures are also what let you tell whether a new result is a real improvement or normal run-to-run variance.',
       },
       {
         q: 'What is actually stored, the weights?',
-        a: 'The registry stores metadata and a pointer; the weights themselves live in object storage, because they are far too large to sit in a database. What the registry owns is the mapping from a stable name and version to that blob, plus the record of where it came from.',
+        a: 'The registry stores metadata and a pointer. The weights themselves live in object storage, because they are far too large for a database. What the registry owns is the mapping from a stable name and version to that blob, plus the record of where it came from.',
       },
       {
         q: 'Does this matter if only one person is training models?',
@@ -855,7 +855,7 @@ Batching helps decode enormously and prefill barely at all, because the weight r
 weights + (concurrent_sequences × tokens_each × bytes_per_token) + activations  ≤  VRAM
 \`\`\`
 
-Only one term on the left is under your control at runtime. Quantization shrinks the first, which is why it is worth quality loss: every gigabyte freed becomes cache, and cache is concurrency.`,
+Only one term on the left is under your control at runtime. Quantization shrinks the first, and that is why it is worth quality loss. Every gigabyte freed becomes cache, and cache is concurrency.`,
   },
 
   {
@@ -955,7 +955,7 @@ Only one term on the left is under your control at runtime. Quantization shrinks
         source: SOURCES.llama3Announcement,
       },
     ],
-    L4_underHood: `The per-token cost, which is worth being able to derive:
+    L4_underHood: `The per-token cost is worth being able to derive. Here it is written out.
 
 \`\`\`
 bytes_per_token = 2 (K and V) × layers × kv_heads × head_dim × bytes_per_value
@@ -963,9 +963,9 @@ bytes_per_token = 2 (K and V) × layers × kv_heads × head_dim × bytes_per_val
                 = 131,072                  # 128 KB
 \`\`\`
 
-Paging borrows directly from operating-system virtual memory. Each sequence gets a page table mapping logical token positions to physical blocks; blocks need not be contiguous, and two sequences sharing a prefix can point at the same physical blocks with a reference count.
+Paging borrows directly from operating-system virtual memory. Each sequence gets a page table. It maps logical token positions to physical blocks. Blocks need not be contiguous. Two sequences sharing a prefix can point at the same physical blocks with a reference count.
 
-That sharing is why a long shared system prompt is nearly free for the second user onward, and why prefix-cache-aware routing. Sending a request to the replica that already holds its prefix. Is a real optimisation rather than a micro-optimisation.`,
+That sharing is why a long shared system prompt is nearly free for the second user onward. It is why prefix-cache-aware routing is a real optimisation. That routing sends a request to the replica that already holds its prefix.`,
   },
 
   {
@@ -1043,7 +1043,7 @@ That sharing is why a long shared system prompt is nearly free for the second us
         note: 'Smaller pages waste less on the last partial page but make the page table bigger.',
       },
     ],
-    L4_underHood: `The scheduler loop is the whole engine:
+    L4_underHood: `The scheduler loop is the whole engine. Read it once and the rest of vLLM falls out. Here it is with nothing removed.
 
 \`\`\`
 while running:
@@ -1055,7 +1055,7 @@ while running:
         if seq.finished(): scheduler.release(seq)   # frees pages immediately
 \`\`\`
 
-Note where the batch is constructed: inside the loop, not outside it. That single structural choice is what "continuous batching" means, and it is why the pages have to be cheap to allocate and release.`,
+Note where the batch is constructed. Inside the loop, not outside it. That single structural choice is what "continuous batching" means. It is also why the pages have to be cheap to allocate and release.`,
   },
 
   {
@@ -1191,7 +1191,7 @@ The reason to separate them is that the two change on completely different times
     L1: {
       prose: [
         '**The model alone can only produce text.** It cannot read a file, call an API or remember yesterday. Everything an agent appears to *do* is done by the layer around it.',
-        '**Tools are the hands.** The model is given a list of functions it may call, each with a name, a description and a parameter schema. Instead of answering, it can emit a structured request to call one, and the loop, not the model, executes it.',
+        '**Tools are the hands.** The model is given a list of functions it may call, each with a name, a description and a parameter schema. Instead of answering, it can emit a structured request to call one. The loop, not the model, executes it.',
         '**MCP is a standard plug for tools.** Rather than hand-writing an integration per service, an MCP server exposes its tools in a common shape and any compatible agent can use them. It is the connector standard, not a capability of its own.',
         '**Memory is what survives the request.** The model is stateless. Every call is fresh, and the conversation is only "remembered" because the whole transcript is resent. Anything longer-lived is a store the agent reads from and writes to deliberately.',
         '**The loop is what makes it an agent.** Call the model, execute any tool it asked for, feed the result back, call again. Repeat until it stops asking or a limit is hit. Remove the loop and you have a chatbot.',
@@ -1236,11 +1236,11 @@ The reason to separate them is that the two change on completely different times
       },
       {
         q: 'What is MCP, in one sentence?',
-        a: 'A standard way for a tool provider to describe and expose its tools, so any compatible agent can use them without a bespoke integration. Think of it as a plug shape: it does not add capability, it removes the N×M problem of every agent integrating every service separately.',
+        a: 'A standard way for a tool provider to describe and expose its tools, so any compatible agent can use them without a bespoke integration. Think of it as a plug shape. It does not add capability. It removes the N times M problem of every agent integrating every service separately.',
       },
       {
         q: 'How does an agent "remember" anything if the model is stateless?',
-        a: 'Two different mechanisms that get confused. Within a conversation, nothing is remembered. The entire transcript is resent every call, which is why long conversations cost more. Across sessions, the agent writes to an actual store and reads it back into the prompt later. The second one is a feature someone built; the first is just resending.',
+        a: 'Two different mechanisms that get confused.\n\nWithin a conversation, nothing is remembered. The entire transcript is resent every call, which is why long conversations cost more.\n\nAcross sessions, the agent writes to an actual store and reads it back into the prompt later. The second is a feature someone built; the first is just resending.',
       },
       {
         q: 'Why do agents go in circles or get stuck?',
@@ -1271,31 +1271,31 @@ The reason to separate them is that the two change on completely different times
         note: 'A tool the loop will not execute cannot be called, whatever the model emits. Prompt instructions are not a security boundary.',
       },
     ],
-    L4_underHood: `The whole loop, with nothing removed:
+    L4_underHood: `The whole loop, with nothing removed.
 
 \`\`\`python
 messages = [{"role": "user", "content": goal}]
 
 while steps < limit:
-    reply = model(messages, tools=tools)      # may ask to call a tool
+    reply = model(messages, tools=tools)   # May ask to call a tool.
     messages.append(reply)
 
     if not reply.tool_calls:
-        return reply                          # it answered, done
+        return reply                       # It answered. Done.
 
     for call in reply.tool_calls:
-        if not allowed(call):                 # YOUR gate, not the model's
+        if not allowed(call):              # YOUR gate. Not the model's.
             result = "denied"
         else:
             result = tools[call.name](**call.args)
         messages.append(tool_result(call.id, result))
 \`\`\`
 
-Three things are worth reading off that:
+Three things are worth reading off it.
 
-- \`messages\` grows every iteration and is resent in full, so **cost grows faster than step count**.
-- \`allowed(call)\` is the only real security boundary. A system prompt saying "never delete files" is a preference; this line is enforcement.
-- The model's entire influence is choosing what to put in \`tool_calls\`. Everything that happens in the world happens on the line after.`,
+- \`messages\` grows every iteration and is resent in full. That is why **cost grows faster than step count**.
+- \`allowed(call)\` is the only real security boundary. A system prompt saying "never delete files" is a preference. This line is enforcement.
+- The model's entire influence is choosing what to put in \`tool_calls\`. Everything else happens on the line after.`,
   },
 
   {
@@ -1359,7 +1359,7 @@ Three things are worth reading off that:
       },
       {
         q: 'How do you measure quality without a human reading everything?',
-        a: 'Sample rather than read everything, and combine cheap proxies with expensive ones: automatic checks for format and safety, a model scoring against a rubric, and a small human-reviewed set to keep the automatic scorers honest. The human set is small but it is not optional, it is what calibrates the rest.',
+        a: 'Sample rather than read everything, and combine cheap proxies with expensive ones. Automatic checks for format and safety, a model scoring against a rubric, and a small human-reviewed set to keep the automatic scorers honest. The human set is small, but it is not optional. It calibrates the rest.',
       },
       {
         q: 'What should actually page someone at 3am?',
@@ -1384,11 +1384,11 @@ Three things are worth reading off that:
         note: 'Scoring every response with another model roughly doubles the cost of serving.',
       },
     ],
-    L4_underHood: `Two independent things get called drift, and separating them decides the fix:
+    L4_underHood: `Two independent things get called drift, and separating them decides the fix.
 
 - **Input drift**. The distribution of what people ask has moved. Detectable without any labels, by comparing today's request embeddings to the training distribution.
 - **Quality drift**, the outputs got worse. Needs labels or judgements; cannot be inferred from inputs alone.
 
-Input drift is the leading indicator and usually the cause. Catching it early is the difference between "we noticed the questions changed" and "a customer told us the answers were wrong."`,
+Input drift is the leading indicator, and usually the cause. Catching it early is the difference between "the questions changed" spotted in a dashboard, and "the answers were wrong" spotted by a customer.`,
   },
 ];
