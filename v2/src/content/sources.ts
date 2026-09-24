@@ -41,6 +41,21 @@ export const SOURCES = {
     label: 'Meta AI, “Introducing Llama 3.1”',
     url: 'https://ai.meta.com/blog/meta-llama-3-1/',
   },
+  /** Google's TPU paper. First public account of a systolic-array accelerator built for neural-network arithmetic in a datacentre. */
+  tpuPaper: {
+    label: 'Jouppi et al, In-Datacenter Performance Analysis of a Tensor Processing Unit',
+    url: 'https://arxiv.org/abs/1704.04760',
+  },
+  /** Cerebras wafer-scale architecture. A whole model on one piece of silicon. */
+  cerebrasWafer: {
+    label: 'Cerebras wafer-scale cluster architecture, arXiv 2304.03208',
+    url: 'https://arxiv.org/abs/2304.03208',
+  },
+  /** Groq LPU. Inference-only, deterministic, weights on-chip. */
+  groqLpu: {
+    label: 'Abts et al, Groq LPU architecture, arXiv 2408.00071',
+    url: 'https://arxiv.org/abs/2408.00071',
+  },
 } as const satisfies Record<string, Source>;
 
 /**
