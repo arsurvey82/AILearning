@@ -511,6 +511,19 @@ export const ORIGINS: Record<string, Origin> = {
     },
   },
 
+  word2vec: {
+    kind: 'fix',
+    year: 2013,
+    problem:
+      'Dense word vectors had been around for a decade. Training them cost the same as training a language model, so nobody carried them around as an ingredient.',
+    gained:
+      'Two shallow tricks that skip the language model layer entirely. Predict a word from its neighbours, or its neighbours from a word. Training became cheap and vectors became a shared resource every downstream model could inherit.',
+    source: {
+      label: 'Mikolov et al, Efficient Estimation of Word Representations in Vector Space',
+      url: 'https://arxiv.org/abs/1301.3781',
+    },
+  },
+
   /* ------------------------ answered, with no history to tell ----------- */
 
   /* These are objects, groupings or sub-parts. None of them is somebody's fix

@@ -270,6 +270,29 @@ export const TERMS: Term[] = [
     see: ['word2vec', 'embedding'],
   },
   {
+    id: 'word2vec',
+    term: 'word2vec',
+    plain: 'A 2013 method for training word [[vector]]s that skips the language model entirely.',
+    not: 'Not the first word vectors. It is the paper that made them cheap enough to train once and hand round.',
+    more: [
+      'Predict a word from its neighbours, or its neighbours from a word. Both tricks are much cheaper than a full language model, and both learn the same shape of nearness.',
+      'After 2013, word vectors were a shared ingredient rather than a byproduct of somebody else\'s model.',
+    ],
+    origin: {
+      kind: 'fix',
+      year: 2013,
+      problem:
+        'Dense word vectors had been around for a decade. Training them cost the same as training a language model, so nobody carried them around as an ingredient.',
+      gained:
+        'Cheap training, thanks to two shallow tricks that skip the language model layer. Word vectors became a shared resource every downstream model could inherit.',
+      source: {
+        label: 'Mikolov et al, Efficient Estimation of Word Representations in Vector Space',
+        url: 'https://arxiv.org/abs/1301.3781',
+      },
+    },
+    see: ['bengio-nnlm', 'embedding'],
+  },
+  {
     id: 'backpropagation',
     term: 'Backpropagation',
     plain: 'The rule for working out which numbers to nudge, and in which direction, after a wrong answer.',
