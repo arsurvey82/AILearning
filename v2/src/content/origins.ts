@@ -485,6 +485,19 @@ export const ORIGINS: Record<string, Origin> = {
     },
   },
 
+  'minsky-papert': {
+    kind: 'fix',
+    year: 1969,
+    problem:
+      'The perceptron had raised hopes far beyond what a single layer of them could actually compute. XOR was the standing counterexample and nobody had a rebuttal.',
+    gained:
+      'A proof that one layer cannot separate XOR, and a case that deeper stacks would not help either. The second half was wrong, but it stuck, and neural research slowed for over a decade.',
+    source: {
+      label: 'Minsky and Papert, Perceptrons',
+      url: 'https://mitpress.mit.edu/9780262630221/perceptrons/',
+    },
+  },
+
   /* ------------------------ answered, with no history to tell ----------- */
 
   /* These are objects, groupings or sub-parts. None of them is somebody's fix

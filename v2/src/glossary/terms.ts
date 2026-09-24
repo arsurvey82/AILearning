@@ -224,6 +224,29 @@ export const TERMS: Term[] = [
     see: ['backpropagation'],
   },
   {
+    id: 'minsky-papert',
+    term: 'Minsky-Papert Perceptrons',
+    plain:
+      'The 1969 book that proved a single layer of perceptrons cannot separate XOR.',
+    not: 'Not a proof that neural networks in general cannot learn hard patterns. The book argued deeper stacks would not help either, and that part turned out to be wrong.',
+    more: [
+      'The reputation of the book slowed neural research for over a decade. When [[backpropagation]] arrived in 1986, the case it repaired was this one.',
+    ],
+    origin: {
+      kind: 'fix',
+      year: 1969,
+      problem:
+        'The perceptron had raised hopes far beyond what a single layer of them could actually compute. XOR was the standing counterexample and nobody had a rebuttal.',
+      gained:
+        'A proof that one layer cannot separate XOR, and the argument that stalled the field until backpropagation revived it.',
+      source: {
+        label: 'Minsky and Papert, Perceptrons',
+        url: 'https://mitpress.mit.edu/9780262630221/perceptrons/',
+      },
+    },
+    see: ['backpropagation'],
+  },
+  {
     id: 'backpropagation',
     term: 'Backpropagation',
     plain: 'The rule for working out which numbers to nudge, and in which direction, after a wrong answer.',
