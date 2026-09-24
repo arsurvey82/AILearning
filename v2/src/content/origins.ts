@@ -470,6 +470,21 @@ export const ORIGINS: Record<string, Origin> = {
       'Once a vocabulary exists, its entries need addresses, and a position in a list is the cheapest address there is. The number is a label, not a measurement, which is why arithmetic on token ids is meaningless.',
   },
 
+  /* -------------------------- pre-transformer spine -------------------- */
+
+  'mcculloch-pitts': {
+    kind: 'fix',
+    year: 1943,
+    problem:
+      'Nobody had a way to describe a nerve cell as a mathematical object. Without one, no argument about what a network of them could compute was possible.',
+    gained:
+      'A neuron reduced to a threshold gate: weight the inputs, sum them, fire if the sum clears a bar. Every neural network since is a rearrangement of that one idea.',
+    source: {
+      label: 'McCulloch and Pitts, A Logical Calculus of the Ideas Immanent in Nervous Activity',
+      url: 'https://link.springer.com/article/10.1007/BF02478259',
+    },
+  },
+
   /* ------------------------ answered, with no history to tell ----------- */
 
   /* These are objects, groupings or sub-parts. None of them is somebody's fix

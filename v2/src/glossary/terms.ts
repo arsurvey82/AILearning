@@ -201,6 +201,29 @@ export const TERMS: Term[] = [
     see: ['run-time', 'backpropagation', 'build-time'],
   },
   {
+    id: 'mcculloch-pitts',
+    term: 'McCulloch-Pitts neuron',
+    plain:
+      'The first mathematical neuron: weight the inputs, add them up, fire if the sum clears a bar.',
+    not: 'Not a model of a real brain cell. It is a threshold gate that borrowed the word neuron and never gave it back.',
+    more: [
+      'Every neural network since is a rearrangement of this one idea. Learning was not part of it yet, that came later.',
+    ],
+    origin: {
+      kind: 'fix',
+      year: 1943,
+      problem:
+        'Nobody had a way to describe a nerve cell as a mathematical object. Without one, no argument about what a network of them could compute was possible.',
+      gained:
+        'A neuron reduced to a threshold gate, and the start of a field that could argue about what such gates can and cannot compute.',
+      source: {
+        label: 'McCulloch and Pitts, A Logical Calculus of the Ideas Immanent in Nervous Activity',
+        url: 'https://link.springer.com/article/10.1007/BF02478259',
+      },
+    },
+    see: ['backpropagation'],
+  },
+  {
     id: 'backpropagation',
     term: 'Backpropagation',
     plain: 'The rule for working out which numbers to nudge, and in which direction, after a wrong answer.',
