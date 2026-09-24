@@ -470,59 +470,14 @@ export const ORIGINS: Record<string, Origin> = {
       'Once a vocabulary exists, its entries need addresses, and a position in a list is the cheapest address there is. The number is a label, not a measurement, which is why arithmetic on token ids is meaningless.',
   },
 
-  /* -------------------------- pre-transformer spine -------------------- */
-
-  'mcculloch-pitts': {
-    kind: 'fix',
-    year: 1943,
-    problem:
-      'Nobody had a way to describe a nerve cell as a mathematical object. Without one, no argument about what a network of them could compute was possible.',
-    gained:
-      'A neuron reduced to a threshold gate: weight the inputs, sum them, fire if the sum clears a bar. Every neural network since is a rearrangement of that one idea.',
-    source: {
-      label: 'McCulloch and Pitts, A Logical Calculus of the Ideas Immanent in Nervous Activity',
-      url: 'https://link.springer.com/article/10.1007/BF02478259',
-    },
-  },
-
-  'minsky-papert': {
-    kind: 'fix',
-    year: 1969,
-    problem:
-      'The perceptron had raised hopes far beyond what a single layer of them could actually compute. XOR was the standing counterexample and nobody had a rebuttal.',
-    gained:
-      'A proof that one layer cannot separate XOR, and a case that deeper stacks would not help either. The second half was wrong, but it stuck, and neural research slowed for over a decade.',
-    source: {
-      label: 'Minsky and Papert, Perceptrons',
-      url: 'https://mitpress.mit.edu/9780262630221/perceptrons/',
-    },
-  },
-
-  'bengio-nnlm': {
-    kind: 'fix',
-    year: 2003,
-    problem:
-      'Language models counted how often exact word sequences appeared in text. Anything unseen was assigned probability zero, and word similarity was invisible to the count.',
-    gained:
-      'A dense vector per word, run through a small network to predict the next one. Similar words end up with similar vectors, so an unseen sequence borrows credit from seen ones near it.',
-    source: {
-      label: 'Bengio et al, A Neural Probabilistic Language Model',
-      url: 'https://www.jmlr.org/papers/v3/bengio03a.html',
-    },
-  },
-
-  word2vec: {
-    kind: 'fix',
-    year: 2013,
-    problem:
-      'Dense word vectors had been around for a decade. Training them cost the same as training a language model, so nobody carried them around as an ingredient.',
-    gained:
-      'Two shallow tricks that skip the language model layer entirely. Predict a word from its neighbours, or its neighbours from a word. Training became cheap and vectors became a shared resource every downstream model could inherit.',
-    source: {
-      label: 'Mikolov et al, Efficient Estimation of Word Representations in Vector Space',
-      url: 'https://arxiv.org/abs/1301.3781',
-    },
-  },
+  /* -------------------------- pre-transformer spine --------------------
+   *
+   * Entries for mcculloch-pitts, minsky-papert, bengio-nnlm and word2vec
+   * live on the glossary side, in src/glossary/terms.ts. They exist as
+   * history you can dig into rather than as concept nodes on the map, so
+   * putting them in ORIGINS as well would only attach a date to something
+   * the content index has no id for.
+   */
 
   /* --------------------------- alternative architectures --------------- */
 

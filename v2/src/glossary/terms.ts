@@ -416,7 +416,7 @@ export const TERMS: Term[] = [
     term: 'RWKV',
     plain:
       'A recurrent [[transformer]] hybrid. It trains in parallel like a transformer, and runs step by step like an older recurrent network.',
-    not: 'Not just an RNN with new tricks. The scoring rule was chosen so the same weights can be written as a matrix for training or as a running state for serving.',
+    not: 'Not just an RNN with new tricks. The scoring rule was chosen so the same numbers can be read as a matrix for training or as a running state for serving.',
     origin: {
       kind: 'fix',
       year: 2023,
@@ -441,7 +441,7 @@ export const TERMS: Term[] = [
       kind: 'fix',
       year: 2020,
       problem:
-        'Standard networks take discrete steps and their behaviour is fixed by the weights alone. Small networks stayed brittle at time-series work.',
+        'Standard networks take discrete steps, and behaviour is set once at training time. Small networks stayed brittle at time-series work where the rhythm keeps changing.',
       gained:
         'Units whose response speed depends on the input, so behaviour follows the signal rather than a preset step size.',
       source: {

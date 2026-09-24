@@ -147,10 +147,13 @@ describe('every term says where it came from', () => {
   });
 
   it('gives every dated fix a real earlier failure to point at', () => {
+    /* Lower bound is 1940 rather than 1950 so the McCulloch-Pitts entry, 1943,
+       is allowed to stand at the head of the timeline. The upper bound is the
+       current year, so a fix landing after publication is not filtered out. */
     for (const t of timeline()) {
       expect(t.origin.problem.length, `${t.id} has no named problem`).toBeGreaterThan(30);
-      expect(t.origin.year).toBeGreaterThan(1950);
-      expect(t.origin.year).toBeLessThanOrEqual(new Date('2026-08-16').getFullYear());
+      expect(t.origin.year, t.id).toBeGreaterThan(1940);
+      expect(t.origin.year, t.id).toBeLessThanOrEqual(new Date().getFullYear());
     }
   });
 
