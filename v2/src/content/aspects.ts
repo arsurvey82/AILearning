@@ -207,6 +207,15 @@ export const ASPECTS: Record<string, Aspect> = {
   kubeflow: { phase: 'training', trace: null, code: 'Kubernetes, or SLURM on an HPC cluster' },
   mlflow: { phase: 'training', trace: null, code: 'an experiment tracker and model registry' },
 
+  /* ----------------------- alternative architectures ------------------- */
+
+  mamba: {
+    phase: 'both',
+    trace:
+      'The A, B and C matrices, plus the small projections that produce them. No stored attention grid, and no KV cache.',
+    code: 'mamba-ssm, or the reference selective-scan implementation',
+  },
+
   dimension_placeholder: { phase: 'setup', trace: null },
 };
 

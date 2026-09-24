@@ -54,6 +54,10 @@ const VLLM: Source = {
   label: 'Kwon et al, Efficient Memory Management for LLM Serving with PagedAttention',
   url: 'https://arxiv.org/abs/2309.06180',
 };
+const MAMBA: Source = {
+  label: 'Gu and Dao, Mamba: Linear-Time Sequence Modeling with Selective State Spaces',
+  url: 'https://arxiv.org/abs/2312.00752',
+};
 
 const j = (useCase: string, choose: string): Practice => ({ useCase, choose, confidence: 'judgement' });
 const s = (useCase: string, choose: string, source: Source): Practice => ({
@@ -356,6 +360,11 @@ export const PRACTICE: Record<string, Practice> = {
     'Deciding what to put in front of the model each turn so it stays effective.',
     'Becomes the main lever the moment you are running loops. Models have "an attention budget", and every token you add spends it, so a full window is a choice with a cost.',
     CTX,
+  ),
+  mamba: s(
+    'Long-context language modelling where the transformer grid becomes the serving bottleneck.',
+    'Reach for it when context is long and serving cost matters. Do not reach for it when the task needs exact recall of a specific past token. A small running state is not a lookup table.',
+    MAMBA,
   ),
   'tool-design': s(
     'Making tools a model can actually use correctly.',

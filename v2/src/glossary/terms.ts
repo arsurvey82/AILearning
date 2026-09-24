@@ -392,6 +392,26 @@ export const TERMS: Term[] = [
     see: ['vector', 'distance-idea', 'embedding'],
   },
   {
+    id: 'mamba',
+    term: 'Mamba',
+    plain:
+      'A language model without [[attention]]. Each token updates a small fixed-size state, so serving cost per token stays flat as the [[context-window]] grows.',
+    not: 'Not a transformer variant. There is no query, no key, no attention grid.',
+    origin: {
+      kind: 'fix',
+      year: 2023,
+      problem:
+        'The [[transformer]] grid grows with the square of the sequence, so long context stayed expensive to serve.',
+      gained:
+        'A running state that folds every past token into one small vector, so the per-token cost stops climbing.',
+      source: {
+        label: 'Gu and Dao, Mamba: Linear-Time Sequence Modeling with Selective State Spaces',
+        url: 'https://arxiv.org/abs/2312.00752',
+      },
+    },
+    see: ['transformer', 'attention', 'context-window'],
+  },
+  {
     id: 'scaling',
     term: 'Scaling',
     plain: 'Making the model, the data and the compute bigger, in measured proportion.',

@@ -524,6 +524,21 @@ export const ORIGINS: Record<string, Origin> = {
     },
   },
 
+  /* --------------------------- alternative architectures --------------- */
+
+  mamba: {
+    kind: 'fix',
+    year: 2023,
+    problem:
+      'Transformer attention grows with the square of the sequence. Long context stays expensive to serve however cheap the arithmetic gets.',
+    gained:
+      'A running state that folds every past token into one small vector. The per-token cost then stops climbing with the sequence.',
+    source: {
+      label: 'Gu and Dao, Mamba: Linear-Time Sequence Modeling with Selective State Spaces',
+      url: 'https://arxiv.org/abs/2312.00752',
+    },
+  },
+
   /* ------------------------ answered, with no history to tell ----------- */
 
   /* These are objects, groupings or sub-parts. None of them is somebody's fix
